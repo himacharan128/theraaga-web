@@ -18,7 +18,8 @@
     "test:e2e": "node scripts/verify-e2e.mjs",
     "verify": "npm run typecheck && npm run test:contrast && npm run test:no-prices && npm run test:enquiry",
     "build:fonts": "node scripts/build-fonts.mjs",
-    "test:a11y": "node scripts/check-a11y-perf.mjs"
+    "test:a11y": "node scripts/check-a11y-perf.mjs",
+    "vercel": "bash scripts/vercel.sh"
   },
   "dependencies": {
     "mongodb": "^7.5.0",
@@ -36,6 +37,7 @@
     "playwright": "^1.62.1",
     "tailwindcss": "4.3.3",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "vercel": "^58.4.4"
   }
 }
