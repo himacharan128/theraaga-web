@@ -1,0 +1,86 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { WhatsAppIcon } from '@/components/ui/Button'
+import { track } from '@/lib/analytics'
+
+/**
+ * Revealed only after ~40% scroll, and hidden once the enquiry form is in view.
+ *
+ * Online Dialogue's meta-analysis of 33 sticky-element A/B tests found only a
+ * 27% overall win rate — and a 0% win rate on homepages and list pages, where
+ * "visitors are busy orienting". So this is the one element on the page that
+ * must be A/B tested rather than assumed, and it is built to be switched off.
+ *
+ * Never both a sticky bar and a floating WhatsApp bubble.
+ */
+export function StickyMobileBar() {
+  const [show, setShow] = useState(false)
+
+  useEffect(() => {
+    // Hide whenever the form is on screen — the bar would be redundant there.
+    const form = document.getElementById('prarambha')
+    let formVisible = false
+
+    const io = form
+      ? new IntersectionObserver(
+          ([e]) => {
+            formVisible = e.isIntersecting
+            if (formVisible) setShow(false)
+          },
+          { threshold: 0.15 },
+        )
+      : null
+    if (form && io) io.observe(form)
+
+    // rAF-throttled, and never reads layout inside the scroll handler.
+    let ticking = false
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        const pct =
+          window.scrollY / (document.body.scrollHeight - window.innerHeight || 1)
+        setShow(pct > 0.4 && !formVisible)
+        ticking = false
+      })
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      io?.disconnect()
+    }
+  }, [])
+
+  return (
+    <div
+      aria-hidden={!show}
+      className="fixed inset-x-0 bottom-0 z-40 transition-transform duration-[var(--dur)] ease-[var(--ease-raaga)] lg:hidden"
+      style={{
+        transform: show ? 'none' : 'translateY(120%)',
+        paddingBottom: 'calc(env(safe-area-inset-bottom) + 12px)',
+      }}
+    >
+      <div className="mx-3 flex gap-2 rounded-[var(--radius-md)] border border-border-strong bg-surface p-2 shadow-[0_6px_24px_rgba(34,30,26,0.10)]">
+        <Link
+          href="/contact"
+          tabIndex={show ? 0 : -1}
+          onClick={() => track('cta_click', { cta_location: 'sticky_bar' })}
+          className="flex min-h-12 flex-1 items-center justify-center rounded-[var(--radius-sm)] bg-accent font-[var(--font-ui)] text-[0.92rem] font-medium text-on-accent no-underline"
+        >
+          Book a free trial class
+        </Link>
+        <a
+          href="/contact#prarambha"
+          aria-label="Ask on WhatsApp"
+          tabIndex={show ? 0 : -1}
+          className="flex size-12 items-center justify-center rounded-[var(--radius-sm)] border border-border-strong text-accent"
+        >
+          <WhatsAppIcon />
+        </a>
+      </div>
+    </div>
+  )
+}

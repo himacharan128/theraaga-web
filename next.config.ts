@@ -1,0 +1,61 @@
+import type { NextConfig } from 'next'
+
+const nextConfig: NextConfig = {
+  // PPR is the default App Router behaviour under this flag in Next 16.
+  // `experimental.ppr` / `experimental_ppr` were REMOVED in v16 — do not add them back.
+  cacheComponents: true,
+
+  // NOTE: do NOT set `htmlLimitedBots`. `WhatsApp` is already in Next's default
+  // regex, and any custom value REPLACES the default list — which would silently
+  // drop Google, Bing, Twitter, LinkedIn, Slack, Discord and Facebook from
+  // blocking-metadata treatment and break link previews everywhere but WhatsApp.
+  // Link sharing is this site's entire go-to-market. Leave it alone.
+
+  images: {
+    // Required config in Next 16 (default is [75]).
+    qualities: [75, 90],
+    formats: ['image/avif', 'image/webp'],
+    // Populate when a real image host is wired. `domains` is deprecated — use remotePatterns.
+    remotePatterns: [],
+  },
+
+  async redirects() {
+    // Sanskrit vanity URLs kept alive for print, Instagram bios and QR codes.
+    // English slugs are canonical — see plan §5.
+    return [
+      { source: '/nada', destination: '/', permanent: true },
+      { source: '/parampara', destination: '/about', permanent: true },
+      { source: '/sadhana', destination: '/carnatic-vocal-classes-hyderabad', permanent: true },
+      { source: '/guru', destination: '/teachers', permanent: true },
+      { source: '/sabha', destination: '/#sabha', permanent: true },
+      { source: '/manana', destination: '/', permanent: true },
+      { source: '/anubhava', destination: '/#anubhava', permanent: true },
+      { source: '/prarambha', destination: '/contact', permanent: true },
+    ]
+  },
+
+  async headers() {
+    // Uncontroversial headers only. Strict CSP is deliberately deferred:
+    // `experimental.sri` is still experimental and covers scripts only, so a
+    // `style-src 'self'` policy would break next/image and inlined critical CSS.
+    // Add CSP post-launch in Report-Only. See plan §12.
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+          },
+          { key: 'X-Frame-Options', value: 'DENY' },
+          // HSTS `preload` is intentionally withheld until theraaga.in WHOIS clears.
+          { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains' },
+        ],
+      },
+    ]
+  },
+}
+
+export default nextConfig

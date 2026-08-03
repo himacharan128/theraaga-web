@@ -1,0 +1,125 @@
+import Link from 'next/link'
+import { AscendingScale } from '@/components/ui/Ornament'
+import { getSite } from '@/data/content'
+
+/**
+ * A literal, not `new Date().getFullYear()`.
+ *
+ * Under `cacheComponents`, reading the clock in a Server Component without
+ * first reading uncached or request data is a build error — and rightly so:
+ * it would opt the footer, and therefore every page, out of static prerender
+ * for a number that changes once a year.
+ */
+const COPYRIGHT_YEAR = 2026
+
+/**
+ * Every institution studied — Berklee, RCM, Merit, ICMP — carries full postal
+ * address and phone in the footer. It is simultaneously the trust anchor and
+ * the primary local-SEO NAP signal.
+ *
+ * The five legal links are non-negotiable: a payment aggregator checks for
+ * exactly this list before activating a merchant ID, even pre-revenue.
+ */
+export async function Footer() {
+  const site = await getSite()
+
+  const columns = [
+    {
+      title: 'Learn',
+      links: [
+        { label: 'Carnatic vocal classes', href: '/carnatic-vocal-classes-hyderabad' },
+        { label: 'Online classes', href: '/online-classes' },
+        { label: 'Classes in your community', href: '/communities' },
+        { label: 'Classes in Jubilee Hills', href: '/music-classes/jubilee-hills' },
+      ],
+    },
+    {
+      title: 'The school',
+      links: [
+        { label: 'About · Parampara', href: '/about' },
+        { label: 'Teachers · Guru', href: '/teachers' },
+        { label: 'Events · Sabha', href: '/#sabha' },
+        { label: 'Contact · Prārambha', href: '/contact' },
+      ],
+    },
+    {
+      title: 'Legal',
+      links: [
+        { label: 'Privacy', href: '/privacy' },
+        { label: 'Terms of use', href: '/terms' },
+        { label: 'Refund & cancellation', href: '/refund-policy' },
+        { label: 'Child safeguarding', href: '/child-safeguarding' },
+      ],
+    },
+  ]
+
+  return (
+    <footer className="border-t border-border bg-surface">
+      <div className="u-shell py-16 md:py-24">
+        <AscendingScale />
+
+        <div className="mt-16 grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <p className="font-[var(--font-display)] text-[length:var(--text-step-2)] tracking-[0.12em] text-accent">
+              RAAGA
+            </p>
+            <p className="mt-3 text-[length:var(--text-step--1)] text-text-muted">
+              School of Indian Classical Music
+              <br />
+              {site.locality}, {site.city}
+            </p>
+            <p className="mt-6">
+              <span className="deva block text-[length:var(--text-step-1)] text-accent">
+                {site.sanskritLine.devanagari}
+              </span>
+              <span className="mt-1 block font-[var(--font-display)] italic text-text-muted">
+                {site.sanskritLine.roman} — {site.sanskritLine.gloss}
+              </span>
+            </p>
+          </div>
+
+          {columns.map((col) => (
+            <nav key={col.title} aria-label={col.title}>
+              <h2 className="u-eyebrow mb-5">{col.title}</h2>
+              <ul className="space-y-3">
+                {col.links.map((l) => (
+                  <li key={l.href}>
+                    <Link
+                      href={l.href}
+                      className="text-[length:var(--text-step--1)] text-text-secondary no-underline hover:text-accent hover:underline hover:underline-offset-4"
+                    >
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
+        </div>
+
+        <hr className="u-hairline my-12" />
+
+        <address className="grid gap-6 not-italic md:grid-cols-2">
+          <p className="text-[length:var(--text-step--1)] text-text-secondary">
+            {/* Street address is intentionally absent until the client confirms one.
+                We do not invent a postal address or geo coordinates. */}
+            {site.streetAddress ?? `${site.locality}, ${site.city}, ${site.region}`}
+            <br />
+            <a href={`tel:+${site.whatsapp}`} className="hover:text-accent">
+              {site.phoneDisplay}
+            </a>
+            {' · '}
+            <a href={`mailto:${site.email}`} className="hover:text-accent">
+              {site.email}
+            </a>
+          </p>
+          <p className="text-[length:var(--text-step--1)] text-text-muted md:text-right">
+            © {COPYRIGHT_YEAR} {site.shortName}. All rights reserved.
+            <br />
+            Built to WCAG 2.2 AA and IS 17802. This site sets no tracking cookies.
+          </p>
+        </address>
+      </div>
+    </footer>
+  )
+}

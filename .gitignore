@@ -1,0 +1,31 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# next
+.next/
+out/
+build/
+next-env.d.ts
+
+# python venv that predates the web app
+.venv/
+
+# env
+.env
+.env.local
+.env*.local
+
+# misc
+.DS_Store
+*.pem
+.vercel
+*.tsbuildinfo
+
+# local lead capture fallback (dev only, may contain PII)
+.leads/
+.font-tmp/
+
+# client source material — kept local, not in the repo
+docs/
