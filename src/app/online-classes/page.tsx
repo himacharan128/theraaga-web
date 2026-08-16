@@ -2,8 +2,6 @@ import type { Metadata } from 'next'
 import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
-import { CurriculumTimeline } from '@/components/sections/CurriculumTimeline'
-import { Faq } from '@/components/sections/Faq'
 import { EnquirySection } from '@/components/sections/EnquirySection'
 import { whatsappHref } from '@/lib/whatsapp'
 
@@ -17,7 +15,7 @@ import { whatsappHref } from '@/lib/whatsapp'
 export const metadata: Metadata = {
   title: 'Online Carnatic vocal classes',
   description:
-    'Live one-to-one and small-group Carnatic vocal classes over video, from a Hyderabad school — with morning IST slots that work for the US, the UK and the Gulf. First class free.',
+    'Live Carnatic vocal classes over video, from a Hyderabad school — with morning IST slots that work for the US, the UK and the Gulf.',
   alternates: { canonical: '/online-classes' },
   openGraph: {
     title: 'Online Carnatic vocal classes · RAAGA, Hyderabad',
@@ -50,7 +48,7 @@ export default function OnlineClassesPage() {
         }
       >
         <div className="flex flex-wrap gap-3">
-          <ButtonLink href="/contact">Book a free trial</ButtonLink>
+          <ButtonLink href="/contact">Book a trial</ButtonLink>
           <ButtonLink variant="secondary" href={whatsappHref('ONLINE-PAGE')}>
             <WhatsAppIcon />
             Ask about your time zone
@@ -112,8 +110,24 @@ export default function OnlineClassesPage() {
         </ul>
       </Section>
 
-      <CurriculumTimeline />
-      <Faq />
+      <Section
+        id="sadhana"
+        eyebrow="Sādhana · The learning journey"
+        title="The same journey, wherever you learn from."
+        tone="surface"
+      >
+        <div className="u-measure">
+          <p className="text-text-secondary">
+            Online students follow the same traditional progression as students
+            at our Hyderabad centres, from their first swaras through to
+            advanced artistry.
+          </p>
+          <ButtonLink variant="secondary" href="/courses" className="mt-7">
+            Explore the learning journey
+          </ButtonLink>
+        </div>
+      </Section>
+
       <EnquirySection />
     </>
   )

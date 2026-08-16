@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
@@ -74,9 +75,17 @@ export function Header({ whatsappHref }: { whatsappHref: string }) {
       <div className="u-shell flex h-14 items-center justify-between gap-4 md:h-20">
         <Link
           href="/"
-          className="shrink-0 font-[var(--font-display)] text-[length:var(--text-step-1)] font-[400] tracking-[0.12em] text-accent no-underline"
+          aria-label="RAAGA — Home"
+          className="flex h-10 shrink-0 items-center sm:h-11"
         >
-          RAAGA
+          <Image
+            src="/brand/raaga-wordmark.webp"
+            alt="RAAGA — Sa. Pa. Sa."
+            width={600}
+            height={324}
+            priority
+            className="h-full w-auto"
+          />
         </Link>
 
         <nav aria-label="Main" className="hidden lg:block">
@@ -121,7 +130,7 @@ export function Header({ whatsappHref }: { whatsappHref: string }) {
               href="/contact"
               onClick={() => track('cta_click', { cta_location: 'header' })}
             >
-              Book a free trial
+              Book a trial
             </ButtonLink>
           </div>
           <button

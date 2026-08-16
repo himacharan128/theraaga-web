@@ -14,11 +14,10 @@ import { site } from '@/content/seed/site'
  * section of which page produced them — free attribution with no API.
  */
 export function whatsappHref(ref: string, message?: string): string {
-  const text = `${message ?? 'Hello Raaga — I would like to book a free trial class.'} [ref:${ref}]`
+  const text = `${message ?? 'Hello Raaga — I would like to book a trial class.'} [ref:${ref}]`
   return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(text)}`
 }
 
 export function telHref(): string {
   return `tel:+${site.whatsapp}`
 }
-

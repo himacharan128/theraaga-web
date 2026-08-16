@@ -51,7 +51,7 @@ export default async function CoursesPage() {
           </p>
         }
       >
-        <ButtonLink href="/contact">Book a free trial</ButtonLink>
+        <ButtonLink href="/contact">Book a trial</ButtonLink>
       </PageHero>
 
       <CurriculumTimeline />

@@ -8,12 +8,12 @@ import { Faq } from '@/components/sections/Faq'
 export const metadata: Metadata = {
   title: 'Contact — begin your journey',
   description:
-    'Book a free Carnatic vocal trial class in Hyderabad — at Jubilee Hills, at Phoenix Arena in Hitech City, or online. A few questions, about thirty seconds.',
+    'Book a Carnatic vocal trial class in Hyderabad — at Jubilee Hills, at Phoenix Arena in Hitech City, or online. A few questions, about thirty seconds.',
   alternates: { canonical: '/contact' },
   openGraph: {
-    title: 'Prārambham — book a free trial at RAAGA',
+    title: 'Prārambham — book a trial at RAAGA',
     description:
-      'Carnatic vocal classes for children and adults. Jubilee Hills, Hitech City, or online. The first class is free.',
+      'Carnatic vocal classes for children and adults. Jubilee Hills, Hitech City, or online.',
     url: 'https://theraaga.in/contact',
   },
 }
@@ -33,7 +33,7 @@ export default function ContactPage() {
         lede={
           <p>
             Tell us who is learning and where suits you, and we will arrange a
-            free first class. If you would rather just ask a question, WhatsApp
+            trial class. If you would rather just ask a question, WhatsApp
             reaches us fastest.
           </p>
         }

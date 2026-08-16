@@ -46,7 +46,7 @@ export async function ContactBlock() {
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <ButtonLink href="/contact">Book a free trial class</ButtonLink>
+            <ButtonLink href="/contact">Book a trial</ButtonLink>
             <ButtonLink variant="secondary" href={whatsappHref('CONTACT')}>
               <WhatsAppIcon />
               Ask on WhatsApp

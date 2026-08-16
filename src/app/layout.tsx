@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     template: '%s · RAAGA, Carnatic Music School Hyderabad',
   },
   description:
-    'Carnatic vocal classes for children and adults in Hyderabad — at our Jubilee Hills and Phoenix Arena, Hitech City centres, or online. Teaching in the Guru–Shishya Parampara since 2016. First class free.',
+    'Carnatic vocal classes for children and adults in Hyderabad — at our Jubilee Hills and Phoenix Arena, Hitech City centres, or online. Teaching in the Guru–Shishya Parampara since 2016.',
   applicationName: site.shortName,
   // Always disambiguate: "Raaga School Of Music" (Kothapet), "Raaga Sudha Music
   // School" (Kukatpally) and raagaschool.com all already exist, and raaga.com
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     // Front-load the locality — WhatsApp truncates at roughly two lines on mobile.
     title: 'RAAGA — Carnatic Vocal Classes, Hyderabad',
     description:
-      'For children and adults. Jubilee Hills, Phoenix Arena Hitech City, or online. The first class is free.',
+      'For children and adults. Jubilee Hills, Phoenix Arena Hitech City, or online.',
   },
   twitter: { card: 'summary_large_image' },
   robots: { index: true, follow: true },

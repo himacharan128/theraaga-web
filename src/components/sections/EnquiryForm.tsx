@@ -429,7 +429,7 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <Button type="submit" disabled={pending}>
-          {pending ? 'Sending…' : 'Book a free trial class'}
+          {pending ? 'Sending…' : 'Book a trial class'}
         </Button>
         <a
           href={whatsappHref}
@@ -444,10 +444,9 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
       </div>
 
       <p className="text-[length:var(--text-step--1)] text-text-muted">
-        Free first class. No fees, no commitment. We’ll call you within one
-        working day — usually the same evening.
+        We’ll call you within one working day — usually the same evening — to
+        arrange a trial that suits you.
       </p>
     </form>
   )
 }
-

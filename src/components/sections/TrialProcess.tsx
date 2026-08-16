@@ -1,12 +1,12 @@
 import { Section } from '@/components/layout/Section'
 
 /**
- * Every CTA on this site says "Book a free trial", but the immediate outcome is
+ * Every CTA on this site says "Book a trial", but the immediate outcome is
  * a conversation. Without this strip the label is close to dishonest, and the
  * unanswered question — *what IS the trial?* — is exactly the friction that
  * kills the form.
  *
- * Three steps, static, no data dependency. Step 3 states plainly what the free
+ * Three steps, static, no data dependency. Step 3 states plainly what the
  * trial is and is not, so it can never be confused with a recital or an open
  * event.
  */
@@ -23,8 +23,8 @@ const STEPS = [
   },
   {
     n: 3,
-    title: 'Attend your free trial',
-    body: 'One complete class with the teacher, at no charge and with nothing to bring — at Jubilee Hills, Hitech City or online. It is a real lesson, not a demonstration or an event. Parents are welcome to sit in.',
+    title: 'Attend your trial',
+    body: 'One complete class with the teacher, with nothing to bring — at Jubilee Hills, Hitech City or online. It is a real lesson, not a demonstration or an event. Parents are welcome to sit in.',
   },
 ]
 

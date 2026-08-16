@@ -72,7 +72,7 @@ export function StickyMobileBar() {
           onClick={() => track('cta_click', { cta_location: 'sticky_bar' })}
           className="flex min-h-12 flex-1 items-center justify-center rounded-[var(--radius-sm)] bg-accent font-[var(--font-ui)] text-[0.92rem] font-medium text-on-accent no-underline"
         >
-          Book a free trial
+          Book a trial
         </Link>
         {/* This linked to /contact#prarambha rather than to WhatsApp, so the
             one control on the page labelled "Ask on WhatsApp" did not open

@@ -41,7 +41,7 @@ export async function generateMetadata({
 
   const where = centre.locality ?? centre.name
   const title = `Carnatic music classes in ${centre.name}`
-  const description = `Carnatic vocal classes at ${where} — for children and adults, beginners welcome. Taught in the traditional order from Sarali Swaras to Manodharma Sangeetham. The first class is free.`
+  const description = `Carnatic vocal classes at ${where} — for children and adults, beginners welcome. Taught in the traditional order from Sarali Swaras to Manodharma Sangeetham.`
 
   return {
     title,
@@ -77,7 +77,7 @@ export default async function CentrePage({
         }
       >
         <div className="flex flex-wrap gap-3">
-          <ButtonLink href="/contact">Book a free trial</ButtonLink>
+          <ButtonLink href="/contact">Book a trial</ButtonLink>
           <ButtonLink
             variant="secondary"
             href={whatsappHref(slug.toUpperCase())}

@@ -54,7 +54,7 @@ export async function Hero() {
           </p>
 
           <div className="mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row">
-            <ButtonLink href="/contact">Book a free trial</ButtonLink>
+            <ButtonLink href="/contact">Book a trial</ButtonLink>
             <ButtonLink variant="secondary" href={whatsappHref('HERO')}>
               <WhatsAppIcon />
               Ask on WhatsApp
@@ -62,7 +62,7 @@ export async function Hero() {
           </div>
 
           <p className="mt-4 font-[var(--font-ui)] text-[length:var(--text-step--1)] text-text-muted">
-            A free first class, so you can see how we teach before deciding.
+            A complete first class, so you can see how we teach before deciding.
           </p>
         </div>
 

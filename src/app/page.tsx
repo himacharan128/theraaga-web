@@ -21,7 +21,7 @@ import { OrganizationSchema } from '@/components/seo/Schema'
  * The order is deliberate. The router sits immediately below the hero because
  * the first question a parent opening a WhatsApp forward answers is "is this
  * near me"; the trial process sits immediately before the final ask because
- * "what actually is the free trial" is the last thing standing between reading
+ * "what actually is the trial" is the last thing standing between reading
  * and enquiring.
  */
 export default function HomePage() {

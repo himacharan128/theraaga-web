@@ -25,7 +25,7 @@ export async function EnquirySection() {
         <div>
           <p className="u-eyebrow">The enquiry</p>
           <h2 className="mt-4 text-[length:var(--text-step-3)] font-[300]">
-            Book a free trial class.
+            Book a trial class.
           </h2>
           <p className="u-measure mt-5 text-text-secondary">
             A few questions, about thirty seconds — then we will call to

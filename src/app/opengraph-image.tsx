@@ -98,7 +98,7 @@ export default async function OpengraphImage() {
             color: '#6B1F2A',
           }}
         >
-          For children and adults · Beginners welcome · First class free
+          For children and adults · Beginners welcome · Book a trial
         </div>
 
         <div

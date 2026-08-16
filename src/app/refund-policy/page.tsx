@@ -23,11 +23,10 @@ export default function RefundPolicyPage() {
       <Prose>
         <LegalDraftNotice />
 
-        <h2>The first class is free</h2>
+        <h2>Before you enrol</h2>
         <p>
-          Every new student is offered a free trial class before enrolling. There
-          is nothing to pay and nothing to refund at that stage, and no
-          obligation to continue afterwards.
+          Every new student can attend a trial class before enrolling. There
+          is no obligation to continue afterwards.
         </p>
 
         <h2>Cancelling an enrolment</h2>

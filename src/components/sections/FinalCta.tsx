@@ -20,16 +20,16 @@ export function FinalCta() {
           Prārambham · Begin your journey
         </p>
         <h2 className="text-[length:var(--text-step-3)] font-[300]">
-          Start with a free class.
+          Start your musical journey.
         </h2>
         <p className="mx-auto mt-6 max-w-[46ch] text-[length:var(--text-step-0)] leading-[var(--lh-body)] text-[color-mix(in_srgb,var(--color-on-accent)_86%,transparent)]">
-          One complete lesson, at no charge — at Jubilee Hills, at Hitech City,
-          or online. For children and adults, with no previous training needed.
+          Begin with a complete trial class at Jubilee Hills, Hitech City, or
+          online. For children and adults, with no previous training needed.
         </p>
 
         <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
           <ButtonLink variant="onAccent" href="/contact">
-            Book a free trial
+            Book a trial
           </ButtonLink>
           <ButtonLink variant="onAccentGhost" href={whatsappHref('FINAL_CTA')}>
             <WhatsAppIcon />
