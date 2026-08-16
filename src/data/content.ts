@@ -2,13 +2,16 @@ import 'server-only'
 
 import * as seed from '@/content/seed'
 import type {
+  AcademicPathway,
   Batch,
-  Community,
+  Centre,
+  CurriculumStage,
   Discipline,
   Faculty,
   Faq,
+  GalleryCategory,
   GalleryItem,
-  Level,
+  PerformanceStrand,
   Pillar,
   RaagaEvent,
   SiteSettings,
@@ -31,12 +34,46 @@ export async function getSite(): Promise<SiteSettings> {
   return seed.site
 }
 
-export async function getDeliveryModes() {
-  return seed.deliveryModes
+export async function getCentres(): Promise<Centre[]> {
+  return seed.centres
 }
 
-export async function getLevels(): Promise<Level[]> {
-  return [...seed.levels].sort((a, b) => a.order - b.order)
+/** The two physical centres, in display order. Online is handled separately. */
+export async function getPhysicalCentres(): Promise<Centre[]> {
+  return seed.centres.filter((c) => c.key !== 'online')
+}
+
+export async function getCentre(key: string): Promise<Centre | undefined> {
+  return seed.centres.find((c) => c.key === key)
+}
+
+/** Look a centre up by its URL segment, for /music-classes/[centre]. */
+export async function getCentreBySlug(slug: string): Promise<Centre | undefined> {
+  return seed.centres.find((c) => c.slug === slug)
+}
+
+export async function getCurriculum(): Promise<CurriculumStage[]> {
+  return [...seed.curriculum].sort((a, b) => a.order - b.order)
+}
+
+export async function getAcademicPathways(): Promise<AcademicPathway[]> {
+  return [...seed.academicPathways].sort((a, b) => a.order - b.order)
+}
+
+export async function getPerformanceStrands(): Promise<PerformanceStrand[]> {
+  return [...seed.performanceStrands].sort((a, b) => a.order - b.order)
+}
+
+export async function getLineageReferences() {
+  return [...seed.lineageReferences].sort((a, b) => a.order - b.order)
+}
+
+export async function getScholarlyWorks() {
+  return [...seed.scholarlyWorks].sort((a, b) => a.order - b.order)
+}
+
+export async function getTeachingPrinciples() {
+  return [...seed.teachingPrinciples].sort((a, b) => a.order - b.order)
 }
 
 export async function getDisciplines(): Promise<Discipline[]> {
@@ -118,15 +155,29 @@ export async function getPastEvents(limit = 3): Promise<RaagaEvent[]> {
     .slice(0, limit)
 }
 
-/** Public count only — associations do not want their clubhouse address indexed. */
-export async function getPublicCommunityCount(): Promise<number> {
-  return seed.communities.filter(
-    (c) => c.approvalStatus === 'live' || c.approvalStatus === 'approved',
-  ).length
+/**
+ * Gallery, grouped for the Anubhava page.
+ *
+ * Returns only categories that actually have consented items, so the page
+ * never renders an empty "Workshops" heading with nothing under it.
+ */
+export async function getGalleryByCategory(): Promise<
+  { category: GalleryCategory; label: string; items: GalleryItem[] }[]
+> {
+  const labels: Record<GalleryCategory, string> = {
+    classes: 'Classes',
+    performances: 'Performances',
+    workshops: 'Workshops',
+    community: 'Community',
+  }
+  const items = await getGalleryItems()
+  return (Object.keys(labels) as GalleryCategory[])
+    .map((category) => ({
+      category,
+      label: labels[category],
+      items: items.filter((i) => i.category === category),
+    }))
+    .filter((g) => g.items.length > 0)
 }
 
-export async function getPublicCommunities(): Promise<Community[]> {
-  return seed.communities.filter((c) => c.isPublic)
-}
-
-export { LADDER_SOURCE } from '@/content/seed'
+export { CURRICULUM_SOURCE } from '@/content/seed'

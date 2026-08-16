@@ -12,11 +12,11 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://theraaga.in'),
   title: {
     default:
-      'RAAGA — Carnatic Vocal Classes in Jubilee Hills, Hyderabad · Online · At your clubhouse',
-    template: '%s · RAAGA, Jubilee Hills Hyderabad',
+      'RAAGA — Carnatic Vocal Classes in Hyderabad · Jubilee Hills · Hitech City · Online',
+    template: '%s · RAAGA, Carnatic Music School Hyderabad',
   },
   description:
-    'Carnatic vocal classes for children and adults in Jubilee Hills, Hyderabad — at our institute, online, or at your gated community clubhouse. A published syllabus, batches capped at six, first class free.',
+    'Carnatic vocal classes for children and adults in Hyderabad — at our Jubilee Hills and Phoenix Arena, Hitech City centres, or online. Teaching in the Guru–Shishya Parampara since 2016. First class free.',
   applicationName: site.shortName,
   // Always disambiguate: "Raaga School Of Music" (Kothapet), "Raaga Sudha Music
   // School" (Kukatpally) and raagaschool.com all already exist, and raaga.com
@@ -27,9 +27,9 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: 'https://theraaga.in',
     // Front-load the locality — WhatsApp truncates at roughly two lines on mobile.
-    title: 'RAAGA — Carnatic Vocal Classes, Jubilee Hills Hyderabad',
+    title: 'RAAGA — Carnatic Vocal Classes, Hyderabad',
     description:
-      'For children and adults. At our Jubilee Hills institute, online, or at your community clubhouse. First class free.',
+      'For children and adults. Jubilee Hills, Phoenix Arena Hitech City, or online. The first class is free.',
   },
   twitter: { card: 'summary_large_image' },
   robots: { index: true, follow: true },
@@ -54,7 +54,13 @@ export default function RootLayout({
           Skip to content
         </a>
         <Header whatsappHref={whatsappHref('HEADER')} />
-        <main id="main">{children}</main>
+        {/* tabIndex={-1} is what makes "Skip to content" actually work. Without
+            it the browser scrolls to the anchor but leaves focus on the link, so
+            the next Tab returns to the nav — the single most common way a
+            correctly-marked-up skip link still fails WCAG 2.4.1 in practice. */}
+        <main id="main" tabIndex={-1} className="outline-none">
+          {children}
+        </main>
         <Footer />
         <StickyMobileBar />
         <SectionViewTracker />

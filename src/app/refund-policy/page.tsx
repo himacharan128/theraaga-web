@@ -53,7 +53,7 @@ export default function RefundPolicyPage() {
             teacher’s time was reserved.
           </li>
           <li>
-            <strong>Batches that do not start.</strong> If a community batch does
+            <strong>Batches that do not start.</strong> If a batch does
             not reach the numbers needed to run, anything already paid is
             refunded in full.
           </li>

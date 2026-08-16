@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { WhatsAppIcon } from '@/components/ui/Button'
 import { track } from '@/lib/analytics'
+import { whatsappHref } from '@/lib/whatsapp'
 
 /**
  * Revealed only after ~40% scroll, and hidden once the enquiry form is in view.
@@ -57,6 +58,7 @@ export function StickyMobileBar() {
   return (
     <div
       aria-hidden={!show}
+      inert={!show}
       className="fixed inset-x-0 bottom-0 z-40 transition-transform duration-[var(--dur)] ease-[var(--ease-raaga)] lg:hidden"
       style={{
         transform: show ? 'none' : 'translateY(120%)',
@@ -70,12 +72,18 @@ export function StickyMobileBar() {
           onClick={() => track('cta_click', { cta_location: 'sticky_bar' })}
           className="flex min-h-12 flex-1 items-center justify-center rounded-[var(--radius-sm)] bg-accent font-[var(--font-ui)] text-[0.92rem] font-medium text-on-accent no-underline"
         >
-          Book a free trial class
+          Book a free trial
         </Link>
+        {/* This linked to /contact#prarambha rather than to WhatsApp, so the
+            one control on the page labelled "Ask on WhatsApp" did not open
+            WhatsApp. */}
         <a
-          href="/contact#prarambha"
+          href={whatsappHref('STICKY_BAR')}
+          target="_blank"
+          rel="noopener noreferrer"
           aria-label="Ask on WhatsApp"
           tabIndex={show ? 0 : -1}
+          onClick={() => track('whatsapp_click', { cta_location: 'sticky_bar' })}
           className="flex size-12 items-center justify-center rounded-[var(--radius-sm)] border border-border-strong text-accent"
         >
           <WhatsAppIcon />

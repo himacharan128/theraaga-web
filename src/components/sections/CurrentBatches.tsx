@@ -4,15 +4,15 @@ import { whatsappHref } from '@/lib/whatsapp'
 import { getBatches } from '@/data/content'
 
 const MODE_LABEL = {
-  institute: 'Jubilee Hills',
+  'jubilee-hills': 'Jubilee Hills',
+  'phoenix-arena': 'Phoenix Arena, Hitech City',
   online: 'Online',
-  community: 'Your clubhouse',
 } as const
 
 /**
- * "When is it?" is the second question every parent asks, right after "do you
- * come to my community?" — and a batch table is the highest-converting artefact
- * this content model can produce: *Saturday 10:00, your clubhouse, 4 seats left*.
+ * "When is it?" is the second question every parent asks, right after "where
+ * is it?" — and a batch table is the highest-converting artefact this content
+ * model can produce: *Saturday 10:00, Jubilee Hills, 4 seats left*.
  *
  * NO FEE COLUMN. Prices never appear on this site; fees are a WhatsApp
  * conversation. See plan §3.
@@ -36,8 +36,8 @@ export async function CurrentBatches() {
           }
         >
           Batches for the coming term are being finalised. Tell us the days and
-          times that suit you — we open new batches around our students, and in
-          your community we can usually start once six families are interested.
+          times that suit you — we open new batches around our students, at both
+          centres and online.
         </EmptyState>
       }
     >

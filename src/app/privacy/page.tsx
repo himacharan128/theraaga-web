@@ -26,8 +26,9 @@ export default function PrivacyPage() {
           When you use the enquiry form on this site we collect: your name, your
           WhatsApp number, an optional email address, whether you are enquiring
           for yourself or for a child, an age range, which class format you are
-          interested in, and — if you choose a community batch — the name of your
-          gated community.
+          interested in, whether you would like to learn at Jubilee Hills, at
+          Hitech City or online, and anything else you choose to tell us in the
+          optional message field.
         </p>
         <p>
           We also record how you arrived at the site (for example, a link shared

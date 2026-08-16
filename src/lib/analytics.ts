@@ -54,8 +54,7 @@ export function track(event: RaagaEventName | 'faq_expand', props: Props = {}) {
 
 /**
  * WhatsApp passes no referrer, so every forwarded link arrives as direct/unknown.
- * Per-community links carry ?g=<slug>, which is the only reliable attribution
- * the clubhouse channel has.
+ * WhatsApp-forwarded traffic has.
  */
 export function readAttribution(): Props {
   if (typeof window === 'undefined') return {}
@@ -64,7 +63,6 @@ export function readAttribution(): Props {
     utm_source: p.get('utm_source') ?? undefined,
     utm_medium: p.get('utm_medium') ?? undefined,
     utm_campaign: p.get('utm_campaign') ?? undefined,
-    community: p.get('g') ?? undefined,
     referrer: document.referrer || undefined,
   }
 }

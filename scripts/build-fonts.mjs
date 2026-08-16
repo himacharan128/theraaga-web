@@ -78,16 +78,6 @@ async function googleFontCss(family, extra = '') {
   return res.text()
 }
 
-/** Pull the woff2 URL for a named unicode-range block out of the CSS. */
-function pickBlock(css, comment) {
-  const blocks = css.split('/*').map((b) => '/*' + b)
-  const block = blocks.find((b) => b.startsWith(`/* ${comment} */`))
-  if (!block) throw new Error(`no "${comment}" block`)
-  const m = block.match(/url\((https:[^)]+\.woff2)\)/)
-  if (!m) throw new Error(`no woff2 in "${comment}"`)
-  const style = /font-style:\s*italic/.test(block) ? 'italic' : 'normal'
-  return { url: m[1], style }
-}
 
 async function download(url, dest) {
   const res = await fetch(url, { headers: { 'User-Agent': UA } })

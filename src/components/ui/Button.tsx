@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { ComponentProps, ReactNode } from 'react'
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'onAccent'
+type Variant = 'primary' | 'secondary' | 'ghost' | 'onAccent' | 'onAccentGhost'
 
 const base =
   'inline-flex items-center justify-center gap-2 font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium tracking-[0.02em] ' +
@@ -16,6 +16,11 @@ const variants: Record<Variant, string> = {
     'bg-transparent text-accent border border-border-strong hover:border-accent hover:bg-[color-mix(in_srgb,var(--color-accent)_6%,transparent)]',
   ghost: 'bg-transparent text-accent underline underline-offset-4 px-0 py-0 min-h-0',
   onAccent: 'bg-on-accent text-accent hover:bg-white',
+  // Outlined on the maroon field. The border is the ivory foreground at 55%,
+  // which keeps the control's own boundary above the 3:1 non-text minimum.
+  onAccentGhost:
+    'bg-transparent text-on-accent border border-[color-mix(in_srgb,var(--color-on-accent)_55%,transparent)] ' +
+    'hover:bg-[color-mix(in_srgb,var(--color-on-accent)_12%,transparent)]',
 }
 
 export function Button({

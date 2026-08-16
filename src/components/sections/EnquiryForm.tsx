@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { submitEnquiry, type EnquiryState } from '@/app/actions/enquiry'
 import { Button, WhatsAppIcon } from '@/components/ui/Button'
 import { readAttribution, track } from '@/lib/analytics'
+import { centres } from '@/content/seed/site'
 
 /**
  * Four required fields on ONE screen — not a wizard.
@@ -38,11 +39,9 @@ const CHIPS = {
     { value: 'carnatic_vocal', label: 'Carnatic vocal' },
     { value: 'not_sure', label: 'Not sure yet' },
   ],
-  mode: [
-    { value: 'institute', label: 'Jubilee Hills' },
-    { value: 'online', label: 'Online' },
-    { value: 'community', label: 'My community' },
-  ],
+  // Derived from the centres data, so the card a visitor tapped and the option
+  // they then pick can never drift apart.
+  mode: centres.map((c) => ({ value: c.key, label: c.formLabel })),
   ageBand: [
     { value: 'under_7', label: 'Under 7' },
     { value: '7_12', label: '7–12' },
@@ -134,35 +133,69 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
    *
    * React automatically RESETS a <form action={…}> after the action resolves.
    * With uncontrolled inputs that means a single validation error silently
-   * wipes the name, phone and community the visitor just typed — they get an
+   * wipes the name and phone the visitor just typed — they get an
    * error message next to three empty boxes and, realistically, they leave.
    * Holding the values in state is what makes an error recoverable.
    */
   const [contactName, setContactName] = useState('')
   const [phone, setPhone] = useState('')
-  const [communityName, setCommunityName] = useState('')
   const [learner, setLearner] = useState('')
   const [interest, setInterest] = useState('')
   const [mode, setMode] = useState('')
   const [ageBand, setAgeBand] = useState('')
   const [timezone, setTimezone] = useState('')
   const [guardianConsent, setGuardianConsent] = useState(false)
+  const [message, setMessage] = useState('')
   const started = useRef(false)
-  // Stamped after mount, not during render: reading the clock while rendering
-  // opts the whole page out of static prerender under `cacheComponents`.
+
+  /**
+   * The bot time-trap stamp and the UTM attribution are written straight into
+   * UNCONTROLLED hidden inputs via refs.
+   *
+   * They cannot be read during render — `Date.now()` and `location.search` on
+   * the client would both mismatch the prerendered HTML, and reading the clock
+   * while rendering opts the page out of static prerender under
+   * `cacheComponents`. But holding them in state instead meant a setState in an
+   * effect on every mount, which cascades a second render of the whole form for
+   * values no human ever sees. Refs give the correct timing with no re-render
+   * at all.
+   */
+  /**
+   * Attribution and the bot time-trap stamp, held in React state.
+   *
+   * They cannot be read during render: `Date.now()` and `location.search` would
+   * both mismatch the prerendered HTML, and reading the clock while rendering
+   * opts the page out of static prerender under `cacheComponents`. So they are
+   * captured in an effect after mount.
+   *
+   * This deliberately keeps them CONTROLLED. An earlier version wrote them into
+   * uncontrolled hidden inputs via a ref to avoid the setState-in-effect lint
+   * rule — which silently broke attribution, because React re-applies
+   * `defaultValue` on re-render and every keystroke in the form wiped all five
+   * fields back to empty. The lead still saved; it just arrived with no UTM
+   * data and no time-trap stamp, invisibly. Correctness wins over the rule
+   * here, and the cost is one extra render on mount for a form that is already
+   * interactive.
+   */
   const [renderedAt, setRenderedAt] = useState(0)
   const [attribution, setAttribution] = useState<Record<string, string>>({})
 
+  /* eslint-disable react-hooks/set-state-in-effect -- see the note above:
+     these values are unreadable during render without a hydration mismatch,
+     and the uncontrolled alternative loses them on every keystroke. */
   useEffect(() => {
     setRenderedAt(Date.now())
+    const a = readAttribution() as Record<string, unknown>
+    const str = (v: unknown) => (typeof v === 'string' ? v : '')
+    setAttribution({
+      utmSource: str(a.utm_source),
+      utmMedium: str(a.utm_medium),
+      utmCampaign: str(a.utm_campaign),
+      referrer: str(a.referrer),
+    })
     track('form_view')
-    const a = readAttribution()
-    setAttribution(
-      Object.fromEntries(
-        Object.entries(a).filter(([, v]) => typeof v === 'string'),
-      ) as Record<string, string>,
-    )
   }, [])
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   useEffect(() => {
     if (state.ok && state.leadId) {
@@ -198,8 +231,8 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
         />
       </div>
       <input type="hidden" name="renderedAt" value={renderedAt} />
-      {Object.entries(attribution).map(([k, v]) => (
-        <input key={k} type="hidden" name={mapAttrName(k)} value={v} />
+      {Object.entries(attribution).map(([name, value]) => (
+        <input key={name} type="hidden" name={name} value={value} />
       ))}
 
       <div className="grid gap-6 sm:grid-cols-2">
@@ -317,36 +350,7 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
         error={err.ageBand}
       />
 
-      {/* Conditional reveals — the form never looks longer than it needs to. */}
-      {mode === 'community' && (
-        <div>
-          <label
-            htmlFor="communityName"
-            className="mb-2 block font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium"
-          >
-            Which community or apartment complex?
-            <span className="text-accent" aria-hidden="true">
-              {' '}
-              ✱
-            </span>
-          </label>
-          <input
-            id="communityName"
-            name="communityName"
-            type="text"
-            value={communityName}
-            onChange={(e) => setCommunityName(e.target.value)}
-            aria-invalid={!!err.communityName}
-            className="w-full border border-border-strong bg-surface px-4 py-3 text-[length:var(--text-step-0)] outline-none focus:border-accent"
-          />
-          {err.communityName && (
-            <p role="alert" className="mt-2 text-[length:var(--text-step--1)] text-accent">
-              {err.communityName}
-            </p>
-          )}
-        </div>
-      )}
-
+      {/* Conditional reveal — the form never looks longer than it needs to. */}
       {mode === 'online' && (
         <ChipGroup
           name="timezone"
@@ -387,6 +391,36 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
         </div>
       )}
 
+      <div>
+        <label
+          htmlFor="message"
+          className="mb-2 block font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium"
+        >
+          Anything you’d like us to know
+          <span className="text-text-muted"> (optional)</span>
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          rows={3}
+          maxLength={600}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          aria-invalid={!!err.message}
+          aria-describedby={err.message ? 'err-message' : undefined}
+          className="w-full resize-y border border-border-strong bg-surface px-4 py-3 text-[length:var(--text-step-0)] outline-none focus:border-accent"
+        />
+        {err.message && (
+          <p
+            id="err-message"
+            role="alert"
+            className="mt-2 text-[length:var(--text-step--1)] text-accent"
+          >
+            {err.message}
+          </p>
+        )}
+      </div>
+
       {state.message && !state.ok && (
         <p role="alert" className="border border-accent bg-surface px-4 py-3 text-accent">
           {state.message}
@@ -417,13 +451,3 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
   )
 }
 
-function mapAttrName(k: string): string {
-  const map: Record<string, string> = {
-    utm_source: 'utmSource',
-    utm_medium: 'utmMedium',
-    utm_campaign: 'utmCampaign',
-    community: 'community',
-    referrer: 'referrer',
-  }
-  return map[k] ?? k
-}

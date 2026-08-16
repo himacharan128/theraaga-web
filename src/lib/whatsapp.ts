@@ -22,8 +22,3 @@ export function telHref(): string {
   return `tel:+${site.whatsapp}`
 }
 
-/** The pasteable message for the share-with-your-community affordance. */
-export function shareHref(): string {
-  const text = `Carnatic music classes are starting in gated communities near us — the first class is free. https://theraaga.in/communities`
-  return `https://wa.me/?text=${encodeURIComponent(text)}`
-}

@@ -1,35 +1,73 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { usePathname } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
 import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
 import { track } from '@/lib/analytics'
 
 /**
- * Six items, not eight — and English-primary.
+ * English-primary, Sanskrit as the kicker.
  *
  * Bailey & Wolfson: a correct first click yields 87% task success, a wrong one
- * 46%. Eight simultaneously unfamiliar Sanskrit labels give a cold parent no
- * anchor. "Prārambha" for Contact is worse than unfamiliar — it collides with
- * *Prarambhik*, a real beginner exam grade, which produces a confidently wrong
- * click. No heritage institution navigates in Sanskrit: Kalakshetra (1936) and
- * Music Academy Madras (1928) are both plain English, and Shankar Mahadevan
- * Academy — the category leader — ships a three-item nav.
+ * 46%. Six simultaneously unfamiliar Sanskrit labels give a cold parent no
+ * anchor, and "Prārambham" for Contact is worse than merely unfamiliar — it
+ * collides with *Prarambhik*, a real beginner exam grade, which produces a
+ * confidently wrong click. No heritage institution navigates in Sanskrit:
+ * Kalakshetra (1936) and the Music Academy Madras (1928) are both plain
+ * English, and Shankar Mahadevan Academy ships a three-item nav.
  *
- * So: Sanskrit is the kicker, English is the function. On mobile the Sanskrit
- * is dropped entirely — there is no room and no patience.
+ * So the Sanskrit carries the meaning and the English carries the function. On
+ * mobile the Sanskrit is dropped entirely — there is no room and no patience.
+ *
+ * Events and Journal are deliberately absent: neither has real dated content
+ * yet, and a nav item leading to an empty calendar is worse than no nav item.
  */
 const NAV = [
-  { sanskrit: 'Sādhana', label: 'Courses', href: '/carnatic-vocal-classes-hyderabad' },
-  { sanskrit: 'Guru', label: 'Teachers', href: '/teachers' },
-  { sanskrit: 'Samudāya', label: 'Communities', href: '/communities' },
-  { sanskrit: 'Parampara', label: 'About', href: '/about' },
-  { sanskrit: 'Sabha', label: 'Events', href: '/#sabha' },
-  { sanskrit: 'Prārambha', label: 'Contact', href: '/contact' },
+  { sanskrit: 'Nāda', devanagari: 'नाद', label: 'Home', href: '/' },
+  { sanskrit: 'Parampara', devanagari: 'परम्परा', label: 'About', href: '/about' },
+  { sanskrit: 'Sādhana', devanagari: 'साधना', label: 'Courses', href: '/courses' },
+  { sanskrit: 'Guru Parampara', devanagari: 'गुरुपरम्परा', label: 'Teachers', href: '/teachers' },
+  { sanskrit: 'Anubhava', devanagari: 'अनुभव', label: 'Gallery', href: '/gallery' },
+  { sanskrit: 'Prārambham', devanagari: 'प्रारम्भम्', label: 'Contact', href: '/contact' },
 ]
 
 export function Header({ whatsappHref }: { whatsappHref: string }) {
   const [open, setOpen] = useState(false)
+  const toggleRef = useRef<HTMLButtonElement>(null)
+  const pathname = usePathname()
+
+  // Escape closes the drawer AND returns focus to the control that opened it.
+  // Without the focus return, a keyboard user is dropped at the top of the
+  // document and has to tab all the way back — which is the most common way a
+  // technically-correct disclosure still fails WCAG 2.4.3 in practice.
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpen(false)
+        toggleRef.current?.focus()
+      }
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [open])
+
+  // A route change must never leave the drawer open over the new page — most
+  // visibly on browser back/forward, where no link handler fires.
+  //
+  // Adjusted DURING RENDER rather than in an effect. This is React's documented
+  // "storing information from previous renders" pattern: an effect here would
+  // paint the new route with the drawer still open and then close it on a
+  // second pass, which is both a visible flash and a cascading render.
+  const [prevPath, setPrevPath] = useState(pathname)
+  if (pathname !== prevPath) {
+    setPrevPath(pathname)
+    setOpen(false)
+  }
+
+  const isCurrent = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href)
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-[color-mix(in_srgb,var(--color-bg)_92%,transparent)] backdrop-blur-sm">
@@ -42,17 +80,18 @@ export function Header({ whatsappHref }: { whatsappHref: string }) {
         </Link>
 
         <nav aria-label="Main" className="hidden lg:block">
-          <ul className="flex items-center gap-9">
+          <ul className="flex items-center gap-8">
             {NAV.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
+                  aria-current={isCurrent(item.href) ? 'page' : undefined}
                   className="group block text-center no-underline"
                 >
-                  <span className="block font-[var(--font-display)] text-[0.72rem] uppercase tracking-[0.18em] text-accent-muted">
+                  <span className="block font-[var(--font-display)] text-[0.7rem] uppercase tracking-[0.16em] text-accent-muted">
                     {item.sanskrit}
                   </span>
-                  <span className="block font-[var(--font-ui)] text-[0.94rem] text-text-primary group-hover:text-accent">
+                  <span className="block font-[var(--font-ui)] text-[0.94rem] text-text-primary group-hover:text-accent group-aria-[current=page]:text-accent">
                     {item.label}
                   </span>
                 </Link>
@@ -75,18 +114,18 @@ export function Header({ whatsappHref }: { whatsappHref: string }) {
           {/* Visibility lives on a wrapper, not on the button. `hidden` and the
               button's own `inline-flex` are both display utilities in the same
               Tailwind layer, so putting them on one element is a coin-flip that
-              the base class wins — which is exactly what happened: the CTA
-              stayed visible at 360px and wrapped to two lines over the
-              wordmark. On mobile the hero CTA and the sticky bar cover this. */}
+              the base class wins — which is exactly what happened once: the CTA
+              stayed visible at 360px and wrapped over the wordmark. */}
           <div className="hidden sm:block">
             <ButtonLink
               href="/contact"
               onClick={() => track('cta_click', { cta_location: 'header' })}
             >
-              Book a free trial class
+              Book a free trial
             </ButtonLink>
           </div>
           <button
+            ref={toggleRef}
             type="button"
             aria-expanded={open}
             aria-controls="mobile-nav"
@@ -117,10 +156,19 @@ export function Header({ whatsappHref }: { whatsappHref: string }) {
               <li key={item.href} className="border-b border-border last:border-0">
                 <Link
                   href={item.href}
+                  aria-current={isCurrent(item.href) ? 'page' : undefined}
                   onClick={() => setOpen(false)}
-                  className="block py-4 font-[var(--font-ui)] text-[length:var(--text-step-0)] no-underline"
+                  className="flex min-h-[52px] items-center justify-between gap-4 py-3 no-underline aria-[current=page]:text-accent"
                 >
-                  {item.label}
+                  <span className="font-[var(--font-ui)] text-[length:var(--text-step-0)]">
+                    {item.label}
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="deva text-[length:var(--text-step--1)] text-accent-muted"
+                  >
+                    {item.devanagari}
+                  </span>
                 </Link>
               </li>
             ))}

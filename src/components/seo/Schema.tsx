@@ -1,4 +1,4 @@
-import { site } from '@/content/seed/site'
+import { site, centres } from '@/content/seed/site'
 
 /**
  * Structured data — with three deliberate omissions.
@@ -19,7 +19,8 @@ import { site } from '@/content/seed/site'
  *
  * Every property is emitted conditionally — we omit a node rather than publish
  * an empty string or, worse, invented geo coordinates for an address the client
- * has not yet confirmed.
+ * has not yet confirmed. `streetAddress` appears for a centre only once that
+ * centre has a real one.
  */
 export function OrganizationSchema() {
   const org: Record<string, unknown> = {
@@ -28,35 +29,56 @@ export function OrganizationSchema() {
     name: site.legalName,
     alternateName: site.shortName,
     url: 'https://theraaga.in',
+    foundingDate: String(site.foundedYear),
     ...(Object.values(site.social).filter(Boolean).length
       ? { sameAs: Object.values(site.social).filter(Boolean) }
       : {}),
   }
+
+  // One Place node per physical centre. Locality only until the client
+  // confirms publishable street addresses — a fabricated address is the one
+  // error a visitor acts on physically.
+  const locations = centres
+    .filter((c) => c.slug)
+    .map((c) => ({
+      '@type': 'Place',
+      '@id': `https://theraaga.in/#centre-${c.key}`,
+      name: `${site.shortName} — ${c.name}`,
+      url: `https://theraaga.in${c.href}`,
+      address: {
+        '@type': 'PostalAddress',
+        ...(c.streetAddress ? { streetAddress: c.streetAddress } : {}),
+        addressLocality: c.locality ?? site.city,
+        addressRegion: site.region,
+        addressCountry: 'IN',
+      },
+    }))
 
   const institute: Record<string, unknown> = {
     '@type': ['EducationalOrganization', 'LocalBusiness'],
     '@id': 'https://theraaga.in/#institute',
     name: site.legalName,
     url: 'https://theraaga.in',
+    foundingDate: String(site.foundedYear),
     telephone: `+${site.whatsapp}`,
     email: site.email,
     address: {
       '@type': 'PostalAddress',
-      // streetAddress omitted until confirmed — never fabricated.
       ...(site.streetAddress ? { streetAddress: site.streetAddress } : {}),
       addressLocality: site.locality,
       addressRegion: site.region,
       addressCountry: 'IN',
     },
+    ...(locations.length ? { location: locations } : {}),
     areaServed: [
       'Jubilee Hills',
       'Banjara Hills',
+      'Hitech City',
       'Madhapur',
       'Gachibowli',
       'Kondapur',
       'Kokapet',
       'Manikonda',
-      'Hitec City',
       'Financial District',
       'Narsingi',
     ].map((n) => ({ '@type': 'Place', name: `${n}, Hyderabad` })),
@@ -71,7 +93,6 @@ export function OrganizationSchema() {
   return (
     <script
       type="application/ld+json"
-      // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
     />
   )

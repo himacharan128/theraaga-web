@@ -25,12 +25,18 @@ const nextConfig: NextConfig = {
     return [
       { source: '/nada', destination: '/', permanent: true },
       { source: '/parampara', destination: '/about', permanent: true },
-      { source: '/sadhana', destination: '/carnatic-vocal-classes-hyderabad', permanent: true },
+      { source: '/sadhana', destination: '/courses', permanent: true },
       { source: '/guru', destination: '/teachers', permanent: true },
-      { source: '/sabha', destination: '/#sabha', permanent: true },
-      { source: '/manana', destination: '/', permanent: true },
-      { source: '/anubhava', destination: '/#anubhava', permanent: true },
+      { source: '/guru-parampara', destination: '/teachers', permanent: true },
+      { source: '/anubhava', destination: '/gallery', permanent: true },
       { source: '/prarambha', destination: '/contact', permanent: true },
+      { source: '/prarambham', destination: '/contact', permanent: true },
+
+      // Retired routes. The gated-community delivery mode was replaced by the
+      // Phoenix Arena centre, and Events/Journal never had real dated content.
+      { source: '/communities', destination: '/contact', permanent: true },
+      { source: '/sabha', destination: '/gallery', permanent: true },
+      { source: '/manana', destination: '/about', permanent: true },
     ]
   },
 

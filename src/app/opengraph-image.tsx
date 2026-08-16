@@ -20,7 +20,7 @@ import { ImageResponse } from 'next/og'
  * distributed URL.
  */
 export const alt =
-  'RAAGA — Carnatic vocal classes in Jubilee Hills, Hyderabad. At the institute, online, or at your community clubhouse.'
+  'RAAGA — Carnatic vocal classes in Hyderabad. Jubilee Hills, Phoenix Arena Hitech City, or online.'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -75,7 +75,7 @@ export default async function OpengraphImage() {
             maxWidth: 900,
           }}
         >
-          Carnatic vocal classes in Jubilee Hills, Hyderabad
+          Carnatic vocal classes in Hyderabad
         </div>
 
         <div
@@ -87,7 +87,7 @@ export default async function OpengraphImage() {
             maxWidth: 860,
           }}
         >
-          At the institute · Online · At your community clubhouse
+          Jubilee Hills · Hitech City · Online
         </div>
 
         <div

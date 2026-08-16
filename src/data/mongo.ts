@@ -31,7 +31,7 @@ const options = {
 let clientPromise: Promise<MongoClient> | undefined
 
 declare global {
-  // eslint-disable-next-line no-var
+   
   var _raagaMongoClientPromise: Promise<MongoClient> | undefined
 }
 

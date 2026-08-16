@@ -57,16 +57,16 @@ export const faqs: Faq[] = [
   },
   {
     order: 7,
-    question: 'Do you really come to our community clubhouse? What does it take to start a batch?',
+    question: 'Where exactly are your centres?',
     answer:
-      'Yes — it is how we prefer to teach. Six interested families is usually enough to make a batch work. Beyond that it needs your residents’ association to approve the use of the clubhouse, which we are happy to speak to them about together. Message us with the name of your community and we will tell you what is already running nearby.',
+      'We teach at two centres in Hyderabad — Jubilee Hills, where the school began in 2016, and Phoenix Arena in Hitech City, which is easier for families in Madhapur, Gachibowli and Kondapur. The syllabus and the teaching are identical at both. Message us and we will send you directions and the timings running at each.',
     blocking: true,
   },
   {
     order: 8,
     question: 'What are the fees?',
     answer:
-      'Fees depend on which of the three modes you choose and on the batch — a clubhouse batch, an institute batch and a one-to-one online class are all priced differently. Message us on WhatsApp and we will tell you straight away, with no obligation.',
+      'Fees depend on where you learn and on the batch — a group class at one of our centres and a one-to-one online class are priced differently. Message us on WhatsApp and we will tell you straight away, with no obligation.',
     blocking: true,
   },
   {

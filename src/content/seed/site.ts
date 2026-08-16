@@ -1,4 +1,4 @@
-import type { SiteSettings, DeliveryMode } from '../types'
+import type { SiteSettings, Centre } from '../types'
 
 /**
  * TIER 0 BLANKS are marked `null` or left out entirely rather than filled with
@@ -17,6 +17,7 @@ export const site: SiteSettings = {
     roman: 'Nāda Brahma',
     gloss: 'Sound is the divine.',
   },
+  foundedYear: 2016,
   locality: 'Jubilee Hills',
   city: 'Hyderabad',
   region: 'Telangana',
@@ -30,46 +31,81 @@ export const site: SiteSettings = {
   // Either provision it or swap this for the working address before launch.
   email: 'hello@theraaga.in',
   social: {},
-  // Four facts that are true on day one, with no client data at all.
+  // Facts that are true on day one, with no client data at all.
   // Values are STRINGS. Merit School of Music and Furtados both currently ship
   // live homepages reading "0 +" because a count-up never fired.
   stats: [
+    { label: 'Teaching in Hyderabad since', value: '2016' },
+    { label: 'Centres, plus online', value: 'Two' },
     { label: 'Taught in an unbroken guru–śiṣya line', value: 'Parampara' },
-    { label: 'Maximum students per batch', value: '6' },
-    { label: 'Ways to learn', value: '3' },
-    { label: 'Beginners accepted from age', value: '5' },
+    { label: 'Open to children and adults', value: 'All ages' },
   ],
 }
 
 /**
  * The router. 14 of 19 music schools studied put one immediately below the
- * hero — and Raaga's router is not instrument, it is MODE. That is the actual
- * differentiator and the thing a parent scrolling a WhatsApp forward is
- * looking for.
+ * hero — and Raaga's router is not instrument, it is WHERE, because a parent
+ * scrolling a WhatsApp forward is answering exactly one question first: is
+ * this near me, or can we do it from home?
+ *
+ * `formLabel` is the single source of truth for the enquiry form's mode chips,
+ * so the card a visitor tapped and the option they then pick can never drift
+ * apart.
  */
-export const deliveryModes: DeliveryMode[] = [
+export const centres: Centre[] = [
   {
-    key: 'institute',
-    eyebrow: 'At the institute',
-    title: 'Jubilee Hills',
-    body: 'Small batches at our studio in Jubilee Hills. Weekday evenings and weekend mornings.',
-    cta: 'See institute batches',
-    href: '/carnatic-vocal-classes-hyderabad',
+    key: 'jubilee-hills',
+    slug: 'jubilee-hills',
+    eyebrow: 'At the centre',
+    name: 'Jubilee Hills',
+    locality: 'Jubilee Hills, Hyderabad',
+    body: 'Our founding centre, teaching here since 2016. Small batches for children and adults, in person, with the guru in the room.',
+    cta: 'Classes at Jubilee Hills',
+    href: '/music-classes/jubilee-hills',
+    // TIER 0: pending client confirmation. Never fabricated.
+    streetAddress: null,
+    formLabel: 'Jubilee Hills',
+    nearby: [
+      'Banjara Hills',
+      'Film Nagar',
+      'Yousufguda',
+      'Srinagar Colony',
+      'Madhapur',
+      'Manikonda',
+    ],
+  },
+  {
+    key: 'phoenix-arena',
+    slug: 'hitech-city',
+    eyebrow: 'At the centre',
+    name: 'Phoenix Arena',
+    locality: 'Hitech City, Hyderabad',
+    body: 'Our Hitech City centre, convenient for families in Madhapur, Gachibowli and Kondapur. The same syllabus, the same teaching.',
+    cta: 'Classes at Hitech City',
+    href: '/music-classes/hitech-city',
+    // TIER 0: pending client confirmation. Never fabricated.
+    streetAddress: null,
+    formLabel: 'Phoenix Arena, Hitech City',
+    nearby: [
+      'Madhapur',
+      'Gachibowli',
+      'Kondapur',
+      'Kokapet',
+      'Financial District',
+      'Nanakramguda',
+    ],
   },
   {
     key: 'online',
-    eyebrow: 'Online',
-    title: 'Anywhere in the world',
-    body: 'Live one-to-one and small-group classes over video, at times that work for the US, the UK and the Gulf.',
-    cta: 'See online classes',
+    slug: null,
+    eyebrow: 'From anywhere',
+    name: 'Online',
+    locality: null,
+    body: 'Live classes over video for students outside Hyderabad and across the world, at times that work for the Gulf, the UK and North America.',
+    cta: 'Online Carnatic classes',
     href: '/online-classes',
-  },
-  {
-    key: 'community',
-    eyebrow: 'At your community',
-    title: 'Clubhouse batches',
-    body: 'We come to your gated community and teach at your clubhouse. Six interested families is usually enough — we speak to your association together.',
-    cta: 'Bring Raaga to your community',
-    href: '/communities',
+    streetAddress: null,
+    formLabel: 'Online',
+    nearby: [],
   },
 ]

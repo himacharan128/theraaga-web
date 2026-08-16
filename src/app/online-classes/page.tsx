@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
-import { SadhanaLadder } from '@/components/sections/SadhanaLadder'
+import { CurriculumTimeline } from '@/components/sections/CurriculumTimeline'
 import { Faq } from '@/components/sections/Faq'
 import { EnquirySection } from '@/components/sections/EnquirySection'
 import { whatsappHref } from '@/lib/whatsapp'
@@ -19,6 +19,12 @@ export const metadata: Metadata = {
   description:
     'Live one-to-one and small-group Carnatic vocal classes over video, from a Hyderabad school — with morning IST slots that work for the US, the UK and the Gulf. First class free.',
   alternates: { canonical: '/online-classes' },
+  openGraph: {
+    title: 'Online Carnatic vocal classes · RAAGA, Hyderabad',
+    description:
+      'Live classes over video — never recordings. The same guru and the same syllabus, at a time that works where you live.',
+    url: 'https://theraaga.in/online-classes',
+  },
 }
 
 const SLOTS = [
@@ -44,7 +50,7 @@ export default function OnlineClassesPage() {
         }
       >
         <div className="flex flex-wrap gap-3">
-          <ButtonLink href="/contact">Book a free trial class</ButtonLink>
+          <ButtonLink href="/contact">Book a free trial</ButtonLink>
           <ButtonLink variant="secondary" href={whatsappHref('ONLINE-PAGE')}>
             <WhatsAppIcon />
             Ask about your time zone
@@ -106,7 +112,7 @@ export default function OnlineClassesPage() {
         </ul>
       </Section>
 
-      <SadhanaLadder />
+      <CurriculumTimeline />
       <Faq />
       <EnquirySection />
     </>

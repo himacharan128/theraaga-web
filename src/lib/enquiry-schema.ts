@@ -20,7 +20,7 @@ import { z } from 'zod'
  */
 
 export const INTERESTS = ['carnatic_vocal', 'not_sure'] as const
-export const MODES = ['institute', 'online', 'community'] as const
+export const MODES = ['jubilee-hills', 'phoenix-arena', 'online'] as const
 export const LEARNERS = ['myself', 'my_child'] as const
 export const AGE_BANDS = ['under_7', '7_12', '13_17', 'adult'] as const
 export const TIMEZONES = ['IST', 'GST', 'GMT', 'EST', 'PST', 'other'] as const
@@ -50,9 +50,14 @@ export const enquirySchema = z
     mode: z.enum(MODES, { message: 'Please choose where you’d like to learn.' }),
     ageBand: z.enum(AGE_BANDS, { message: 'Please choose an age range.' }),
 
-    // Conditional — only meaningful for their own branch.
-    communityName: z.string().trim().max(80).optional().or(z.literal('')),
+    // Conditional — only meaningful for its own branch.
     timezone: z.enum(TIMEZONES).optional(),
+
+    // Optional free text. Deliberately the LAST field and never required:
+    // HubSpot's data singles out textareas as the field type that most
+    // depresses completion, so it must never stand between a visitor and the
+    // submit button.
+    message: z.string().trim().max(600, 'Please keep this under 600 characters.').optional().or(z.literal('')),
 
     guardianConsent: z.boolean().optional(),
 
@@ -63,18 +68,10 @@ export const enquirySchema = z
     utmSource: z.string().max(80).optional(),
     utmMedium: z.string().max(80).optional(),
     utmCampaign: z.string().max(80).optional(),
-    community: z.string().max(80).optional(),
     referrer: z.string().max(300).optional(),
     renderedAt: z.coerce.number().optional(),
   })
   .superRefine((val, ctx) => {
-    if (val.mode === 'community' && !val.communityName) {
-      ctx.addIssue({
-        code: 'custom',
-        path: ['communityName'],
-        message: 'Which community or apartment complex?',
-      })
-    }
     if (val.mode === 'online' && !val.timezone) {
       ctx.addIssue({
         code: 'custom',
@@ -101,7 +98,7 @@ export const FIELD_LABELS: Record<string, string> = {
   interest: 'What would you like to learn?',
   mode: 'Where would you like to learn?',
   ageBand: 'Age of the learner',
-  communityName: 'Which community?',
   timezone: 'Your time zone',
+  message: 'Anything you’d like us to know',
   guardianConsent: 'Parent or guardian confirmation',
 }

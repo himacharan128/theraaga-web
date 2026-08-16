@@ -12,9 +12,14 @@
  *     filters on it in the QUERY, not in the UI.
  */
 
-export type Mode = 'institute' | 'online' | 'community'
+/**
+ * Learning happens at two physical centres or online. `Mode` is the key the
+ * enquiry form, the router cards and the lead document all agree on.
+ */
+export type Mode = 'jubilee-hills' | 'phoenix-arena' | 'online'
 export type Tier = 'beginner' | 'intermediate' | 'advanced'
 export type DisciplineStatus = 'active' | 'planned'
+export type GalleryCategory = 'classes' | 'performances' | 'workshops' | 'community'
 
 export interface SiteSettings {
   /** Canonical lockup. Never bare "Raaga" — three other schools already use it. */
@@ -22,6 +27,8 @@ export interface SiteSettings {
   shortName: string
   tagline: string
   sanskritLine: { devanagari: string; roman: string; gloss: string }
+  /** The year the school was founded. Rendered as a fact, never as a counter. */
+  foundedYear: number
   locality: string
   city: string
   region: string
@@ -71,13 +78,66 @@ export interface Faq {
   blocking: boolean
 }
 
-export interface DeliveryMode {
+/**
+ * A place learning happens. Two are physical centres, one is online.
+ *
+ * `streetAddress` stays null until the client confirms a publishable address —
+ * a fabricated address is worse than no address, because it is the one field a
+ * visitor will act on physically.
+ */
+export interface Centre {
   key: Mode
+  /**
+   * URL segment for /music-classes/[centre]. null for online, which has its
+   * own page rather than a locality page.
+   */
+  slug: string | null
+  /** Sanskrit or English kicker above the name. */
   eyebrow: string
-  title: string
+  name: string
+  /** Where it is, in the words a Hyderabad local would use. */
+  locality: string | null
   body: string
   cta: string
   href: string
+  streetAddress: string | null
+  /** Drives the mode chip label on the enquiry form, so the two never drift. */
+  formLabel: string
+  /** Localities this centre is realistically reachable from. */
+  nearby: string[]
+}
+
+/**
+ * A rung of Sangeetha Mārgam. These are documented stages of Carnatic
+ * pedagogy, not a proprietary "method" — which is exactly why the section
+ * ships complete with zero client content.
+ */
+export interface CurriculumStage {
+  order: number
+  slug: string
+  /** Transliterated name, e.g. "Sarali Swaras". */
+  name: string
+  devanagari: string
+  /** One-line plain-English gloss for someone who has never heard the term. */
+  gloss: string
+  /** What the stage actually is, musically. */
+  body: string
+  /** The concrete "what you'll be able to do" line — never aspirational. */
+  outcome: string
+  duration: string
+  tier: Tier
+}
+
+export interface AcademicPathway {
+  order: number
+  name: string
+  body: string
+}
+
+export interface PerformanceStrand {
+  order: number
+  name: string
+  body: string
 }
 
 export interface LineageEntry {
@@ -142,6 +202,7 @@ export interface Testimonial {
 export interface GalleryItem {
   id: string
   kind: 'image' | 'video' | 'audio'
+  category: GalleryCategory
   media: MediaRef
   caption?: string
   consent: Consent

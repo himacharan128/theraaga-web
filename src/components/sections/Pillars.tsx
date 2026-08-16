@@ -11,7 +11,7 @@ import { getPillars } from '@/data/content'
  * largest competitor already prints is not a differentiator.
  *
  * These lead with the two claims no national player can make: delivery into
- * gated-community clubhouses, and a published syllabus with real stage timings.
+ * how it teaches, how closely, in what order, and where that order leads.
  */
 export async function Pillars() {
   const pillars = await getPillars()

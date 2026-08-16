@@ -6,14 +6,25 @@ import { chromium } from 'playwright'
 
 const BASE = process.env.BASE_URL ?? 'http://localhost:3000'
 let pass = 0, fail = 0
-const check = (n, ok, d = '') => { ok ? pass++ : fail++; console.log(`  ${ok ? '✓' : '✗'} ${n}${ok ? '' : `   ← ${d}`}`) }
+const check = (n, ok, d = '') => {
+  if (ok) pass++
+  else fail++
+  console.log(`  ${ok ? '✓' : '✗'} ${n}${ok ? '' : `   ← ${d}`}`)
+}
 
 const b = await chromium.launch()
 const p = await b.newPage({ viewport: { width: 360, height: 800 } })
 
+// Wire-weight as reported by the server, which is what a phone on mobile data
+// actually pays — distinct from the decoded resource sizes measured below.
 let transferred = 0
 p.on('response', async (r) => {
-  try { const h = await r.allHeaders(); transferred += Number(h['content-length'] ?? 0) } catch {}
+  try {
+    const h = await r.allHeaders()
+    transferred += Number(h['content-length'] ?? 0)
+  } catch {
+    /* redirects and cached responses have no content-length; ignore */
+  }
 })
 
 await p.goto(BASE, { waitUntil: 'networkidle' })
@@ -33,7 +44,7 @@ const devaExposed = await p.locator('.deva:not([aria-hidden="true"])').count()
 console.log(`    (${devaExposed} Devanagari runs are exposed to AT — intentional where they carry meaning)`)
 
 // Swara buttons: real buttons, labelled, keyboard reachable, ≥44px.
-const swara = p.locator('button[aria-label^="Play the note"]')
+const swara = p.locator('button[aria-label^="Play note"]')
 const swaraCount = await swara.count()
 check('7 swara buttons are real <button>s with labels', swaraCount === 7, `found ${swaraCount}`)
 if (swaraCount) {
@@ -46,8 +57,42 @@ await p.keyboard.press('Tab')
 const firstFocus = await p.evaluate(() => document.activeElement?.getAttribute('href') ?? document.activeElement?.tagName)
 check('first Tab lands on skip link', firstFocus === '#main', String(firstFocus))
 
-// Accordion buttons expose state. Target the FAQ specifically — the mobile
-// menu toggle also carries aria-expanded and would otherwise match first.
+// Sequence button is a real control with a real label.
+check(
+  'Sa-Pa-Sa sequence button present',
+  (await p.locator('button', { hasText: 'Play Sa · Pa · Sa' }).count()) === 1,
+)
+
+// Mobile menu: Escape must close it AND return focus to the trigger. Without
+// the focus return a keyboard user is dropped at the top of the document, which
+// is the most common way a correctly-marked-up disclosure still fails 2.4.3.
+const menuBtn = p.locator('button[aria-controls="mobile-nav"]')
+await menuBtn.click()
+check('mobile menu opens', (await p.locator('#mobile-nav').count()) === 1)
+const navLinks = await p.locator('#mobile-nav a').count()
+check('mobile nav has all 6 items', navLinks === 6, `${navLinks}`)
+const smallTargets = await p.evaluate(() =>
+  [...document.querySelectorAll('#mobile-nav a')].filter(
+    (e) => e.getBoundingClientRect().height < 44,
+  ).length)
+check('mobile nav tap targets ≥44px', smallTargets === 0, `${smallTargets} under 44px`)
+await p.keyboard.press('Escape')
+check('Escape closes the mobile menu', (await p.locator('#mobile-nav').count()) === 0)
+const refocused = await p.evaluate(
+  () => document.activeElement?.getAttribute('aria-controls') === 'mobile-nav')
+check('Escape returns focus to the menu trigger', refocused)
+
+// Skip link must MOVE focus, not just scroll. A skip link that leaves focus
+// behind is the single most common false-pass in this whole checklist.
+await p.evaluate(() => window.scrollTo(0, 0))
+await p.locator('a[href="#main"]').focus()
+await p.keyboard.press('Enter')
+const focusedMain = await p.evaluate(() => document.activeElement?.id)
+check('skip link moves focus to <main>', focusedMain === 'main', String(focusedMain))
+
+// The FAQ moved off the homepage to /contact. Assert it where it now lives.
+await p.goto(`${BASE}/contact`, { waitUntil: 'networkidle' })
+check('contact page has exactly one <h1>', (await p.locator('h1').count()) === 1)
 const faqBtns = p.locator('#faq button[aria-expanded]')
 check('FAQ items expose aria-expanded', (await faqBtns.count()) >= 10, `${await faqBtns.count()}`)
 const faqBtn = faqBtns.nth(1) // nth(0) is open by default
@@ -59,6 +104,16 @@ check(
   (await p.locator(`#${(await faqBtn.getAttribute('aria-controls')) ?? 'none'}`).isVisible()) === true,
 )
 
+// The curriculum timeline uses native <details>, which is keyboard-operable and
+// exposes state for free — assert it is actually there on /courses.
+await p.goto(`${BASE}/courses`, { waitUntil: 'networkidle' })
+check('courses page has exactly one <h1>', (await p.locator('h1').count()) === 1)
+const stages = await p.locator('#sangeetha-margam details').count()
+check('all 10 curriculum stages render', stages === 10, `${stages}`)
+
+// Back to the homepage for the performance budget.
+await p.goto(BASE, { waitUntil: 'networkidle' })
+
 // Reduced motion must not leave content invisible.
 await p.emulateMedia({ reducedMotion: 'reduce' })
 await p.reload({ waitUntil: 'networkidle' })
@@ -67,6 +122,7 @@ const hiddenReveals = await p.evaluate(() =>
 check('no content hidden under prefers-reduced-motion', hiddenReveals === 0, `${hiddenReveals} stuck at opacity 0`)
 
 console.log('\n  Performance budget\n')
+console.log(`    wire weight (content-length): ${Math.round(transferred / 1024)} KB`)
 const metrics = await p.evaluate(() => {
   const n = performance.getEntriesByType('navigation')[0]
   const res = performance.getEntriesByType('resource')

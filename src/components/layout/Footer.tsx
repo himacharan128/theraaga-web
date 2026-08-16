@@ -27,19 +27,20 @@ export async function Footer() {
     {
       title: 'Learn',
       links: [
-        { label: 'Carnatic vocal classes', href: '/carnatic-vocal-classes-hyderabad' },
-        { label: 'Online classes', href: '/online-classes' },
-        { label: 'Classes in your community', href: '/communities' },
+        { label: 'Courses · Sādhana', href: '/courses' },
+        { label: 'Carnatic vocal classes in Hyderabad', href: '/carnatic-vocal-classes-hyderabad' },
         { label: 'Classes in Jubilee Hills', href: '/music-classes/jubilee-hills' },
+        { label: 'Classes in Hitech City', href: '/music-classes/hitech-city' },
+        { label: 'Online classes', href: '/online-classes' },
       ],
     },
     {
       title: 'The school',
       links: [
         { label: 'About · Parampara', href: '/about' },
-        { label: 'Teachers · Guru', href: '/teachers' },
-        { label: 'Events · Sabha', href: '/#sabha' },
-        { label: 'Contact · Prārambha', href: '/contact' },
+        { label: 'Teachers · Guru Parampara', href: '/teachers' },
+        { label: 'Gallery · Anubhava', href: '/gallery' },
+        { label: 'Contact · Prārambham', href: '/contact' },
       ],
     },
     {

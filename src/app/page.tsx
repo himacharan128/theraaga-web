@@ -1,57 +1,41 @@
 import { Hero } from '@/components/sections/Hero'
-import { DeliveryModes } from '@/components/sections/DeliveryModes'
 import { TrustStrip } from '@/components/sections/TrustStrip'
-import { WhatWeTeach } from '@/components/sections/WhatWeTeach'
-import { SadhanaLadder } from '@/components/sections/SadhanaLadder'
-import { Guru } from '@/components/sections/Guru'
-import { CurrentBatches } from '@/components/sections/CurrentBatches'
+import { Centres } from '@/components/sections/Centres'
 import { Pillars } from '@/components/sections/Pillars'
 import { ListenWatch } from '@/components/sections/ListenWatch'
-import { Testimonials } from '@/components/sections/Testimonials'
-import { CommunityCta } from '@/components/sections/CommunityCta'
-import { Sabha } from '@/components/sections/Sabha'
-import { Gallery } from '@/components/sections/Gallery'
-import { Faq } from '@/components/sections/Faq'
-import { HowToStart } from '@/components/sections/HowToStart'
-import { EnquirySection } from '@/components/sections/EnquirySection'
-import { ContactBlock } from '@/components/sections/ContactBlock'
+import { MeetTradition } from '@/components/sections/MeetTradition'
+import { TrialProcess } from '@/components/sections/TrialProcess'
+import { FinalCta } from '@/components/sections/FinalCta'
 import { OrganizationSchema } from '@/components/seo/Schema'
 
 /**
  * Nāda — the beginning.
  *
- * Section order follows the pattern found across 19 music-school homepages,
- * with one deliberate deviation: the router immediately below the hero is by
- * DELIVERY MODE rather than by instrument, because that is Raaga's actual
- * differentiator and the question a parent opening a WhatsApp forward is
- * scrolling to answer.
+ * Eight sections, ~700 words. This page was previously seventeen sections and
+ * read as a prospectus: the full curriculum ladder, the complete FAQ, the
+ * events calendar and the whole enquiry form all lived here. Each of those has
+ * moved to the page that owns it, because the homepage's only job is to answer
+ * five questions — what, for whom, where, why credible, what next — and hand
+ * the visitor onward.
  *
- * Six of these sections currently render nothing, or render a designed empty
- * state, because the client has not sent content yet. That is the point — the
- * page is built to look finished while they are empty, and every one of them
- * fills in as data arrives without a code change.
+ * The order is deliberate. The router sits immediately below the hero because
+ * the first question a parent opening a WhatsApp forward answers is "is this
+ * near me"; the trial process sits immediately before the final ask because
+ * "what actually is the free trial" is the last thing standing between reading
+ * and enquiring.
  */
 export default function HomePage() {
   return (
     <>
       <OrganizationSchema />
       <Hero />
-      <DeliveryModes />
       <TrustStrip />
-      <WhatWeTeach />
-      <SadhanaLadder />
-      <Guru />
-      <CurrentBatches />
+      <Centres />
       <Pillars />
       <ListenWatch />
-      <Testimonials />
-      <CommunityCta />
-      <Sabha />
-      <Gallery />
-      <Faq />
-      <HowToStart />
-      <EnquirySection />
-      <ContactBlock />
+      <MeetTradition />
+      <TrialProcess />
+      <FinalCta />
     </>
   )
 }

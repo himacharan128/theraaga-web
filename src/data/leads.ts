@@ -91,7 +91,7 @@ export async function notifyLead(lead: StoredLead): Promise<void> {
   const summary =
     `New enquiry · ${lead.contactName} · +91${lead.phone} · ` +
     `${lead.learner} · ${lead.mode}` +
-    (lead.communityName ? ` · ${lead.communityName}` : '')
+    (lead.message ? ` · “${lead.message.slice(0, 60)}”` : '')
 
   if (!process.env.RESEND_API_KEY) {
     console.info('[raaga:lead]', summary)

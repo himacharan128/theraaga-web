@@ -38,12 +38,12 @@ export default function TermsPage() {
           first.
         </p>
 
-        <h2>Community and clubhouse classes</h2>
+        <h2>Classes at our centres</h2>
         <p>
-          Classes held in a gated community depend on that community’s residents’
-          association granting and maintaining permission to use the space. If
-          that permission is withdrawn we will offer affected students an
-          equivalent slot at our institute or online.
+          Classes at our Jubilee Hills and Phoenix Arena centres depend on the
+          continued availability of those premises. If a centre becomes
+          unavailable we will offer the equivalent class online or at our other
+          centre, or refund the unused portion under our refund policy.
         </p>
 
         <h2>Content on this site</h2>

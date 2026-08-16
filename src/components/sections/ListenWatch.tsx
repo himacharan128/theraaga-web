@@ -25,8 +25,7 @@ export async function ListenWatch() {
       id="listen"
       eyebrow="Anubhava · Listen"
       title="Hear what a first lesson sounds like."
-      tone="surface"
-      renderIf={clips.length > 0}
+            renderIf={clips.length > 0}
       fallback={
         <div className="border border-border bg-bg px-6 py-14 md:px-12 md:py-16">
           <SwaraStrip />

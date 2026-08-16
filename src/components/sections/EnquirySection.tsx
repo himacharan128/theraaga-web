@@ -3,7 +3,7 @@ import { whatsappHref } from '@/lib/whatsapp'
 import { getSite } from '@/data/content'
 
 /**
- * Prārambha — the beginning. This is where the Sanskrit lives: as the section
+ * Prārambham — the beginning. This is where the Sanskrit lives: as the section
  * eyebrow, never as the button label.
  *
  * Zero of nineteen benchmark music-school homepages use a non-literal primary
@@ -23,13 +23,13 @@ export async function EnquirySection() {
     >
       <div className="u-shell grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
         <div>
-          <p className="u-eyebrow">Prārambha · Begin the journey</p>
+          <p className="u-eyebrow">The enquiry</p>
           <h2 className="mt-4 text-[length:var(--text-step-3)] font-[300]">
             Book a free trial class.
           </h2>
           <p className="u-measure mt-5 text-text-secondary">
-            Tell us a little about who is learning and where, and we’ll call to
-            arrange a time. Four questions, about thirty seconds.
+            A few questions, about thirty seconds — then we will call to
+            arrange a time that suits you.
           </p>
 
           <p className="mt-8 border-l-2 border-gold-hairline pl-5 text-[length:var(--text-step--1)] text-text-muted">

@@ -1,43 +1,37 @@
 import type { Pillar } from '../types'
 
 /**
- * Five of the client's six draft pillars appear near-verbatim on Shankar
- * Mahadevan Academy's homepage — "Performance Opportunities" is word-for-word
- * identical, and "All Age Groups Welcome" mirrors their "for all age groups".
- * All six are replaced.
+ * Four, not six.
  *
- * The two claims no national player can make are led with: delivery into
- * clubhouses, and a published syllabus with real stage timings.
+ * Five of the client's six original draft pillars appeared near-verbatim on
+ * Shankar Mahadevan Academy's homepage — "Performance Opportunities" was
+ * word-for-word identical, and "All Age Groups Welcome" mirrored their "for all
+ * age groups". A differentiator your largest competitor already prints is not a
+ * differentiator, so all of them were rewritten.
+ *
+ * These four are things the school can actually stand behind on day one, with
+ * no client data: how it teaches, how closely, in what order, and where that
+ * order can lead.
  */
 export const pillars: Pillar[] = [
   {
     order: 1,
-    title: 'We come to your community.',
-    body: 'Reach six families in your gated community and we teach at your clubhouse — no drop-offs, no traffic, no Sunday morning lost.',
+    title: 'Authentic Carnatic training',
+    body: 'Taught in the Guru–Shishya Parampara — by ear, by repetition, one phrase at a time. Not a syllabus invented for a website.',
   },
   {
     order: 2,
-    title: 'A syllabus you can actually see.',
-    body: 'Sarali Varisai to Manodharma, published in full with the time each stage takes, so you always know where your child stands.',
+    title: 'Individual attention',
+    body: 'Every voice settles at its own pace. Students are taught individually within small batches, so the teaching follows the learner.',
   },
   {
     order: 3,
-    title: 'Small enough that no one hides at the back.',
-    body: 'Batches are capped at six, and every student sings alone in every class.',
+    title: 'Traditional progression',
+    body: 'Sarali Swaras through to Manodharma Sangeetham, published in full, so you always know which stage you are at and what comes next.',
   },
   {
     order: 4,
-    title: 'You stay with one teacher.',
-    body: 'Not a rotating panel. You learn in a line, the way this music has always been taught.',
-  },
-  {
-    order: 5,
-    title: 'No prerequisite — not language, not talent, not age.',
-    body: 'Compositions are in Telugu, Sanskrit and Tamil, and we teach the meaning line by line. Beginners at five and beginners at fifty start the same way.',
-  },
-  {
-    order: 6,
-    title: 'A stage, every term.',
-    body: 'Open Baithak mornings, Sangama workshops and our annual Sangeeta Sandhya. A student who has performed once practises differently forever.',
+    title: 'Performance and academic pathways',
+    body: 'Kutcheris, recitals and recordings for those who want the stage — Certificate, Diploma and degree preparation for those who want the qualification.',
   },
 ]

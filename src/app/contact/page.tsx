@@ -1,21 +1,45 @@
 import type { Metadata } from 'next'
+import { PageHero } from '@/components/layout/PageHero'
 import { EnquirySection } from '@/components/sections/EnquirySection'
 import { ContactBlock } from '@/components/sections/ContactBlock'
-import { HowToStart } from '@/components/sections/HowToStart'
+import { TrialProcess } from '@/components/sections/TrialProcess'
 import { Faq } from '@/components/sections/Faq'
 
 export const metadata: Metadata = {
-  title: 'Book a free trial class',
+  title: 'Contact — begin your journey',
   description:
-    'Book a free Carnatic vocal trial class in Jubilee Hills, Hyderabad — at our institute, online, or at your community clubhouse. Four questions, about thirty seconds.',
+    'Book a free Carnatic vocal trial class in Hyderabad — at Jubilee Hills, at Phoenix Arena in Hitech City, or online. A few questions, about thirty seconds.',
   alternates: { canonical: '/contact' },
+  openGraph: {
+    title: 'Prārambham — book a free trial at RAAGA',
+    description:
+      'Carnatic vocal classes for children and adults. Jubilee Hills, Hitech City, or online. The first class is free.',
+    url: 'https://theraaga.in/contact',
+  },
 }
 
+/**
+ * The PageHero carries this route's single <h1>. EnquirySection deliberately
+ * renders an <h2>, because it is also embedded on five other pages where it
+ * must sit under that page's own heading — so without a hero here the contact
+ * page had no <h1> at all.
+ */
 export default function ContactPage() {
   return (
     <>
+      <PageHero
+        eyebrow="Prārambham · प्रारम्भम् · Begin your journey"
+        title="Come and sing with us."
+        lede={
+          <p>
+            Tell us who is learning and where suits you, and we will arrange a
+            free first class. If you would rather just ask a question, WhatsApp
+            reaches us fastest.
+          </p>
+        }
+      />
       <EnquirySection />
-      <HowToStart />
+      <TrialProcess />
       <ContactBlock />
       <Faq />
     </>

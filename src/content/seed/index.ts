@@ -1,14 +1,28 @@
 import type {
   Batch,
-  Community,
   Faculty,
   GalleryItem,
   RaagaEvent,
   Testimonial,
 } from '../types'
 
-export { site, deliveryModes } from './site'
-export { levels, LADDER_SOURCE } from './levels'
+export { site, centres } from './site'
+export {
+  curriculum,
+  academicPathways,
+  performanceStrands,
+  CURRICULUM_SOURCE,
+} from './curriculum'
+export {
+  lineageReferences,
+  scholarlyWorks,
+  teachingPrinciples,
+} from './teaching'
+export type {
+  LineageReference,
+  ScholarlyWork,
+  TeachingPrinciple,
+} from './teaching'
 export { disciplines } from './disciplines'
 export { pillars } from './pillars'
 export { faqs } from './faqs'
@@ -34,4 +48,3 @@ export const batches: Batch[] = []
 export const testimonials: Testimonial[] = []
 export const galleryItems: GalleryItem[] = []
 export const events: RaagaEvent[] = []
-export const communities: Community[] = []

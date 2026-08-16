@@ -11,7 +11,7 @@ import { site } from '@/content/seed/site'
 export const metadata: Metadata = {
   title: 'Child safeguarding',
   description:
-    'How RAAGA keeps children safe in class, online, and in community clubhouses — and how we handle photographs and recordings of students.',
+    'How RAAGA keeps children safe in class at our Hyderabad centres and online — and how we handle photographs and recordings of students.',
   alternates: { canonical: '/child-safeguarding' },
 }
 
@@ -38,7 +38,7 @@ export default function ChildSafeguardingPage() {
             time, without arranging it in advance.
           </li>
           <li>
-            Classes in community clubhouses are held in shared, visible spaces —
+            Classes at our centres are held in shared, visible spaces —
             never behind a closed door in a private room.
           </li>
           <li>
@@ -70,7 +70,7 @@ export default function ChildSafeguardingPage() {
         </p>
         <p>
           We never publish a child’s full name, their school, their class timing
-          or their community alongside their photograph.
+          or their school alongside their photograph.
         </p>
 
         <h2>Raising a concern</h2>

@@ -63,7 +63,7 @@ export async function ContactBlock() {
             </div>
             <div className="flex justify-between gap-6 border-b border-border pb-3">
               <dt className="text-text-secondary">Weekend mornings</dt>
-              <dd className="text-text-muted">Institute &amp; clubhouse batches</dd>
+              <dd className="text-text-muted">Jubilee Hills &amp; Hitech City</dd>
             </div>
             <div className="flex justify-between gap-6">
               <dt className="text-text-secondary">Early mornings IST</dt>

@@ -16,10 +16,25 @@ const BASE = process.env.BASE_URL ?? 'http://localhost:3000'
 const LEADS = '.leads/leads.jsonl'
 if (existsSync(LEADS)) rmSync(LEADS)
 
+/**
+ * A UNIQUE phone number per run, for two reasons.
+ *
+ *  1. The action rate-limits to 3 submissions per phone per 10 minutes. A fixed
+ *     number meant the 4th consecutive run of this suite failed against a
+ *     perfectly healthy server — a false alarm that trains you to ignore it.
+ *  2. It gives the read-back below an exact key, so the assertions can never
+ *     pass by reading a leftover lead from an earlier run. That is not
+ *     hypothetical: it happened, and it masked a genuine submit failure.
+ *
+ * Indian mobile numbers start 6-9.
+ */
+const PHONE = `9${String(Math.floor(Math.random() * 1e9)).padStart(9, '0')}`
+
 let pass = 0
 let fail = 0
 const check = (name, ok, detail = '') => {
-  ok ? pass++ : fail++
+  if (ok) pass++
+  else fail++
   console.log(`  ${ok ? '✓' : '✗'} ${name}${ok ? '' : `   ← ${detail}`}`)
 }
 
@@ -30,22 +45,22 @@ p.on('pageerror', (e) => jsErrors.push(e.message))
 
 console.log('\n  End-to-end\n')
 
-// Arrive as a WhatsApp forward into a gated-community group.
-await p.goto(`${BASE}/contact?utm_source=whatsapp&utm_medium=community&g=my-home-bhooja`, {
+// Arrive the way most visitors actually do: a WhatsApp forward.
+await p.goto(`${BASE}/contact?utm_source=whatsapp&utm_medium=forward&utm_campaign=hitech-city`, {
   waitUntil: 'networkidle',
 })
 await p.waitForTimeout(1600) // clear the bot time-trap
 
 await p.fill('#contactName', 'Anitha Raghavan')
-await p.fill('#phone', '9848012345')
+await p.fill('#phone', PHONE)
 await p.getByText('My child', { exact: true }).click()
 await p.getByText('Carnatic vocal', { exact: true }).click()
-await p.getByText('My community', { exact: true }).click()
+await p.getByText('Phoenix Arena, Hitech City', { exact: true }).click()
 await p.getByText('7–12', { exact: true }).click()
 
-check('community field reveals for community mode', !!(await p.$('#communityName')))
+check('centre selectable without extra fields', !(await p.$('#communityName')))
 check('guardian consent appears for a child', !!(await p.$('input[name="guardianConsent"]')))
-await p.fill('#communityName', 'My Home Bhooja')
+await p.fill('#message', 'My daughter is 8 and has not learned before.')
 
 // A child enquiry without guardian consent must be refused.
 await p.click('button[type="submit"]')
@@ -82,10 +97,13 @@ async function readBackLead() {
     const c = new MongoClient(uri, { serverSelectionTimeoutMS: 12000 })
     try {
       await c.connect()
+      // Keyed on THIS run's phone number. `findOne({}, {sort})` would happily
+      // return an earlier run's lead and report a green suite over a broken
+      // submit path.
       const doc = await c
         .db(process.env.MONGODB_DB ?? env.MONGODB_DB ?? 'raaga')
         .collection('leads')
-        .findOne({}, { sort: { submittedAt: -1 } })
+        .findOne({ phone: PHONE })
       console.log('    (read back from MongoDB Atlas)')
       return doc
     } finally {
@@ -94,9 +112,14 @@ async function readBackLead() {
   }
 
   console.log('    (read back from local .leads/leads.jsonl)')
-  return existsSync(LEADS)
-    ? JSON.parse(readFileSync(LEADS, 'utf8').trim().split('\n').pop())
-    : null
+  if (!existsSync(LEADS)) return null
+  return (
+    readFileSync(LEADS, 'utf8')
+      .trim()
+      .split('\n')
+      .map((l) => JSON.parse(l))
+      .find((l) => l.phone === PHONE) ?? null
+  )
 }
 
 const lead = await readBackLead()
@@ -105,8 +128,12 @@ check('lead reached storage', !!lead)
 if (lead) {
   check('parent name stored, not child name', lead.contactName === 'Anitha Raghavan')
   check('guardian consent recorded', lead.guardianConsent === true)
-  check('WhatsApp attribution survived', lead.utmSource === 'whatsapp' && lead.community === 'my-home-bhooja')
-  check('community name captured', lead.communityName === 'My Home Bhooja')
+  check(
+    'WhatsApp attribution survived',
+    lead.utmSource === 'whatsapp' && lead.utmCampaign === 'hitech-city',
+  )
+  check('centre captured', lead.mode === 'phoenix-arena')
+  check('optional message captured', typeof lead.message === 'string' && lead.message.length > 0)
   check('retention clock set (DPDP erasure)', !!lead.retentionUntil)
   const banned = ['learnerName', 'childName', 'dob', 'dateOfBirth']
   check('no child-identity field stored', !banned.some((k) => k in lead), Object.keys(lead).join(','))
@@ -115,5 +142,38 @@ if (lead) {
 check('no JS errors on the page', jsErrors.length === 0, jsErrors.join(' | '))
 
 await b.close()
+
+// Remove this run's lead. The suite writes to whatever storage is configured,
+// including the real Atlas cluster, and a test that leaves rows behind slowly
+// poisons the client's actual enquiry list.
+await cleanup()
+
 console.log(`\n  ${pass} passed, ${fail} failed\n`)
 process.exit(fail ? 1 : 0)
+
+async function cleanup() {
+  const env = existsSync('.env.local')
+    ? Object.fromEntries(
+        readFileSync('.env.local', 'utf8')
+          .split('\n')
+          .filter((l) => l.includes('=') && !l.trim().startsWith('#'))
+          .map((l) => [l.slice(0, l.indexOf('=')), l.slice(l.indexOf('=') + 1)]),
+      )
+    : {}
+  const uri = process.env.MONGODB_URI ?? env.MONGODB_URI
+  if (!uri) return
+  const { MongoClient } = await import('mongodb')
+  const c = new MongoClient(uri, { serverSelectionTimeoutMS: 12000 })
+  try {
+    await c.connect()
+    const r = await c
+      .db(process.env.MONGODB_DB ?? env.MONGODB_DB ?? 'raaga')
+      .collection('leads')
+      .deleteMany({ phone: PHONE })
+    console.log(`    (cleaned up ${r.deletedCount} test lead)`)
+  } catch {
+    /* cleanup is best-effort; never fail the suite on it */
+  } finally {
+    await c.close()
+  }
+}

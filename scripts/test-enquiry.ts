@@ -16,7 +16,7 @@ const base = {
   phone: '9848012345',
   learner: 'myself',
   interest: 'carnatic_vocal',
-  mode: 'institute',
+  mode: 'jubilee-hills',
   ageBand: 'adult',
 }
 
@@ -28,14 +28,14 @@ const cases: [string, Record<string, unknown>, boolean][] = [
       ...base,
       learner: 'my_child',
       ageBand: '7_12',
-      mode: 'community',
-      communityName: 'My Home Bhooja',
+      mode: 'phoenix-arena',
       guardianConsent: true,
     },
     true,
   ],
   ['child WITHOUT guardian consent', { ...base, learner: 'my_child', ageBand: '7_12' }, false],
-  ['community mode, no community name', { ...base, mode: 'community' }, false],
+  ['phoenix arena centre', { ...base, mode: 'phoenix-arena' }, true],
+  ['unknown mode rejected', { ...base, mode: 'clubhouse' }, false],
   ['online mode, no timezone', { ...base, mode: 'online' }, false],
   ['online mode with timezone', { ...base, mode: 'online', timezone: 'EST' }, true],
   ['bad phone (starts with 5)', { ...base, phone: '5876543210' }, false],
@@ -43,6 +43,8 @@ const cases: [string, Record<string, unknown>, boolean][] = [
   ['name too short', { ...base, contactName: 'A' }, false],
   ['name with digits', { ...base, contactName: 'Ravi 123' }, false],
   ['honeypot filled → rejected', { ...base, websiteUrl: 'http://spam.example' }, false],
+  ['optional message accepted', { ...base, message: 'My daughter is 8 and has never sung before.' }, true],
+  ['over-long message rejected', { ...base, message: 'x'.repeat(601) }, false],
 ]
 
 let pass = 0
@@ -53,7 +55,8 @@ console.log('\n  Enquiry validation\n')
 for (const [name, input, shouldPass] of cases) {
   const r = enquirySchema.safeParse(input)
   const ok = r.success === shouldPass
-  ok ? pass++ : fail++
+  if (ok) pass++
+  else fail++
   console.log(
     `  ${ok ? '✓' : '✗'} ${name.padEnd(36)} ${r.success ? 'accepted' : 'rejected'}${ok ? '' : '   ← UNEXPECTED'}`,
   )

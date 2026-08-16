@@ -9,7 +9,7 @@ import { whatsappHref } from '@/lib/whatsapp'
  * A distinct URL gives analytics a conversion to fire on, is A/B testable, and
  * has a 100% view rate against 20–30% for a follow-up email.
  *
- * The primary action here is "Confirm on WhatsApp": it verifies the phone number
+ * The secondary action is "Confirm on WhatsApp": it verifies the phone number
  * for free, opens Meta's 24-hour service window at zero API cost, and skips OTP
  * entirely — which would have cost ~20% of legitimate users plus ₹5,900 of DLT
  * registration and biometric authentication.
@@ -23,13 +23,15 @@ export default function ThankYouPage() {
   return (
     <section className="u-shell py-24 md:py-32">
       <div className="mx-auto max-w-2xl text-center">
-        <p className="u-eyebrow">Prārambha</p>
+        <p className="u-eyebrow">Prārambham · The beginning</p>
         <h1 className="mt-5 text-[length:var(--text-step-4)] font-[300]">
-          Thank you — we have your message.
+          Thank you for reaching out to RAAGA.
         </h1>
-        <p className="mt-6 text-[length:var(--text-step-1)] font-[300] text-text-secondary">
-          We’ll call you within one working day, usually the same evening, to
-          find a time that suits you.
+        <p className="u-measure mx-auto mt-6 text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-secondary">
+          We are delighted to hear of your interest in Carnatic Sangeetham. A
+          member of our team will connect with you shortly to understand your
+          musical journey and help you choose the learning experience best
+          suited to you.
         </p>
 
         <div className="my-12">
@@ -43,7 +45,10 @@ export default function ThankYouPage() {
 
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <ButtonLink
-            href={whatsappHref('THANKYOU', 'Hello Raaga — I have just submitted the trial class form.')}
+            href={whatsappHref(
+              'THANKYOU',
+              'Hello RAAGA — I have just submitted the trial class form.',
+            )}
           >
             <WhatsAppIcon />
             Confirm on WhatsApp
