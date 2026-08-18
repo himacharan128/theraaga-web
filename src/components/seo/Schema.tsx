@@ -1,5 +1,8 @@
 import { site, centres } from '@/content/seed/site'
 
+const BASE_URL = 'https://theraaga.in'
+const LOGO_URL = `${BASE_URL}/brand/raaga-wordmark.webp`
+
 /**
  * Structured data — with three deliberate omissions.
  *
@@ -25,10 +28,17 @@ import { site, centres } from '@/content/seed/site'
 export function OrganizationSchema() {
   const org: Record<string, unknown> = {
     '@type': 'Organization',
-    '@id': 'https://theraaga.in/#org',
+    '@id': `${BASE_URL}/#org`,
     name: site.legalName,
     alternateName: site.shortName,
-    url: 'https://theraaga.in',
+    url: BASE_URL,
+    logo: {
+      '@type': 'ImageObject',
+      url: LOGO_URL,
+      caption: 'RAAGA',
+    },
+    description:
+      'RAAGA is a school of Indian classical music offering Carnatic music and vocal classes for children and adults in Hyderabad and live online.',
     foundingDate: String(site.foundedYear),
     ...(Object.values(site.social).filter(Boolean).length
       ? { sameAs: Object.values(site.social).filter(Boolean) }
@@ -42,9 +52,9 @@ export function OrganizationSchema() {
     .filter((c) => c.slug)
     .map((c) => ({
       '@type': 'Place',
-      '@id': `https://theraaga.in/#centre-${c.key}`,
-      name: `${site.shortName} — ${c.name}`,
-      url: `https://theraaga.in${c.href}`,
+      '@id': `${BASE_URL}/#centre-${c.key}`,
+      name: `${site.shortName}: ${c.name}`,
+      url: `${BASE_URL}${c.href}`,
       address: {
         '@type': 'PostalAddress',
         ...(c.streetAddress ? { streetAddress: c.streetAddress } : {}),
@@ -56,9 +66,13 @@ export function OrganizationSchema() {
 
   const institute: Record<string, unknown> = {
     '@type': ['EducationalOrganization', 'LocalBusiness'],
-    '@id': 'https://theraaga.in/#institute',
+    '@id': `${BASE_URL}/#institute`,
     name: site.legalName,
-    url: 'https://theraaga.in',
+    alternateName: site.shortName,
+    url: BASE_URL,
+    logo: LOGO_URL,
+    description:
+      'Carnatic music and vocal classes in Hyderabad for children and adults, taught at Jubilee Hills, Hitech City and live online.',
     foundingDate: String(site.foundedYear),
     telephone: `+${site.whatsapp}`,
     email: site.email,
@@ -71,6 +85,7 @@ export function OrganizationSchema() {
     },
     ...(locations.length ? { location: locations } : {}),
     areaServed: [
+      'Hyderabad',
       'Jubilee Hills',
       'Banjara Hills',
       'Hitech City',
@@ -81,13 +96,46 @@ export function OrganizationSchema() {
       'Manikonda',
       'Financial District',
       'Narsingi',
-    ].map((n) => ({ '@type': 'Place', name: `${n}, Hyderabad` })),
+    ].map((n) => ({
+      '@type': 'Place',
+      name: n === site.city ? n : `${n}, ${site.city}`,
+    })),
+    knowsAbout: [
+      'Carnatic music',
+      'Carnatic vocal',
+      'Carnatic Sangeetham',
+      'Indian classical music',
+      'Guru Shishya Parampara',
+    ],
     knowsLanguage: ['en', 'te'],
+  }
+
+  const website = {
+    '@type': 'WebSite',
+    '@id': `${BASE_URL}/#website`,
+    name: site.shortName,
+    alternateName: site.legalName,
+    url: BASE_URL,
+    inLanguage: 'en-IN',
+    publisher: { '@id': `${BASE_URL}/#org` },
+  }
+
+  const homePage = {
+    '@type': 'WebPage',
+    '@id': `${BASE_URL}/#webpage`,
+    url: BASE_URL,
+    name: 'Carnatic Music & Vocal Classes in Hyderabad | RAAGA',
+    description:
+      'Carnatic music and vocal classes for children and adults in Jubilee Hills and Hitech City, Hyderabad, plus live online learning.',
+    inLanguage: 'en-IN',
+    isPartOf: { '@id': `${BASE_URL}/#website` },
+    about: { '@id': `${BASE_URL}/#institute` },
+    mainEntity: { '@id': `${BASE_URL}/#institute` },
   }
 
   const graph = {
     '@context': 'https://schema.org',
-    '@graph': [org, institute],
+    '@graph': [org, institute, website, homePage],
   }
 
   return (

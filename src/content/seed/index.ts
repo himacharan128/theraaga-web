@@ -13,6 +13,7 @@ export {
   performanceStrands,
   CURRICULUM_SOURCE,
 } from './curriculum'
+export { seoLandingPages } from './seo-pages'
 export {
   lineageReferences,
   scholarlyWorks,

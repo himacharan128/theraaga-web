@@ -17,7 +17,7 @@ export const pillars: Pillar[] = [
   {
     order: 1,
     title: 'Authentic Carnatic training',
-    body: 'Taught in the Guru–Shishya Parampara — by ear, by repetition, one phrase at a time. Not a syllabus invented for a website.',
+    body: 'Taught in the Guru Shishya Parampara, by ear, by repetition and one phrase at a time. Not a syllabus invented for a website.',
   },
   {
     order: 2,
@@ -32,6 +32,6 @@ export const pillars: Pillar[] = [
   {
     order: 4,
     title: 'Performance and academic pathways',
-    body: 'Kutcheris, recitals and recordings for those who want the stage — Certificate, Diploma and degree preparation for those who want the qualification.',
+    body: 'Kutcheris, recitals and recordings for those who want the stage. Certificate, Diploma and degree preparation for those who want a qualification.',
   },
 ]

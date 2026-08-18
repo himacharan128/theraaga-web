@@ -16,7 +16,8 @@
     "test:no-prices": "tsx scripts/check-no-prices.ts",
     "test:enquiry": "tsx scripts/test-enquiry.ts",
     "test:e2e": "node scripts/verify-e2e.mjs",
-    "verify": "npm run typecheck && npm run test:contrast && npm run test:no-prices && npm run test:enquiry",
+    "test:seo-intents": "tsx scripts/check-seo-intents.ts",
+    "verify": "npm run typecheck && npm run test:contrast && npm run test:no-prices && npm run test:enquiry && npm run test:seo-intents",
     "build:fonts": "node scripts/build-fonts.mjs",
     "test:a11y": "node scripts/check-a11y-perf.mjs",
     "vercel": "bash scripts/vercel.sh"

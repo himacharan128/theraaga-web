@@ -30,8 +30,8 @@ export default function TermsPage() {
 
         <h2>Class conduct</h2>
         <p>
-          Carnatic music is cumulative — each class builds directly on the last —
-          so we ask for consistent attendance and daily practice. Where a class
+          Carnatic music is cumulative, and each class builds directly on the last.
+          We ask for consistent attendance and daily practice. Where a class
           is missed with notice we will offer a make-up slot if the timetable
           allows. We reserve the right to end a student’s enrolment where conduct
           disrupts other students, and we will always discuss this with a parent

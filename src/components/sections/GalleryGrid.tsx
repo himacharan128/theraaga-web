@@ -27,13 +27,13 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
   if (items.length === 0) return null
 
   return (
-    <ul className="columns-2 gap-4 md:columns-3 [&>li]:mb-4">
+    <ul className="columns-2 gap-3 md:columns-3 md:gap-5 [&>li]:mb-3 md:[&>li]:mb-5">
       {items.map((item, i) => (
-        <li key={item.id} className="break-inside-avoid">
+        <li key={item.id} className="group break-inside-avoid">
           <figure>
             <div
               style={{ aspectRatio: item.media.aspect }}
-              className="relative w-full overflow-hidden border border-border bg-surface"
+              className="relative w-full overflow-hidden rounded-[var(--radius-sm)] border border-border bg-surface shadow-[0_8px_20px_rgba(71,49,34,0.05)]"
             >
               <Image
                 src={item.media.src}
@@ -41,14 +41,14 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
                 fill
                 sizes="(min-width: 768px) 33vw, 50vw"
                 loading={i < EAGER_COUNT ? 'eager' : 'lazy'}
-                className="object-cover"
+                className="object-cover transition-transform duration-500 ease-[var(--ease-raaga)] group-hover:scale-[1.035] motion-reduce:transition-none"
               />
               {item.kind === 'video' && (
                 <span
                   aria-hidden="true"
                   className="absolute inset-0 flex items-center justify-center"
                 >
-                  <span className="flex size-14 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--color-accent)_88%,transparent)] text-on-accent">
+                  <span className="flex size-14 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--color-accent)_88%,transparent)] text-on-accent shadow-[0_10px_24px_rgba(32,27,26,0.22)] transition-transform duration-[var(--dur)] group-hover:scale-110 motion-reduce:transition-none">
                     <svg width="16" height="18" viewBox="0 0 16 18" fill="none">
                       <path d="M2 1.5l12 7.5-12 7.5V1.5Z" fill="currentColor" />
                     </svg>
@@ -57,7 +57,7 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
               )}
             </div>
             {item.caption && (
-              <figcaption className="mt-2 text-[length:var(--text-step--1)] leading-[var(--lh-body)] text-text-muted">
+              <figcaption className="mt-2 px-1 text-[length:var(--text-step--1)] leading-[var(--lh-body)] text-text-muted">
                 {item.caption}
               </figcaption>
             )}

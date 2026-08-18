@@ -56,43 +56,55 @@ export async function Footer() {
   ]
 
   return (
-    <footer className="border-t border-border bg-surface">
-      <div className="u-shell py-16 md:py-24">
-        <AscendingScale />
+    <footer className="relative overflow-hidden border-t border-[color-mix(in_srgb,var(--color-accent)_20%,transparent)] bg-ink text-on-accent">
+      <span
+        aria-hidden="true"
+        className="absolute -right-24 -top-36 size-[34rem] rounded-full border border-[color-mix(in_srgb,var(--color-on-accent)_10%,transparent)]"
+      />
+      <span
+        aria-hidden="true"
+        className="absolute -bottom-40 -left-32 size-[30rem] rounded-full border border-[color-mix(in_srgb,var(--color-gold-hairline)_26%,transparent)]"
+      />
+      <div className="u-shell relative py-16 md:py-24">
+        <div className="opacity-75">
+          <AscendingScale />
+        </div>
 
         <div className="mt-16 grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <Image
-              src="/brand/raaga-wordmark.webp"
-              alt="RAAGA — Sa. Pa. Sa."
-              width={600}
-              height={324}
-              className="h-12 w-auto"
-            />
-            <p className="mt-3 text-[length:var(--text-step--1)] text-text-muted">
+            <div className="inline-flex rounded-[var(--radius-sm)] bg-on-accent p-3 shadow-[0_12px_30px_rgba(0,0,0,0.16)]">
+              <Image
+                src="/brand/raaga-wordmark.webp"
+                alt="RAAGA, Sa. Pa. Sa."
+                width={600}
+                height={324}
+                className="h-10 w-auto"
+              />
+            </div>
+            <p className="mt-4 text-[length:var(--text-step--1)] text-[color-mix(in_srgb,var(--color-on-accent)_72%,transparent)]">
               School of Indian Classical Music
               <br />
               {site.locality}, {site.city}
             </p>
             <p className="mt-6">
-              <span className="deva block text-[length:var(--text-step-1)] text-accent">
+              <span className="deva block text-[length:var(--text-step-1)] text-on-accent">
                 {site.sanskritLine.devanagari}
               </span>
-              <span className="mt-1 block font-[var(--font-display)] italic text-text-muted">
-                {site.sanskritLine.roman} — {site.sanskritLine.gloss}
+              <span className="mt-1 block font-[var(--font-display)] italic text-[color-mix(in_srgb,var(--color-on-accent)_72%,transparent)]">
+                {site.sanskritLine.roman}: {site.sanskritLine.gloss}
               </span>
             </p>
           </div>
 
           {columns.map((col) => (
             <nav key={col.title} aria-label={col.title}>
-              <h2 className="u-eyebrow mb-5">{col.title}</h2>
+              <h2 className="u-eyebrow mb-5 !text-[color-mix(in_srgb,var(--color-on-accent)_64%,transparent)]">{col.title}</h2>
               <ul className="space-y-3">
                 {col.links.map((l) => (
                   <li key={l.href}>
                     <Link
                       href={l.href}
-                      className="text-[length:var(--text-step--1)] text-text-secondary no-underline hover:text-accent hover:underline hover:underline-offset-4"
+                      className="text-[length:var(--text-step--1)] text-[color-mix(in_srgb,var(--color-on-accent)_86%,transparent)] no-underline transition-colors hover:text-on-accent hover:underline hover:underline-offset-4"
                     >
                       {l.label}
                     </Link>
@@ -103,23 +115,23 @@ export async function Footer() {
           ))}
         </div>
 
-        <hr className="u-hairline my-12" />
+        <hr className="my-12 border-0 border-t border-[color-mix(in_srgb,var(--color-on-accent)_18%,transparent)]" />
 
         <address className="grid gap-6 not-italic md:grid-cols-2">
-          <p className="text-[length:var(--text-step--1)] text-text-secondary">
+          <p className="text-[length:var(--text-step--1)] text-[color-mix(in_srgb,var(--color-on-accent)_82%,transparent)]">
             {/* Street address is intentionally absent until the client confirms one.
                 We do not invent a postal address or geo coordinates. */}
             {site.streetAddress ?? `${site.locality}, ${site.city}, ${site.region}`}
             <br />
-            <a href={`tel:+${site.whatsapp}`} className="hover:text-accent">
+            <a href={`tel:+${site.whatsapp}`} className="hover:text-on-accent">
               {site.phoneDisplay}
             </a>
             {' · '}
-            <a href={`mailto:${site.email}`} className="hover:text-accent">
+            <a href={`mailto:${site.email}`} className="hover:text-on-accent">
               {site.email}
             </a>
           </p>
-          <p className="text-[length:var(--text-step--1)] text-text-muted md:text-right">
+          <p className="text-[length:var(--text-step--1)] text-[color-mix(in_srgb,var(--color-on-accent)_62%,transparent)] md:text-right">
             © {COPYRIGHT_YEAR} {site.shortName}. All rights reserved.
             <br />
             Built to WCAG 2.2 AA and IS 17802. This site sets no tracking cookies.

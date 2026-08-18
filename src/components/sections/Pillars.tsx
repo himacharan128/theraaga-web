@@ -1,5 +1,4 @@
 import { Section } from '@/components/layout/Section'
-import { SwaraDivider } from '@/components/ui/Ornament'
 import { getPillars } from '@/data/content'
 
 /**
@@ -23,18 +22,16 @@ export async function Pillars() {
       title="What you get here that you won’t get elsewhere."
       renderIf={pillars.length > 0}
     >
-      <ul className="grid gap-x-14 gap-y-10 md:grid-cols-2">
-        {pillars.map((p, i) => (
-          <li key={p.order}>
-            {i > 0 && (
-              <div className="mb-8 md:hidden">
-                <SwaraDivider index={i} />
-              </div>
-            )}
-            <h3 className="text-[length:var(--text-step-1)] font-[400] leading-[var(--lh-snug)] text-accent">
+      <ul className="grid gap-x-14 md:grid-cols-2">
+        {pillars.map((p) => (
+          <li
+            key={p.order}
+            className="border-t border-border py-8 first:border-t-0 md:[&:nth-child(2)]:border-t-0"
+          >
+            <h3 className="max-w-[16ch] text-[length:var(--text-step-1)] font-[400] leading-[var(--lh-snug)] text-accent">
               {p.title}
             </h3>
-            <p className="u-measure mt-3 text-text-secondary">{p.body}</p>
+            <p className="u-measure mt-4 text-text-secondary">{p.body}</p>
           </li>
         ))}
       </ul>

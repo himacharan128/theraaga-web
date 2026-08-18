@@ -11,7 +11,7 @@ import { site } from '@/content/seed/site'
 export const metadata: Metadata = {
   title: 'Child safeguarding',
   description:
-    'How RAAGA keeps children safe in class at our Hyderabad centres and online — and how we handle photographs and recordings of students.',
+    'How RAAGA keeps children safe in class at our Hyderabad centres and online, and how we handle photographs and recordings of students.',
   alternates: { canonical: '/child-safeguarding' },
 }
 
@@ -38,8 +38,8 @@ export default function ChildSafeguardingPage() {
             time, without arranging it in advance.
           </li>
           <li>
-            Classes at our centres are held in shared, visible spaces —
-            never behind a closed door in a private room.
+            Classes at our centres are held in shared, visible spaces, never
+            behind a closed door in a private room.
           </li>
           <li>
             One-to-one classes with a child are held in an open space, or online
@@ -75,8 +75,8 @@ export default function ChildSafeguardingPage() {
 
         <h2>Raising a concern</h2>
         <p>
-          If anything concerns you — however small, and whether or not it
-          involves your own child — please tell us. Message us on WhatsApp or
+          If anything concerns you, however small, and whether or not it
+          involves your own child, please tell us. Message us on WhatsApp or
           write to <a href={`mailto:${site.email}`}>{site.email}</a>. We will
           respond within two working days and we will not treat it as a
           complaint about you.

@@ -11,13 +11,13 @@ import { site } from '@/content/seed/site'
 export const metadata: Metadata = {
   metadataBase: new URL('https://theraaga.in'),
   title: {
-    default:
-      'RAAGA — Carnatic Vocal Classes in Hyderabad · Jubilee Hills · Hitech City · Online',
-    template: '%s · RAAGA, Carnatic Music School Hyderabad',
+    default: 'Carnatic Music Classes in Hyderabad',
+    template: '%s | RAAGA',
   },
   description:
-    'Carnatic vocal classes for children and adults in Hyderabad — at our Jubilee Hills and Phoenix Arena, Hitech City centres, or online. Teaching in the Guru–Shishya Parampara since 2016.',
+    'RAAGA offers Carnatic music and vocal classes for children and adults in Hyderabad. Learn at Jubilee Hills, Phoenix Arena in Hitech City, or live online. Beginners welcome.',
   applicationName: site.shortName,
+  category: 'education',
   // Always disambiguate: "Raaga School Of Music" (Kothapet), "Raaga Sudha Music
   // School" (Kukatpally) and raagaschool.com all already exist, and raaga.com
   // has owned the bare word since 2006.
@@ -27,17 +27,24 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: 'https://theraaga.in',
     // Front-load the locality — WhatsApp truncates at roughly two lines on mobile.
-    title: 'RAAGA — Carnatic Vocal Classes, Hyderabad',
+    title: 'RAAGA: Carnatic Music Classes in Hyderabad',
     description:
-      'For children and adults. Jubilee Hills, Phoenix Arena Hitech City, or online.',
+      'Carnatic vocal classes for children and adults. Jubilee Hills, Phoenix Arena in Hitech City, or live online.',
   },
   twitter: { card: 'summary_large_image' },
+  icons: {
+    // Cropped directly from the client-supplied RAAGA artwork for favicon legibility.
+    icon: [{ url: '/icon.svg?v=raaga-emblem-circle', type: 'image/svg+xml' }],
+  },
   robots: { index: true, follow: true },
   alternates: { canonical: '/' },
+  ...(process.env.GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } }
+    : {}),
 }
 
 export const viewport: Viewport = {
-  themeColor: '#f7f3ea',
+  themeColor: '#6b1f2a',
   colorScheme: 'light',
 }
 

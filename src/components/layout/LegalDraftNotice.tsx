@@ -16,7 +16,7 @@ export function LegalDraftNotice() {
       className="mb-12 border-l-2 border-accent bg-surface px-5 py-4"
     >
       <p className="!mt-0 font-[var(--font-ui)] text-[length:var(--text-step--1)] text-text-secondary">
-        <strong className="text-accent">Draft — pending review.</strong> This
+        <strong className="text-accent">Draft, pending review.</strong> This
         policy is complete in structure but still needs the school’s registered
         entity details and a named grievance officer, and should be checked by a
         lawyer before launch.

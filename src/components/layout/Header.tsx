@@ -71,16 +71,16 @@ export function Header({ whatsappHref }: { whatsappHref: string }) {
     href === '/' ? pathname === '/' : pathname.startsWith(href)
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-[color-mix(in_srgb,var(--color-bg)_92%,transparent)] backdrop-blur-sm">
-      <div className="u-shell flex h-14 items-center justify-between gap-4 md:h-20">
+    <header className="sticky top-0 z-50 border-b border-[color-mix(in_srgb,var(--color-border)_72%,transparent)] bg-[color-mix(in_srgb,var(--color-bg)_78%,transparent)] backdrop-blur-xl">
+      <div className="u-shell flex h-16 items-center justify-between gap-3 md:h-20 md:gap-5">
         <Link
           href="/"
-          aria-label="RAAGA — Home"
-          className="flex h-10 shrink-0 items-center sm:h-11"
+          aria-label="RAAGA Home"
+          className="flex h-9 shrink-0 items-center sm:h-11"
         >
           <Image
             src="/brand/raaga-wordmark.webp"
-            alt="RAAGA — Sa. Pa. Sa."
+            alt="RAAGA, Sa. Pa. Sa."
             width={600}
             height={324}
             priority
@@ -88,19 +88,19 @@ export function Header({ whatsappHref }: { whatsappHref: string }) {
           />
         </Link>
 
-        <nav aria-label="Main" className="hidden lg:block">
-          <ul className="flex items-center gap-8">
+        <nav aria-label="Main" className="hidden xl:block">
+          <ul className="flex items-center gap-7 rounded-full border border-[color-mix(in_srgb,var(--color-border)_85%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_72%,transparent)] px-6 py-2.5 shadow-[0_8px_24px_rgba(71,49,34,0.05)]">
             {NAV.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
                   aria-current={isCurrent(item.href) ? 'page' : undefined}
-                  className="group block text-center no-underline"
+                  className="group relative block text-center no-underline"
                 >
                   <span className="block font-[var(--font-display)] text-[0.7rem] uppercase tracking-[0.16em] text-accent-muted">
                     {item.sanskrit}
                   </span>
-                  <span className="block font-[var(--font-ui)] text-[0.94rem] text-text-primary group-hover:text-accent group-aria-[current=page]:text-accent">
+                  <span className="block font-[var(--font-ui)] text-[0.84rem] text-text-primary transition-colors group-hover:text-accent group-aria-[current=page]:text-accent">
                     {item.label}
                   </span>
                 </Link>
@@ -140,7 +140,7 @@ export function Header({ whatsappHref }: { whatsappHref: string }) {
             aria-controls="mobile-nav"
             aria-label={open ? 'Close menu' : 'Open menu'}
             onClick={() => setOpen((o) => !o)}
-            className="flex size-11 items-center justify-center text-accent lg:hidden"
+            className="flex size-11 items-center justify-center rounded-full border border-transparent text-accent transition-colors hover:border-border-strong hover:bg-surface xl:hidden"
           >
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
               {open ? (
@@ -158,16 +158,16 @@ export function Header({ whatsappHref }: { whatsappHref: string }) {
         <nav
           id="mobile-nav"
           aria-label="Main"
-          className="border-t border-border bg-bg lg:hidden"
+          className="border-t border-border bg-[color-mix(in_srgb,var(--color-surface)_94%,transparent)] shadow-[0_16px_30px_rgba(71,49,34,0.08)] xl:hidden"
         >
-          <ul className="u-shell py-2">
+          <ul className="u-shell py-3">
             {NAV.map((item) => (
               <li key={item.href} className="border-b border-border last:border-0">
                 <Link
                   href={item.href}
                   aria-current={isCurrent(item.href) ? 'page' : undefined}
                   onClick={() => setOpen(false)}
-                  className="flex min-h-[52px] items-center justify-between gap-4 py-3 no-underline aria-[current=page]:text-accent"
+                  className="flex min-h-[54px] items-center justify-between gap-4 rounded-[var(--radius-sm)] px-3 py-3 no-underline transition-colors hover:bg-[color-mix(in_srgb,var(--color-accent)_6%,transparent)] aria-[current=page]:bg-[color-mix(in_srgb,var(--color-accent)_7%,transparent)] aria-[current=page]:text-accent"
                 >
                   <span className="font-[var(--font-ui)] text-[length:var(--text-step-0)]">
                     {item.label}

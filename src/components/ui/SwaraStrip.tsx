@@ -21,11 +21,11 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 // Sa = C#4 (277.18 Hz). Ratios are the standard just intervals.
 const SA = 277.18
 const SWARAS = [
-  { label: 'Sa', devanagari: 'सा', ratio: 1, gloss: 'the tonic — everything returns here' },
+  { label: 'Sa', devanagari: 'सा', ratio: 1, gloss: 'the tonic, where everything returns' },
   { label: 'Ri', devanagari: 'रि', ratio: 9 / 8, gloss: 'the second' },
   { label: 'Ga', devanagari: 'ग', ratio: 5 / 4, gloss: 'the third' },
   { label: 'Ma', devanagari: 'म', ratio: 4 / 3, gloss: 'the fourth' },
-  { label: 'Pa', devanagari: 'प', ratio: 3 / 2, gloss: 'the fifth — the other fixed note' },
+  { label: 'Pa', devanagari: 'प', ratio: 3 / 2, gloss: 'the fifth, the other fixed note' },
   { label: 'Dha', devanagari: 'ध', ratio: 5 / 3, gloss: 'the sixth' },
   { label: 'Ni', devanagari: 'नि', ratio: 15 / 8, gloss: 'the seventh' },
 ] as const
@@ -138,7 +138,7 @@ export function SwaraStrip() {
             <button
               type="button"
               onClick={() => play(s.label, SA * s.ratio)}
-              aria-label={`Play note ${s.label} — ${s.gloss}`}
+              aria-label={`Play note ${s.label}: ${s.gloss}`}
               data-active={active === s.label}
               className="flex size-16 flex-col items-center justify-center rounded-full border border-border-strong
                          bg-surface transition-[transform,background-color,border-color,box-shadow]
@@ -184,7 +184,7 @@ export function SwaraStrip() {
       </p>
 
       <p className="u-measure mx-auto mt-8 text-center text-[length:var(--text-step--1)] leading-[var(--lh-body)] text-text-muted">
-        Tap a swara to hear it. Sa and Pa never move — they are the two fixed
+        Tap a swara to hear it. Sa and Pa never move. They are the two fixed
         notes a tanpura is tuned to, and the reference every other note is heard
         against. These seven are the whole of Carnatic music; everything else is
         what you do with them.

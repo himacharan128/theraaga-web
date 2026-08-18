@@ -444,7 +444,7 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
       </div>
 
       <p className="text-[length:var(--text-step--1)] text-text-muted">
-        We’ll call you within one working day — usually the same evening — to
+        We’ll call you within one working day, usually the same evening, to
         arrange a trial that suits you.
       </p>
     </form>

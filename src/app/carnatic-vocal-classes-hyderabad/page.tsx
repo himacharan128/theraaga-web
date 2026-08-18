@@ -5,6 +5,7 @@ import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
 import { Centres } from '@/components/sections/Centres'
 import { CurrentBatches } from '@/components/sections/CurrentBatches'
 import { EnquirySection } from '@/components/sections/EnquirySection'
+import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { whatsappHref } from '@/lib/whatsapp'
 
 /**
@@ -21,12 +22,12 @@ import { whatsappHref } from '@/lib/whatsapp'
  * clear route into the learning journey for visitors who want more depth.
  */
 export const metadata: Metadata = {
-  title: 'Carnatic vocal classes in Hyderabad',
+  title: 'Carnatic Music & Vocal Classes in Hyderabad',
   description:
-    'Carnatic vocal classes for children and adults in Hyderabad — at Jubilee Hills, at Phoenix Arena in Hitech City, or online. Beginners to advanced, taught in the traditional order.',
+    'Carnatic music and vocal classes for children and adults in Hyderabad. Learn at RAAGA in Jubilee Hills or Hitech City, or live online. Beginners to advanced.',
   alternates: { canonical: '/carnatic-vocal-classes-hyderabad' },
   openGraph: {
-    title: 'Carnatic vocal classes in Hyderabad · RAAGA',
+    title: 'Carnatic music classes in Hyderabad at RAAGA',
     description:
       'For children and adults, beginners welcome. Jubilee Hills, Hitech City, or online.',
     url: 'https://theraaga.in/carnatic-vocal-classes-hyderabad',
@@ -36,13 +37,19 @@ export const metadata: Metadata = {
 export default function CarnaticVocalPage() {
   return (
     <>
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', href: '/' },
+          { name: 'Carnatic Music Classes in Hyderabad', href: '/carnatic-vocal-classes-hyderabad' },
+        ]}
+      />
       <PageHero
         eyebrow="Sādhana · Carnatic vocal"
-        title="Carnatic vocal classes in Hyderabad."
+        title="Carnatic music and vocal classes in Hyderabad."
         lede={
           <p>
             For children from five and adults beginning at any age. Taught in
-            the traditional order, by ear, one phrase at a time — at our Jubilee
+            the traditional order, by ear, one phrase at a time. Learn at our Jubilee
             Hills and Hitech City centres, or online from anywhere.
           </p>
         }
@@ -67,8 +74,8 @@ export default function CarnaticVocalPage() {
         <div className="u-measure">
           <p className="text-text-secondary">
             Students begin with the swaras, then build rhythm, repertoire and
-            musical expression one stage at a time. The complete journey — from
-            Sarali Swaras to Manodharma Sangeetham — lives on our courses page.
+            musical expression one stage at a time. The complete journey, from
+            Sarali Swaras to Manodharma Sangeetham, lives on our courses page.
           </p>
           <ButtonLink variant="secondary" href="/courses" className="mt-7">
             Explore the learning journey

@@ -70,6 +70,22 @@ export interface Pillar {
   body: string
 }
 
+/**
+ * A distinct search intent, not a location keyword swapped into a template.
+ * Every entry powers one static, indexable page under /carnatic-music-classes.
+ */
+export interface SeoLandingPage {
+  slug: string
+  title: string
+  description: string
+  eyebrow: string
+  h1: string
+  intro: string
+  highlights: { title: string; body: string }[]
+  sections: { title: string; body: string }[]
+  related: { label: string; href: string }[]
+}
+
 export interface Faq {
   order: number
   question: string

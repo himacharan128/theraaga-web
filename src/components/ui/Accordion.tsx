@@ -19,11 +19,18 @@ export function Accordion({
   const [open, setOpen] = useState<number | null>(defaultOpen)
 
   return (
-    <ul className="border-t border-border">
+    <ul className="grid gap-3">
       {items.map((item, i) => {
         const isOpen = open === i
         return (
-          <li key={item.id} className="border-b border-border">
+          <li
+            key={item.id}
+            className={`rounded-[var(--radius-sm)] border bg-[color-mix(in_srgb,var(--color-surface)_80%,transparent)] transition-[border-color,box-shadow] duration-[var(--dur-fast)] ${
+              isOpen
+                ? 'border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] shadow-[var(--shadow-soft)]'
+                : 'border-border hover:border-border-strong'
+            }`}
+          >
             <h3>
               <button
                 type="button"
@@ -35,14 +42,14 @@ export function Accordion({
                   setOpen(next)
                   if (next !== null) track('faq_expand', { question: item.question })
                 }}
-                className="flex w-full items-start justify-between gap-6 py-6 text-left"
+                className="flex min-h-16 w-full items-start justify-between gap-6 px-5 py-5 text-left sm:px-6"
               >
                 <span className="text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)]">
                   {item.question}
                 </span>
                 <span
                   aria-hidden="true"
-                  className="mt-1 shrink-0 text-accent transition-transform duration-[var(--dur-fast)] ease-[var(--ease-raaga)]"
+                  className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--color-accent)_7%,transparent)] text-accent transition-transform duration-[var(--dur-fast)] ease-[var(--ease-raaga)]"
                   style={{ transform: isOpen ? 'rotate(45deg)' : 'none' }}
                 >
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -61,7 +68,7 @@ export function Accordion({
               aria-labelledby={`faq-trigger-${item.id}`}
               hidden={!isOpen}
             >
-              <p className="u-measure pb-7 text-text-secondary">{item.answer}</p>
+              <p className="u-measure px-5 pb-6 text-text-secondary sm:px-6">{item.answer}</p>
             </div>
           </li>
         )

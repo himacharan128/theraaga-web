@@ -45,7 +45,7 @@ export default function PrivacyPage() {
           </li>
           <li>
             <strong>We set no tracking cookies</strong> and we run no advertising
-            pixels of any kind — no Meta Pixel, no Google Ads remarketing, ever.
+            pixels of any kind. No Meta Pixel or Google Ads remarketing, ever.
             This is a permanent commitment, not a current setting.
           </li>
           <li>

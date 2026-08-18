@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { Hero } from '@/components/sections/Hero'
 import { TrustStrip } from '@/components/sections/TrustStrip'
 import { Centres } from '@/components/sections/Centres'
@@ -7,6 +8,12 @@ import { MeetTradition } from '@/components/sections/MeetTradition'
 import { TrialProcess } from '@/components/sections/TrialProcess'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { OrganizationSchema } from '@/components/seo/Schema'
+
+export const metadata: Metadata = {
+  title: 'Carnatic Music & Vocal Classes in Hyderabad',
+  description:
+    'RAAGA offers Carnatic music and vocal classes for children and adults in Jubilee Hills and Hitech City, Hyderabad, plus live online learning. Beginners welcome.',
+}
 
 /**
  * Nāda — the beginning.

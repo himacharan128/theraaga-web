@@ -16,10 +16,10 @@ export async function TrustStrip() {
   const stats = site.stats ?? []
 
   return (
-    <Section id="trust" renderIf={stats.length > 0} className="!py-12 md:!py-16">
-      <dl className="grid grid-cols-2 gap-px border border-border bg-border lg:grid-cols-4">
+    <Section id="trust" renderIf={stats.length > 0} className="!py-10 md:!py-12">
+      <dl className="grid grid-cols-2 gap-y-7 border-y border-border py-7 lg:grid-cols-4 lg:gap-y-0">
         {stats.map((s) => (
-          <div key={s.label} className="bg-bg px-6 py-8 text-center">
+          <div key={s.label} className="relative px-5 text-center sm:px-6">
             <dt className="sr-only">{s.label}</dt>
             <dd>
               <span className="block font-[var(--font-display)] text-[length:var(--text-step-3)] font-[300] leading-none text-accent">

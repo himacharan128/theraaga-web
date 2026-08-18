@@ -6,12 +6,12 @@ import { FinalCta } from '@/components/sections/FinalCta'
 import { getGalleryByCategory } from '@/data/content'
 
 export const metadata: Metadata = {
-  title: 'Gallery — moments and memories',
+  title: 'Gallery: Moments and Memories',
   description:
-    'Anubhava — classes, kutcheris, workshops and student performances at RAAGA, the Carnatic vocal school in Jubilee Hills and Hitech City, Hyderabad.',
+    'Anubhava: classes, kutcheris, workshops and student performances at RAAGA, the Carnatic vocal school in Jubilee Hills and Hitech City, Hyderabad.',
   alternates: { canonical: '/gallery' },
   openGraph: {
-    title: 'Anubhava — moments and memories at RAAGA',
+    title: 'Anubhava: Moments and memories at RAAGA',
     description:
       'Classes, performances and workshops at our Carnatic vocal school in Hyderabad.',
     url: 'https://theraaga.in/gallery',

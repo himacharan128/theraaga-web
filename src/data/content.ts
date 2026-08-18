@@ -14,6 +14,7 @@ import type {
   PerformanceStrand,
   Pillar,
   RaagaEvent,
+  SeoLandingPage,
   SiteSettings,
   Testimonial,
 } from '@/content/types'
@@ -90,6 +91,16 @@ export async function getPlannedDisciplines(): Promise<Discipline[]> {
 
 export async function getPillars(): Promise<Pillar[]> {
   return [...seed.pillars].sort((a, b) => a.order - b.order)
+}
+
+export async function getSeoLandingPages(): Promise<SeoLandingPage[]> {
+  return seed.seoLandingPages
+}
+
+export async function getSeoLandingPageBySlug(
+  slug: string,
+): Promise<SeoLandingPage | undefined> {
+  return seed.seoLandingPages.find((page) => page.slug === slug)
 }
 
 export async function getFaqs(): Promise<Faq[]> {

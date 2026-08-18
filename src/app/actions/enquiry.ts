@@ -94,7 +94,7 @@ export async function submitEnquiry(
     return {
       ok: false,
       message:
-        'We have already received your message — we will call you shortly. If it is urgent, message us on WhatsApp.',
+        'We have already received your message. We will call you shortly. If it is urgent, message us on WhatsApp.',
     }
   }
 
@@ -123,7 +123,7 @@ export async function submitEnquiry(
     return {
       ok: false,
       message:
-        'Something went wrong on our side. Please message us on WhatsApp instead — we will see it straight away.',
+        'Something went wrong on our side. Please message us on WhatsApp instead. We will see it straight away.',
     }
   }
 }

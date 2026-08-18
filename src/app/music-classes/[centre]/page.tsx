@@ -7,6 +7,7 @@ import { CurrentBatches } from '@/components/sections/CurrentBatches'
 import { Faq } from '@/components/sections/Faq'
 import { ContactBlock } from '@/components/sections/ContactBlock'
 import { EnquirySection } from '@/components/sections/EnquirySection'
+import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { whatsappHref } from '@/lib/whatsapp'
 import { getCentreBySlug, getCentres } from '@/data/content'
 
@@ -40,15 +41,15 @@ export async function generateMetadata({
   if (!centre) return {}
 
   const where = centre.locality ?? centre.name
-  const title = `Carnatic music classes in ${centre.name}`
-  const description = `Carnatic vocal classes at ${where} — for children and adults, beginners welcome. Taught in the traditional order from Sarali Swaras to Manodharma Sangeetham.`
+  const title = `Carnatic Music Classes in ${where}`
+  const description = `Carnatic music and vocal classes at RAAGA in ${where} for children and adults. Beginners welcome. Taught in the traditional order from Sarali Swaras to Manodharma Sangeetham.`
 
   return {
     title,
     description,
     alternates: { canonical: `/music-classes/${slug}` },
     openGraph: {
-      title: `${title} · RAAGA`,
+      title: `${title} at RAAGA`,
       description,
       url: `https://theraaga.in/music-classes/${slug}`,
     },
@@ -66,13 +67,21 @@ export default async function CentrePage({
 
   return (
     <>
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', href: '/' },
+          { name: 'Carnatic Music Classes in Hyderabad', href: '/carnatic-vocal-classes-hyderabad' },
+          { name: `Classes in ${centre.name}`, href: `/music-classes/${slug}` },
+        ]}
+      />
       <PageHero
         eyebrow={centre.locality ?? centre.name}
-        title={`Carnatic vocal classes at ${centre.name}.`}
+        title={`Carnatic music classes in ${centre.locality ?? centre.name}.`}
         lede={
           <p>
-            {centre.body} For children from five and adults beginning at any
-            age — no previous training needed.
+            {centre.body} RAAGA teaches Carnatic music and vocal classes for
+            children from five and adults beginning at any age. No previous
+            training needed.
           </p>
         }
       >
@@ -97,11 +106,11 @@ export default async function CentrePage({
         tone="surface"
         renderIf={centre.nearby.length > 0}
       >
-        <ul className="flex flex-wrap gap-x-3 gap-y-2">
+        <ul className="flex flex-wrap gap-2">
           {centre.nearby.map((n) => (
             <li
               key={n}
-              className="border border-border bg-bg px-4 py-2 font-[var(--font-ui)] text-[length:var(--text-step--1)] text-text-secondary"
+              className="rounded-full border border-border-strong bg-[color-mix(in_srgb,var(--color-elevated)_72%,transparent)] px-4 py-2 font-[var(--font-ui)] text-[length:var(--text-step--1)] text-text-secondary shadow-[0_6px_14px_rgba(71,49,34,0.04)]"
             >
               {n}
             </li>

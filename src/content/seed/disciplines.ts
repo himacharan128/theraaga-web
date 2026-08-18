@@ -16,7 +16,7 @@ export const disciplines: Discipline[] = [
     name: 'Carnatic Vocal',
     sanskrit: 'Gāna',
     blurb:
-      'The core of the school. From your first Sarali Varisai to raga alapana and your own manodharma — taught in the traditional order, by ear, one phrase at a time.',
+      'The core of the school. From your first Sarali Varisai to raga alapana and your own manodharma, taught in the traditional order, by ear and one phrase at a time.',
     status: 'active',
     order: 1,
   },

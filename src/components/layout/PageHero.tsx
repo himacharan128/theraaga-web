@@ -12,18 +12,18 @@ export function PageHero({
   children?: ReactNode
 }) {
   return (
-    <section className="border-b border-border">
-      <div className="u-shell py-16 md:py-24">
-        <p className="u-eyebrow">{eyebrow}</p>
-        <h1 className="mt-5 max-w-[22ch] text-[length:var(--text-step-4)] font-[300]">
+    <section className="page-hero border-b border-border">
+      <div className="u-shell relative py-16 md:py-28">
+        <p className="u-eyebrow relative z-10">{eyebrow}</p>
+        <h1 className="relative z-10 mt-5 max-w-[20ch] text-[length:var(--text-step-4)] font-[300] md:text-[length:var(--text-step-5)]">
           {title}
         </h1>
         {lede && (
-          <div className="u-measure mt-6 text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-secondary">
+          <div className="u-measure relative z-10 mt-6 text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-secondary">
             {lede}
           </div>
         )}
-        {children && <div className="mt-9">{children}</div>}
+        {children && <div className="relative z-10 mt-9">{children}</div>}
       </div>
     </section>
   )
@@ -34,7 +34,7 @@ export function Prose({ children }: { children: ReactNode }) {
   return (
     <section className="u-shell py-16 md:py-24">
       <div
-        className="u-measure
+        className="u-measure rounded-[var(--radius-md)] border border-border bg-[color-mix(in_srgb,var(--color-surface)_72%,transparent)] px-6 py-8 shadow-[0_10px_24px_rgba(71,49,34,0.04)] md:px-10 md:py-12
           [&_h2]:mt-12 [&_h2]:text-[length:var(--text-step-2)] [&_h2]:font-[300]
           [&_h3]:mt-8 [&_h3]:text-[length:var(--text-step-1)] [&_h3]:font-[400]
           [&_p]:mt-4 [&_p]:text-text-secondary

@@ -14,7 +14,7 @@ const STEPS = [
   {
     n: 1,
     title: 'Enquire',
-    body: 'A few questions, about thirty seconds. Or message us on WhatsApp — that works equally well.',
+    body: 'A few questions take about thirty seconds. You can also message us on WhatsApp.',
   },
   {
     n: 2,
@@ -24,7 +24,7 @@ const STEPS = [
   {
     n: 3,
     title: 'Attend your trial',
-    body: 'One complete class with the teacher, with nothing to bring — at Jubilee Hills, Hitech City or online. It is a real lesson, not a demonstration or an event. Parents are welcome to sit in.',
+    body: 'One complete class with the teacher at Jubilee Hills, Hitech City or online. Bring nothing. It is a real lesson, not a demonstration or an event. Parents are welcome to sit in.',
   },
 ]
 
@@ -36,16 +36,16 @@ export function TrialProcess() {
       title="What actually happens next."
       tone="surface"
     >
-      <ol className="grid gap-8 md:grid-cols-3 md:gap-12">
+      <ol className="grid gap-4 md:grid-cols-3 md:gap-5">
         {STEPS.map((s) => (
-          <li key={s.n}>
+          <li key={s.n} className="relative overflow-hidden rounded-[var(--radius-md)] border border-border bg-[color-mix(in_srgb,var(--color-elevated)_76%,transparent)] p-6 shadow-[0_10px_24px_rgba(71,49,34,0.05)] md:p-7">
             <span
               aria-hidden="true"
-              className="block font-[var(--font-display)] text-[length:var(--text-step-3)] font-[300] leading-none text-gold-hairline"
+              className="flex size-11 items-center justify-center rounded-full bg-accent font-[var(--font-ui)] text-[0.76rem] font-medium tracking-[0.12em] text-on-accent shadow-[0_8px_18px_rgba(107,31,42,0.18)]"
             >
-              {s.n}
+              0{s.n}
             </span>
-            <h3 className="mt-4 text-[length:var(--text-step-1)] font-[400]">
+            <h3 className="mt-7 text-[length:var(--text-step-1)] font-[400]">
               {s.title}
             </h3>
             <p className="mt-3 text-[length:var(--text-step--1)] leading-[var(--lh-body)] text-text-secondary">

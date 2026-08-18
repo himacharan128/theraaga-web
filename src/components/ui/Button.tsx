@@ -5,21 +5,21 @@ type Variant = 'primary' | 'secondary' | 'ghost' | 'onAccent' | 'onAccentGhost'
 
 const base =
   'inline-flex items-center justify-center gap-2 font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium tracking-[0.02em] ' +
-  'px-6 py-3.5 min-h-[48px] rounded-[var(--radius-md)] transition-colors duration-[var(--dur-fast)] ' +
-  'ease-[var(--ease-raaga)] no-underline'
+  'px-6 py-3.5 min-h-[48px] rounded-full transition-[transform,background-color,border-color,box-shadow] duration-[var(--dur-fast)] ' +
+  'ease-[var(--ease-raaga)] no-underline hover:-translate-y-0.5 active:translate-y-0 motion-reduce:transform-none'
 
 const variants: Record<Variant, string> = {
   // Maroon ink on ivory label — 10.23:1
-  primary: 'bg-accent text-on-accent hover:bg-accent-hover',
+  primary: 'bg-accent text-on-accent shadow-[0_10px_24px_rgba(107,31,42,0.20)] hover:bg-accent-hover hover:shadow-[0_14px_28px_rgba(107,31,42,0.26)]',
   // Bounded control, so it uses --border-strong (3.45:1), never --border
   secondary:
-    'bg-transparent text-accent border border-border-strong hover:border-accent hover:bg-[color-mix(in_srgb,var(--color-accent)_6%,transparent)]',
-  ghost: 'bg-transparent text-accent underline underline-offset-4 px-0 py-0 min-h-0',
-  onAccent: 'bg-on-accent text-accent hover:bg-white',
+    'bg-[color-mix(in_srgb,var(--color-surface)_76%,transparent)] text-accent border border-border-strong hover:border-accent hover:bg-[color-mix(in_srgb,var(--color-accent)_6%,transparent)]',
+  ghost: 'bg-transparent text-accent underline underline-offset-4 px-0 py-0 min-h-0 hover:translate-y-0',
+  onAccent: 'bg-on-accent text-accent shadow-[0_12px_30px_rgba(32,27,26,0.18)] hover:bg-white',
   // Outlined on the maroon field. The border is the ivory foreground at 55%,
   // which keeps the control's own boundary above the 3:1 non-text minimum.
   onAccentGhost:
-    'bg-transparent text-on-accent border border-[color-mix(in_srgb,var(--color-on-accent)_55%,transparent)] ' +
+    'bg-[color-mix(in_srgb,var(--color-on-accent)_5%,transparent)] text-on-accent border border-[color-mix(in_srgb,var(--color-on-accent)_55%,transparent)] ' +
     'hover:bg-[color-mix(in_srgb,var(--color-on-accent)_12%,transparent)]',
 }
 

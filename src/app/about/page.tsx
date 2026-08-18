@@ -2,16 +2,15 @@ import type { Metadata } from 'next'
 import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { FinalCta } from '@/components/sections/FinalCta'
-import { SwaraDivider } from '@/components/ui/Ornament'
 import { getSite, getCentres } from '@/data/content'
 
 export const metadata: Metadata = {
-  title: 'About — our heritage',
+  title: 'About: Our Heritage',
   description:
-    'RAAGA was founded in 2016 in Jubilee Hills, Hyderabad to preserve, nurture and share Carnatic classical music — taught in the Guru–Shishya Parampara at two centres and online.',
+    'RAAGA was founded in 2016 in Jubilee Hills, Hyderabad to preserve, nurture and share Carnatic classical music. Teaching follows the Guru Shishya Parampara at two centres and online.',
   alternates: { canonical: '/about' },
   openGraph: {
-    title: 'Parampara — the heritage behind RAAGA',
+    title: 'Parampara: The heritage behind RAAGA',
     description:
       'Founded in 2016 in Jubilee Hills, Hyderabad. Carnatic classical music taught in the Guru–Shishya Parampara, at two centres and online.',
     url: 'https://theraaga.in/about',
@@ -21,13 +20,13 @@ export const metadata: Metadata = {
 const VISION = [
   'To preserve Carnatic classical music as a living practice rather than a preserved artefact.',
   'To nurture each student’s musicianship at the pace their own voice sets.',
-  'To share this music widely — across Hyderabad, and with students anywhere in the world.',
+  'To share this music widely across Hyderabad and with students anywhere in the world.',
 ]
 
 const MISSION = [
   {
     title: 'Teach within the parampara',
-    body: 'To transmit this music as it has always been transmitted — from teacher to student, by ear and by repetition, without shortcuts.',
+    body: 'To transmit this music as it has always been transmitted, from teacher to student, by ear and by repetition, without shortcuts.',
   },
   {
     title: 'Build musical excellence',
@@ -39,7 +38,7 @@ const MISSION = [
   },
   {
     title: 'Deepen cultural appreciation',
-    body: 'To teach what the compositions mean, who wrote them and why — so students inherit a culture, not only a technique.',
+    body: 'To teach what the compositions mean, who wrote them and why, so students inherit a culture, not only a technique.',
   },
 ]
 
@@ -69,39 +68,45 @@ export default async function AboutPage() {
       />
 
       <Section id="story" eyebrow="Our story">
-        <div className="u-measure space-y-6 text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-secondary">
-          <p>
-            The school began in {site.foundedYear} with a single conviction:
-            that Carnatic classical music deserves to be taught properly, and
-            that teaching it properly takes time. Not a term, not a course — a
-            lifetime of listening, practice and gradual refinement.
-          </p>
-          <p>
-            That conviction shapes everything here. Students are not moved
-            through a syllabus to a deadline. They progress when their voice is
-            ready, in the order this music has always been learned, with a
-            teacher who knows exactly where they are.
-          </p>
-          <p>
-            Today we teach at two centres in Hyderabad and online to students
-            around the world — but the teaching itself has not changed, and it
-            is not meant to.
-          </p>
+        <div className="grid gap-10 lg:grid-cols-[0.5fr_1.1fr] lg:gap-20">
+          <div className="border-t-2 border-accent pt-5">
+            <p className="font-[var(--font-display)] text-[length:var(--text-step-6)] font-[300] leading-none text-accent">
+              {site.foundedYear}
+            </p>
+            <p className="mt-3 max-w-[16ch] font-[var(--font-ui)] text-[length:var(--text-step--1)] leading-[1.5] text-text-muted">
+              Jubilee Hills, Hyderabad. A school built for a lifelong practice.
+            </p>
+          </div>
+          <div className="u-measure space-y-6 text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-secondary">
+            <p>
+              The school began in {site.foundedYear} with a single conviction:
+              that Carnatic classical music deserves to be taught properly, and
+              that teaching it properly takes time. Not a term or a course, but
+              a lifetime of listening, practice and gradual refinement.
+            </p>
+            <p>
+              That conviction shapes everything here. Students are not moved
+              through a syllabus to a deadline. They progress when their voice is
+              ready, in the order this music has always been learned, with a
+              teacher who knows exactly where they are.
+            </p>
+            <p>
+              Today we teach at two centres in Hyderabad and online to students
+              around the world. The teaching itself has not changed, and it
+              is not meant to.
+            </p>
+          </div>
         </div>
 
-        <div className="my-14">
-          <SwaraDivider index={3} />
-        </div>
-
-        <blockquote className="u-measure font-[var(--font-display)] text-[length:var(--text-step-2)] font-[300] italic leading-[var(--lh-snug)]">
+        <blockquote className="mt-14 max-w-4xl rounded-[var(--radius-lg)] bg-[linear-gradient(145deg,#7a2934,#511721)] px-7 py-10 font-[var(--font-display)] text-[length:var(--text-step-2)] font-[300] italic leading-[var(--lh-snug)] text-on-accent shadow-[var(--shadow-lift)] md:px-10 md:py-12">
           “Every note carries a tradition. Every student carries it forward.”
         </blockquote>
       </Section>
 
       <Section id="vision" eyebrow="Our vision" title="What we are for." tone="surface">
-        <ul className="grid gap-x-12 gap-y-8 md:grid-cols-3">
+        <ul className="grid gap-4 md:grid-cols-3 md:gap-5">
           {VISION.map((v, i) => (
-            <li key={v}>
+            <li key={v} className="border-t-2 border-accent pt-6 md:pt-7">
               <span
                 aria-hidden="true"
                 className="deva block text-[length:var(--text-step-2)] leading-none text-gold-hairline"
@@ -117,14 +122,9 @@ export default async function AboutPage() {
       </Section>
 
       <Section id="mission" eyebrow="Our mission" title="What we do about it.">
-        <ul className="grid gap-x-14 gap-y-10 md:grid-cols-2">
-          {MISSION.map((m, i) => (
-            <li key={m.title}>
-              {i > 0 && (
-                <div className="mb-8 md:hidden">
-                  <SwaraDivider index={i} />
-                </div>
-              )}
+        <ul className="grid gap-x-14 md:grid-cols-2">
+          {MISSION.map((m) => (
+            <li key={m.title} className="border-t border-border py-8 md:[&:nth-child(2)]:border-t-0">
               <h2 className="text-[length:var(--text-step-1)] font-[400] leading-[var(--lh-snug)] text-accent">
                 {m.title}
               </h2>
@@ -143,8 +143,8 @@ export default async function AboutPage() {
         <div className="u-measure space-y-6 text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-secondary">
           <p>
             Carnatic music is transmitted, not delivered. It moves from one
-            person to another by ear and by repetition — a phrase sung, a phrase
-            returned, corrected, returned again — and almost nothing about that
+            person to another by ear and by repetition. A phrase is sung, then
+            returned, corrected and returned again. Almost nothing about that
             process has needed to change in centuries.
           </p>
           <p>
@@ -166,9 +166,9 @@ export default async function AboutPage() {
       </Section>
 
       <Section id="where" eyebrow="Where we teach" title="Two centres, and online.">
-        <ul className="grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2">
+        <ul className="grid gap-4 sm:grid-cols-2">
           {physical.map((c) => (
-            <li key={c.key} className="bg-surface p-7 md:p-9">
+            <li key={c.key} className="rounded-[var(--radius-md)] border border-border bg-[color-mix(in_srgb,var(--color-surface)_78%,transparent)] p-7 shadow-[0_10px_24px_rgba(71,49,34,0.04)] md:p-9">
               <h2 className="text-[length:var(--text-step-2)] font-[300]">
                 {c.name}
               </h2>

@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 /* ============================================================================
-   RAAGA — Design tokens · "Palm-Leaf Manuscript"
+   RAAGA — Design tokens · Contemporary Indian editorial
    Every contrast ratio below is computed, not estimated, and asserted in CI by
    scripts/check-contrast.ts. Do not change a colour without re-running it.
 
@@ -16,6 +16,7 @@
   --color-bg: #f7f3ea;
   --color-surface: #fffcf5;
   --color-elevated: #ffffff;
+  --color-ink: #201b1a;
 
   /* ---- Ink ---- */
   --color-text-primary: #221e1a; /* 14.95:1 on bg */
@@ -73,8 +74,11 @@
   --content-max: 72rem;
 
   --hairline: 1px;
-  --radius-sm: 2px;
-  --radius-md: 3px; /* near-square reads premium */
+  --radius-sm: 0.75rem;
+  --radius-md: 1.5rem;
+  --radius-lg: 2.5rem;
+  --shadow-soft: 0 18px 50px rgba(71, 49, 34, 0.10);
+  --shadow-lift: 0 24px 60px rgba(71, 49, 34, 0.16);
 
   --dur-fast: 180ms;
   --dur: 240ms;
@@ -103,12 +107,18 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 
-  /* Paper grain — texture, not pattern. 4% opacity, pure CSS, zero bytes. */
-  background-image: radial-gradient(
-    rgba(107, 31, 42, 0.025) 0.5px,
-    transparent 0.5px
-  );
-  background-size: 3px 3px;
+  /* A living, low-contrast ground. It is deliberately not a stock texture or
+     fake paper photograph: the colour fields give sections depth without
+     turning the site into a heritage-theme template. */
+  background-image:
+    radial-gradient(circle at 94% -8%, rgba(107, 31, 42, 0.10), transparent 26rem),
+    radial-gradient(circle at -8% 38%, rgba(140, 106, 21, 0.07), transparent 25rem),
+    radial-gradient(rgba(107, 31, 42, 0.018) 0.5px, transparent 0.5px);
+  background-size: auto, auto, 4px 4px;
+}
+
+main {
+  overflow: clip;
 }
 
 h1,
@@ -179,6 +189,93 @@ p {
   transform: none;
 }
 
+/* Contemporary editorial primitives. Components use these sparingly so a
+   scrolling page has rhythm instead of one repeated card treatment. */
+.section-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+.section-shell--surface {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 252, 245, 0.94)),
+    var(--color-surface);
+}
+
+.section-shell--accent {
+  background:
+    radial-gradient(circle at 86% 18%, rgba(255, 252, 245, 0.12), transparent 19rem),
+    linear-gradient(125deg, #5c1a20 0%, var(--color-accent) 54%, #7c2934 100%);
+}
+
+.section-shell__orb {
+  position: absolute;
+  z-index: -1;
+  width: min(38vw, 32rem);
+  aspect-ratio: 1;
+  border: 1px solid rgba(201, 162, 39, 0.22);
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.section-shell--surface .section-shell__orb {
+  right: -16rem;
+  top: -14rem;
+}
+
+.section-shell--accent .section-shell__orb {
+  left: -14rem;
+  bottom: -18rem;
+  border-color: rgba(247, 243, 234, 0.18);
+}
+
+.page-hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 92% 8%, rgba(107, 31, 42, 0.10), transparent 26rem),
+    linear-gradient(110deg, rgba(255, 252, 245, 0.86), rgba(247, 243, 234, 0.92));
+}
+
+.page-hero::after {
+  content: '';
+  position: absolute;
+  right: clamp(-12rem, -8vw, -4rem);
+  top: clamp(-12rem, -10vw, -4rem);
+  width: clamp(15rem, 27vw, 27rem);
+  aspect-ratio: 1;
+  border: 1px solid rgba(107, 31, 42, 0.16);
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 clamp(1.8rem, 4vw, 4.5rem) rgba(107, 31, 42, 0.025);
+  pointer-events: none;
+}
+
+.raga-link-arrow {
+  transition: transform var(--dur-fast) var(--ease-raaga);
+}
+
+.group:hover .raga-link-arrow {
+  transform: translateX(0.25rem);
+}
+
+@keyframes raga-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes raga-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.72; }
+  50% { transform: scale(1.04); opacity: 1; }
+}
+
+.motion-orbit {
+  animation: raga-orbit 26s linear infinite;
+}
+
+.motion-breathe {
+  animation: raga-breathe 5s var(--ease-raaga) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -191,6 +288,10 @@ p {
   .reveal {
     opacity: 1;
     transform: none;
+  }
+  .motion-orbit,
+  .motion-breathe {
+    animation: none;
   }
 }
 

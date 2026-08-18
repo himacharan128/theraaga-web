@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { FinalCta } from '@/components/sections/FinalCta'
-import { SwaraDivider } from '@/components/ui/Ornament'
 import {
   getLineageReferences,
   getScholarlyWorks,
@@ -10,12 +9,12 @@ import {
 } from '@/data/content'
 
 export const metadata: Metadata = {
-  title: 'Teachers — the teaching lineage',
+  title: 'Teachers: The Teaching Lineage',
   description:
     'Guided by tradition, united by music. The Guru–Shishya Parampara, the lineage and the scholarship behind Carnatic vocal teaching at RAAGA, Hyderabad.',
   alternates: { canonical: '/teachers' },
   openGraph: {
-    title: 'Guru Parampara — the teaching lineage at RAAGA',
+    title: 'Guru Parampara: The teaching lineage at RAAGA',
     description:
       'How Carnatic music is transmitted here: the Guru–Shishya Parampara, the lineage the school’s teaching draws on, and its scholarly contributions.',
     url: 'https://theraaga.in/teachers',
@@ -50,7 +49,7 @@ export default async function TeachersPage() {
         lede={
           <p>
             In Carnatic music the lineage is the credential. Who taught the
-            teacher, and who taught them, is not trivia — it is what determines
+            teacher, and who taught them, is not trivia. It determines
             the phrasing a student inherits.
           </p>
         }
@@ -59,16 +58,12 @@ export default async function TeachersPage() {
       <Section
         id="principles"
         eyebrow="How we teach"
+        tone="surface"
         renderIf={principles.length > 0}
       >
-        <ul className="grid gap-x-14 gap-y-10 md:grid-cols-2">
-          {principles.map((p, i) => (
-            <li key={p.order}>
-              {i > 0 && (
-                <div className="mb-8 md:hidden">
-                  <SwaraDivider index={i} />
-                </div>
-              )}
+        <ul className="grid gap-x-14 md:grid-cols-2">
+          {principles.map((p) => (
+            <li key={p.order} className="border-t border-border py-8 md:[&:nth-child(2)]:border-t-0">
               <h2 className="text-[length:var(--text-step-1)] font-[400] leading-[var(--lh-snug)] text-accent">
                 {p.title}
               </h2>
@@ -82,7 +77,7 @@ export default async function TeachersPage() {
         id="lineage"
         eyebrow="The lineage"
         title="A tradition of excellence."
-        tone="surface"
+        tone="accent"
         lede={
           <p>
             The school’s teaching lineage draws on the work of distinguished
@@ -95,15 +90,15 @@ export default async function TeachersPage() {
           {/* The lineage thread — the same tanpura string as the syllabus spine. */}
           <span
             aria-hidden="true"
-            className="absolute bottom-2 left-[3px] top-2 w-px bg-gold-hairline/40"
+            className="absolute bottom-2 left-[3px] top-2 w-px bg-[color-mix(in_srgb,var(--color-on-accent)_34%,transparent)]"
           />
           {lineage.map((entry) => (
             <li key={entry.order} className="relative">
               <span
                 aria-hidden="true"
-                className="absolute -left-7 top-[0.55em] size-[7px] rounded-full bg-accent"
+                className="absolute -left-7 top-[0.55em] size-[7px] rounded-full bg-on-accent"
               />
-              <p className="text-[length:var(--text-step-1)] font-[400] leading-[var(--lh-snug)]">
+              <p className="text-[length:var(--text-step-1)] font-[400] leading-[var(--lh-snug)] text-on-accent">
                 {entry.honorific ? `${entry.honorific} ` : ''}
                 {entry.name}
               </p>
@@ -111,7 +106,7 @@ export default async function TeachersPage() {
           ))}
         </ol>
 
-        <p className="u-measure mt-10 font-[var(--font-display)] text-[length:var(--text-step--1)] italic text-text-muted">
+        <p className="u-measure mt-10 font-[var(--font-display)] text-[length:var(--text-step--1)] italic text-[color-mix(in_srgb,var(--color-on-accent)_72%,transparent)]">
           These are the musicians whose work and teaching the school’s tradition
           descends from. Individual teacher profiles and their own studies are
           published as each is confirmed.
@@ -125,15 +120,15 @@ export default async function TeachersPage() {
         renderIf={works.length > 0}
         lede={
           <p>
-            Teaching here is informed by scholarship as well as performance —
+            Teaching here is informed by scholarship as well as performance,
             including published contributions to the literature of the
             tradition.
           </p>
         }
       >
-        <ul className="grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2">
+        <ul className="grid gap-x-14 sm:grid-cols-2">
           {works.map((w) => (
-            <li key={w.order} className="bg-surface p-7 md:p-9">
+            <li key={w.order} className="border-t-2 border-accent py-7 md:py-9">
               <h3 className="font-[var(--font-display)] text-[length:var(--text-step-2)] font-[300] italic text-accent">
                 {w.title}
               </h3>
@@ -149,7 +144,7 @@ export default async function TeachersPage() {
         <div className="u-measure space-y-5 text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-secondary">
           <p>
             The recognitions held by our teachers, and by the tradition they
-            teach within, are published here as each is confirmed in full — with
+            teach within, are published here as each is confirmed in full, with
             the awarding body and the year.
           </p>
           <p>

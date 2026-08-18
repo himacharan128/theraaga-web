@@ -9,7 +9,7 @@ export const site: SiteSettings = {
   // Canonical lockup. "Raaga School Of Music" (Kothapet), "Raaga Sudha Music
   // School" (Kukatpally) and raagaschool.com (Bay Area) all already exist, and
   // raaga.com has owned the bare word since 2006. Always disambiguate.
-  legalName: 'RAAGA — School of Indian Classical Music, Jubilee Hills, Hyderabad',
+  legalName: 'RAAGA: School of Indian Classical Music, Jubilee Hills, Hyderabad',
   shortName: 'RAAGA',
   tagline: 'Preserving tradition. Inspiring every generation.',
   sanskritLine: {

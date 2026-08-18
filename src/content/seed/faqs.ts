@@ -17,14 +17,14 @@ export const faqs: Faq[] = [
     order: 1,
     question: 'What is the right age to start?',
     answer:
-      'Five is a comfortable starting age — old enough to sit for half an hour and match a pitch. We have started children at four when they were ready, and we teach adults who are beginning for the first time in their fifties. There is no upper limit and no late.',
+      'Five is a comfortable starting age, when a child can usually sit for half an hour and match a pitch. We have started children at four when they were ready, and we teach adults who are beginning for the first time in their fifties. There is no upper limit and no late.',
     blocking: true,
   },
   {
     order: 2,
     question: 'My child speaks no Telugu, Sanskrit or Tamil. Is that a problem?',
     answer:
-      'No. Almost none of our beginners do. The first year is entirely swaras — Sa Ri Ga Ma — which are syllables, not a language. When compositions begin, we teach the meaning line by line before a single word is sung. Children who speak only English learn this music perfectly well.',
+      'No. Almost none of our beginners do. The first year is entirely swaras: Sa Ri Ga Ma. They are syllables, not a language. When compositions begin, we teach the meaning line by line before a single word is sung. Children who speak only English learn this music perfectly well.',
     blocking: true,
   },
   {
@@ -45,7 +45,7 @@ export const faqs: Faq[] = [
     order: 5,
     question: 'How long until my child can sing a full kriti?',
     answer:
-      'Honestly: about two to three years of steady weekly practice. The first six to twelve months build the foundation — varisais, alankarams, first geethams. Varnams take the better part of a year on their own. Anyone promising a kriti in three months is skipping the part that makes the voice.',
+      'Honestly: about two to three years of steady weekly practice. The first six to twelve months build the foundation with varisais, alankarams and first geethams. Varnams take the better part of a year on their own. Anyone promising a kriti in three months is skipping the part that makes the voice.',
     blocking: true,
   },
   {
@@ -59,28 +59,28 @@ export const faqs: Faq[] = [
     order: 7,
     question: 'Where exactly are your centres?',
     answer:
-      'We teach at two centres in Hyderabad — Jubilee Hills, where the school began in 2016, and Phoenix Arena in Hitech City, which is easier for families in Madhapur, Gachibowli and Kondapur. The syllabus and the teaching are identical at both. Message us and we will send you directions and the timings running at each.',
+      'We teach at two centres in Hyderabad: Jubilee Hills, where the school began in 2016, and Phoenix Arena in Hitech City, which is easier for families in Madhapur, Gachibowli and Kondapur. The syllabus and teaching are identical at both. Message us and we will send you directions and current timings.',
     blocking: true,
   },
   {
     order: 8,
     question: 'What are the fees?',
     answer:
-      'Fees depend on where you learn and on the batch — a group class at one of our centres and a one-to-one online class are priced differently. Message us on WhatsApp and we will tell you straight away, with no obligation.',
+      'Fees depend on where you learn and on the batch. A group class at one of our centres and a one-to-one online class are priced differently. Message us on WhatsApp and we will tell you straight away, with no obligation.',
     blocking: true,
   },
   {
     order: 9,
     question: 'Do we need to buy a tanpura or a shruti box?',
     answer:
-      'Not to begin. A free shruti app on a phone is genuinely fine for the first year, and that is what most of our students use. If the learning continues, an electronic shruti box is a modest and worthwhile purchase — we will tell you when it is time rather than at the start.',
+      'Not to begin. A free shruti app on a phone is genuinely fine for the first year, and that is what most of our students use. If the learning continues, an electronic shruti box is a modest and worthwhile purchase. We will tell you when it is time rather than at the start.',
     blocking: false,
   },
   {
     order: 10,
     question: 'What happens if we miss a class?',
     answer:
-      'Tell us in advance and we will fit in a make-up where the timetable allows. Carnatic music is cumulative — each week builds directly on the last — so consistent attendance matters more here than in most things a child is enrolled in.',
+      'Tell us in advance and we will fit in a make-up where the timetable allows. Carnatic music is cumulative, with each week building directly on the last. Consistent attendance matters more here than in most things a child is enrolled in.',
     blocking: false,
   },
 ]

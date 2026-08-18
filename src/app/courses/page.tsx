@@ -2,18 +2,19 @@ import type { Metadata } from 'next'
 import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { CurriculumTimeline } from '@/components/sections/CurriculumTimeline'
+import { ExploreLearningGoals } from '@/components/sections/ExploreLearningGoals'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { ButtonLink } from '@/components/ui/Button'
-import { SwaraDivider } from '@/components/ui/Ornament'
+import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { getAcademicPathways, getPerformanceStrands } from '@/data/content'
 
 export const metadata: Metadata = {
-  title: 'Courses — the Carnatic vocal syllabus',
+  title: 'Carnatic Music Courses & Vocal Syllabus',
   description:
-    'The full Carnatic vocal syllabus taught at RAAGA, Hyderabad — Sarali Swaras through to Manodharma Sangeetham, with academic pathways and concert training. Classes in Jubilee Hills, Hitech City and online.',
+    'The full Carnatic music and vocal syllabus taught at RAAGA, Hyderabad. Sarali Swaras through to Manodharma Sangeetham, with academic pathways and concert training.',
   alternates: { canonical: '/courses' },
   openGraph: {
-    title: 'Sādhana — the Carnatic vocal syllabus at RAAGA',
+    title: 'Sādhana: The Carnatic vocal syllabus at RAAGA',
     description:
       'Ten stages from Sarali Swaras to Manodharma Sangeetham, published in full. Plus Certificate, Diploma and degree pathways, and concert training.',
     url: 'https://theraaga.in/courses',
@@ -34,6 +35,12 @@ export default async function CoursesPage() {
 
   return (
     <>
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', href: '/' },
+          { name: 'Carnatic Music Courses', href: '/courses' },
+        ]}
+      />
       <PageHero
         eyebrow="Sādhana · साधना · Journey of learning"
         title="What you will learn, in the order it has always been taught."
@@ -56,6 +63,8 @@ export default async function CoursesPage() {
 
       <CurriculumTimeline />
 
+      <ExploreLearningGoals />
+
       <Section
         id="vidwat-patham"
         eyebrow="Vidwat Pātham"
@@ -69,9 +78,9 @@ export default async function CoursesPage() {
         }
         renderIf={pathways.length > 0}
       >
-        <ul className="grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2">
+        <ul className="grid gap-4 sm:grid-cols-2">
           {pathways.map((p) => (
-            <li key={p.order} className="bg-surface p-7 md:p-9">
+            <li key={p.order} className="rounded-[var(--radius-md)] border border-border bg-[color-mix(in_srgb,var(--color-elevated)_74%,transparent)] p-7 shadow-[0_10px_24px_rgba(71,49,34,0.05)] md:p-9">
               <h3 className="text-[length:var(--text-step-1)] font-[400] text-accent">
                 {p.name}
               </h3>
@@ -99,14 +108,9 @@ export default async function CoursesPage() {
         }
         renderIf={strands.length > 0}
       >
-        <ul className="grid gap-x-14 gap-y-9 md:grid-cols-2">
-          {strands.map((s, i) => (
-            <li key={s.order}>
-              {i > 0 && (
-                <div className="mb-7 md:hidden">
-                  <SwaraDivider index={i} />
-                </div>
-              )}
+        <ul className="grid gap-4 md:grid-cols-2 md:gap-5">
+          {strands.map((s) => (
+            <li key={s.order} className="rounded-[var(--radius-md)] border border-border bg-[color-mix(in_srgb,var(--color-surface)_76%,transparent)] p-6 md:p-7">
               <h3 className="text-[length:var(--text-step-1)] font-[400] leading-[var(--lh-snug)]">
                 {s.name}
               </h3>

@@ -42,19 +42,20 @@ export function Section({
 
   const toneClass =
     tone === 'accent'
-      ? 'bg-accent text-on-accent'
+      ? 'section-shell--accent text-on-accent'
       : tone === 'surface'
-        ? 'bg-surface'
-        : ''
+        ? 'section-shell--surface'
+        : 'section-shell--default'
 
   return (
     <section
       id={id}
       data-section={id}
       data-has-content={renderIf ? 'true' : 'false'}
-      className={`py-[var(--spacing-section)] ${toneClass} ${className}`}
+      className={`section-shell py-[var(--spacing-section)] ${toneClass} ${className}`}
     >
-      <div className="u-shell">
+      {tone !== 'default' && <span aria-hidden="true" className="section-shell__orb" />}
+      <div className="u-shell relative">
         {(eyebrow || title || lede) && (
           <header className="mb-10 md:mb-16">
             {eyebrow && (
@@ -100,7 +101,7 @@ export function EmptyState({
   action?: ReactNode
 }) {
   return (
-    <div className="border border-border bg-surface px-6 py-12 text-center md:px-12 md:py-16">
+    <div className="rounded-[var(--radius-lg)] border border-border bg-[color-mix(in_srgb,var(--color-surface)_88%,transparent)] px-6 py-12 text-center shadow-[var(--shadow-soft)] md:px-12 md:py-16">
       <p className="u-measure mx-auto text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-secondary">
         {children}
       </p>

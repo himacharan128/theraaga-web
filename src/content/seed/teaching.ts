@@ -66,12 +66,12 @@ export const teachingPrinciples: TeachingPrinciple[] = [
   {
     order: 1,
     title: 'The Guru–Shishya Parampara',
-    body: 'Carnatic music is transmitted, not delivered. It passes from teacher to student by ear and by repetition — a phrase sung, a phrase returned, corrected, returned again. Almost nothing about that process has needed to change, and we have not changed it.',
+    body: 'Carnatic music is transmitted, not delivered. It passes from teacher to student by ear and by repetition. A phrase is sung, returned, corrected and returned again. Almost nothing about that process has needed to change, and we have not changed it.',
   },
   {
     order: 2,
     title: 'A tradition of excellence',
-    body: 'The school’s teaching draws on a lineage of distinguished Carnatic musicians and scholars, and holds its students to the standards of that tradition — in intonation, in rhythm and in the discipline of daily practice.',
+    body: 'The school’s teaching draws on a lineage of distinguished Carnatic musicians and scholars, and holds its students to the standards of that tradition in intonation, rhythm and the discipline of daily practice.',
   },
   {
     order: 3,

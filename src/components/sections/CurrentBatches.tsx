@@ -36,12 +36,12 @@ export async function CurrentBatches() {
           }
         >
           Batches for the coming term are being finalised. Tell us the days and
-          times that suit you — we open new batches around our students, at both
+          times that suit you. We open new batches around our students, at both
           centres and online.
         </EmptyState>
       }
     >
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto rounded-[var(--radius-md)] border border-border bg-[color-mix(in_srgb,var(--color-surface)_82%,transparent)] px-5 shadow-[0_10px_24px_rgba(71,49,34,0.04)] sm:px-7">
         <table className="w-full min-w-[42rem] border-collapse text-left">
           <thead>
             <tr className="border-b border-border-strong">

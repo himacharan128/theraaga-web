@@ -65,12 +65,12 @@ export function StickyMobileBar() {
         paddingBottom: 'calc(env(safe-area-inset-bottom) + 12px)',
       }}
     >
-      <div className="mx-3 flex gap-2 rounded-[var(--radius-md)] border border-border-strong bg-surface p-2 shadow-[0_6px_24px_rgba(34,30,26,0.10)]">
+      <div className="mx-3 flex gap-2 rounded-full border border-[color-mix(in_srgb,var(--color-border-strong)_50%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_92%,transparent)] p-1.5 shadow-[var(--shadow-lift)] backdrop-blur-xl">
         <Link
           href="/contact"
           tabIndex={show ? 0 : -1}
           onClick={() => track('cta_click', { cta_location: 'sticky_bar' })}
-          className="flex min-h-12 flex-1 items-center justify-center rounded-[var(--radius-sm)] bg-accent font-[var(--font-ui)] text-[0.92rem] font-medium text-on-accent no-underline"
+          className="flex min-h-12 flex-1 items-center justify-center rounded-full bg-accent font-[var(--font-ui)] text-[0.92rem] font-medium text-on-accent no-underline shadow-[0_8px_16px_rgba(107,31,42,0.20)]"
         >
           Book a trial
         </Link>
@@ -84,7 +84,7 @@ export function StickyMobileBar() {
           aria-label="Ask on WhatsApp"
           tabIndex={show ? 0 : -1}
           onClick={() => track('whatsapp_click', { cta_location: 'sticky_bar' })}
-          className="flex size-12 items-center justify-center rounded-[var(--radius-sm)] border border-border-strong text-accent"
+          className="flex size-12 items-center justify-center rounded-full border border-border-strong text-accent transition-colors hover:bg-[color-mix(in_srgb,var(--color-accent)_7%,transparent)]"
         >
           <WhatsAppIcon />
         </a>
