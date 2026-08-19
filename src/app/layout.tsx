@@ -33,8 +33,16 @@ export const metadata: Metadata = {
   },
   twitter: { card: 'summary_large_image' },
   icons: {
-    // Cropped directly from the client-supplied RAAGA artwork for favicon legibility.
-    icon: [{ url: '/icon.svg?v=raaga-emblem-circle', type: 'image/svg+xml' }],
+    // Google Search requires a crawlable, square favicon at a 48 px multiple.
+    // These PNGs are rendered directly from the client-supplied RAAGA veena
+    // artwork; the SVG is retained for browsers that can use a vector icon.
+    icon: [
+      { url: '/favicon-48.png', type: 'image/png', sizes: '48x48' },
+      { url: '/favicon-96.png', type: 'image/png', sizes: '96x96' },
+      { url: '/icon.svg', type: 'image/svg+xml', sizes: 'any' },
+    ],
+    shortcut: [{ url: '/favicon-48.png', type: 'image/png', sizes: '48x48' }],
+    apple: [{ url: '/favicon-192.png', type: 'image/png', sizes: '192x192' }],
   },
   robots: { index: true, follow: true },
   alternates: { canonical: '/' },
