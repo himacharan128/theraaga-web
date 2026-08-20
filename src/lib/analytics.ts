@@ -16,8 +16,10 @@
  * educational-institution carve-out covers enrolled students, not a public
  * marketing page.
  *
- * v1 ships a no-op sink that logs in development. Wiring PostHog Cloud EU behind
- * a Next.js rewrite proxy is a Phase 5 task; this signature does not change.
+ * The site now publishes only anonymous, first-party aggregate events to its
+ * own endpoint. There are no cookies, visitor IDs, IP addresses, replay tools,
+ * or third-party analytics scripts. The receiver reduces each event to a
+ * daily count before it is stored; see /api/telemetry.
  */
 
 export type RaagaEventName =
@@ -37,19 +39,42 @@ export type RaagaEventName =
 
 type Props = Record<string, string | number | boolean | undefined>
 
-export function track(event: RaagaEventName | 'faq_expand', props: Props = {}) {
+export type RaagaTelemetryDetail = {
+  event: RaagaEventName
+  props: Props
+}
+
+declare global {
+  interface WindowEventMap {
+    'raaga:telemetry': CustomEvent<RaagaTelemetryDetail>
+  }
+
+  interface Window {
+    __raagaTelemetryQueue?: RaagaTelemetryDetail[]
+    __raagaTelemetryReady?: boolean
+  }
+}
+
+export function track(event: RaagaEventName, props: Props = {}) {
   if (typeof window === 'undefined') return
 
   const payload = { event, ...props, ts: Date.now() }
 
-  // Dev sink. Replaced by posthog-js (proxied, cookieless, identified_only) in Phase 5.
+  // Local visibility without sending development traffic to a production store.
   if (process.env.NODE_ENV !== 'production') {
-
     console.debug('[raaga:track]', payload)
   }
 
-  const w = window as unknown as { posthog?: { capture: (e: string, p: Props) => void } }
-  w.posthog?.capture(event, props)
+  const detail = { event, props }
+  // Child component effects can run before the root transport effect has
+  // attached its listener. Keep a tiny in-memory queue for that first paint;
+  // it is discarded on tab close and is never a cookie or identifier.
+  if (!window.__raagaTelemetryReady) {
+    window.__raagaTelemetryQueue = [...(window.__raagaTelemetryQueue ?? []), detail]
+    return
+  }
+
+  window.dispatchEvent(new CustomEvent('raaga:telemetry', { detail }))
 }
 
 /**
@@ -63,6 +88,5 @@ export function readAttribution(): Props {
     utm_source: p.get('utm_source') ?? undefined,
     utm_medium: p.get('utm_medium') ?? undefined,
     utm_campaign: p.get('utm_campaign') ?? undefined,
-    referrer: document.referrer || undefined,
   }
 }

@@ -4,7 +4,6 @@ import { getSeoLandingPages } from '@/data/content'
 const BASE = 'https://theraaga.in'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const now = new Date()
   const seoPages = await getSeoLandingPages()
 
   const routes: [string, number, MetadataRoute.Sitemap[number]['changeFrequency']][] = [
@@ -26,14 +25,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const core = routes.map(([path, priority, changeFrequency]) => ({
     url: `${BASE}${path}`,
-    lastModified: now,
     changeFrequency,
     priority,
   }))
 
   const intents = seoPages.map((page) => ({
     url: `${BASE}/carnatic-music-classes/${page.slug}`,
-    lastModified: now,
     changeFrequency: 'monthly' as const,
     priority: 0.75,
   }))

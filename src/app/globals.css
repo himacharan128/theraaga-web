@@ -121,6 +121,20 @@ main {
   overflow: clip;
 }
 
+/* The public chrome is supplied by the root layout. Admin is a private route
+   inside the same deployment so it can use one Vercel project/domain; hide the
+   marketing chrome only when the admin route is rendered. The selector is
+   supported by current evergreen browsers and fails harmlessly in old ones. */
+body:has(.admin-shell) > header,
+body:has(.admin-shell) > footer,
+body:has(.admin-shell) > [data-site-mobile-bar] {
+  display: none;
+}
+
+body:has(.admin-shell) main {
+  overflow: visible;
+}
+
 h1,
 h2,
 h3 {

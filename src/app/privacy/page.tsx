@@ -31,8 +31,9 @@ export default function PrivacyPage() {
           optional message field.
         </p>
         <p>
-          We also record how you arrived at the site (for example, a link shared
-          in a WhatsApp group) so that we know which of our efforts are useful.
+          We may retain a campaign label on an enquiry when one was included in
+          a link. Separately, we measure site use as anonymous daily totals so
+          we can understand which pages and outreach efforts are useful.
         </p>
 
         <h2>What we deliberately do not collect</h2>
@@ -47,6 +48,15 @@ export default function PrivacyPage() {
             <strong>We set no tracking cookies</strong> and we run no advertising
             pixels of any kind. No Meta Pixel or Google Ads remarketing, ever.
             This is a permanent commitment, not a current setting.
+          </li>
+          <li>
+            <strong>Our site-use measurement is aggregate, not person-level.</strong>{' '}
+            We do not store an analytics cookie, visitor ID, IP address, raw user
+            agent, full referrer or browsing history. We retain daily counts by
+            page, broad device type, optional campaign label, coarse location and
+            referring website host where our hosting platform provides it. These
+            anonymous daily totals are automatically deleted after twenty-four
+            months.
           </li>
           <li>
             <strong>We do not build advertising profiles</strong> and we do not

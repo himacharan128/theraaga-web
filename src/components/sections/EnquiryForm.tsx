@@ -191,7 +191,6 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
       utmSource: str(a.utm_source),
       utmMedium: str(a.utm_medium),
       utmCampaign: str(a.utm_campaign),
-      referrer: str(a.referrer),
     })
     track('form_view')
   }, [])

@@ -61,6 +61,13 @@ remarketing. DPDP s.9(3) bans behavioural advertising directed at children even
 with parental consent, and the educational-institution carve-out covers enrolled
 students, not a public marketing page.
 
+**Measurement is first-party and aggregate only.** The public site sets no
+analytics cookie and sends no identifier, IP address, raw user agent, full
+referrer or query string to analytics storage. It records daily counts for
+routes, broad device buckets, attribution labels and Vercel-provided coarse
+location headers. The password-protected dashboard is the only place those
+aggregates and adult enquiries may be read.
+
 **Never render a zero, an empty carousel, a silhouette, or a placeholder frame.**
 Every section declares its own empty state via `<Section renderIf fallback>`.
 Merit School of Music and Furtados both currently ship live homepages reading
@@ -129,3 +136,21 @@ compute-to-DB and in-country data residency.
 **Freeze the OG image before distributing any link.** WhatsApp caches previews
 per-URL for weeks with no purge tool, and the forwarded card is seen far more
 often than the page itself.
+
+### Private operations dashboard
+
+The same Vercel deployment serves `admin.theraaga.in`; it resolves to the
+private `/admin` route and is explicitly `noindex`. Add the subdomain to the
+Vercel project, then configure a DNS CNAME as Vercel specifies for that domain.
+
+Set `ADMIN_USERNAME`, a newly generated `ADMIN_PASSWORD_HASH`, and a high-entropy
+`ADMIN_SESSION_SECRET` in Vercel. Never reuse or type a password into a chat.
+Run `npm run admin:password-hash` locally to create the scrypt hash without
+printing the password. Also create a separate Atlas user for `MONGODB_ADMIN_URI`:
+it needs only read/update access to `raaga.leads` and read/write access to
+`raaga.analytics_daily`; do not reuse the public insert-only enquiry user.
+
+The dashboard shows 30-day cookieless aggregate traffic, source host/UTM,
+coarse Vercel location, device bucket, engagement events and adult enquiries.
+Google Search Console query metrics require a dedicated server-side OAuth setup
+and are intentionally not collected through a browser analytics pixel.
