@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { connection } from 'next/server'
 import Link from 'next/link'
 import {
@@ -70,7 +71,11 @@ function queryString(filters: EnquiryFilters, page: number): string {
   return encoded ? `/admin/enquiries?${encoded}` : '/admin/enquiries'
 }
 
-export default async function AdminEnquiriesPage({
+function LoadingEnquiries() {
+  return <main className="min-h-dvh bg-stone-100" aria-label="Loading enquiries" />
+}
+
+async function AdminEnquiriesContent({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>
@@ -218,5 +223,17 @@ export default async function AdminEnquiriesPage({
         )}
       </div>
     </main>
+  )
+}
+
+export default function AdminEnquiriesPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}) {
+  return (
+    <Suspense fallback={<LoadingEnquiries />}>
+      <AdminEnquiriesContent searchParams={searchParams} />
+    </Suspense>
   )
 }
