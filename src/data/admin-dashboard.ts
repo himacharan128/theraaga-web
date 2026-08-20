@@ -1,5 +1,6 @@
 import 'server-only'
 
+import type { Filter } from 'mongodb'
 import type { StoredLead } from '@/data/leads'
 import { getAdminDb, isAdminDatabaseConfigured } from '@/data/admin-mongo'
 import { dayBefore, type DailyMetric } from '@/data/analytics'
@@ -14,10 +15,43 @@ export const LEAD_STATUSES = [
 
 export type LeadStatus = (typeof LEAD_STATUSES)[number]
 
+export const ENQUIRIES_PER_PAGE = 25
+
 export type DashboardLead = Pick<
   StoredLead,
   'id' | 'contactName' | 'phone' | 'learner' | 'interest' | 'mode' | 'ageBand' | 'status' | 'submittedAt'
 >
+
+export type EnquiryLead = Pick<
+  StoredLead,
+  | 'id'
+  | 'contactName'
+  | 'phone'
+  | 'learner'
+  | 'interest'
+  | 'mode'
+  | 'ageBand'
+  | 'timezone'
+  | 'message'
+  | 'status'
+  | 'submittedAt'
+>
+
+export type EnquiryFilters = {
+  page: number
+  status?: LeadStatus
+  mode?: StoredLead['mode']
+  learner?: StoredLead['learner']
+  interest?: StoredLead['interest']
+}
+
+export type AdminEnquiries = {
+  leadCounts: CountRow[]
+  leads: EnquiryLead[]
+  page: number
+  total: number
+  totalPages: number
+}
 
 type CountRow = { label: string; count: number }
 type TimelineRow = { day: string; count: number }
@@ -200,6 +234,56 @@ export async function getAdminDashboard(): Promise<AdminDashboard | null> {
     leadCounts: leadCounts.map((row) => ({ ...row, label: label(row.label, 'new') })),
     recentLeads,
   }
+}
+
+export async function getAdminEnquiries(filters: EnquiryFilters): Promise<AdminEnquiries | null> {
+  if (!isAdminDatabaseConfigured()) return null
+
+  const db = await getAdminDb()
+  const leads = db.collection<StoredLead>('leads')
+  const filter: Filter<StoredLead> = {}
+
+  if (filters.status) filter.status = filters.status
+  if (filters.mode) filter.mode = filters.mode
+  if (filters.learner) filter.learner = filters.learner
+  if (filters.interest) filter.interest = filters.interest
+
+  const [total, leadCounts] = await Promise.all([
+    leads.countDocuments(filter),
+    leads
+      .aggregate<CountRow>([
+        { $match: filter },
+        { $group: { _id: '$status', count: { $sum: 1 } } },
+        { $project: { _id: 0, label: '$_id', count: 1 } },
+        { $sort: { label: 1 } },
+      ])
+      .toArray(),
+  ])
+
+  const totalPages = Math.max(1, Math.ceil(total / ENQUIRIES_PER_PAGE))
+  const page = Math.min(Math.max(1, filters.page), totalPages)
+  const leadsForPage = (await leads
+    .find(filter, {
+      projection: {
+        id: 1,
+        contactName: 1,
+        phone: 1,
+        learner: 1,
+        interest: 1,
+        mode: 1,
+        ageBand: 1,
+        timezone: 1,
+        message: 1,
+        status: 1,
+        submittedAt: 1,
+      },
+    })
+    .sort({ submittedAt: -1 })
+    .skip((page - 1) * ENQUIRIES_PER_PAGE)
+    .limit(ENQUIRIES_PER_PAGE)
+    .toArray()) as EnquiryLead[]
+
+  return { leadCounts, leads: leadsForPage, page, total, totalPages }
 }
 
 export async function setLeadStatus(id: string, status: LeadStatus): Promise<void> {

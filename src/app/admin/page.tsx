@@ -3,6 +3,7 @@ import { connection } from 'next/server'
 import { getAdminDashboard, LEAD_STATUSES } from '@/data/admin-dashboard'
 import { requireAdmin } from '@/lib/admin-auth'
 import { logoutAdmin, updateLeadStatus } from './actions'
+import { AdminHeader } from '@/components/admin/AdminHeader'
 
 const LEAD_STATUS_LABELS: Record<(typeof LEAD_STATUSES)[number], string> = {
   new: 'New',
@@ -101,25 +102,12 @@ async function AdminDashboardContent() {
   return (
     <div className="min-h-dvh bg-stone-100 px-4 py-5 text-stone-900 sm:px-8 sm:py-8">
       <div className="mx-auto max-w-7xl">
-        <header className="flex flex-col gap-5 border-b border-stone-200 pb-7 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="font-[var(--font-ui)] text-xs font-semibold uppercase tracking-[0.18em] text-[#8c6a15]">
-              RAAGA operations · private
-            </p>
-            <h1 className="mt-2 text-4xl font-light tracking-tight">School dashboard</h1>
-            <p className="mt-2 text-sm text-stone-600">
-              Last 30 days from {dashboard.since}. All traffic data is anonymous and aggregated.
-            </p>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-stone-500">Signed in as {session.username}</span>
-            <form action={logoutAdmin}>
-              <button className="rounded-xl border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 transition hover:border-stone-400">
-                Sign out
-              </button>
-            </form>
-          </div>
-        </header>
+        <AdminHeader
+          current="overview"
+          title="School dashboard"
+          description={`Last 30 days from ${dashboard.since}. All traffic data is anonymous and aggregated.`}
+          username={session.username}
+        />
 
         <section className="mt-7 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
           {cards.map(([title, value, help]) => (
@@ -172,13 +160,18 @@ async function AdminDashboardContent() {
               <p className="font-[var(--font-ui)] text-xs font-semibold uppercase tracking-[0.16em] text-[#8c6a15]">Enquiries</p>
               <h2 className="mt-1 text-3xl font-light">Recent adult contacts</h2>
             </div>
-            {dashboard.leadCounts.length > 0 && (
-              <p className="text-sm text-stone-500">
-                {dashboard.leadCounts
-                  .map((row) => `${LEAD_STATUS_LABELS[row.label as keyof typeof LEAD_STATUS_LABELS] ?? row.label}: ${row.count}`)
-                  .join(' · ')}
-              </p>
-            )}
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+              {dashboard.leadCounts.length > 0 && (
+                <p className="text-sm text-stone-500">
+                  {dashboard.leadCounts
+                    .map((row) => `${LEAD_STATUS_LABELS[row.label as keyof typeof LEAD_STATUS_LABELS] ?? row.label}: ${row.count}`)
+                    .join(' · ')}
+                </p>
+              )}
+              <a href="/admin/enquiries" className="font-[var(--font-ui)] text-sm font-semibold text-[#6b1f2a] hover:text-[#5c1a20]">
+                View all enquiries
+              </a>
+            </div>
           </div>
           <div className="mt-4 overflow-x-auto rounded-2xl border border-stone-200 bg-white shadow-sm">
             {dashboard.recentLeads.length ? (

@@ -68,4 +68,5 @@ export async function updateLeadStatus(formData: FormData): Promise<void> {
 
   await setLeadStatus(id, status as (typeof LEAD_STATUSES)[number])
   revalidatePath('/admin')
+  revalidatePath('/admin/enquiries')
 }

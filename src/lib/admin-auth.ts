@@ -19,8 +19,13 @@ type SessionPayload = {
   nonce: string
 }
 
+function canonicalUsername(value: string): string {
+  return value.trim().toLocaleUpperCase('en-US')
+}
+
 function configuredUsername(): string | undefined {
-  return process.env.ADMIN_USERNAME?.trim() || undefined
+  const username = process.env.ADMIN_USERNAME
+  return username ? canonicalUsername(username) : undefined
 }
 
 function sessionSecret(): string | undefined {
@@ -88,7 +93,7 @@ export async function validateAdminCredentials(
 
   // Do both comparisons for an unknown username as well; the generic answer
   // below deliberately reveals neither whether an account nor password exists.
-  const usernameMatches = equal(username.trim(), expectedUsername)
+  const usernameMatches = equal(canonicalUsername(username), expectedUsername)
   const passwordMatches = await verifyPassword(password)
   return usernameMatches && passwordMatches
 }
