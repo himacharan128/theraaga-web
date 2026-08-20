@@ -1,11 +1,12 @@
 import Link from 'next/link'
 import { logoutAdmin } from '@/app/admin/actions'
 
-type AdminSection = 'overview' | 'enquiries'
+type AdminSection = 'overview' | 'enquiries' | 'search-console'
 
 const tabs: { id: AdminSection; href: string; label: string }[] = [
   { id: 'overview', href: '/admin', label: 'Overview' },
   { id: 'enquiries', href: '/admin/enquiries', label: 'Enquiries' },
+  { id: 'search-console', href: '/admin/search-console', label: 'Search Console' },
 ]
 
 export function AdminHeader({

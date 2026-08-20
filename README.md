@@ -152,5 +152,23 @@ it needs only read/update access to `raaga.leads` and read/write access to
 
 The dashboard shows 30-day cookieless aggregate traffic, source host/UTM,
 coarse Vercel location, device bucket, engagement events and adult enquiries.
-Google Search Console query metrics require a dedicated server-side OAuth setup
-and are intentionally not collected through a browser analytics pixel.
+
+### Managed Google Search Console connections
+
+The Search Console tab is a private, multi-connection integration — it is not
+Google Analytics and it adds no third-party script, cookie, or pixel to the
+public site. An administrator can connect one or more authorised Google
+accounts, select the Search Console property for each, choose the dashboard
+source, refresh reports, or disconnect an account. OAuth refresh tokens are
+AES-256-GCM encrypted before they reach MongoDB.
+
+Create a Google Cloud OAuth **Web application** client, configure the redirect
+URI `https://admin.theraaga.in/api/admin/search-console/callback`, and set
+`GSC_GOOGLE_CLIENT_ID`, `GSC_GOOGLE_CLIENT_SECRET`,
+`GSC_TOKEN_ENCRYPTION_KEY` (a base64-encoded random 32-byte value), and
+`CRON_SECRET` in Vercel. The admin Atlas user also needs `find`, `insert`,
+`update`, and `createIndex` permissions for the `raaga` database collections
+`search_console_connections`, `search_console_oauth_states`, and
+`search_console_reports`. The scheduled Vercel job refreshes the selected
+connection daily; Search Console itself typically finalises data two to three
+days after a search.

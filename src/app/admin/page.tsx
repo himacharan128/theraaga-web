@@ -222,8 +222,9 @@ async function AdminDashboardContent() {
         <section className="mt-8 rounded-2xl border border-[#8c6a15]/25 bg-[#8c6a15]/5 p-5">
           <p className="font-[var(--font-ui)] text-sm font-semibold text-stone-900">Search visibility</p>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-stone-700">
-            Search Console is verified and the sitemap has been submitted. Connect a Google Search Console OAuth credential in a later release to show clicks, impressions, queries, and indexed URLs here. This dashboard does not use Google Analytics or advertising pixels.
+            Search Console is verified and the sitemap has been submitted. Connect and manage authorised Google accounts in the Search Console tab to bring clicks, impressions, queries, and landing-page performance into this private dashboard. This dashboard does not use Google Analytics or advertising pixels.
           </p>
+          <a href="/admin/search-console" className="mt-4 inline-block font-[var(--font-ui)] text-sm font-semibold text-[#6b1f2a] hover:text-[#5c1a20]">Open Search Console reporting</a>
         </section>
       </div>
     </div>
