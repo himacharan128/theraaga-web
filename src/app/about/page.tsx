@@ -3,6 +3,7 @@ import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { SwaraDivider } from '@/components/ui/Ornament'
+import { StatementBand, NumberedRail, StickyAside } from '@/components/layout/Editorial'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { getSite, getCentres, getStory, getVision, getMission } from '@/data/content'
 
@@ -74,37 +75,17 @@ export default async function AboutPage() {
         </blockquote>
       </Section>
 
-      <Section id="vision" eyebrow="Vision" tone="surface">
-        <p className="u-measure text-[length:var(--text-step-2)] font-[300] leading-[var(--lh-snug)] text-text-primary">
-          {vision}
-        </p>
-      </Section>
+      <StatementBand eyebrow="Vision">{vision}</StatementBand>
 
       <Section id="mission" eyebrow="Mission" title="What we do about it.">
-        <ul className="grid gap-x-14 gap-y-10 md:grid-cols-2">
-          {mission.map((m, i) => (
-            <li key={m.order}>
-              {i > 0 && (
-                <div className="mb-8 md:hidden">
-                  <SwaraDivider index={i} />
-                </div>
-              )}
-              <h2 className="text-[length:var(--text-step-1)] font-[400] leading-[var(--lh-snug)] text-accent">
-                {m.title}
-              </h2>
-              <p className="u-measure mt-3 text-text-secondary">{m.body}</p>
-            </li>
-          ))}
-        </ul>
+        <NumberedRail items={mission} />
       </Section>
 
-      <Section
-        id="parampara"
-        eyebrow="The Guru–Shishya Parampara"
-        title="Why we teach this way."
-        tone="surface"
-      >
-        <div className="u-measure space-y-6 text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-secondary">
+      <Section id="parampara" tone="surface">
+        <StickyAside
+          label="The Guru–Shishya Parampara"
+          aside={<p>Why the teaching is patient, individual, and shaped around the learner rather than the timetable.</p>}
+        >
           <p>
             Carnatic Sangeetham is transmitted, not delivered. It moves from one
             person to another by ear and by repetition — a phrase sung, a phrase
@@ -125,7 +106,7 @@ export default async function AboutPage() {
             continue. So the teaching stays traditional and the delivery does
             not.
           </p>
-        </div>
+        </StickyAside>
       </Section>
 
       <Section id="where" eyebrow="Where we teach" title="Two centres, and beyond.">

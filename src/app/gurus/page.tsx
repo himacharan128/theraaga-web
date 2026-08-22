@@ -3,6 +3,7 @@ import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { SwaraDivider } from '@/components/ui/Ornament'
+import { StickyAside } from '@/components/layout/Editorial'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import {
   getGurusIntro,
@@ -68,9 +69,21 @@ export default async function GurusPage() {
       />
 
       <Section id="our-gurus" eyebrow="Our Gurus">
-        <div className="u-measure space-y-6 text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-secondary">
-          {intro.map((para) => (
-            <p key={para.slice(0, 24)}>{para}</p>
+        {/* Lead-paragraph treatment. The opening line is the claim the whole
+            page rests on, so it is set larger than what follows — the oldest
+            editorial signal there is for "start here". */}
+        <div className="u-measure space-y-6 text-text-secondary">
+          {intro.map((para, i) => (
+            <p
+              key={para.slice(0, 24)}
+              className={
+                i === 0
+                  ? 'text-[length:var(--text-step-2)] font-[300] leading-[var(--lh-snug)] text-text-primary'
+                  : 'text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)]'
+              }
+            >
+              {para}
+            </p>
           ))}
         </div>
       </Section>
@@ -153,8 +166,11 @@ export default async function GurusPage() {
         </ul>
       </Section>
 
-      <Section id="recognition" eyebrow="Recognition and honours">
-        <div className="u-measure space-y-5 text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-secondary">
+      <Section id="recognition">
+        <StickyAside
+          label="Recognition and honours"
+          aside={<p>Named in full, or not named at all.</p>}
+        >
           <p>
             Our Gurus have received numerous State and National honours. Each is
             published here with its awarding body and year as it is confirmed in
@@ -165,7 +181,7 @@ export default async function GurusPage() {
             tradition where credentials are the credential, a vague honour is
             worth less than none at all.
           </p>
-        </div>
+        </StickyAside>
       </Section>
 
       <FinalCta />

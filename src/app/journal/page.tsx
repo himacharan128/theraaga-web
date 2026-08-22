@@ -3,6 +3,7 @@ import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
+import { LedgerIndex } from '@/components/layout/Editorial'
 import { getJournalTopics } from '@/data/content'
 
 export const metadata: Metadata = {
@@ -56,30 +57,17 @@ export default async function JournalPage() {
       />
 
       <Section id="subjects" eyebrow="Subjects" renderIf={topics.length > 0}>
-        <ul className="grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
-          {topics.map((topic) => (
-            <li key={topic.order} className="bg-surface p-7 md:p-8">
-              {topic.devanagari && (
-                <p
-                  aria-hidden="true"
-                  className="deva text-[length:var(--text-step-1)] leading-none text-gold-hairline"
-                >
-                  {topic.devanagari}
-                </p>
-              )}
-              <h2
-                className={`text-[length:var(--text-step-1)] font-[400] leading-[var(--lh-snug)] text-accent ${
-                  topic.devanagari ? 'mt-4' : ''
-                }`}
-              >
-                {topic.name}
-              </h2>
-              <p className="mt-3 text-[length:var(--text-step--1)] leading-[var(--lh-body)] text-text-secondary">
-                {topic.body}
-              </p>
-            </li>
-          ))}
-        </ul>
+        {/* Seven is prime: it orphaned an item in both the two- and
+            three-column grid this used to be. A journal's subject index is a
+            list anyway, and a ledger takes any count without leaving a gap. */}
+        <LedgerIndex
+          items={topics.map((topic) => ({
+            key: topic.order,
+            term: topic.name,
+            aside: topic.devanagari,
+            body: topic.body,
+          }))}
+        />
 
         <p className="u-measure mt-12 border-l-2 border-gold-hairline/50 pl-5 font-[var(--font-display)] text-[length:var(--text-step--1)] italic text-text-muted">
           The first pieces are being written. We would rather publish one essay

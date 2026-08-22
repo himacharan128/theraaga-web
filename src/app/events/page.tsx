@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { FinalCta } from '@/components/sections/FinalCta'
-import { SwaraDivider } from '@/components/ui/Ornament'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
+import { LedgerIndex } from '@/components/layout/Editorial'
 import { getEventKinds, getUpcomingEvents } from '@/data/content'
 
 export const metadata: Metadata = {
@@ -95,21 +95,11 @@ export default async function EventsPage() {
         tone={upcoming.length > 0 ? 'surface' : 'default'}
         renderIf={kinds.length > 0}
       >
-        <ul className="grid gap-x-14 gap-y-10 md:grid-cols-2">
-          {kinds.map((k, i) => (
-            <li key={k.order}>
-              {i > 0 && (
-                <div className="mb-8 md:hidden">
-                  <SwaraDivider index={i} />
-                </div>
-              )}
-              <h2 className="text-[length:var(--text-step-1)] font-[400] leading-[var(--lh-snug)] text-accent">
-                {k.name}
-              </h2>
-              <p className="u-measure mt-3 text-text-secondary">{k.body}</p>
-            </li>
-          ))}
-        </ul>
+        {/* A ledger, not cards. These are the recurring gatherings of a year —
+            they read as a programme, and a programme is a list. */}
+        <LedgerIndex
+          items={kinds.map((k) => ({ key: k.order, term: k.name, body: k.body }))}
+        />
 
         {upcoming.length === 0 && (
           <p className="u-measure mt-12 border-l-2 border-gold-hairline/50 pl-5 font-[var(--font-display)] text-[length:var(--text-step--1)] italic text-text-muted">
