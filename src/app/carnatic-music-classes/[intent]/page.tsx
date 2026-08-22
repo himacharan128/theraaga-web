@@ -32,13 +32,13 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     description: page.description,
     alternates: { canonical },
     openGraph: {
-      title: `${title} at RAAGA`,
+      title: `${title} at RAGA`,
       description: page.description,
       url: `${BASE_URL}${canonical}`,
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${title} at RAAGA`,
+      title: `${title} at RAGA`,
       description: page.description,
     },
   }
@@ -59,7 +59,7 @@ function IntentPageSchema({
     '@type': 'WebPage',
     '@id': `${url}#webpage`,
     url,
-    name: `${title} | RAAGA`,
+    name: `${title} | RAGA`,
     description,
     inLanguage: 'en-IN',
     isPartOf: { '@id': `${BASE_URL}/#website` },

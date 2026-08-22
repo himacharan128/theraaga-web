@@ -27,9 +27,9 @@ export async function EnquirySection() {
       />
       <div className="u-shell relative grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-20">
         <div>
-          <p className="u-eyebrow">The enquiry</p>
+          <p className="u-eyebrow">Prārambham · Begin your musical journey</p>
           <h2 className="mt-4 text-[length:var(--text-step-3)] font-[300]">
-            Book a trial class.
+            Request an Introductory Session.
           </h2>
           <p className="u-measure mt-5 text-text-secondary">
             A few questions take about thirty seconds. Then we will call to

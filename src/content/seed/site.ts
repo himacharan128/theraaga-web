@@ -6,16 +6,19 @@ import type { SiteSettings, Centre } from '../types'
  * design — see the DAL and <Section>.
  */
 export const site: SiteSettings = {
-  // Canonical lockup. "Raaga School Of Music" (Kothapet), "Raaga Sudha Music
-  // School" (Kukatpally) and raagaschool.com (Bay Area) all already exist, and
-  // raaga.com has owned the bare word since 2006. Always disambiguate.
-  legalName: 'RAAGA: School of Indian Classical Music, Jubilee Hills, Hyderabad',
-  shortName: 'RAAGA',
-  tagline: 'Preserving tradition. Inspiring every generation.',
+  // The client's content master spells the school RAGA throughout, as does
+  // their own poster. The lockup still disambiguates, because "RAGA School Of
+  // Music" (Kothapet), "RAGA Sudha Music School" (Kukatpally) and
+  // raagaschool.com all exist and raaga.com has owned the bare word since 2006.
+  legalName: 'RAGA: School of Carnatic Sangeetham, Hyderabad',
+  shortName: 'RAGA',
+  tagline: 'A journey through the timeless tradition of Carnatic Sangeetham.',
+  // The client's chosen hero quote — the opening of Tyagaraja's kriti in raga
+  // Chittaranjani, "I ceaselessly worship Shankara, whose form is sound".
   sanskritLine: {
-    devanagari: 'नादब्रह्म',
-    roman: 'Nāda Brahma',
-    gloss: 'Sound is the divine.',
+    devanagari: 'नादतनुमनिशम्',
+    roman: 'Nāda Tanum Anisham',
+    gloss: 'Whose very form is sound.',
   },
   foundedYear: 2016,
   locality: 'Jubilee Hills',
@@ -36,15 +39,15 @@ export const site: SiteSettings = {
   // live homepages reading "0 +" because a count-up never fired.
   stats: [
     { label: 'Teaching in Hyderabad since', value: '2016' },
-    { label: 'Centres, plus online', value: 'Two' },
-    { label: 'Taught in an unbroken guru–śiṣya line', value: 'Parampara' },
+    { label: 'Centres, plus online and community classes', value: 'Two' },
+    { label: 'Rooted in the Guru–Shishya', value: 'Parampara' },
     { label: 'Open to children and adults', value: 'All ages' },
   ],
 }
 
 /**
  * The router. 14 of 19 music schools studied put one immediately below the
- * hero — and Raaga's router is not instrument, it is WHERE, because a parent
+ * hero — and RAGA's router is not instrument, it is WHERE, because a parent
  * scrolling a WhatsApp forward is answering exactly one question first: is
  * this near me, or can we do it from home?
  *
@@ -106,6 +109,21 @@ export const centres: Centre[] = [
     href: '/online-classes',
     streetAddress: null,
     formLabel: 'Online',
+    nearby: [],
+  },
+  {
+    key: 'community',
+    // No locality page: this is hosted teaching, and the venue belongs to the
+    // community rather than to us. We never publish someone else's address.
+    slug: null,
+    eyebrow: 'In your community',
+    name: 'Community classes',
+    locality: null,
+    body: 'Learning hosted within a residential community, taught by the same Gurus to the same syllabus. Tell us where you are and we will discuss what is possible.',
+    cta: 'Ask about community classes',
+    href: '/contact',
+    streetAddress: null,
+    formLabel: 'Community',
     nearby: [],
   },
 ]

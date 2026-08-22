@@ -21,14 +21,22 @@ import { track } from '@/lib/analytics'
  * So the Sanskrit carries the meaning and the English carries the function. On
  * mobile the Sanskrit is dropped entirely — there is no room and no patience.
  *
- * Events and Journal are deliberately absent: neither has real dated content
- * yet, and a nav item leading to an empty calendar is worse than no nav item.
+ * Eight items, in the client's own order and with their own labels. Events and
+ * Journal are included because the client's content master asks for them and
+ * supplies real content for both — the kinds of gathering RAGA holds, and the
+ * subjects it writes about. Neither page fakes a dated calendar or an article
+ * list it does not have.
+ *
+ * At eight items the desktop row is tight, so the Sanskrit kicker drops below
+ * the xl breakpoint and the labels carry alone.
  */
 const NAV = [
   { sanskrit: 'Nāda', devanagari: 'नाद', label: 'Home', href: '/' },
   { sanskrit: 'Parampara', devanagari: 'परम्परा', label: 'About', href: '/about' },
-  { sanskrit: 'Sādhana', devanagari: 'साधना', label: 'Courses', href: '/courses' },
-  { sanskrit: 'Guru Parampara', devanagari: 'गुरुपरम्परा', label: 'Teachers', href: '/teachers' },
+  { sanskrit: 'Guru Parampara', devanagari: 'गुरुपरम्परा', label: 'The Gurus', href: '/gurus' },
+  { sanskrit: 'Sādhana', devanagari: 'साधना', label: 'Learning', href: '/learning' },
+  { sanskrit: 'Sabha', devanagari: 'सभा', label: 'Events', href: '/events' },
+  { sanskrit: 'Manana', devanagari: 'मनन', label: 'Journal', href: '/journal' },
   { sanskrit: 'Anubhava', devanagari: 'अनुभव', label: 'Gallery', href: '/gallery' },
   { sanskrit: 'Prārambham', devanagari: 'प्रारम्भम्', label: 'Contact', href: '/contact' },
 ]
@@ -75,12 +83,19 @@ export function Header({ whatsappHref }: { whatsappHref: string }) {
       <div className="u-shell flex h-16 items-center justify-between gap-3 md:h-20 md:gap-5">
         <Link
           href="/"
-          aria-label="RAAGA Home"
+          aria-label="RAGA Home"
           className="flex h-9 shrink-0 items-center sm:h-11"
         >
+          {/* ASSET MISMATCH — needs the client to settle it.
+              This file renders the wordmark as "raaga"; the client's content
+              master and their own poster both spell the school "RAGA", which is
+              what every string on the site now says. The image is theirs, so it
+              is left alone rather than swapped for type — but the wordmark has
+              to be regenerated as RAGA (or the copy reverted to Raaga) before
+              launch, and the OG card frozen only after that. See README. */}
           <Image
             src="/brand/raaga-wordmark.webp"
-            alt="RAAGA, Sa. Pa. Sa."
+            alt="RAGA, Sa. Pa. Sa."
             width={600}
             height={324}
             priority
@@ -97,7 +112,7 @@ export function Header({ whatsappHref }: { whatsappHref: string }) {
                   aria-current={isCurrent(item.href) ? 'page' : undefined}
                   className="group relative block text-center no-underline"
                 >
-                  <span className="block font-[var(--font-display)] text-[0.7rem] uppercase tracking-[0.16em] text-accent-muted">
+                  <span className="hidden font-[var(--font-display)] text-[0.66rem] uppercase tracking-[0.14em] text-accent-muted xl:block">
                     {item.sanskrit}
                   </span>
                   <span className="block font-[var(--font-ui)] text-[0.84rem] text-text-primary transition-colors group-hover:text-accent group-aria-[current=page]:text-accent">

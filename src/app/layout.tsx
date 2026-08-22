@@ -13,13 +13,13 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://theraaga.in'),
   title: {
     default: 'Carnatic Music Classes in Hyderabad',
-    template: '%s | RAAGA',
+    template: '%s | RAGA',
   },
   description:
-    'RAAGA offers Carnatic music and vocal classes for children and adults in Hyderabad. Learn at Jubilee Hills, Phoenix Arena in Hitech City, or live online. Beginners welcome.',
+    'RAGA offers Carnatic music and vocal classes for children and adults in Hyderabad. Learn at Jubilee Hills, Phoenix Arena in Hitech City, or live online. Beginners welcome.',
   applicationName: site.shortName,
   category: 'education',
-  // Always disambiguate: "Raaga School Of Music" (Kothapet), "Raaga Sudha Music
+  // Always disambiguate: "RAGA School Of Music" (Kothapet), "RAGA Sudha Music
   // School" (Kukatpally) and raagaschool.com all already exist, and raaga.com
   // has owned the bare word since 2006.
   openGraph: {
@@ -28,14 +28,14 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: 'https://theraaga.in',
     // Front-load the locality — WhatsApp truncates at roughly two lines on mobile.
-    title: 'RAAGA: Carnatic Music Classes in Hyderabad',
+    title: 'RAGA: Carnatic Music Classes in Hyderabad',
     description:
       'Carnatic vocal classes for children and adults. Jubilee Hills, Phoenix Arena in Hitech City, or live online.',
   },
   twitter: { card: 'summary_large_image' },
   icons: {
     // Google Search requires a crawlable, square favicon at a 48 px multiple.
-    // These PNGs are rendered directly from the client-supplied RAAGA veena
+    // These PNGs are rendered directly from the client-supplied RAGA veena
     // artwork; the SVG is retained for browsers that can use a vector icon.
     icon: [
       { url: '/favicon-48.png', type: 'image/png', sizes: '48x48' },

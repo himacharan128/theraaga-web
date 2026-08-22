@@ -1,0 +1,174 @@
+import type { Metadata } from 'next'
+import { PageHero } from '@/components/layout/PageHero'
+import { Section } from '@/components/layout/Section'
+import { FinalCta } from '@/components/sections/FinalCta'
+import { SwaraDivider } from '@/components/ui/Ornament'
+import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
+import {
+  getGurusIntro,
+  getLineageReferences,
+  getScholarlyWorks,
+  getTeachingPrinciples,
+} from '@/data/content'
+
+export const metadata: Metadata = {
+  title: 'The Gurus: Our Musical Lineage',
+  description:
+    'The Gurus at RAGA are accomplished musicians, scholars, performers and authors trained under eminent maestros, with over two decades of experience teaching Carnatic Sangeetham in Hyderabad.',
+  alternates: { canonical: '/gurus' },
+  openGraph: {
+    title: 'Guru Parampara: the Gurus at RAGA',
+    description:
+      'Accomplished musicians, scholars, performers and authors. Students are thoughtfully guided to the Guru best suited to their journey.',
+    url: 'https://theraaga.in/gurus',
+  },
+}
+
+/**
+ * Guru Parampara — The Gurus.
+ *
+ * WORDING PROVENANCE. An earlier draft hedged every lineage claim to
+ * institutional level because we had no authority to say the Gurus studied
+ * under those maestros. The client's content master makes that claim directly,
+ * in their own words, so it is theirs to make and it is reproduced as written.
+ *
+ * What is still forbidden: attaching a specific maestro to a specific Guru,
+ * naming an award or an institution the client did not name, or putting a
+ * number on "renowned cultural institutions".
+ *
+ * There are no individual Guru profiles yet, and no portrait frames waiting for
+ * one. With no client photography, a person-shaped hole is what makes a school
+ * site look abandoned — so this page is complete as an account of the TEACHING,
+ * and profiles are added later as data.
+ */
+export default async function GurusPage() {
+  const intro = await getGurusIntro()
+  const principles = await getTeachingPrinciples()
+  const lineage = await getLineageReferences()
+  const works = await getScholarlyWorks()
+
+  return (
+    <>
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', href: '/' },
+          { name: 'The Gurus', href: '/gurus' },
+        ]}
+      />
+      <PageHero
+        eyebrow="Guru Parampara · गुरुपरम्परा · The musical lineage"
+        title="Guided by tradition. United by music."
+        lede={
+          <p>
+            In Carnatic Sangeetham the lineage is the credential. Who taught the
+            Guru, and who taught them, is not trivia — it is what determines the
+            phrasing a student inherits.
+          </p>
+        }
+      />
+
+      <Section id="our-gurus" eyebrow="Our Gurus">
+        <div className="u-measure space-y-6 text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-secondary">
+          {intro.map((para) => (
+            <p key={para.slice(0, 24)}>{para}</p>
+          ))}
+        </div>
+      </Section>
+
+      <Section
+        id="lineage"
+        eyebrow="Trained under"
+        title="A tradition of excellence."
+        tone="surface"
+        lede={<p>Eminent maestros under whom our Gurus trained, including:</p>}
+        renderIf={lineage.length > 0}
+      >
+        <ol className="relative max-w-2xl space-y-7 pl-7">
+          {/* The lineage thread — the same tanpura string as the syllabus spine. */}
+          <span
+            aria-hidden="true"
+            className="absolute bottom-2 left-[3px] top-2 w-px bg-gold-hairline/40"
+          />
+          {lineage.map((entry) => (
+            <li key={entry.order} className="relative">
+              <span
+                aria-hidden="true"
+                className="absolute -left-7 top-[0.55em] size-[7px] rounded-full bg-accent"
+              />
+              <p className="text-[length:var(--text-step-1)] font-[400] leading-[var(--lh-snug)]">
+                {entry.honorific ? `${entry.honorific} ` : ''}
+                {entry.name}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </Section>
+
+      <Section
+        id="scholarship"
+        eyebrow="Scholars, authors and contributors"
+        title="Written contributions to Carnatic scholarship."
+        renderIf={works.length > 0}
+        lede={
+          <p>
+            Teaching here is informed by scholarship as well as performance,
+            including books authored by our Gurus.
+          </p>
+        }
+      >
+        <ul className="grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2">
+          {works.map((w) => (
+            <li key={w.order} className="bg-surface p-7 md:p-9">
+              <h3 className="font-[var(--font-display)] text-[length:var(--text-step-2)] font-[300] italic text-accent">
+                {w.title}
+              </h3>
+              <p className="mt-3 text-[length:var(--text-step--1)] text-text-secondary">
+                {w.note}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      <Section
+        id="principles"
+        eyebrow="How we teach"
+        tone="surface"
+        renderIf={principles.length > 0}
+      >
+        <ul className="grid gap-x-14 gap-y-10 md:grid-cols-2">
+          {principles.map((p, i) => (
+            <li key={p.order}>
+              {i > 0 && (
+                <div className="mb-8 md:hidden">
+                  <SwaraDivider index={i} />
+                </div>
+              )}
+              <h2 className="text-[length:var(--text-step-1)] font-[400] leading-[var(--lh-snug)] text-accent">
+                {p.title}
+              </h2>
+              <p className="u-measure mt-3 text-text-secondary">{p.body}</p>
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      <Section id="recognition" eyebrow="Recognition and honours">
+        <div className="u-measure space-y-5 text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-secondary">
+          <p>
+            Our Gurus have received numerous State and National honours. Each is
+            published here with its awarding body and year as it is confirmed in
+            full.
+          </p>
+          <p>
+            We would rather name nothing than name something imprecisely. In a
+            tradition where credentials are the credential, a vague honour is
+            worth less than none at all.
+          </p>
+        </div>
+      </Section>
+
+      <FinalCta />
+    </>
+  )
+}

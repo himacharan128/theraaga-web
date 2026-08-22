@@ -15,10 +15,13 @@ export {
 } from './curriculum'
 export { seoLandingPages } from './seo-pages'
 export {
+  gurusIntro,
   lineageReferences,
   scholarlyWorks,
   teachingPrinciples,
 } from './teaching'
+export { story, vision, mission } from './about'
+export { eventKinds, journalTopics } from './sabha'
 export type {
   LineageReference,
   ScholarlyWork,

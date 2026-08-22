@@ -25,18 +25,21 @@ const nextConfig: NextConfig = {
     return [
       { source: '/nada', destination: '/', permanent: true },
       { source: '/parampara', destination: '/about', permanent: true },
-      { source: '/sadhana', destination: '/courses', permanent: true },
-      { source: '/guru', destination: '/teachers', permanent: true },
-      { source: '/guru-parampara', destination: '/teachers', permanent: true },
+      { source: '/sadhana', destination: '/learning', permanent: true },
+      { source: '/guru', destination: '/gurus', permanent: true },
+      { source: '/guru-parampara', destination: '/gurus', permanent: true },
       { source: '/anubhava', destination: '/gallery', permanent: true },
       { source: '/prarambha', destination: '/contact', permanent: true },
       { source: '/prarambham', destination: '/contact', permanent: true },
 
-      // Retired routes. The gated-community delivery mode was replaced by the
-      // Phoenix Arena centre, and Events/Journal never had real dated content.
+      // Renamed to the client's own IA labels: Teachers -> The Gurus,
+      // Courses -> Learning. Both were live for hours, not months, but the
+      // redirects cost nothing and any forwarded link keeps working.
+      { source: '/teachers', destination: '/gurus', permanent: true },
+      { source: '/courses', destination: '/learning', permanent: true },
       { source: '/communities', destination: '/contact', permanent: true },
-      { source: '/sabha', destination: '/gallery', permanent: true },
-      { source: '/manana', destination: '/about', permanent: true },
+      { source: '/sabha', destination: '/events', permanent: true },
+      { source: '/manana', destination: '/journal', permanent: true },
     ]
   },
 

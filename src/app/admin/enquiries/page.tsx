@@ -12,6 +12,7 @@ import { requireAdmin } from '@/lib/admin-auth'
 import { INTERESTS, LEARNERS, MODES } from '@/lib/enquiry-schema'
 import { updateLeadStatus } from '../actions'
 import { AdminHeader } from '@/components/admin/AdminHeader'
+import type { Mode } from '@/content/types'
 
 const LEAD_STATUS_LABELS: Record<LeadStatus, string> = {
   new: 'New',
@@ -21,11 +22,14 @@ const LEAD_STATUS_LABELS: Record<LeadStatus, string> = {
   lost: 'Closed',
 }
 
-const MODE_LABELS = {
+// Record<Mode, string> rather than `as const`, so adding a delivery mode is a
+// compile error here instead of a blank cell in the enquiries table.
+const MODE_LABELS: Record<Mode, string> = {
   'jubilee-hills': 'Jubilee Hills',
   'phoenix-arena': 'Phoenix Arena',
   online: 'Online',
-} as const
+  community: 'Community',
+}
 
 const INTEREST_LABELS = {
   carnatic_vocal: 'Carnatic vocal',

@@ -20,7 +20,7 @@ import { ImageResponse } from 'next/og'
  * distributed URL.
  */
 export const alt =
-  'RAAGA: Carnatic music and vocal classes in Hyderabad. Jubilee Hills, Phoenix Arena Hitech City, or online.'
+  'RAGA: Carnatic music and vocal classes in Hyderabad. Jubilee Hills, Phoenix Arena Hitech City, or online.'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -62,7 +62,7 @@ export default async function OpengraphImage() {
             textTransform: 'uppercase',
           }}
         >
-          Raaga
+          RAGA
         </div>
 
         <div

@@ -25,7 +25,7 @@ export function AdminHeader({
       <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="font-[var(--font-ui)] text-xs font-semibold uppercase tracking-[0.18em] text-[#8c6a15]">
-            RAAGA operations · private
+            RAGA operations · private
           </p>
           <h1 className="mt-2 text-4xl font-light tracking-tight">{title}</h1>
           <p className="mt-2 text-sm text-stone-600">{description}</p>

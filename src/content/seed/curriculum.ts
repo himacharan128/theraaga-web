@@ -135,7 +135,8 @@ export const CURRICULUM_SOURCE =
   'Stage order follows the standard progression of Carnatic vocal instruction, corroborated by the Carnatic Vocal grade syllabus of the Tamil Nadu Dr. J Jayalalithaa Music and Fine Arts University. Durations are indicative and vary with practice.'
 
 /**
- * Vidwat Pātham — for students who want the qualification as well as the music.
+ * Sangeetha Vidwat Pātham — for students who want the qualification as well as
+ * the music.
  * Named only; we do not state which body confers them until the client confirms
  * the affiliations, because an unearned accreditation claim is the single most
  * damaging thing a school can publish.
@@ -153,49 +154,52 @@ export const academicPathways: AcademicPathway[] = [
   },
   {
     order: 3,
-    name: 'B.A. Music',
+    name: 'Bachelor of Arts (Music)',
     body: 'Preparation and guidance for students pursuing an undergraduate degree in music.',
   },
   {
     order: 4,
-    name: 'M.A. Music',
+    name: 'Master of Arts (Music)',
     body: 'Advanced guidance for postgraduate study, for students moving towards teaching, research or performance as a career.',
   },
 ]
 
 /**
- * Kala Pradarśanam. A student who has performed once practises differently
- * forever — which is why this is a strand of the teaching, not an extra.
+ * Sangeetha Vedika — the stage.
+ *
+ * NOTE: an earlier draft called this "Kala Pradarśanam", which was invented.
+ * The client's content master names it Sangeetha Vedika. Do not rename it
+ * again: these headings are the school's own vocabulary, not ours to improve.
  */
 export const performanceStrands: PerformanceStrand[] = [
   {
     order: 1,
-    name: 'Individual kutcheris',
+    name: 'Individual Kutcheris',
     body: 'Solo concert opportunities, in the traditional kutcheri format.',
   },
   {
     order: 2,
-    name: 'Group concerts',
+    name: 'Group Concerts',
     body: 'Ensemble performances where students learn to listen and hold a line together.',
   },
   {
     order: 3,
-    name: 'Thematic presentations',
+    name: 'Thematic Presentations',
     body: 'Programmes built around a composer, a raga or a devotional tradition.',
   },
   {
     order: 4,
-    name: 'Cultural festivals',
+    name: 'Cultural Festivals',
     body: 'Performances at wider cultural and seasonal music events.',
   },
   {
     order: 5,
-    name: 'Annual student recitals',
+    name: 'Annual Student Recitals',
     body: 'The yearly occasion for every student to perform what they have prepared.',
   },
   {
     order: 6,
-    name: 'Studio recordings and digital performances',
+    name: 'Studio Recordings',
     body: 'Recorded work, so students build something they can keep and share.',
   },
 ]

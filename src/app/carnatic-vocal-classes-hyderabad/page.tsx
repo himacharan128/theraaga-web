@@ -17,17 +17,17 @@ import { whatsappHref } from '@/lib/whatsapp'
  * the link is forwarded into a chat window. The Sanskrit lives in the nav
  * kicker and in the vanity paths, which 301 here.
  *
- * /courses owns the detailed syllabus. This page answers the local enrolment
- * question — where RAAGA teaches in Hyderabad and how to begin — then gives a
+ * /learning owns the detailed syllabus. This page answers the local enrolment
+ * question — where RAGA teaches in Hyderabad and how to begin — then gives a
  * clear route into the learning journey for visitors who want more depth.
  */
 export const metadata: Metadata = {
   title: 'Carnatic Music & Vocal Classes in Hyderabad',
   description:
-    'Carnatic music and vocal classes for children and adults in Hyderabad. Learn at RAAGA in Jubilee Hills or Hitech City, or live online. Beginners to advanced.',
+    'Carnatic music and vocal classes for children and adults in Hyderabad. Learn at RAGA in Jubilee Hills or Hitech City, or live online. Beginners to advanced.',
   alternates: { canonical: '/carnatic-vocal-classes-hyderabad' },
   openGraph: {
-    title: 'Carnatic music classes in Hyderabad at RAAGA',
+    title: 'Carnatic music classes in Hyderabad at RAGA',
     description:
       'For children and adults, beginners welcome. Jubilee Hills, Hitech City, or online.',
     url: 'https://theraaga.in/carnatic-vocal-classes-hyderabad',
@@ -77,7 +77,7 @@ export default function CarnaticVocalPage() {
             musical expression one stage at a time. The complete journey, from
             Sarali Swaras to Manodharma Sangeetham, lives on our courses page.
           </p>
-          <ButtonLink variant="secondary" href="/courses" className="mt-7">
+          <ButtonLink variant="secondary" href="/learning" className="mt-7">
             Explore the learning journey
           </ButtonLink>
         </div>

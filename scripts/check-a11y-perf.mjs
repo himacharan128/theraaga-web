@@ -70,7 +70,7 @@ const menuBtn = p.locator('button[aria-controls="mobile-nav"]')
 await menuBtn.click()
 check('mobile menu opens', (await p.locator('#mobile-nav').count()) === 1)
 const navLinks = await p.locator('#mobile-nav a').count()
-check('mobile nav has all 6 items', navLinks === 6, `${navLinks}`)
+check('mobile nav has all 8 items', navLinks === 8, `${navLinks}`)
 const smallTargets = await p.evaluate(() =>
   [...document.querySelectorAll('#mobile-nav a')].filter(
     (e) => e.getBoundingClientRect().height < 44,
@@ -106,8 +106,8 @@ check(
 
 // The curriculum timeline uses native <details>, which is keyboard-operable and
 // exposes state for free — assert it is actually there on /courses.
-await p.goto(`${BASE}/courses`, { waitUntil: 'networkidle' })
-check('courses page has exactly one <h1>', (await p.locator('h1').count()) === 1)
+await p.goto(`${BASE}/learning`, { waitUntil: 'networkidle' })
+check('learning page has exactly one <h1>', (await p.locator('h1').count()) === 1)
 const stages = await p.locator('#sangeetha-margam details').count()
 check('all 10 curriculum stages render', stages === 10, `${stages}`)
 
@@ -126,12 +126,21 @@ console.log(`    wire weight (content-length): ${Math.round(transferred / 1024)}
 const metrics = await p.evaluate(() => {
   const n = performance.getEntriesByType('navigation')[0]
   const res = performance.getEntriesByType('resource')
-  const js = res.filter(r => r.name.endsWith('.js') || r.name.includes('/_next/static/chunks'))
-  const fonts = res.filter(r => /\.(woff2?|ttf|otf)(\?|$)/.test(r.name))
+  // `/_next/static/chunks/` holds CSS as well as JS, so the old
+  // `includes('/chunks')` clause counted every stylesheet toward the JS
+  // budget. That silently inflated the JS number and eventually failed the
+  // build on CSS growth. Classify by extension, and budget CSS separately so
+  // nothing becomes unmeasured by fixing this.
+  const isCss = (r) => /\.css(\?|$)/.test(r.name)
+  const isFont = (r) => /\.(woff2?|ttf|otf)(\?|$)/.test(r.name)
+  const js = res.filter(r => !isCss(r) && !isFont(r) && (r.name.endsWith('.js') || r.name.includes('/_next/static/chunks')))
+  const css = res.filter(isCss)
+  const fonts = res.filter(isFont)
   return {
     ttfb: Math.round(n?.responseStart ?? 0),
     domContentLoaded: Math.round(n?.domContentLoadedEventEnd ?? 0),
     jsBytes: js.reduce((s, r) => s + (r.transferSize || r.encodedBodySize || 0), 0),
+    cssBytes: css.reduce((s, r) => s + (r.transferSize || r.encodedBodySize || 0), 0),
     fontBytes: fonts.reduce((s, r) => s + (r.transferSize || r.encodedBodySize || 0), 0),
     totalBytes: res.reduce((s, r) => s + (r.transferSize || r.encodedBodySize || 0), 0),
     thirdParty: res.filter(r => !r.name.includes('localhost')).map(r => new URL(r.name).host),
@@ -151,12 +160,15 @@ const metrics = await p.evaluate(() => {
  * 22 KB over the original font line buys correct Sanskrit conjuncts and a face
  * that holds up on the target device.
  *
- * JS is within a few KB of the App Router floor for six client components.
- * Tighten these if the numbers ever improve; do not raise them to pass.
+ * JS is within a few KB of the App Router floor for the client components this
+ * design needs. Tighten these if the numbers ever improve; do not raise them to
+ * pass. The CSS line was previously counted inside the JS total by mistake and
+ * is now measured on its own.
  */
 const kb = (n) => `${(n / 1024).toFixed(0)} KB`
 console.log(`    TTFB ${metrics.ttfb}ms · DCL ${metrics.domContentLoaded}ms`)
 check(`JS ≤ 175 KB (${kb(metrics.jsBytes)})`, metrics.jsBytes <= 175 * 1024, kb(metrics.jsBytes))
+check(`CSS ≤ 16 KB (${kb(metrics.cssBytes)})`, metrics.cssBytes <= 16 * 1024, kb(metrics.cssBytes))
 check(`fonts ≤ 120 KB (${kb(metrics.fontBytes)})`, metrics.fontBytes <= 120 * 1024, kb(metrics.fontBytes))
 check(`total ≤ 400 KB (${kb(metrics.totalBytes)})`, metrics.totalBytes <= 400 * 1024, kb(metrics.totalBytes))
 check('zero third-party requests', metrics.thirdParty.length === 0, metrics.thirdParty.join(','))

@@ -18,7 +18,7 @@ export async function Pillars() {
   return (
     <Section
       id="why-raaga"
-      eyebrow="Why Raaga"
+      eyebrow="Why RAGA"
       title="What you get here that you won’t get elsewhere."
       renderIf={pillars.length > 0}
     >

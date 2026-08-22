@@ -28,7 +28,7 @@ export async function Footer() {
     {
       title: 'Learn',
       links: [
-        { label: 'Courses · Sādhana', href: '/courses' },
+        { label: 'Learning · Sādhana', href: '/learning' },
         { label: 'Carnatic vocal classes in Hyderabad', href: '/carnatic-vocal-classes-hyderabad' },
         { label: 'Classes in Jubilee Hills', href: '/music-classes/jubilee-hills' },
         { label: 'Classes in Hitech City', href: '/music-classes/hitech-city' },
@@ -39,7 +39,9 @@ export async function Footer() {
       title: 'The school',
       links: [
         { label: 'About · Parampara', href: '/about' },
-        { label: 'Teachers · Guru Parampara', href: '/teachers' },
+        { label: 'The Gurus · Guru Parampara', href: '/gurus' },
+        { label: 'Events · Sabha', href: '/events' },
+        { label: 'Journal · Manana', href: '/journal' },
         { label: 'Gallery · Anubhava', href: '/gallery' },
         { label: 'Contact · Prārambham', href: '/contact' },
       ],
@@ -73,16 +75,23 @@ export async function Footer() {
         <div className="mt-16 grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <div className="inline-flex rounded-[var(--radius-sm)] bg-on-accent p-3 shadow-[0_12px_30px_rgba(0,0,0,0.16)]">
-              <Image
+              {/* ASSET MISMATCH — needs the client to settle it.
+              This file renders the wordmark as "raaga"; the client's content
+              master and their own poster both spell the school "RAGA", which is
+              what every string on the site now says. The image is theirs, so it
+              is left alone rather than swapped for type — but the wordmark has
+              to be regenerated as RAGA (or the copy reverted to Raaga) before
+              launch, and the OG card frozen only after that. See README. */}
+          <Image
                 src="/brand/raaga-wordmark.webp"
-                alt="RAAGA, Sa. Pa. Sa."
+                alt="RAGA, Sa. Pa. Sa."
                 width={600}
                 height={324}
                 className="h-10 w-auto"
               />
             </div>
             <p className="mt-4 text-[length:var(--text-step--1)] text-[color-mix(in_srgb,var(--color-on-accent)_72%,transparent)]">
-              School of Indian Classical Music
+              School of Carnatic Sangeetham
               <br />
               {site.locality}, {site.city}
             </p>

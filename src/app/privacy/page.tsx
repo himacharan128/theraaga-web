@@ -6,7 +6,7 @@ import { site } from '@/content/seed/site'
 export const metadata: Metadata = {
   title: 'Privacy notice',
   description:
-    'How RAAGA, Jubilee Hills, Hyderabad collects and uses personal data, under the Digital Personal Data Protection Act 2023.',
+    'How RAGA, Jubilee Hills, Hyderabad collects and uses personal data, under the Digital Personal Data Protection Act 2023.',
   alternates: { canonical: '/privacy' },
 }
 

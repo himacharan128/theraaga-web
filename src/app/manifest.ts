@@ -2,8 +2,8 @@ import type { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'RAAGA: School of Indian Classical Music',
-    short_name: 'RAAGA',
+    name: 'RAGA: School of Indian Classical Music',
+    short_name: 'RAGA',
     description:
       'Carnatic vocal classes for children and adults in Hyderabad and online.',
     start_url: '/',

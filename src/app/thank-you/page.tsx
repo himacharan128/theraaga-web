@@ -28,7 +28,7 @@ export default function ThankYouPage() {
         <div className="relative">
         <p className="u-eyebrow !text-[color-mix(in_srgb,var(--color-on-accent)_70%,transparent)]">Prārambham · The beginning</p>
         <h1 className="mt-5 text-[length:var(--text-step-4)] font-[300] text-on-accent">
-          Thank you for reaching out to RAAGA.
+          Thank you for reaching out to RAGA.
         </h1>
         <p className="u-measure mx-auto mt-6 text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-[color-mix(in_srgb,var(--color-on-accent)_84%,transparent)]">
           We are delighted to hear of your interest in Carnatic Sangeetham. A
@@ -50,7 +50,7 @@ export default function ThankYouPage() {
           <ButtonLink
             href={whatsappHref(
               'THANKYOU',
-              'Hello RAAGA, I have just submitted the trial class form.',
+              'Hello RAGA, I have just submitted the trial class form.',
             )}
             variant="onAccent"
           >

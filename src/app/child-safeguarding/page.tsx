@@ -11,7 +11,7 @@ import { site } from '@/content/seed/site'
 export const metadata: Metadata = {
   title: 'Child safeguarding',
   description:
-    'How RAAGA keeps children safe in class at our Hyderabad centres and online, and how we handle photographs and recordings of students.',
+    'How RAGA keeps children safe in class at our Hyderabad centres and online, and how we handle photographs and recordings of students.',
   alternates: { canonical: '/child-safeguarding' },
 }
 

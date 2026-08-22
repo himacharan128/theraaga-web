@@ -17,10 +17,32 @@ import { z } from 'zod'
  *     required — that is what `guardianConsent` is for.
  *   · Child identity is deferred to enrolment, where verification can be done
  *     properly.
+ *
+ * DIVERGENCE FROM THE CLIENT'S FIELD LIST — read before "fixing" this.
+ * Their content master asks for "Student Name" and "Age" as separate fields
+ * alongside "Parent/Guardian". We collect neither when the learner is a child.
+ * `contactName` relabels itself to "Parent or guardian's name" in that branch,
+ * and `ageBand` is a coarse band rather than a number. For an adult learner the
+ * name IS the student's name, so nothing is lost there.
+ *
+ * This is not a stylistic preference. Under the DPDP Act 2023 a child is anyone
+ * under 18, the Fourth Schedule exemption covers enrolled students rather than a
+ * public marketing form, and children's-data failures reach ₹200 crore. If the
+ * client insists, the answer is to collect it at ENROLMENT with verifiable
+ * parental consent — not on an open web form.
  */
 
 export const INTERESTS = ['carnatic_vocal', 'not_sure'] as const
-export const MODES = ['jubilee-hills', 'phoenix-arena', 'online'] as const
+export const LEARNING_MODES = ['individual', 'group', 'either'] as const
+export const EXPERIENCE = ['beginner', 'some_training', 'intermediate', 'advanced'] as const
+export const PREFERRED_TIMES = [
+  'weekday_morning',
+  'weekday_evening',
+  'weekend_morning',
+  'weekend_evening',
+  'flexible',
+] as const
+export const MODES = ['jubilee-hills', 'phoenix-arena', 'online', 'community'] as const
 export const LEARNERS = ['myself', 'my_child'] as const
 export const AGE_BANDS = ['under_7', '7_12', '13_17', 'adult'] as const
 export const TIMEZONES = ['IST', 'GST', 'GMT', 'EST', 'PST', 'other'] as const
@@ -52,6 +74,22 @@ export const enquirySchema = z
 
     // Conditional — only meaningful for its own branch.
     timezone: z.enum(TIMEZONES).optional(),
+
+    /**
+     * The client's content master asks for Email, City, Preferred Learning
+     * Mode, Experience Level and Preferred Time. All five are OPTIONAL.
+     *
+     * Their list runs to eleven fields; Baymard and HubSpot both find
+     * completion falls with field count, and the four that actually route a
+     * lead are name, phone, centre and age band. Making the rest optional
+     * gives the school every field it asked for without making any of them a
+     * barrier between a parent and the send button.
+     */
+    email: z.string().trim().max(120).email('Please check this email address.').optional().or(z.literal('')),
+    city: z.string().trim().max(60).optional().or(z.literal('')),
+    learningMode: z.enum(LEARNING_MODES).optional(),
+    experience: z.enum(EXPERIENCE).optional(),
+    preferredTime: z.enum(PREFERRED_TIMES).optional(),
 
     // Optional free text. Deliberately the LAST field and never required:
     // HubSpot's data singles out textareas as the field type that most
@@ -99,6 +137,11 @@ export const FIELD_LABELS: Record<string, string> = {
   mode: 'Where would you like to learn?',
   ageBand: 'Age of the learner',
   timezone: 'Your time zone',
+  email: 'Email',
+  city: 'City',
+  learningMode: 'Preferred learning mode',
+  experience: 'Experience level',
+  preferredTime: 'Preferred time',
   message: 'Anything you’d like us to know',
   guardianConsent: 'Parent or guardian confirmation',
 }

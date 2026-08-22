@@ -170,7 +170,7 @@ async function SearchConsoleContent({ searchParams }: { searchParams: Promise<{ 
               <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                 {[
                   ['Clicks', stat(report.totals.clicks), 'Visitors from Google Search'],
-                  ['Impressions', stat(report.totals.impressions), 'Times RAAGA appeared in results'],
+                  ['Impressions', stat(report.totals.impressions), 'Times RAGA appeared in results'],
                   ['Click-through rate', percent(report.totals.ctr), 'Clicks per search impression'],
                   ['Average position', stat(report.totals.position), 'Lower is better'],
                 ].map(([label, value, help]) => (

@@ -6,7 +6,7 @@ import { SwaraDivider } from '@/components/ui/Ornament'
  * The Guru–Shishya positioning, in brief.
  *
  * The full lineage, the scholarly work and the teaching principles live on
- * /teachers. This is the homepage's short form: enough to establish why the
+ * /gurus. This is the homepage's short form: enough to establish why the
  * teaching is what it is, then a route onward. Deliberately no portrait and no
  * placeholder frame — with no client photography, a person-shaped hole is what
  * makes a school site look abandoned.
@@ -38,7 +38,7 @@ export function MeetTradition() {
             </p>
           </div>
           <Link
-            href="/teachers"
+            href="/gurus"
             className="group mt-8 inline-flex items-center gap-2 rounded-full bg-[color-mix(in_srgb,var(--color-accent)_7%,transparent)] px-4 py-2.5 font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium text-accent no-underline"
           >
             The teaching lineage

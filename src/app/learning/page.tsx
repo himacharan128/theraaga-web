@@ -11,13 +11,13 @@ import { getAcademicPathways, getPerformanceStrands } from '@/data/content'
 export const metadata: Metadata = {
   title: 'Carnatic Music Courses & Vocal Syllabus',
   description:
-    'The full Carnatic music and vocal syllabus taught at RAAGA, Hyderabad. Sarali Swaras through to Manodharma Sangeetham, with academic pathways and concert training.',
-  alternates: { canonical: '/courses' },
+    'The full Carnatic music and vocal syllabus taught at RAGA, Hyderabad. Sarali Swaras through to Manodharma Sangeetham, with academic pathways and concert training.',
+  alternates: { canonical: '/learning' },
   openGraph: {
-    title: 'Sādhana: The Carnatic vocal syllabus at RAAGA',
+    title: 'Sādhana: The Carnatic vocal syllabus at RAGA',
     description:
       'Ten stages from Sarali Swaras to Manodharma Sangeetham, published in full. Plus Certificate, Diploma and degree pathways, and concert training.',
-    url: 'https://theraaga.in/courses',
+    url: 'https://theraaga.in/learning',
   },
 }
 
@@ -38,16 +38,17 @@ export default async function CoursesPage() {
       <BreadcrumbSchema
         items={[
           { name: 'Home', href: '/' },
-          { name: 'Carnatic Music Courses', href: '/courses' },
+          { name: 'Carnatic Music Courses', href: '/learning' },
         ]}
       />
       <PageHero
         eyebrow="Sādhana · साधना · Journey of learning"
-        title="What you will learn, in the order it has always been taught."
+        title="Sa. Pa. Sa. — the foundation of every musical journey."
         lede={
           <p>
-            Carnatic vocal for children and adults, from a first lesson through
-            to improvisation. Learning here develops four things at once:{' '}
+            The timeless resonance every student begins with. From a first
+            lesson through to improvisation, learning here develops four things
+            at once:{' '}
             <strong className="font-[400] text-text-primary">śruti</strong>, the
             ear for pitch;{' '}
             <strong className="font-[400] text-text-primary">laya</strong>, the
@@ -66,8 +67,8 @@ export default async function CoursesPage() {
       <ExploreLearningGoals />
 
       <Section
-        id="vidwat-patham"
-        eyebrow="Vidwat Pātham"
+        id="sangeetha-vidwat-patham"
+        eyebrow="Sangeetha Vidwat Pātham"
         title="Academic pathways."
         tone="surface"
         lede={
@@ -97,9 +98,9 @@ export default async function CoursesPage() {
       </Section>
 
       <Section
-        id="kala-pradarsanam"
-        eyebrow="Kala Pradarśanam"
-        title="Performance and concert training."
+        id="sangeetha-vedika"
+        eyebrow="Sangeetha Vedika"
+        title="The stage."
         lede={
           <p>
             A student who has performed once practises differently forever.

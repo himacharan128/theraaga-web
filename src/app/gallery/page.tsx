@@ -8,10 +8,10 @@ import { getGalleryByCategory } from '@/data/content'
 export const metadata: Metadata = {
   title: 'Gallery: Moments and Memories',
   description:
-    'Anubhava: classes, kutcheris, workshops and student performances at RAAGA, the Carnatic vocal school in Jubilee Hills and Hitech City, Hyderabad.',
+    'Anubhava: classes, kutcheris, workshops and student performances at RAGA, the Carnatic vocal school in Jubilee Hills and Hitech City, Hyderabad.',
   alternates: { canonical: '/gallery' },
   openGraph: {
-    title: 'Anubhava: Moments and memories at RAAGA',
+    title: 'Anubhava: Moments and memories at RAGA',
     description:
       'Classes, performances and workshops at our Carnatic vocal school in Hyderabad.',
     url: 'https://theraaga.in/gallery',
@@ -37,12 +37,27 @@ export default async function GalleryPage() {
         title="What learning here actually looks like."
         lede={
           <p>
-            Classes, kutcheris, workshops and the evenings when students take
-            the stage. We publish only our own photographs, and only with the
+            Moments from classes, performances, festivals, workshops and
+            celebrations. We publish only our own photographs, and only with the
             permission of everyone in them.
           </p>
         }
       />
+
+      {/* No dummy photography and no placeholder cards — but a nav item that
+          leads to a hero and nothing else reads as broken rather than as
+          restraint. One honest line, the same treatment /journal uses, says
+          where the page is without substituting for the work. */}
+      {!hasMedia && (
+        <Section id="gathering" eyebrow="Anubhava">
+          <p className="u-measure border-l-2 border-gold-hairline/50 pl-5 font-[var(--font-display)] text-[length:var(--text-step-1)] font-[300] italic leading-[var(--lh-snug)] text-text-secondary">
+            Our photographs are being gathered and cleared with the families in
+            them, which takes as long as it takes. We would rather show you
+            nothing than show you someone else’s stock photograph of a music
+            lesson.
+          </p>
+        </Section>
+      )}
 
       {hasMedia &&
         groups.map((g, i) => (

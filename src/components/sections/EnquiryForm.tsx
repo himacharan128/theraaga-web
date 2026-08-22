@@ -48,6 +48,24 @@ const CHIPS = {
     { value: '13_17', label: '13–17' },
     { value: 'adult', label: 'Adult' },
   ],
+  learningMode: [
+    { value: 'individual', label: 'One-to-one' },
+    { value: 'group', label: 'Small group' },
+    { value: 'either', label: 'Either' },
+  ],
+  experience: [
+    { value: 'beginner', label: 'Complete beginner' },
+    { value: 'some_training', label: 'Some training' },
+    { value: 'intermediate', label: 'Intermediate' },
+    { value: 'advanced', label: 'Advanced' },
+  ],
+  preferredTime: [
+    { value: 'weekday_morning', label: 'Weekday mornings' },
+    { value: 'weekday_evening', label: 'Weekday evenings' },
+    { value: 'weekend_morning', label: 'Weekend mornings' },
+    { value: 'weekend_evening', label: 'Weekend evenings' },
+    { value: 'flexible', label: 'Flexible' },
+  ],
   timezone: [
     { value: 'IST', label: 'India' },
     { value: 'GST', label: 'Gulf' },
@@ -146,6 +164,11 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
   const [timezone, setTimezone] = useState('')
   const [guardianConsent, setGuardianConsent] = useState(false)
   const [message, setMessage] = useState('')
+  const [email, setEmail] = useState('')
+  const [city, setCity] = useState('')
+  const [learningMode, setLearningMode] = useState('')
+  const [experience, setExperience] = useState('')
+  const [preferredTime, setPreferredTime] = useState('')
   const started = useRef(false)
 
   /**
@@ -240,7 +263,7 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
             htmlFor="contactName"
             className="mb-2 block font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium"
           >
-            Your name
+            {learner === 'my_child' ? 'Parent or guardian’s name' : 'Your name'}
             <span className="text-accent" aria-hidden="true">
               {' '}
               ✱
@@ -374,7 +397,7 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
               className="mt-1 size-5 shrink-0 accent-[var(--color-accent)]"
             />
             <span className="text-[length:var(--text-step--1)] text-text-secondary">
-              I am the parent or guardian of the learner and I consent to Raaga
+              I am the parent or guardian of the learner and I consent to RAGA
               contacting me about classes.
               <span className="text-accent" aria-hidden="true">
                 {' '}
@@ -389,6 +412,99 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
           )}
         </div>
       )}
+
+      {/* The client's content master asks for Email, City, Preferred Learning
+          Mode, Experience Level and Preferred Time. All five are here and all
+          five are optional, behind a disclosure.
+
+          Their list runs to eleven fields. Baymard and HubSpot both find
+          completion falls as field count rises, and the four that actually
+          route a lead are already above. Native <details> keeps the short path
+          short at zero JS, and anyone who wants to tell us more can. */}
+      <details className="group border-t border-border pt-6">
+        <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-4 font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium text-accent [&::-webkit-details-marker]:hidden">
+          Tell us more
+          <span className="text-text-muted">(optional)</span>
+        </summary>
+
+        <div className="grid gap-8 pt-8">
+          <div className="grid gap-6 sm:grid-cols-2">
+            <div>
+              <label
+                htmlFor="email"
+                className="mb-2 block font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium"
+              >
+                Email <span className="text-text-muted">(optional)</span>
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
+                inputMode="email"
+                aria-invalid={!!err.email}
+                aria-describedby={err.email ? 'err-email' : undefined}
+                className="w-full border border-border-strong bg-surface px-4 py-3 text-[length:var(--text-step-0)] outline-none focus:border-accent"
+              />
+              {err.email && (
+                <p id="err-email" role="alert" className="mt-2 text-[length:var(--text-step--1)] text-accent">
+                  {err.email}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label
+                htmlFor="city"
+                className="mb-2 block font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium"
+              >
+                City <span className="text-text-muted">(optional)</span>
+              </label>
+              <input
+                id="city"
+                name="city"
+                type="text"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                autoComplete="address-level2"
+                className="w-full border border-border-strong bg-surface px-4 py-3 text-[length:var(--text-step-0)] outline-none focus:border-accent"
+              />
+            </div>
+          </div>
+
+          <ChipGroup
+            name="experience"
+            legend="Experience level"
+            options={CHIPS.experience}
+            value={experience}
+            onChange={setExperience}
+            error={err.experience}
+            required={false}
+          />
+
+          <ChipGroup
+            name="learningMode"
+            legend="Preferred learning mode"
+            options={CHIPS.learningMode}
+            value={learningMode}
+            onChange={setLearningMode}
+            error={err.learningMode}
+            required={false}
+          />
+
+          <ChipGroup
+            name="preferredTime"
+            legend="Preferred time"
+            options={CHIPS.preferredTime}
+            value={preferredTime}
+            onChange={setPreferredTime}
+            error={err.preferredTime}
+            required={false}
+          />
+        </div>
+      </details>
 
       <div>
         <label

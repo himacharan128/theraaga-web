@@ -7,15 +7,18 @@ import type {
   Centre,
   CurriculumStage,
   Discipline,
+  EventKind,
   Faculty,
   Faq,
   GalleryCategory,
   GalleryItem,
+  JournalTopic,
   PerformanceStrand,
   Pillar,
   RaagaEvent,
   SeoLandingPage,
   SiteSettings,
+  Tenet,
   Testimonial,
 } from '@/content/types'
 
@@ -75,6 +78,30 @@ export async function getScholarlyWorks() {
 
 export async function getTeachingPrinciples() {
   return [...seed.teachingPrinciples].sort((a, b) => a.order - b.order)
+}
+
+export async function getGurusIntro(): Promise<string[]> {
+  return seed.gurusIntro
+}
+
+export async function getStory(): Promise<string[]> {
+  return seed.story
+}
+
+export async function getVision(): Promise<string> {
+  return seed.vision
+}
+
+export async function getMission(): Promise<Tenet[]> {
+  return [...seed.mission].sort((a, b) => a.order - b.order)
+}
+
+export async function getEventKinds(): Promise<EventKind[]> {
+  return [...seed.eventKinds].sort((a, b) => a.order - b.order)
+}
+
+export async function getJournalTopics(): Promise<JournalTopic[]> {
+  return [...seed.journalTopics].sort((a, b) => a.order - b.order)
 }
 
 export async function getDisciplines(): Promise<Discipline[]> {

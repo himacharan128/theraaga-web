@@ -35,10 +35,10 @@ export function OrganizationSchema() {
     logo: {
       '@type': 'ImageObject',
       url: LOGO_URL,
-      caption: 'RAAGA',
+      caption: 'RAGA',
     },
     description:
-      'RAAGA is a school of Indian classical music offering Carnatic music and vocal classes for children and adults in Hyderabad and live online.',
+      'RAGA is a school of Indian classical music offering Carnatic music and vocal classes for children and adults in Hyderabad and live online.',
     foundingDate: String(site.foundedYear),
     ...(Object.values(site.social).filter(Boolean).length
       ? { sameAs: Object.values(site.social).filter(Boolean) }
@@ -124,7 +124,7 @@ export function OrganizationSchema() {
     '@type': 'WebPage',
     '@id': `${BASE_URL}/#webpage`,
     url: BASE_URL,
-    name: 'Carnatic Music & Vocal Classes in Hyderabad | RAAGA',
+    name: 'Carnatic Music & Vocal Classes in Hyderabad | RAGA',
     description:
       'Carnatic music and vocal classes for children and adults in Jubilee Hills and Hitech City, Hyderabad, plus live online learning.',
     inLanguage: 'en-IN',

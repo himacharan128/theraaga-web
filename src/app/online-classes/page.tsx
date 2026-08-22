@@ -16,10 +16,10 @@ import { whatsappHref } from '@/lib/whatsapp'
 export const metadata: Metadata = {
   title: 'Online Carnatic Music & Vocal Classes',
   description:
-    'Live online Carnatic music and vocal classes from RAAGA, Hyderabad. Learn with the same guru and syllabus in time zones that work for India, the Gulf, the UK and North America.',
+    'Live online Carnatic music and vocal classes from RAGA, Hyderabad. Learn with the same guru and syllabus in time zones that work for India, the Gulf, the UK and North America.',
   alternates: { canonical: '/online-classes' },
   openGraph: {
-    title: 'Online Carnatic music classes at RAAGA, Hyderabad',
+    title: 'Online Carnatic music classes at RAGA, Hyderabad',
     description:
       'Live classes over video, never recordings. The same guru and syllabus at a time that works where you live.',
     url: 'https://theraaga.in/online-classes',
@@ -129,7 +129,7 @@ export default function OnlineClassesPage() {
             at our Hyderabad centres, from their first swaras through to
             advanced artistry.
           </p>
-          <ButtonLink variant="secondary" href="/courses" className="mt-7">
+          <ButtonLink variant="secondary" href="/learning" className="mt-7">
             Explore the learning journey
           </ButtonLink>
         </div>

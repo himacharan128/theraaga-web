@@ -16,13 +16,18 @@
  * Learning happens at two physical centres or online. `Mode` is the key the
  * enquiry form, the router cards and the lead document all agree on.
  */
-export type Mode = 'jubilee-hills' | 'phoenix-arena' | 'online'
+/**
+ * The client's content master lists four options under "Preferred Centre":
+ * Jubilee Hills / Phoenix Arena / Online / Community. Community is teaching
+ * hosted inside a residential community rather than at one of our centres.
+ */
+export type Mode = 'jubilee-hills' | 'phoenix-arena' | 'online' | 'community'
 export type Tier = 'beginner' | 'intermediate' | 'advanced'
 export type DisciplineStatus = 'active' | 'planned'
 export type GalleryCategory = 'classes' | 'performances' | 'workshops' | 'community'
 
 export interface SiteSettings {
-  /** Canonical lockup. Never bare "Raaga" — three other schools already use it. */
+  /** Canonical lockup. Never bare "RAGA" — three other schools already use it. */
   legalName: string
   shortName: string
   tagline: string
@@ -147,6 +152,28 @@ export interface CurriculumStage {
 export interface AcademicPathway {
   order: number
   name: string
+  body: string
+}
+
+/** A Vision or Mission statement, straight from the client's content master. */
+export interface Tenet {
+  order: number
+  title: string
+  body: string
+}
+
+/** A recurring kind of event RAGA holds — not a dated occurrence. */
+export interface EventKind {
+  order: number
+  name: string
+  body: string
+}
+
+/** A Manana subject area. Articles arrive later; the subjects are real now. */
+export interface JournalTopic {
+  order: number
+  name: string
+  devanagari?: string
   body: string
 }
 

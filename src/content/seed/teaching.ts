@@ -1,16 +1,18 @@
 /**
- * Guru Parampara — the institutional teaching content.
+ * Guru Parampara — the Gurus.
  *
- * WORDING RULE, and it is a legal one as much as an editorial one.
- * The lineage names below are references the SCHOOL's teaching tradition draws
- * on. Nothing here may be phrased so as to imply that a named maestro
- * personally taught a specific current teacher — that is a claim only the
- * client can make, and only if it is true. Every string is therefore written at
- * institutional level ("the school's teaching lineage draws on…"), never
- * "our guru studied under…".
+ * WORDING PROVENANCE, and it matters here more than anywhere else on the site.
  *
- * Individual teacher profiles live in `faculty` and are deliberately empty
- * until the client supplies real names, bios and portraits.
+ * An earlier draft hedged every lineage claim to institutional level ("the
+ * school's teaching lineage draws on…") because we had no authority to say the
+ * Gurus studied under those maestros. The client's content master makes that
+ * claim directly and in their own words — "trained under eminent maestros
+ * including…" — so it is theirs to make and it is reproduced as written.
+ *
+ * Everything below is the client's copy. Do not soften it and do not embellish
+ * it. In particular: do not attach a specific maestro to a specific Guru, do
+ * not name an award, an institution or a year, and do not put a number on
+ * "renowned cultural institutions". The client wrote what they could support.
  */
 
 export interface LineageReference {
@@ -31,11 +33,13 @@ export interface TeachingPrinciple {
   body: string
 }
 
-/**
- * TIER 1: the client should confirm the exact relationship to each name before
- * we add any biographical detail. Until then we list them as what they
- * verifiably are — references the tradition draws on.
- */
+/** The client's summary paragraph, split for web readability only. */
+export const gurusIntro = [
+  'Our Gurus are accomplished musicians, scholars, performers and authors, trained under eminent maestros.',
+  'With over two decades of experience, they have served renowned cultural institutions, authored books on Carnatic music, and received numerous State and National honours.',
+  'Students are thoughtfully guided to the Guru best suited for their learning journey.',
+]
+
 export const lineageReferences: LineageReference[] = [
   {
     order: 1,
@@ -53,12 +57,12 @@ export const scholarlyWorks: ScholarlyWork[] = [
   {
     order: 1,
     title: 'Swararaga Kadambam',
-    note: 'A contribution to Carnatic musical scholarship.',
+    note: 'Authored by our Gurus.',
   },
   {
     order: 2,
     title: 'Bhasuri',
-    note: 'A contribution to Carnatic musical scholarship.',
+    note: 'Authored by our Gurus.',
   },
 ]
 
@@ -66,21 +70,21 @@ export const teachingPrinciples: TeachingPrinciple[] = [
   {
     order: 1,
     title: 'The Guru–Shishya Parampara',
-    body: 'Carnatic music is transmitted, not delivered. It passes from teacher to student by ear and by repetition. A phrase is sung, returned, corrected and returned again. Almost nothing about that process has needed to change, and we have not changed it.',
+    body: 'Carnatic Sangeetham is transmitted, not delivered. It passes from teacher to student by ear and by repetition — a phrase sung, a phrase returned, corrected, returned again. Almost nothing about that process has needed to change, and we have not changed it.',
   },
   {
     order: 2,
     title: 'A tradition of excellence',
-    body: 'The school’s teaching draws on a lineage of distinguished Carnatic musicians and scholars, and holds its students to the standards of that tradition in intonation, rhythm and the discipline of daily practice.',
+    body: 'Our Gurus were trained under eminent maestros and hold their students to the standards of that tradition — in śruti, in laya, and in the discipline of daily practice.',
   },
   {
     order: 3,
     title: 'Experience and expertise',
-    body: 'Teaching here has been shaped by years of performance and instruction across the Carnatic repertoire, from a beginner’s first Sarali Swaras through to Manodharma Sangeetham.',
+    body: 'Over two decades of teaching and performance across the Carnatic repertoire, from a beginner’s first Sarali Swaras through to Manodharma Sangeetham.',
   },
   {
     order: 4,
     title: 'Personalised guidance',
-    body: 'Every voice is different in range, in timbre and in the speed at which it settles. Students are taught individually within small batches, so the pace follows the learner rather than the syllabus.',
+    body: 'Every voice is different in range, in timbre and in the speed at which it settles. Students are thoughtfully guided to the Guru best suited to their learning journey.',
   },
 ]

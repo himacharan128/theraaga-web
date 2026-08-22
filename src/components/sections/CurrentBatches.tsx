@@ -2,12 +2,16 @@ import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
 import { EmptyState, Section } from '@/components/layout/Section'
 import { whatsappHref } from '@/lib/whatsapp'
 import { getBatches } from '@/data/content'
+import type { Mode } from '@/content/types'
 
-const MODE_LABEL = {
+// Typed as Record<Mode, string> so adding a delivery mode is a compile error
+// here rather than an `undefined` in a table cell.
+const MODE_LABEL: Record<Mode, string> = {
   'jubilee-hills': 'Jubilee Hills',
   'phoenix-arena': 'Phoenix Arena, Hitech City',
   online: 'Online',
-} as const
+  community: 'Your community',
+}
 
 /**
  * "When is it?" is the second question every parent asks, right after "where

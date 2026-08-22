@@ -5,7 +5,7 @@ import { getSeoLandingPages } from '@/data/content'
 /**
  * The internal-linking hub for the focused SEO programme. It gives visitors a
  * useful way to self-select their starting point and gives crawlers one clear
- * parent page for every intent page. It is deliberately kept on /courses,
+ * parent page for every intent page. It is deliberately kept on /learning,
  * where visitors are already choosing a learning path, rather than bloating
  * the homepage.
  */
