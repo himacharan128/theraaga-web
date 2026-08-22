@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { PageHero, Prose } from '@/components/layout/PageHero'
 import { LegalDraftNotice } from '@/components/layout/LegalDraftNotice'
 import { site } from '@/content/seed/site'
+import { whatsappHref, telHref } from '@/lib/whatsapp'
 
 /**
  * Required even before any payment is taken: Indian payment aggregators check
@@ -60,8 +61,8 @@ export default function RefundPolicyPage() {
 
         <h2>How to request one</h2>
         <p>
-          Message us on WhatsApp or write to{' '}
-          <a href={`mailto:${site.email}`}>{site.email}</a>. We will confirm in
+          <a href={whatsappHref('REFUND')}>Message us on WhatsApp</a> or call{' '}
+          <a href={telHref()}>{site.phoneDisplay}</a>. We will confirm in
           writing and tell you when to expect the money.
         </p>
 

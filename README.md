@@ -161,6 +161,13 @@ See `.env.example` for required variables. `vercel.json` pins functions to
 `bom1` (Mumbai) — pair that with an Atlas cluster in AWS `ap-south-1` for ~1 ms
 compute-to-DB and in-country data residency.
 
+**No email address is published anywhere.** `site.email` is `null` by decision:
+the domain has no MX, SPF or DKIM, and a published address that bounces is worse
+than none. WhatsApp and the phone number are the contact routes, including on
+the legal pages where a reachable channel is a DPDP requirement. Every consumer
+is guarded and `npm run test:a11y` asserts no dead `mailto:`/`tel:` link ships.
+Set `site.email` and it reappears everywhere automatically.
+
 **Freeze the OG image before distributing any link.** WhatsApp caches previews
 per-URL for weeks with no purge tool, and the forwarded card is seen far more
 often than the page itself.

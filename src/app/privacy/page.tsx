@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { PageHero, Prose } from '@/components/layout/PageHero'
 import { LegalDraftNotice } from '@/components/layout/LegalDraftNotice'
 import { site } from '@/content/seed/site'
+import { whatsappHref, telHref } from '@/lib/whatsapp'
 
 export const metadata: Metadata = {
   title: 'Privacy notice',
@@ -87,10 +88,10 @@ export default function PrivacyPage() {
         <h2>Your rights</h2>
         <p>
           You may ask us what we hold about you, ask us to correct it, ask us to
-          delete it, or withdraw your consent. The easiest way is to message us
-          on WhatsApp or write to{' '}
-          <a href={`mailto:${site.email}`}>{site.email}</a>. We will act within
-          thirty days.
+          delete it, or withdraw your consent. The easiest way is to{' '}
+          <a href={whatsappHref('PRIVACY')}>message us on WhatsApp</a> or call{' '}
+          <a href={telHref()}>{site.phoneDisplay}</a>. We will act within thirty
+          days.
         </p>
 
         <h2>Grievance officer</h2>
@@ -114,7 +115,7 @@ export default function PrivacyPage() {
           <br />
           {site.locality}, {site.city}, {site.region}, {site.country}
           <br />
-          <a href={`mailto:${site.email}`}>{site.email}</a>
+          <a href={telHref()}>{site.phoneDisplay}</a>
         </p>
       </Prose>
     </>

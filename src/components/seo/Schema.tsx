@@ -75,7 +75,7 @@ export function OrganizationSchema() {
       'Carnatic music and vocal classes in Hyderabad for children and adults, taught at Jubilee Hills, Hitech City and live online.',
     foundingDate: String(site.foundedYear),
     telephone: `+${site.whatsapp}`,
-    email: site.email,
+    ...(site.email ? { email: site.email } : {}),
     address: {
       '@type': 'PostalAddress',
       ...(site.streetAddress ? { streetAddress: site.streetAddress } : {}),

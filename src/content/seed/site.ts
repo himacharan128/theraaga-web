@@ -29,10 +29,12 @@ export const site: SiteSettings = {
   streetAddress: null,
   whatsapp: '918247558515',
   phoneDisplay: '+91 82475 58515',
-  // TIER 0: no mailbox exists at theraaga.in yet — the domain has no MX records
-  // and no SPF/DKIM, so mail claiming this address currently fails DMARC.
-  // Either provision it or swap this for the working address before launch.
-  email: 'hello@theraaga.in',
+  // NULL BY DECISION, not by oversight. theraaga.in has no MX, SPF or DKIM, and
+  // email is deliberately out of scope for now — so no address is published
+  // anywhere. WhatsApp and the phone number are the contact routes, including
+  // on the legal pages, where a reachable channel is a DPDP requirement rather
+  // than a courtesy. Set this and every consumer picks it up automatically.
+  email: null,
   social: {},
   // Facts that are true on day one, with no client data at all.
   // Values are STRINGS. Merit School of Music and Furtados both currently ship

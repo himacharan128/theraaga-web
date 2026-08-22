@@ -42,7 +42,11 @@ export interface SiteSettings {
   streetAddress: string | null
   whatsapp: string
   phoneDisplay: string
-  email: string
+  /**
+   * null until a mailbox actually exists. A published address that bounces is
+   * worse than none: it is a channel a visitor will use and never hear back on.
+   */
+  email: string | null
   social: { instagram?: string; youtube?: string; facebook?: string }
   /** Strings, never ints — a zero-valued counter is worse than no counter. */
   stats: { label: string; value: string }[]

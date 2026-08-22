@@ -111,6 +111,25 @@ check('learning page has exactly one <h1>', (await p.locator('h1').count()) === 
 const stages = await p.locator('#sangeetha-margam details').count()
 check('all 10 curriculum stages render', stages === 10, `${stages}`)
 
+/**
+ * Dead contact links.
+ *
+ * `site.email` is null while the school has no mailbox, and TypeScript cannot
+ * catch this: `mailto:${null}` interpolates to the string "mailto:null" and
+ * renders a link that silently fails. Every consumer is guarded, and this
+ * asserts the guards stay. The legal pages matter most — the contact route
+ * there is a DPDP grievance requirement, not a courtesy.
+ */
+for (const route of ['/', '/contact', '/privacy', '/terms', '/refund-policy', '/child-safeguarding']) {
+  await p.goto(`${BASE}${route}`, { waitUntil: 'domcontentloaded' })
+  const dead = await p.evaluate(() =>
+    [...document.querySelectorAll('a[href]')]
+      .map((a) => a.getAttribute('href'))
+      .filter((h) => /^(mailto|tel):\s*(null|undefined)?$|:(null|undefined)$/.test(h)),
+  )
+  check(`no dead contact link on ${route}`, dead.length === 0, dead.join(', '))
+}
+
 // Back to the homepage for the performance budget.
 await p.goto(BASE, { waitUntil: 'networkidle' })
 

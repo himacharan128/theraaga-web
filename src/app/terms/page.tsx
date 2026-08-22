@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { PageHero, Prose } from '@/components/layout/PageHero'
 import { LegalDraftNotice } from '@/components/layout/LegalDraftNotice'
 import { site } from '@/content/seed/site'
+import { telHref } from '@/lib/whatsapp'
 
 export const metadata: Metadata = {
   title: 'Terms of use',
@@ -57,7 +58,7 @@ export default function TermsPage() {
 
         <h2>Contact</h2>
         <p>
-          <a href={`mailto:${site.email}`}>{site.email}</a>
+          <a href={telHref()}>{site.phoneDisplay}</a>
           <br />
           {site.locality}, {site.city}, {site.region}
         </p>

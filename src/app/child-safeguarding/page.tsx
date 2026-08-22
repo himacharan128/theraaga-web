@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { PageHero, Prose } from '@/components/layout/PageHero'
 import { LegalDraftNotice } from '@/components/layout/LegalDraftNotice'
 import { site } from '@/content/seed/site'
+import { whatsappHref, telHref } from '@/lib/whatsapp'
 
 /**
  * Most music-school sites do not have one of these. It is both the right thing
@@ -76,10 +77,11 @@ export default function ChildSafeguardingPage() {
         <h2>Raising a concern</h2>
         <p>
           If anything concerns you, however small, and whether or not it
-          involves your own child, please tell us. Message us on WhatsApp or
-          write to <a href={`mailto:${site.email}`}>{site.email}</a>. We will
-          respond within two working days and we will not treat it as a
-          complaint about you.
+          involves your own child, please tell us.{' '}
+          <a href={whatsappHref('SAFEGUARDING')}>Message us on WhatsApp</a> or
+          call <a href={telHref()}>{site.phoneDisplay}</a>. We will respond
+          within two working days and we will not treat it as a complaint about
+          you.
         </p>
 
         <p>

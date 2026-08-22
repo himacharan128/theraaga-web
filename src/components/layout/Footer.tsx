@@ -128,10 +128,14 @@ export async function Footer() {
             <a href={`tel:+${site.whatsapp}`} className="hover:text-on-accent">
               {site.phoneDisplay}
             </a>
-            {' · '}
-            <a href={`mailto:${site.email}`} className="hover:text-on-accent">
-              {site.email}
-            </a>
+            {site.email && (
+              <>
+                {' · '}
+                <a href={`mailto:${site.email}`} className="hover:text-on-accent">
+                  {site.email}
+                </a>
+              </>
+            )}
           </p>
           <p className="text-[length:var(--text-step--1)] text-[color-mix(in_srgb,var(--color-on-accent)_62%,transparent)] md:text-right">
             © {COPYRIGHT_YEAR} {site.shortName}. All rights reserved.

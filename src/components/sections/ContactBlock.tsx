@@ -37,12 +37,14 @@ export async function ContactBlock() {
             >
               {site.phoneDisplay}
             </a>
-            <a
-              href={`mailto:${site.email}`}
-              className="block text-accent underline underline-offset-4"
-            >
-              {site.email}
-            </a>
+            {site.email && (
+              <a
+                href={`mailto:${site.email}`}
+                className="block text-accent underline underline-offset-4"
+              >
+                {site.email}
+              </a>
+            )}
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
