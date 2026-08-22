@@ -9,10 +9,10 @@ import { getSite, getCentres, getStory, getVision, getMission } from '@/data/con
 export const metadata: Metadata = {
   title: 'About: Our Heritage',
   description:
-    'RAGA was founded in 2016 in Jubilee Hills, Hyderabad to preserve, nurture and share the timeless tradition of Carnatic Sangeetham, rooted in the Guru–Shishya Parampara.',
+    'RAAGA was founded in 2016 in Jubilee Hills, Hyderabad to preserve, nurture and share the timeless tradition of Carnatic Sangeetham, rooted in the Guru–Shishya Parampara.',
   alternates: { canonical: '/about' },
   openGraph: {
-    title: 'Parampara: the heritage behind RAGA',
+    title: 'Parampara: the heritage behind RAAGA',
     description:
       'Founded in 2016 in Jubilee Hills, Hyderabad. Carnatic Sangeetham taught in the Guru–Shishya Parampara, at two centres and online.',
     url: 'https://theraaga.in/about',

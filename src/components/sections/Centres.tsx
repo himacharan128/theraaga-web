@@ -6,7 +6,7 @@ import { getCentres } from '@/data/content'
  * The router — the single most important section on the homepage.
  *
  * 14 of 19 music-school homepages studied put one immediately below the hero.
- * Yousician routes by instrument, Merit by age band. RAGA routes by WHERE,
+ * Yousician routes by instrument, Merit by age band. RAAGA routes by WHERE,
  * because that is the first question a parent scrolling a WhatsApp forward is
  * actually answering: is this near me, or can we do it from home?
  *

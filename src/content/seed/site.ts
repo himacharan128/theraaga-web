@@ -6,12 +6,12 @@ import type { SiteSettings, Centre } from '../types'
  * design — see the DAL and <Section>.
  */
 export const site: SiteSettings = {
-  // The client's content master spells the school RAGA throughout, as does
-  // their own poster. The lockup still disambiguates, because "RAGA School Of
-  // Music" (Kothapet), "RAGA Sudha Music School" (Kukatpally) and
+  // The client's content master spells the school RAAGA throughout, as does
+  // their own poster. The lockup still disambiguates, because "RAAGA School Of
+  // Music" (Kothapet), "RAAGA Sudha Music School" (Kukatpally) and
   // raagaschool.com all exist and raaga.com has owned the bare word since 2006.
-  legalName: 'RAGA: School of Carnatic Sangeetham, Hyderabad',
-  shortName: 'RAGA',
+  legalName: 'RAAGA: School of Indian Classical Music, Jubilee Hills, Hyderabad',
+  shortName: 'RAAGA',
   tagline: 'A journey through the timeless tradition of Carnatic Sangeetham.',
   // The client's chosen hero quote — the opening of Tyagaraja's kriti in raga
   // Chittaranjani, "I ceaselessly worship Shankara, whose form is sound".
@@ -47,7 +47,7 @@ export const site: SiteSettings = {
 
 /**
  * The router. 14 of 19 music schools studied put one immediately below the
- * hero — and RAGA's router is not instrument, it is WHERE, because a parent
+ * hero — and RAAGA's router is not instrument, it is WHERE, because a parent
  * scrolling a WhatsApp forward is answering exactly one question first: is
  * this near me, or can we do it from home?
  *

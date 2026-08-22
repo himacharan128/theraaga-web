@@ -9,9 +9,9 @@ import type { Tenet } from '../types'
  * theirs rather than ours.
  */
 export const story = [
-  'RAGA was founded in 2016 in Jubilee Hills, Hyderabad, to preserve, nurture and share the timeless tradition of Carnatic Sangeetham.',
-  'Rooted in the Guru–Shishya Parampara, RAGA guides every student with patience, discipline and devotion.',
-  'Today RAGA serves students through its centres at Jubilee Hills and Phoenix Arena, Hitech City, and through online learning across the world.',
+  'RAAGA was founded in 2016 in Jubilee Hills, Hyderabad, to preserve, nurture and share the timeless tradition of Carnatic Sangeetham.',
+  'Rooted in the Guru–Shishya Parampara, RAAGA guides every student with patience, discipline and devotion.',
+  'Today RAAGA serves students through its centres at Jubilee Hills and Phoenix Arena, Hitech City, and through online learning across the world.',
 ]
 
 export const vision =

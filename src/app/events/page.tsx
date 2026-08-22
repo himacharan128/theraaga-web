@@ -9,10 +9,10 @@ import { getEventKinds, getUpcomingEvents } from '@/data/content'
 export const metadata: Metadata = {
   title: 'Events: Concerts, Workshops and Recitals',
   description:
-    'Concerts, workshops, lecture demonstrations, Guru Purnima, Tyagaraja Aradhana and student performances at RAGA, the Carnatic Sangeetham school in Hyderabad.',
+    'Concerts, workshops, lecture demonstrations, Guru Purnima, Tyagaraja Aradhana and student performances at RAAGA, the Carnatic Sangeetham school in Hyderabad.',
   alternates: { canonical: '/events' },
   openGraph: {
-    title: 'Sabha: events at RAGA',
+    title: 'Sabha: events at RAAGA',
     description:
       'Kutcheris, workshops, lecture demonstrations, Guru Purnima, Tyagaraja Aradhana and student recitals.',
     url: 'https://theraaga.in/events',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
  * Sabha — Events.
  *
  * This page is in the navigation because the client's content master asks for
- * it, and it is honest because it publishes what RAGA actually does rather than
+ * it, and it is honest because it publishes what RAAGA actually does rather than
  * a calendar it does not have.
  *
  * The distinction is load-bearing: the KINDS of gathering are real and
@@ -49,7 +49,7 @@ export default async function EventsPage() {
         title="Music is meant to be heard."
         lede={
           <p>
-            Through the year {'RAGA'} holds concerts, workshops, lecture
+            Through the year {'RAAGA'} holds concerts, workshops, lecture
             demonstrations and observances — and every one of them exists so
             that students have somewhere to sing.
           </p>

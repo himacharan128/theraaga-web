@@ -14,7 +14,7 @@ import { site } from '@/content/seed/site'
  * section of which page produced them — free attribution with no API.
  */
 export function whatsappHref(ref: string, message?: string): string {
-  const text = `${message ?? 'Hello RAGA — I would like to book a trial class.'} [ref:${ref}]`
+  const text = `${message ?? 'Hello RAAGA — I would like to book a trial class.'} [ref:${ref}]`
   return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(text)}`
 }
 

@@ -12,7 +12,7 @@ import { OrganizationSchema } from '@/components/seo/Schema'
 export const metadata: Metadata = {
   title: 'Carnatic Music & Vocal Classes in Hyderabad',
   description:
-    'RAGA offers Carnatic music and vocal classes for children and adults in Jubilee Hills and Hitech City, Hyderabad, plus live online learning. Beginners welcome.',
+    'RAAGA offers Carnatic music and vocal classes for children and adults in Jubilee Hills and Hitech City, Hyderabad, plus live online learning. Beginners welcome.',
 }
 
 /**

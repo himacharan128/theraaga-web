@@ -18,11 +18,11 @@ async function AdminLoginContent() {
     <section className="flex min-h-dvh items-center justify-center bg-[#201b1a] px-5 py-12">
       <div className="w-full max-w-md rounded-3xl border border-white/10 bg-[#f7f3ea] p-7 shadow-2xl sm:p-10">
         <p className="font-[var(--font-ui)] text-xs font-semibold uppercase tracking-[0.18em] text-[#8c6a15]">
-          RAGA operations
+          RAAGA operations
         </p>
         <h1 className="mt-3 text-4xl font-light text-[#201b1a]">Admin dashboard</h1>
         <p className="mt-4 text-base leading-7 text-stone-600">
-          Private access for RAGA&apos;s school team. Traffic is measured as daily,
+          Private access for RAAGA&apos;s school team. Traffic is measured as daily,
           cookieless aggregates only.
         </p>
         <div className="mt-8">

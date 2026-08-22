@@ -18,16 +18,16 @@ import { whatsappHref } from '@/lib/whatsapp'
  * kicker and in the vanity paths, which 301 here.
  *
  * /learning owns the detailed syllabus. This page answers the local enrolment
- * question — where RAGA teaches in Hyderabad and how to begin — then gives a
+ * question — where RAAGA teaches in Hyderabad and how to begin — then gives a
  * clear route into the learning journey for visitors who want more depth.
  */
 export const metadata: Metadata = {
   title: 'Carnatic Music & Vocal Classes in Hyderabad',
   description:
-    'Carnatic music and vocal classes for children and adults in Hyderabad. Learn at RAGA in Jubilee Hills or Hitech City, or live online. Beginners to advanced.',
+    'Carnatic music and vocal classes for children and adults in Hyderabad. Learn at RAAGA in Jubilee Hills or Hitech City, or live online. Beginners to advanced.',
   alternates: { canonical: '/carnatic-vocal-classes-hyderabad' },
   openGraph: {
-    title: 'Carnatic music classes in Hyderabad at RAGA',
+    title: 'Carnatic music classes in Hyderabad at RAAGA',
     description:
       'For children and adults, beginners welcome. Jubilee Hills, Hitech City, or online.',
     url: 'https://theraaga.in/carnatic-vocal-classes-hyderabad',

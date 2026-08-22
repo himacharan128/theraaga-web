@@ -18,7 +18,7 @@ const STEPS = [
   },
   {
     n: 2,
-    title: 'Speak with RAGA',
+    title: 'Speak with RAAGA',
     body: 'We’ll call to understand who is learning, any previous training, and which times suit you.',
   },
   {

@@ -1,7 +1,7 @@
 import type { SeoLandingPage } from '../types'
 
 /**
- * RAGA's focused SEO hub. These pages are intentionally few: each answers a
+ * RAAGA's focused SEO hub. These pages are intentionally few: each answers a
  * different decision a learner or parent is making, using claims already
  * supported by the school's published curriculum, FAQ and teaching content.
  *
@@ -14,7 +14,7 @@ export const seoLandingPages: SeoLandingPage[] = [
     slug: 'beginners',
     title: 'Carnatic Music Classes for Beginners',
     description:
-      'Begin Carnatic music with RAGA in Hyderabad. Learn swaras, pitch and rhythm from the first lesson at Jubilee Hills, Hitech City or live online.',
+      'Begin Carnatic music with RAAGA in Hyderabad. Learn swaras, pitch and rhythm from the first lesson at Jubilee Hills, Hitech City or live online.',
     eyebrow: 'For first-time learners',
     h1: 'Carnatic music classes for beginners.',
     intro:
@@ -44,7 +44,7 @@ export const seoLandingPages: SeoLandingPage[] = [
       },
       {
         title: 'Learn in Hyderabad or live online',
-        body: 'Choose RAGA at Jubilee Hills, Phoenix Arena in Hitech City or live online. The traditional progression stays the same in each setting.',
+        body: 'Choose RAAGA at Jubilee Hills, Phoenix Arena in Hitech City or live online. The traditional progression stays the same in each setting.',
       },
     ],
     related: [
@@ -58,11 +58,11 @@ export const seoLandingPages: SeoLandingPage[] = [
     slug: 'children',
     title: 'Carnatic Music Classes for Children',
     description:
-      'Carnatic music classes for children from five at RAGA, Hyderabad. Small batches in Jubilee Hills and Hitech City, plus live online learning.',
+      'Carnatic music classes for children from five at RAAGA, Hyderabad. Small batches in Jubilee Hills and Hitech City, plus live online learning.',
     eyebrow: 'For young learners',
     h1: 'Carnatic music classes for children.',
     intro:
-      'RAGA welcomes children from five, when most are ready to sit, listen and match a pitch. Learning starts with short, repeatable swara exercises and grows gradually into music, rhythm and confidence.',
+      'RAAGA welcomes children from five, when most are ready to sit, listen and match a pitch. Learning starts with short, repeatable swara exercises and grows gradually into music, rhythm and confidence.',
     highlights: [
       {
         title: 'Small batches',
@@ -102,11 +102,11 @@ export const seoLandingPages: SeoLandingPage[] = [
     slug: 'adults',
     title: 'Carnatic Music Classes for Adults',
     description:
-      'Carnatic music classes for adults in Hyderabad and online. Begin at any age with RAGA, whether you are returning to music or starting from zero.',
+      'Carnatic music classes for adults in Hyderabad and online. Begin at any age with RAAGA, whether you are returning to music or starting from zero.',
     eyebrow: 'For adult beginners and returners',
     h1: 'Carnatic music classes for adults.',
     intro:
-      'It is not too late to begin. RAGA teaches adults who are starting for the first time and those returning to music after years away, with the same traditional progression and a pace that makes room for real life.',
+      'It is not too late to begin. RAAGA teaches adults who are starting for the first time and those returning to music after years away, with the same traditional progression and a pace that makes room for real life.',
     highlights: [
       {
         title: 'Start from zero',
@@ -146,11 +146,11 @@ export const seoLandingPages: SeoLandingPage[] = [
     slug: 'performance-training',
     title: 'Carnatic Music Performance Training',
     description:
-      'Carnatic music performance training at RAGA, Hyderabad. Build repertoire, confidence and concert readiness through recitals, group concerts and recordings.',
+      'Carnatic music performance training at RAAGA, Hyderabad. Build repertoire, confidence and concert readiness through recitals, group concerts and recordings.',
     eyebrow: 'Kala Pradarśanam',
     h1: 'Carnatic music performance training.',
     intro:
-      'Performance is part of the learning journey, not an add-on at the end. RAGA prepares students to share their music with an audience as their repertoire, confidence and musical maturity grow.',
+      'Performance is part of the learning journey, not an add-on at the end. RAAGA prepares students to share their music with an audience as their repertoire, confidence and musical maturity grow.',
     highlights: [
       {
         title: 'Build towards the stage',
@@ -167,7 +167,7 @@ export const seoLandingPages: SeoLandingPage[] = [
     ],
     sections: [
       {
-        title: 'Performance opportunities at RAGA',
+        title: 'Performance opportunities at RAAGA',
         body: 'Students are prepared for individual kutcheris, group concerts, thematic presentations, cultural festivals and annual student recitals. The right opportunity depends on a student’s stage of learning and readiness.',
       },
       {
@@ -190,11 +190,11 @@ export const seoLandingPages: SeoLandingPage[] = [
     slug: 'academic-pathways',
     title: 'Carnatic Music Academic Pathways',
     description:
-      'Carnatic music academic preparation at RAGA, Hyderabad. Structured guidance for Certificate, Diploma, B.A. Music and M.A. Music pathways.',
+      'Carnatic music academic preparation at RAAGA, Hyderabad. Structured guidance for Certificate, Diploma, B.A. Music and M.A. Music pathways.',
     eyebrow: 'Vidwat Pātham',
     h1: 'Carnatic music academic pathways.',
     intro:
-      'For students who want a formal music qualification alongside serious practice, RAGA provides structured preparation and guidance through the traditional Carnatic vocal syllabus.',
+      'For students who want a formal music qualification alongside serious practice, RAAGA provides structured preparation and guidance through the traditional Carnatic vocal syllabus.',
     highlights: [
       {
         title: 'A structured foundation',
@@ -216,7 +216,7 @@ export const seoLandingPages: SeoLandingPage[] = [
       },
       {
         title: 'Qualifications we prepare students for',
-        body: 'RAGA guides students preparing for Certificate Course, Diploma, B.A. Music and M.A. Music pathways. The school does not claim to confer these qualifications itself; the right route depends on the relevant examining or university body.',
+        body: 'RAAGA guides students preparing for Certificate Course, Diploma, B.A. Music and M.A. Music pathways. The school does not claim to confer these qualifications itself; the right route depends on the relevant examining or university body.',
       },
       {
         title: 'A longer relationship with the art',

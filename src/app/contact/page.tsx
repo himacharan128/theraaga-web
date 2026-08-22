@@ -8,10 +8,10 @@ import { Faq } from '@/components/sections/Faq'
 export const metadata: Metadata = {
   title: 'Book a Carnatic Music Trial Class',
   description:
-    'Book a Carnatic music and vocal trial class with RAGA in Hyderabad. Choose Jubilee Hills, Phoenix Arena in Hitech City or live online.',
+    'Book a Carnatic music and vocal trial class with RAAGA in Hyderabad. Choose Jubilee Hills, Phoenix Arena in Hitech City or live online.',
   alternates: { canonical: '/contact' },
   openGraph: {
-    title: 'Prārambham: Book a trial at RAGA',
+    title: 'Prārambham: Book a trial at RAAGA',
     description:
       'Carnatic vocal classes for children and adults. Jubilee Hills, Hitech City, or online.',
     url: 'https://theraaga.in/contact',

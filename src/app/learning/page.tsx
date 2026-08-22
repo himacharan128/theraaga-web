@@ -11,10 +11,10 @@ import { getAcademicPathways, getPerformanceStrands } from '@/data/content'
 export const metadata: Metadata = {
   title: 'Carnatic Music Courses & Vocal Syllabus',
   description:
-    'The full Carnatic music and vocal syllabus taught at RAGA, Hyderabad. Sarali Swaras through to Manodharma Sangeetham, with academic pathways and concert training.',
+    'The full Carnatic music and vocal syllabus taught at RAAGA, Hyderabad. Sarali Swaras through to Manodharma Sangeetham, with academic pathways and concert training.',
   alternates: { canonical: '/learning' },
   openGraph: {
-    title: 'Sādhana: The Carnatic vocal syllabus at RAGA',
+    title: 'Sādhana: The Carnatic vocal syllabus at RAAGA',
     description:
       'Ten stages from Sarali Swaras to Manodharma Sangeetham, published in full. Plus Certificate, Diploma and degree pathways, and concert training.',
     url: 'https://theraaga.in/learning',

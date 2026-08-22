@@ -14,10 +14,10 @@ import {
 export const metadata: Metadata = {
   title: 'The Gurus: Our Musical Lineage',
   description:
-    'The Gurus at RAGA are accomplished musicians, scholars, performers and authors trained under eminent maestros, with over two decades of experience teaching Carnatic Sangeetham in Hyderabad.',
+    'The Gurus at RAAGA are accomplished musicians, scholars, performers and authors trained under eminent maestros, with over two decades of experience teaching Carnatic Sangeetham in Hyderabad.',
   alternates: { canonical: '/gurus' },
   openGraph: {
-    title: 'Guru Parampara: the Gurus at RAGA',
+    title: 'Guru Parampara: the Gurus at RAAGA',
     description:
       'Accomplished musicians, scholars, performers and authors. Students are thoughtfully guided to the Guru best suited to their journey.',
     url: 'https://theraaga.in/gurus',

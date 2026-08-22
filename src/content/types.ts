@@ -27,7 +27,7 @@ export type DisciplineStatus = 'active' | 'planned'
 export type GalleryCategory = 'classes' | 'performances' | 'workshops' | 'community'
 
 export interface SiteSettings {
-  /** Canonical lockup. Never bare "RAGA" — three other schools already use it. */
+  /** Canonical lockup. Never bare "RAAGA" — three other schools already use it. */
   legalName: string
   shortName: string
   tagline: string
@@ -162,7 +162,7 @@ export interface Tenet {
   body: string
 }
 
-/** A recurring kind of event RAGA holds — not a dated occurrence. */
+/** A recurring kind of event RAAGA holds — not a dated occurrence. */
 export interface EventKind {
   order: number
   name: string

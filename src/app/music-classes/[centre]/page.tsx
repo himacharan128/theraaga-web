@@ -42,14 +42,14 @@ export async function generateMetadata({
 
   const where = centre.locality ?? centre.name
   const title = `Carnatic Music Classes in ${where}`
-  const description = `Carnatic music and vocal classes at RAGA in ${where} for children and adults. Beginners welcome. Taught in the traditional order from Sarali Swaras to Manodharma Sangeetham.`
+  const description = `Carnatic music and vocal classes at RAAGA in ${where} for children and adults. Beginners welcome. Taught in the traditional order from Sarali Swaras to Manodharma Sangeetham.`
 
   return {
     title,
     description,
     alternates: { canonical: `/music-classes/${slug}` },
     openGraph: {
-      title: `${title} at RAGA`,
+      title: `${title} at RAAGA`,
       description,
       url: `https://theraaga.in/music-classes/${slug}`,
     },
@@ -79,7 +79,7 @@ export default async function CentrePage({
         title={`Carnatic music classes in ${centre.locality ?? centre.name}.`}
         lede={
           <p>
-            {centre.body} RAGA teaches Carnatic music and vocal classes for
+            {centre.body} RAAGA teaches Carnatic music and vocal classes for
             children from five and adults beginning at any age. No previous
             training needed.
           </p>

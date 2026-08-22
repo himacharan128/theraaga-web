@@ -3,7 +3,7 @@ import type { EventKind, JournalTopic } from '../types'
 /**
  * Sabha — Events.
  *
- * These are the KINDS of gathering RAGA holds, taken from the client's content
+ * These are the KINDS of gathering RAAGA holds, taken from the client's content
  * master. They are not dated occurrences, and nothing here implies a scheduled
  * date. Real dated events go in the `events` collection and render above this
  * list once they exist; until then this page is still true and still useful,

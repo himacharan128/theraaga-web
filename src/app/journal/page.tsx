@@ -8,10 +8,10 @@ import { getJournalTopics } from '@/data/content'
 export const metadata: Metadata = {
   title: 'Journal: Writing on Carnatic Sangeetham',
   description:
-    'Manana — reflections on ragas, great composers, kritis, shruti and laya, voice culture and practice, from the Gurus at RAGA in Hyderabad.',
+    'Manana — reflections on ragas, great composers, kritis, shruti and laya, voice culture and practice, from the Gurus at RAAGA in Hyderabad.',
   alternates: { canonical: '/journal' },
   openGraph: {
-    title: 'Manana: the RAGA journal',
+    title: 'Manana: the RAAGA journal',
     description:
       'Ragas, great composers, kritis explained, shruti and laya, voice culture and practice tips.',
     url: 'https://theraaga.in/journal',

@@ -397,7 +397,7 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
               className="mt-1 size-5 shrink-0 accent-[var(--color-accent)]"
             />
             <span className="text-[length:var(--text-step--1)] text-text-secondary">
-              I am the parent or guardian of the learner and I consent to RAGA
+              I am the parent or guardian of the learner and I consent to RAAGA
               contacting me about classes.
               <span className="text-accent" aria-hidden="true">
                 {' '}

@@ -8,37 +8,27 @@ import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
 import { track } from '@/lib/analytics'
 
 /**
- * English-primary, Sanskrit as the kicker.
+ * Eight plain English items, in the client's own order.
  *
- * Bailey & Wolfson: a correct first click yields 87% task success, a wrong one
- * 46%. Six simultaneously unfamiliar Sanskrit labels give a cold parent no
- * anchor, and "Prārambham" for Contact is worse than merely unfamiliar — it
- * collides with *Prarambhik*, a real beginner exam grade, which produces a
- * confidently wrong click. No heritage institution navigates in Sanskrit:
- * Kalakshetra (1936) and the Music Academy Madras (1928) are both plain
- * English, and Shankar Mahadevan Academy ships a three-item nav.
+ * The Sanskrit kickers (Nāda, Parampara, Sādhana…) were removed at the client's
+ * request. That also resolves the usability problem they carried: Bailey &
+ * Wolfson found a correct first click yields 87% task success against 46% for a
+ * wrong one, and eight simultaneously unfamiliar labels give a cold parent no
+ * anchor. "Prārambham" for Contact was worse than merely unfamiliar — it
+ * collides with *Prarambhik*, a real beginner exam grade.
  *
- * So the Sanskrit carries the meaning and the English carries the function. On
- * mobile the Sanskrit is dropped entirely — there is no room and no patience.
- *
- * Eight items, in the client's own order and with their own labels. Events and
- * Journal are included because the client's content master asks for them and
- * supplies real content for both — the kinds of gathering RAGA holds, and the
- * subjects it writes about. Neither page fakes a dated calendar or an article
- * list it does not have.
- *
- * At eight items the desktop row is tight, so the Sanskrit kicker drops below
- * the xl breakpoint and the labels carry alone.
+ * The Sanskrit still carries the meaning where it belongs: as the eyebrow on
+ * each page's own hero, and in the vanity paths that 301 to these slugs.
  */
 const NAV = [
-  { sanskrit: 'Nāda', devanagari: 'नाद', label: 'Home', href: '/' },
-  { sanskrit: 'Parampara', devanagari: 'परम्परा', label: 'About', href: '/about' },
-  { sanskrit: 'Guru Parampara', devanagari: 'गुरुपरम्परा', label: 'The Gurus', href: '/gurus' },
-  { sanskrit: 'Sādhana', devanagari: 'साधना', label: 'Learning', href: '/learning' },
-  { sanskrit: 'Sabha', devanagari: 'सभा', label: 'Events', href: '/events' },
-  { sanskrit: 'Manana', devanagari: 'मनन', label: 'Journal', href: '/journal' },
-  { sanskrit: 'Anubhava', devanagari: 'अनुभव', label: 'Gallery', href: '/gallery' },
-  { sanskrit: 'Prārambham', devanagari: 'प्रारम्भम्', label: 'Contact', href: '/contact' },
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
+  { label: 'The Gurus', href: '/gurus' },
+  { label: 'Learning', href: '/learning' },
+  { label: 'Events', href: '/events' },
+  { label: 'Journal', href: '/journal' },
+  { label: 'Gallery', href: '/gallery' },
+  { label: 'Contact', href: '/contact' },
 ]
 
 export function Header({ whatsappHref }: { whatsappHref: string }) {
@@ -83,19 +73,12 @@ export function Header({ whatsappHref }: { whatsappHref: string }) {
       <div className="u-shell flex h-16 items-center justify-between gap-3 md:h-20 md:gap-5">
         <Link
           href="/"
-          aria-label="RAGA Home"
+          aria-label="RAAGA Home"
           className="flex h-9 shrink-0 items-center sm:h-11"
         >
-          {/* ASSET MISMATCH — needs the client to settle it.
-              This file renders the wordmark as "raaga"; the client's content
-              master and their own poster both spell the school "RAGA", which is
-              what every string on the site now says. The image is theirs, so it
-              is left alone rather than swapped for type — but the wordmark has
-              to be regenerated as RAGA (or the copy reverted to Raaga) before
-              launch, and the OG card frozen only after that. See README. */}
           <Image
             src="/brand/raaga-wordmark.webp"
-            alt="RAGA, Sa. Pa. Sa."
+            alt="RAAGA, Sa. Pa. Sa."
             width={600}
             height={324}
             priority
@@ -110,14 +93,9 @@ export function Header({ whatsappHref }: { whatsappHref: string }) {
                 <Link
                   href={item.href}
                   aria-current={isCurrent(item.href) ? 'page' : undefined}
-                  className="group relative block text-center no-underline"
+                  className="block whitespace-nowrap font-[var(--font-ui)] text-[0.88rem] text-text-primary no-underline transition-colors hover:text-accent aria-[current=page]:text-accent"
                 >
-                  <span className="hidden font-[var(--font-display)] text-[0.66rem] uppercase tracking-[0.14em] text-accent-muted xl:block">
-                    {item.sanskrit}
-                  </span>
-                  <span className="block font-[var(--font-ui)] text-[0.84rem] text-text-primary transition-colors group-hover:text-accent group-aria-[current=page]:text-accent">
-                    {item.label}
-                  </span>
+                  {item.label}
                 </Link>
               </li>
             ))}
@@ -186,12 +164,6 @@ export function Header({ whatsappHref }: { whatsappHref: string }) {
                 >
                   <span className="font-[var(--font-ui)] text-[length:var(--text-step-0)]">
                     {item.label}
-                  </span>
-                  <span
-                    aria-hidden="true"
-                    className="deva text-[length:var(--text-step--1)] text-accent-muted"
-                  >
-                    {item.devanagari}
                   </span>
                 </Link>
               </li>
