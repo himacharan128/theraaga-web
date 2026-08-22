@@ -30,19 +30,13 @@ export async function Hero() {
       data-has-content="true"
       className="relative overflow-hidden border-b border-border"
     >
-      <span
-        aria-hidden="true"
-        className="absolute -right-32 top-14 size-[30rem] rounded-full border border-[color-mix(in_srgb,var(--color-accent)_11%,transparent)] sm:-right-20"
-      />
-      <span
-        aria-hidden="true"
-        className="absolute -right-16 top-28 size-80 rounded-full border border-[color-mix(in_srgb,var(--color-gold-hairline)_20%,transparent)]"
-      />
-      <div className="u-shell relative grid items-center gap-10 py-8 sm:py-12 md:py-20 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16 xl:py-24">
+      <div className="u-shell relative grid items-center gap-10 py-8 sm:py-12 md:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch lg:gap-16 xl:py-24">
         <div className="relative z-10">
-          <p className="u-eyebrow inline-flex items-center gap-3 rounded-full border border-[color-mix(in_srgb,var(--color-accent-muted)_28%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_72%,transparent)] px-3.5 py-2">
-            <span className="size-1.5 rounded-full bg-accent" aria-hidden="true" />
-            Nāda · Carnatic Sangeetham · Hyderabad since {site.foundedYear}
+          {/* Three ideas in one pill wrapped it onto two lines, which left the
+              dot floating at the top-left of a box instead of centred on a
+              line. Two ideas, no chrome, one line. */}
+          <p className="u-eyebrow">
+            Carnatic Sangeetham · Hyderabad since {site.foundedYear}
           </p>
 
           {/* One step down on small screens. At 390px the step-4 clamp resolves
@@ -52,7 +46,12 @@ export async function Hero() {
           {/* The client's headline runs to nine words, so it steps down twice on
               small screens. At step-5 it alone consumed the whole 360×640 fold
               and pushed both buttons out of view. */}
-          <h1 className="mt-5 max-w-[19ch] text-[length:var(--text-step-3)] font-[300] sm:text-[length:var(--text-step-4)] lg:text-[length:var(--text-step-5)]">
+          {/* Set at step-4 rather than step-5 on desktop. At step-5 the nine
+              words broke to five lines and stranded "Through" and "Tradition"
+              each alone — the rag was the loudest thing on the page. At this
+              size it falls to three lines with the italic phrase carried whole,
+              which is a deliberate typographic moment instead of an accident. */}
+          <h1 className="mt-5 max-w-[20ch] text-[length:var(--text-step-3)] font-[300] sm:text-[length:var(--text-step-4)]">
             A Journey Through the{' '}
             <span className="italic text-accent">Timeless Tradition</span> of
             Carnatic Sangeetham
@@ -66,7 +65,7 @@ export async function Hero() {
           {/* The orientation line. Not in the client's copy, but a hero that
               names neither the subject nor the city fails the one visitor this
               site is built for. */}
-          <p className="u-measure mt-4 text-[length:var(--text-step--1)] leading-[var(--lh-body)] text-text-muted">
+          <p className="u-measure mt-4 text-[length:var(--text-step-0)] leading-[var(--lh-body)] text-text-secondary">
             Carnatic vocal for children and adults at our{' '}
             <strong className="font-[400] text-text-secondary">Jubilee Hills</strong>{' '}
             and{' '}
@@ -101,7 +100,7 @@ export async function Hero() {
           </p>
         </div>
 
-        <aside className="relative z-10 mx-auto flex min-h-[19rem] w-full max-w-md flex-col justify-end overflow-hidden rounded-[var(--radius-lg)] bg-[linear-gradient(145deg,#7a2934,#511721)] p-7 text-on-accent shadow-[var(--shadow-lift)] sm:p-9 lg:max-w-none">
+        <aside className="relative z-10 mx-auto flex min-h-[19rem] w-full max-w-md flex-col justify-end overflow-hidden rounded-[var(--radius-lg)] lg:my-2 lg:max-w-none bg-[linear-gradient(145deg,#7a2934,#511721)] p-7 text-on-accent shadow-[var(--shadow-lift)] sm:p-9 lg:max-w-none">
           <span
             aria-hidden="true"
             className="motion-orbit absolute -right-12 -top-12 size-60 rounded-full border border-[color-mix(in_srgb,var(--color-gold-hairline)_44%,transparent)] motion-reduce:transform-none"
@@ -110,15 +109,18 @@ export async function Hero() {
             aria-hidden="true"
             className="absolute -right-2 -top-2 size-40 rounded-full border border-[color-mix(in_srgb,var(--color-on-accent)_16%,transparent)]"
           />
+          {/* Four tanpura strings. The site has exactly one motif family and
+              this is it — the same rule that threads the syllabus and the
+              lineage. The waveform bars that were here said "audio product",
+              not "Carnatic school". */}
           <span
             aria-hidden="true"
-            className="absolute bottom-12 right-8 flex items-end gap-2 opacity-50"
+            className="absolute bottom-0 right-10 top-0 flex gap-3 opacity-40"
           >
-            {[28, 50, 36, 68, 48, 82, 58].map((height, i) => (
+            {[0, 1, 2, 3].map((i) => (
               <span
                 key={i}
-                className="w-1.5 rounded-full bg-[color-mix(in_srgb,var(--color-gold-hairline)_80%,transparent)]"
-                style={{ height }}
+                className="w-px bg-[linear-gradient(to_bottom,transparent,color-mix(in_srgb,var(--color-gold-hairline)_90%,transparent)_38%,color-mix(in_srgb,var(--color-gold-hairline)_90%,transparent)_62%,transparent)]"
               />
             ))}
           </span>

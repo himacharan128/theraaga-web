@@ -210,10 +210,10 @@ p {
   isolation: isolate;
 }
 
+/* Flat, not a 135deg gradient. Across a full-bleed section the diagonal read
+   as a faint banding artefact rather than as depth, and it fought the ivory. */
 .section-shell--surface {
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 252, 245, 0.94)),
-    var(--color-surface);
+  background: var(--color-surface);
 }
 
 .section-shell--accent {
@@ -222,26 +222,15 @@ p {
     linear-gradient(125deg, #5c1a20 0%, var(--color-accent) 54%, #7c2934 100%);
 }
 
-.section-shell__orb {
-  position: absolute;
-  z-index: -1;
-  width: min(38vw, 32rem);
-  aspect-ratio: 1;
-  border: 1px solid rgba(201, 162, 39, 0.22);
-  border-radius: 999px;
-  pointer-events: none;
-}
+/* REMOVED: .section-shell__orb
+   A 32rem hairline circle was stamped onto every toned section at an identical
+   offset. Decoration applied by rule rather than by intent is exactly what
+   makes a page read as generated, and at these sizes it also cut through
+   content — most visibly straight across the swara row.
 
-.section-shell--surface .section-shell__orb {
-  right: -16rem;
-  top: -14rem;
-}
-
-.section-shell--accent .section-shell__orb {
-  left: -14rem;
-  bottom: -18rem;
-  border-color: rgba(247, 243, 234, 0.18);
-}
+   Circles still appear where they are clipped by an object that owns them (the
+   hero card, the footer), because there they are texture on a surface rather
+   than a shape floating over the page. */
 
 .page-hero {
   position: relative;

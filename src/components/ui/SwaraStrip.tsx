@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 
 /**
  * The seven swaras, playable. Educational, not a toy.
@@ -132,15 +132,23 @@ export function SwaraStrip() {
 
   return (
     <div>
-      <ul className="flex flex-wrap justify-center gap-3 md:gap-4">
-        {SWARAS.map((s) => (
-          <li key={s.label}>
+      {/* Seven items in a wrapping flex row break wherever they happen to fit —
+          which gave 6 + 1, an orphaned "Ni" that read as a bug. The break is now
+          explicit: 4 + 3 below sm, one row of seven above it. Seven across at
+          360px would put each circle under the 44px tap minimum, so two rows on
+          mobile is the honest answer; making the split deliberate is what stops
+          it looking broken. */}
+      <ul className="flex flex-wrap justify-center gap-2.5 sm:gap-3 md:gap-4">
+        {SWARAS.map((s, i) => (
+          <Fragment key={s.label}>
+            {i === 4 && <li aria-hidden="true" className="basis-full sm:hidden" />}
+          <li>
             <button
               type="button"
               onClick={() => play(s.label, SA * s.ratio)}
               aria-label={`Play note ${s.label}: ${s.gloss}`}
               data-active={active === s.label}
-              className="flex size-16 flex-col items-center justify-center rounded-full border border-border-strong
+              className="flex size-[3.5rem] flex-col items-center justify-center rounded-full border border-border-strong sm:size-16
                          bg-surface transition-[transform,background-color,border-color,box-shadow]
                          duration-[var(--dur-fast)] ease-[var(--ease-raaga)]
                          hover:border-accent hover:bg-[color-mix(in_srgb,var(--color-accent)_8%,transparent)]
@@ -148,7 +156,7 @@ export function SwaraStrip() {
                          data-[active=true]:bg-[color-mix(in_srgb,var(--color-accent)_16%,transparent)]
                          data-[active=true]:shadow-[0_0_0_4px_color-mix(in_srgb,var(--color-accent)_12%,transparent)]
                          motion-reduce:transition-none motion-reduce:data-[active=true]:scale-100
-                         md:size-[4.5rem]"
+                         md:size-[4.25rem]"
             >
               <span className="deva text-[length:var(--text-step-1)] leading-none text-accent">
                 {s.devanagari}
@@ -158,6 +166,7 @@ export function SwaraStrip() {
               </span>
             </button>
           </li>
+          </Fragment>
         ))}
       </ul>
 

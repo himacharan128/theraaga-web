@@ -54,7 +54,6 @@ export function Section({
       data-has-content={renderIf ? 'true' : 'false'}
       className={`section-shell py-[var(--spacing-section)] ${toneClass} ${className}`}
     >
-      {tone !== 'default' && <span aria-hidden="true" className="section-shell__orb" />}
       <div className="u-shell relative">
         {(eyebrow || title || lede) && (
           <header className="mb-10 md:mb-16">

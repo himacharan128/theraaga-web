@@ -29,20 +29,15 @@ export async function ListenWatch() {
       renderIf={clips.length > 0}
       fallback={
         <div className="relative overflow-hidden rounded-[var(--radius-lg)] border border-border bg-[linear-gradient(135deg,#fffdf7,#f4ece0)] px-5 py-8 shadow-[var(--shadow-soft)] sm:px-8 md:px-12 md:py-12">
-          <span
-            aria-hidden="true"
-            className="absolute -right-20 -top-20 size-64 rounded-full border border-[color-mix(in_srgb,var(--color-accent)_10%,transparent)]"
-          />
-          <div className="relative grid items-center gap-10 lg:grid-cols-[0.7fr_1.3fr]">
-            <div className="max-w-sm">
-              <p className="font-[var(--font-ui)] text-[0.7rem] font-medium uppercase tracking-[0.18em] text-accent-muted">
-                An instrument for the ear
-              </p>
-              <p className="mt-4 font-[var(--font-display)] text-[length:var(--text-step-2)] font-[300] leading-[var(--lh-snug)] text-accent">
-                Every lesson begins by finding Sa.
-              </p>
-              <p className="mt-4 text-[length:var(--text-step--1)] text-text-secondary">
-                Tap through the seven swaras, then use the tuning sequence that
+          <div className="relative grid items-center gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+            <div className="max-w-md">
+              {/* The Section above already carries the headline. A second one
+                  here ("Every lesson begins by finding Sa") was two titles for
+                  one idea — the redundancy that most makes a page read as
+                  generated. This is now instruction, not a rival headline. */}
+              <p className="font-[var(--font-display)] text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-secondary">
+                Every lesson begins by finding <em className="not-italic text-accent">Sa</em>.
+                Tap through the seven swaras, then play the tuning sequence that
                 gives a Carnatic voice its ground.
               </p>
             </div>
