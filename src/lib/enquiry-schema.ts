@@ -68,7 +68,12 @@ export const enquirySchema = z
       ),
 
     learner: z.enum(LEARNERS, { message: 'Please tell us who is learning.' }),
-    interest: z.enum(INTERESTS, { message: 'Please choose what you’d like to learn.' }),
+    /**
+     * Optional, and no longer on the form. RAAGA teaches one discipline, so
+     * asking which one is a required decision the site has already answered.
+     * The field stays in the schema for when other disciplines are added.
+     */
+    interest: z.enum(INTERESTS).optional(),
     mode: z.enum(MODES, { message: 'Please choose where you’d like to learn.' }),
     ageBand: z.enum(AGE_BANDS, { message: 'Please choose an age range.' }),
 

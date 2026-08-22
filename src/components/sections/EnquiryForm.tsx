@@ -21,9 +21,10 @@ import { centres } from '@/content/seed/site'
  * it is data nobody can act on. Plain `useActionState` keeps the form off the
  * critical JS path and re-uses the identical Zod schema on the server.
  *
- * Both required (✱) and (optional) are marked explicitly: Baymard found 32% of
- * users hit a validation error on a required field they had skipped when only
- * optional fields were marked.
+ * Marking convention: every field in the main path is required, and the form
+ * states that once at the top. Marking each of five with a red asterisk marks
+ * nothing — Baymard's finding is to mark the MINORITY case, which here is the
+ * optional block, and those are labelled individually.
  *
  * NOTE: no free-text textarea. HubSpot's data singles out textareas and
  * dropdowns as the field types that actually depress completion — which is also
@@ -34,10 +35,6 @@ const CHIPS = {
   learner: [
     { value: 'myself', label: 'Myself' },
     { value: 'my_child', label: 'My child' },
-  ],
-  interest: [
-    { value: 'carnatic_vocal', label: 'Carnatic vocal' },
-    { value: 'not_sure', label: 'Not sure yet' },
   ],
   // Derived from the centres data, so the card a visitor tapped and the option
   // they then pick can never drift apart.
@@ -97,16 +94,12 @@ function ChipGroup({
 }) {
   return (
     <fieldset>
+      {/* No asterisk. Every field in the main path is required and the form
+          says so once, at the top; five red stars down one column is noise
+          that marks nothing. Only the exceptions are marked. */}
       <legend className="mb-3 block font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium">
         {legend}
-        {required ? (
-          <span className="text-accent" aria-hidden="true">
-            {' '}
-            ✱
-          </span>
-        ) : (
-          <span className="text-text-muted"> (optional)</span>
-        )}
+        {!required && <span className="text-text-muted"> (optional)</span>}
       </legend>
       <div className="flex flex-wrap gap-2">
         {options.map((o) => {
@@ -114,10 +107,13 @@ function ChipGroup({
           return (
             <label
               key={o.value}
-              className={`cursor-pointer select-none border px-4 py-2.5 font-[var(--font-ui)] text-[length:var(--text-step--1)] transition-colors duration-[var(--dur-fast)] ${
+              /* The radio is sr-only, so without has-[:focus-visible] a
+                 keyboard user could tab through these chips with nothing on
+                 screen moving — the control was operable but invisible. */
+              className={`flex min-h-11 cursor-pointer select-none items-center rounded-[var(--radius-sm)] border px-4 font-[var(--font-ui)] text-[length:var(--text-step--1)] transition-colors duration-[var(--dur-fast)] has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent ${
                 selected
                   ? 'border-accent bg-accent text-on-accent'
-                  : 'border-border-strong bg-surface text-text-secondary hover:border-accent'
+                  : 'border-border-strong bg-bg text-text-secondary hover:border-accent hover:bg-[color-mix(in_srgb,var(--color-accent)_5%,transparent)]'
               }`}
             >
               <input
@@ -158,7 +154,6 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
   const [contactName, setContactName] = useState('')
   const [phone, setPhone] = useState('')
   const [learner, setLearner] = useState('')
-  const [interest, setInterest] = useState('')
   const [mode, setMode] = useState('')
   const [ageBand, setAgeBand] = useState('')
   const [timezone, setTimezone] = useState('')
@@ -239,8 +234,11 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
       action={action}
       onInput={onFirstInput}
       noValidate
-      className="grid gap-8"
+      className="grid gap-8 rounded-[var(--radius-lg)] border border-border bg-[color-mix(in_srgb,var(--color-elevated)_92%,transparent)] p-5 shadow-[var(--shadow-soft)] sm:p-8 md:p-10"
     >
+      <p className="font-[var(--font-ui)] text-[length:var(--text-step--1)] text-text-muted">
+        Everything below is needed unless it says optional.
+      </p>
       {/* Honeypot — off-screen, never announced, never focusable. */}
       <div aria-hidden="true" className="sr-only">
         <label htmlFor="websiteUrl">Leave this field empty</label>
@@ -257,17 +255,16 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
         <input key={name} type="hidden" name={name} value={value} />
       ))}
 
-      <div className="grid gap-6 sm:grid-cols-2">
+      {/* Single column. Side-by-side fields make the eye zigzag and are
+          the most-cited layout cause of skipped fields; nothing here is short
+          enough to earn a pair. */}
+      <div className="grid gap-6">
         <div>
           <label
             htmlFor="contactName"
             className="mb-2 block font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium"
           >
             {learner === 'my_child' ? 'Parent or guardian’s name' : 'Your name'}
-            <span className="text-accent" aria-hidden="true">
-              {' '}
-              ✱
-            </span>
           </label>
           <input
             id="contactName"
@@ -280,7 +277,7 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
             autoCapitalize="words"
             aria-invalid={!!err.contactName}
             aria-describedby={err.contactName ? 'err-contactName' : undefined}
-            className="w-full border border-border-strong bg-surface px-4 py-3 text-[length:var(--text-step-0)] outline-none focus:border-accent"
+            className="w-full rounded-[var(--radius-sm)] border border-border-strong bg-bg px-4 py-3 text-[length:var(--text-step-0)] outline-none focus:border-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           />
           {err.contactName && (
             <p
@@ -299,13 +296,12 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
             className="mb-2 block font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium"
           >
             WhatsApp number
-            <span className="text-accent" aria-hidden="true">
-              {' '}
-              ✱
-            </span>
           </label>
-          <div className="flex">
-            <span className="flex items-center border border-r-0 border-border-strong bg-bg px-3 font-[var(--font-ui)] text-[length:var(--text-step--1)] text-text-muted">
+          {/* One bordered container, not two boxes shoved together. The +91
+              now reads as part of the field rather than as a label that lost
+              its input. */}
+          <div className="flex items-stretch overflow-hidden rounded-[var(--radius-sm)] border border-border-strong bg-bg focus-within:border-accent">
+            <span className="flex items-center border-r border-border px-3.5 font-[var(--font-ui)] text-[length:var(--text-step--1)] text-text-muted">
               +91
             </span>
             <input
@@ -320,7 +316,7 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
               maxLength={12}
               aria-invalid={!!err.phone}
               aria-describedby="hint-phone"
-              className="w-full border border-border-strong bg-surface px-4 py-3 text-[length:var(--text-step-0)] outline-none focus:border-accent"
+              className="w-full bg-transparent px-4 py-3 text-[length:var(--text-step-0)] outline-none"
             />
           </div>
           <p
@@ -340,15 +336,6 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
         value={learner}
         onChange={setLearner}
         error={err.learner}
-      />
-
-      <ChipGroup
-        name="interest"
-        legend="What would you like to learn?"
-        options={CHIPS.interest}
-        value={interest}
-        onChange={setInterest}
-        error={err.interest}
       />
 
       <ChipGroup
@@ -399,10 +386,6 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
             <span className="text-[length:var(--text-step--1)] text-text-secondary">
               I am the parent or guardian of the learner and I consent to RAAGA
               contacting me about classes.
-              <span className="text-accent" aria-hidden="true">
-                {' '}
-                ✱
-              </span>
             </span>
           </label>
           {err.guardianConsent && (
@@ -446,7 +429,7 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
                 inputMode="email"
                 aria-invalid={!!err.email}
                 aria-describedby={err.email ? 'err-email' : undefined}
-                className="w-full border border-border-strong bg-surface px-4 py-3 text-[length:var(--text-step-0)] outline-none focus:border-accent"
+                className="w-full rounded-[var(--radius-sm)] border border-border-strong bg-bg px-4 py-3 text-[length:var(--text-step-0)] outline-none focus:border-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               />
               {err.email && (
                 <p id="err-email" role="alert" className="mt-2 text-[length:var(--text-step--1)] text-accent">
@@ -469,7 +452,7 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 autoComplete="address-level2"
-                className="w-full border border-border-strong bg-surface px-4 py-3 text-[length:var(--text-step-0)] outline-none focus:border-accent"
+                className="w-full rounded-[var(--radius-sm)] border border-border-strong bg-bg px-4 py-3 text-[length:var(--text-step-0)] outline-none focus:border-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               />
             </div>
           </div>
@@ -523,7 +506,7 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
           onChange={(e) => setMessage(e.target.value)}
           aria-invalid={!!err.message}
           aria-describedby={err.message ? 'err-message' : undefined}
-          className="w-full resize-y border border-border-strong bg-surface px-4 py-3 text-[length:var(--text-step-0)] outline-none focus:border-accent"
+          className="w-full resize-y rounded-[var(--radius-sm)] border border-border-strong bg-bg px-4 py-3 text-[length:var(--text-step-0)] outline-none focus:border-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         />
         {err.message && (
           <p

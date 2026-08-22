@@ -188,8 +188,12 @@ async function AdminEnquiriesContent({
                       </a>
                     </td>
                     <td className="px-5 py-4 text-stone-600">
-                      <p className="font-medium text-stone-900">{INTEREST_LABELS[lead.interest]}</p>
-                      <p className="mt-1">{lead.learner === 'my_child' ? 'For a child' : 'For myself'} · {AGE_LABELS[lead.ageBand]}</p>
+                      <p className="font-medium text-stone-900">
+                        {lead.learner === 'my_child' ? 'For a child' : 'For myself'} · {AGE_LABELS[lead.ageBand]}
+                      </p>
+                      {lead.interest && (
+                        <p className="mt-1">{INTEREST_LABELS[lead.interest]}</p>
+                      )}
                       <p className="mt-1">{MODE_LABELS[lead.mode]}{lead.timezone ? ` · ${lead.timezone}` : ''}</p>
                     </td>
                     <td className="max-w-xs px-5 py-4 leading-6 text-stone-600">{lead.message || <span className="text-stone-400">No message</span>}</td>

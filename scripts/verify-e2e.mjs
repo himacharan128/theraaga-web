@@ -54,7 +54,6 @@ await p.waitForTimeout(1600) // clear the bot time-trap
 await p.fill('#contactName', 'Anitha Raghavan')
 await p.fill('#phone', PHONE)
 await p.getByText('My child', { exact: true }).click()
-await p.getByText('Carnatic vocal', { exact: true }).click()
 await p.getByText('Phoenix Arena, Hitech City', { exact: true }).click()
 await p.getByText('7–12', { exact: true }).click()
 
