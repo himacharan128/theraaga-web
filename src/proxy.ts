@@ -33,7 +33,9 @@ export function proxy(request: NextRequest) {
         headers: { 'content-type': 'text/plain; charset=utf-8' },
       })
     }
-    if (isAsset(pathname) || pathname.startsWith('/admin')) return NextResponse.next()
+    if (isAsset(pathname) || pathname.startsWith('/admin') ||
+      pathname === '/api/admin/search-console/connect' ||
+      pathname === '/api/admin/search-console/callback') return NextResponse.next()
     if (pathname.startsWith('/api/')) return new NextResponse(null, { status: 404 })
     return NextResponse.rewrite(new URL('/admin', request.url))
   }

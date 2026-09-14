@@ -58,6 +58,11 @@ type TimelineRow = { day: string; count: number }
 
 export type AdminDashboard = {
   since: string
+  until: string
+  days: number
+  previous: Record<string, number>
+  overdueLeads: number
+  lastActivity: Date | null
   pageViews: number
   formViews: number
   formStarts: number
@@ -89,14 +94,24 @@ async function metricCount(event: string, since: string): Promise<number> {
   return rows[0]?.count ?? 0
 }
 
-export async function getAdminDashboard(): Promise<AdminDashboard | null> {
+export async function getAdminDashboard(days: 7 | 30 | 90 = 30): Promise<AdminDashboard | null> {
   if (!isAdminDatabaseConfigured()) return null
 
-  const since = dayBefore(29)
+  const since = dayBefore(days - 1)
+  const until = dayBefore(0)
   const db = await getAdminDb()
   const analytics = db.collection<DailyMetric>('analytics_daily')
   const leads = db.collection<StoredLead>('leads')
-  const metrics = { day: { $gte: since } }
+  const metrics = { day: { $gte: since, $lte: until } }
+  const [previousRows, overdueLeads, latest] = await Promise.all([
+    analytics.aggregate<{ event: string; count: number }>([
+      { $match: { day: { $gte: dayBefore(days * 2 - 1), $lt: since } } },
+      { $group: { _id: '$event', count: { $sum: '$count' } } },
+      { $project: { _id: 0, event: '$_id', count: 1 } },
+    ]).toArray(),
+    leads.countDocuments({ status: 'new', submittedAt: { $lt: new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString() } }),
+    analytics.findOne({}, { sort: { updatedAt: -1 }, projection: { updatedAt: 1 } }),
+  ])
 
   const [
     pageViews,
@@ -220,12 +235,20 @@ export async function getAdminDashboard(): Promise<AdminDashboard | null> {
 
   return {
     since,
+    until,
+    days,
+    previous: Object.fromEntries(previousRows.map(row => [row.event, row.count])),
+    overdueLeads,
+    lastActivity: latest?.updatedAt ?? null,
     pageViews,
     formViews,
     formStarts,
     submissions,
     whatsappClicks,
-    pageViewsByDay,
+    pageViewsByDay: Array.from({ length: days }, (_, index) => {
+      const day = dayBefore(days - 1 - index)
+      return { day, count: pageViewsByDay.find(row => row.day === day)?.count ?? 0 }
+    }),
     topPages: topPages.map((row) => ({ ...row, label: label(row.label, '/') })),
     sources: sources.map((row) => ({ ...row, label: label(row.label, 'Direct') })),
     locations: locations.map((row) => ({ ...row, label: label(row.label, 'Unknown') })),

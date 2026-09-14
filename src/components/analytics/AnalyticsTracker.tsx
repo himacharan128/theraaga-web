@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import type { RaagaTelemetryDetail } from '@/lib/analytics'
+import { externalReferrerHost } from '@/lib/traffic-source'
 
 const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign'] as const
 
@@ -52,6 +53,7 @@ function publish(detail: RaagaTelemetryDetail, pathname: string) {
     path: pathname,
     label: eventLabel(detail.event, detail.props),
     device: deviceBucket(),
+    referrerHost: externalReferrerHost(document.referrer),
     utmSource: compact(query.get(UTM_KEYS[0])),
     utmMedium: compact(query.get(UTM_KEYS[1])),
     utmCampaign: compact(query.get(UTM_KEYS[2])),

@@ -21,10 +21,9 @@ export async function GET(request: Request) {
   const googleError = url.searchParams.get('error')
   if (googleError || !code || !state) return NextResponse.redirect(destination(request, 'connection-cancelled'))
 
-  const verifier = await consumeSearchConsoleOAuthState(stateHash(state), session.username)
-  if (!verifier) return NextResponse.redirect(destination(request, 'connection-expired'))
-
   try {
+    const verifier = await consumeSearchConsoleOAuthState(stateHash(state), session.username)
+    if (!verifier) return NextResponse.redirect(destination(request, 'connection-expired'))
     const refreshToken = await exchangeAuthorizationCode(code, verifier)
     const connection = await connectSearchConsoleAccount({ refreshToken, username: session.username })
     await syncSearchConsoleConnection(connection.id)

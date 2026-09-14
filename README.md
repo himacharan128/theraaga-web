@@ -207,3 +207,30 @@ URI `https://admin.theraaga.in/api/admin/search-console/callback`, and set
 `search_console_reports`. The scheduled Vercel job refreshes the selected
 connection daily; Search Console itself typically finalises data two to three
 days after a search.
+
+### September 2026 reporting and local discovery update
+
+The overview supports 7/30/90-day windows, the preceding equal-length period,
+zero-filled daily activity, a status pipeline and New enquiries older than 48
+hours. Traffic cards are aggregate events, never unique visitors. Ratios are
+event ratios, not linked visitor conversion rates. Historical source counts
+cannot be repaired: the updated collector sends only the external document
+referrer hostname, with paths and query strings removed.
+
+`/admin/growth` derives address/profile readiness from supplied content and
+query opportunities from available Search Console reports. It is an action
+list, not a live Google Business Profile verification service. The confirmed
+Jubilee Hills address and coordinate pin were provided by the owner on
+2026-09-15. Phoenix Arena address and exact hours remain unconfirmed. The owner
+plans to create Business Profiles later; a map pin is not a verified listing.
+
+`/getting-started` is an admissions guide linked from the footer and learning
+hub and included in the sitemap. No invented teacher byline, review or award is
+attached to it.
+
+Run `node --import tsx scripts/test-reporting.ts` for OAuth-host routing and
+reporting regressions. With a local server running, run
+`node scripts/check-local-release.mjs` for desktop/mobile page, canonical,
+address and authentication checks. Screenshots go to `/tmp/raaga-release-qa`.
+Private production consent and database reports must be checked after release;
+the local environment has no admin database or admin session credentials.

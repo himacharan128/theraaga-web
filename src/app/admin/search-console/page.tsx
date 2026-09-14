@@ -2,11 +2,13 @@ import { Suspense } from 'react'
 import { connection } from 'next/server'
 import {
   getPrimarySearchConsoleReport,
+  isSearchReportStale,
   isSearchConsoleReady,
   listSearchConsoleConnections,
 } from '@/data/search-console'
 import { requireAdmin } from '@/lib/admin-auth'
 import { AdminHeader } from '@/components/admin/AdminHeader'
+import { changeLabel } from '@/lib/reporting'
 import {
   choosePrimarySearchConsoleConnection,
   chooseSearchConsoleSite,
@@ -58,11 +60,11 @@ function LoadingSearchConsole() {
 async function SearchConsoleContent({ searchParams }: { searchParams: Promise<{ notice?: string | string[] }> }) {
   await connection()
   const session = await requireAdmin()
-  const [{ notice }, connections, report] = await Promise.all([
-    searchParams,
-    listSearchConsoleConnections(),
-    getPrimarySearchConsoleReport(),
-  ])
+  const { notice } = await searchParams
+  const results = await Promise.allSettled([listSearchConsoleConnections(), getPrimarySearchConsoleReport()])
+  const connections = results[0].status === 'fulfilled' ? results[0].value : []
+  const report = results[1].status === 'fulfilled' ? results[1].value : null
+  const unavailable = results.some(result => result.status === 'rejected')
   const noticeValue = typeof notice === 'string' ? notice : undefined
   const configured = isSearchConsoleReady()
 
@@ -76,6 +78,8 @@ async function SearchConsoleContent({ searchParams }: { searchParams: Promise<{ 
           username={session.username}
         />
         <Notice value={noticeValue} />
+        {unavailable && <p role="alert" className="mt-5 rounded-xl border border-amber-200 bg-amber-50 p-4">Search data could not be loaded. Check the database connection and permissions, then try again. This is not a zero-traffic report.</p>}
+        {report && isSearchReportStale(report.fetchedAt) && <p role="status" className="mt-5 rounded-xl border border-amber-200 bg-amber-50 p-4">This report has not refreshed in over 48 hours. Use Refresh now and check the account connection if it fails.</p>}
 
         <section className="mt-7 rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -83,7 +87,7 @@ async function SearchConsoleContent({ searchParams }: { searchParams: Promise<{ 
               <p className="font-[var(--font-ui)] text-xs font-semibold uppercase tracking-[0.16em] text-[#8c6a15]">Google connections</p>
               <h2 className="mt-1 text-3xl font-light">Search Console accounts</h2>
               <p className="mt-2 max-w-3xl text-sm leading-6 text-stone-600">
-                Connect more than one authorised Google account if needed. The selected primary connection powers the dashboard; access tokens are encrypted before storage and never reach the public website.
+                Your selected Google property supplies this report. Connect an authorised account to see how people find your school.
               </p>
             </div>
             {configured ? (
@@ -152,7 +156,7 @@ async function SearchConsoleContent({ searchParams }: { searchParams: Promise<{ 
               ))}
             </ul>
           ) : (
-            <p className="mt-5 rounded-xl bg-stone-50 p-4 text-sm leading-6 text-stone-600">No Google account is connected yet. The public website remains analytics-cookie-free until an administrator completes this private connection.</p>
+            <p className="mt-5 rounded-xl bg-stone-50 p-4 text-sm leading-6 text-stone-600">{unavailable ? 'Connection status unavailable.' : 'No Google account is connected yet. Connect the account with access to theraaga.in to begin reporting. The public website remains free of analytics cookies after connection.'}</p>
           )}
         </section>
 
@@ -169,7 +173,7 @@ async function SearchConsoleContent({ searchParams }: { searchParams: Promise<{ 
             <>
               <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                 {[
-                  ['Clicks', stat(report.totals.clicks), 'Visitors from Google Search'],
+                  ['Clicks', stat(report.totals.clicks), 'Search result clicks, not unique visitors'],
                   ['Impressions', stat(report.totals.impressions), 'Times RAAGA appeared in results'],
                   ['Click-through rate', percent(report.totals.ctr), 'Clicks per search impression'],
                   ['Average position', stat(report.totals.position), 'Lower is better'],
@@ -181,6 +185,8 @@ async function SearchConsoleContent({ searchParams }: { searchParams: Promise<{ 
                   </article>
                 ))}
               </div>
+              {report.previousTotals && <p className="mt-4 text-sm text-stone-600">Compared with the previous 28 days: clicks {changeLabel(report.totals.clicks, report.previousTotals.clicks)}; impressions {changeLabel(report.totals.impressions, report.previousTotals.impressions)}.</p>}
+              <p className="mt-3 break-all text-xs text-stone-500">Reporting property: {report.siteUrl}. Google may omit anonymised queries; table totals may differ from headline totals.</p>
               <div className="mt-5 grid gap-5 lg:grid-cols-2">
                 <ReportTable title="Top search queries" rows={report.queries} />
                 <ReportTable title="Top pages in Search" rows={report.pages} pageLabels />

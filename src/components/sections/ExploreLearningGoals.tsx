@@ -27,6 +27,7 @@ export async function ExploreLearningGoals() {
       tone="surface"
     >
       <ul className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <li className="rounded-[var(--radius-md)] border border-border bg-surface p-6"><h3 className="text-2xl">New to Carnatic music?</h3><p className="mt-3 leading-7 text-text-secondary">Choose a learning format, understand the syllabus and prepare your questions before joining.</p><Link href="/getting-started" className="mt-6 inline-block font-medium text-accent">Read the getting-started guide →</Link></li>
         {pages.map((page) => (
           <li key={page.slug} className="group">
             <Link

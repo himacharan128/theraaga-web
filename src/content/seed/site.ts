@@ -25,8 +25,11 @@ export const site: SiteSettings = {
   city: 'Hyderabad',
   region: 'Telangana',
   country: 'India',
-  // TIER 0: pending — do NOT invent a street address or geo coordinates.
-  streetAddress: null,
+  // Address and pin supplied by the owner on 2026-09-15.
+  streetAddress: 'Road Number 24, Jawahar Colony, Venkatagiri',
+  postalCode: '500033',
+  geo: { latitude: 17.43625, longitude: 78.4089167 },
+  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=17.43625%2C78.4089167',
   whatsapp: '918247558515',
   phoneDisplay: '+91 82475 58515',
   // NULL BY DECISION, not by oversight. theraaga.in has no MX, SPF or DKIM, and
@@ -67,8 +70,10 @@ export const centres: Centre[] = [
     body: 'Our founding centre, teaching here since 2016. Small batches for children and adults, in person, with the guru in the room.',
     cta: 'Classes at Jubilee Hills',
     href: '/music-classes/jubilee-hills',
-    // TIER 0: pending client confirmation. Never fabricated.
-    streetAddress: null,
+    streetAddress: 'Road Number 24, Jawahar Colony, Venkatagiri',
+    postalCode: '500033',
+    geo: { latitude: 17.43625, longitude: 78.4089167 },
+    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=17.43625%2C78.4089167',
     formLabel: 'Jubilee Hills',
     nearby: [
       'Banjara Hills',

@@ -22,8 +22,7 @@ async function AdminLoginContent() {
         </p>
         <h1 className="mt-3 text-4xl font-light text-[#201b1a]">Admin dashboard</h1>
         <p className="mt-4 text-base leading-7 text-stone-600">
-          Private access for RAAGA&apos;s school team. Traffic is measured as daily,
-          cookieless aggregates only.
+          Sign in to manage enquiries, review traffic and see how people find RAAGA.
         </p>
         <div className="mt-8">
           <AdminLoginForm />

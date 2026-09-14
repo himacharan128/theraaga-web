@@ -26,9 +26,10 @@ export async function ContactBlock() {
               {site.locality}, {site.city}
             </span>
             <span className="block text-text-muted">
-              {site.region}, {site.country}
+              {site.region} {site.postalCode}, {site.country}
             </span>
           </address>
+          {site.mapsUrl && <a href={site.mapsUrl} target="_blank" rel="noopener noreferrer" className="mt-5 inline-block text-accent underline underline-offset-4">Directions to Jubilee Hills →</a>}
 
           <p className="mt-6 space-y-1">
             <a

@@ -35,6 +35,7 @@ export type SearchConsoleMetric = {
 }
 
 export type SearchConsoleReportData = {
+  previousTotals?: Omit<SearchConsoleMetric, 'label'>
   periodStart: string
   periodEnd: string
   totals: Omit<SearchConsoleMetric, 'label'>
@@ -213,17 +214,19 @@ export async function fetchSearchConsoleReport(refreshToken: string, siteUrl: st
   const token = await accessToken(refreshToken)
   const periodEnd = indiaDate(3)
   const periodStart = indiaDate(30)
-  const [totalRows, dailyRows, queryRows, pageRows, countryRows, deviceRows] = await Promise.all([
+  const [totalRows, dailyRows, queryRows, pageRows, countryRows, deviceRows, previousRows] = await Promise.all([
     analyticsRows(token, siteUrl, periodStart, periodEnd, [], 1),
     analyticsRows(token, siteUrl, periodStart, periodEnd, ['date'], 31),
     analyticsRows(token, siteUrl, periodStart, periodEnd, ['query']),
     analyticsRows(token, siteUrl, periodStart, periodEnd, ['page']),
     analyticsRows(token, siteUrl, periodStart, periodEnd, ['country']),
     analyticsRows(token, siteUrl, periodStart, periodEnd, ['device']),
+    analyticsRows(token, siteUrl, indiaDate(58), indiaDate(31), [], 1),
   ])
 
   const total = metric('', totalRows[0])
   return {
+    previousTotals: { clicks: number(previousRows[0]?.clicks), impressions: number(previousRows[0]?.impressions), ctr: number(previousRows[0]?.ctr), position: number(previousRows[0]?.position) },
     periodStart,
     periodEnd,
     totals: {

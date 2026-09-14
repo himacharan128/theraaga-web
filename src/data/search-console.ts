@@ -26,7 +26,7 @@ type SearchConsoleConnectionDocument = {
   connectedAt: Date
   lastSyncedAt?: Date
   lastSyncError?: string
-  disabledAt?: Date
+  disabledAt?: Date | null
   createdAt: Date
   updatedAt: Date
 }
@@ -50,6 +50,10 @@ type SearchConsoleReportDocument = SearchConsoleReportData & {
 export type SearchConsoleConnection = Omit<SearchConsoleConnectionDocument, 'encryptedRefreshToken'>
 export type SearchConsoleReport = Omit<SearchConsoleReportDocument, 'connectionId'>
 
+export function isSearchReportStale(fetchedAt: Date): boolean {
+  return Date.now() - new Date(fetchedAt).getTime() > 48 * 60 * 60 * 1000
+}
+
 let indexesPromise: Promise<void> | undefined
 
 async function ensureIndexes(): Promise<void> {
@@ -65,7 +69,7 @@ async function ensureIndexes(): Promise<void> {
       ])
     })()
   }
-  return indexesPromise
+  try { await indexesPromise } catch (error) { indexesPromise = undefined; throw error }
 }
 
 function connectionProjection() {
@@ -140,9 +144,9 @@ export async function connectSearchConsoleAccount({
   const connections = db.collection<SearchConsoleConnectionDocument>('search_console_connections')
   const now = new Date()
   const existing = accountEmail
-    ? await connections.findOne({ provider: PROVIDER, accountEmail, disabledAt: { $exists: false } })
+    ? await connections.findOne({ provider: PROVIDER, accountEmail, disabledAt: null })
     : null
-  const primaryExists = await connections.countDocuments({ provider: PROVIDER, disabledAt: { $exists: false }, isPrimary: true })
+  const primaryExists = await connections.countDocuments({ provider: PROVIDER, disabledAt: null, isPrimary: true })
   const id = existing?.id ?? randomUUID()
   const selectedSite = availableSites.includes(existing?.selectedSite ?? '')
     ? existing?.selectedSite
@@ -160,10 +164,9 @@ export async function connectSearchConsoleAccount({
         isPrimary: existing?.isPrimary ?? primaryExists === 0,
         connectedBy: username,
         connectedAt: now,
-        lastSyncError: undefined,
-        disabledAt: undefined,
         updatedAt: now,
       },
+      $unset: { lastSyncError: '', disabledAt: '' },
       $setOnInsert: { id, createdAt: now },
     },
     { upsert: true },
@@ -180,7 +183,7 @@ export async function listSearchConsoleConnections(): Promise<SearchConsoleConne
   const db = await getAdminDb()
   return db
     .collection<SearchConsoleConnectionDocument>('search_console_connections')
-    .find({ provider: PROVIDER, disabledAt: { $exists: false } }, connectionProjection())
+    .find({ provider: PROVIDER, disabledAt: null }, connectionProjection())
     .sort({ isPrimary: -1, connectedAt: -1 })
     .toArray()
 }
@@ -189,9 +192,9 @@ export async function setPrimarySearchConsoleConnection(id: string): Promise<voi
   await ensureIndexes()
   const db = await getAdminDb()
   const connections = db.collection<SearchConsoleConnectionDocument>('search_console_connections')
-  const selected = await connections.findOne({ id, provider: PROVIDER, disabledAt: { $exists: false } })
+  const selected = await connections.findOne({ id, provider: PROVIDER, disabledAt: null })
   if (!selected) return
-  await connections.updateMany({ provider: PROVIDER, disabledAt: { $exists: false } }, { $set: { isPrimary: false, updatedAt: new Date() } })
+  await connections.updateMany({ provider: PROVIDER, disabledAt: null }, { $set: { isPrimary: false, updatedAt: new Date() } })
   await connections.updateOne({ id }, { $set: { isPrimary: true, updatedAt: new Date() } })
 }
 
@@ -199,9 +202,9 @@ export async function setSearchConsoleSite(id: string, siteUrl: string): Promise
   await ensureIndexes()
   const db = await getAdminDb()
   const connections = db.collection<SearchConsoleConnectionDocument>('search_console_connections')
-  const connection = await connections.findOne({ id, provider: PROVIDER, disabledAt: { $exists: false } })
+  const connection = await connections.findOne({ id, provider: PROVIDER, disabledAt: null })
   if (!connection?.availableSites.includes(siteUrl)) return
-  await connections.updateOne({ id }, { $set: { selectedSite: siteUrl, updatedAt: new Date(), lastSyncError: undefined } })
+  await connections.updateOne({ id }, { $set: { selectedSite: siteUrl, updatedAt: new Date() }, $unset: { lastSyncError: '' } })
 }
 
 export async function disableSearchConsoleConnection(id: string): Promise<void> {
@@ -209,14 +212,14 @@ export async function disableSearchConsoleConnection(id: string): Promise<void> 
   const db = await getAdminDb()
   const connections = db.collection<SearchConsoleConnectionDocument>('search_console_connections')
   const now = new Date()
-  const selected = await connections.findOne({ id, provider: PROVIDER, disabledAt: { $exists: false } })
+  const selected = await connections.findOne({ id, provider: PROVIDER, disabledAt: null })
   if (!selected) return
   await connections.updateOne(
     { id },
     { $set: { disabledAt: now, encryptedRefreshToken: '', isPrimary: false, updatedAt: now } },
   )
   if (selected.isPrimary) {
-    const next = await connections.findOne({ provider: PROVIDER, disabledAt: { $exists: false } }, { sort: { connectedAt: -1 } })
+    const next = await connections.findOne({ provider: PROVIDER, disabledAt: null }, { sort: { connectedAt: -1 } })
     if (next) await connections.updateOne({ id: next.id }, { $set: { isPrimary: true, updatedAt: now } })
   }
 }
@@ -225,7 +228,7 @@ export async function syncSearchConsoleConnection(id: string): Promise<void> {
   await ensureIndexes()
   const db = await getAdminDb()
   const connections = db.collection<SearchConsoleConnectionDocument>('search_console_connections')
-  const connection = await connections.findOne({ id, provider: PROVIDER, disabledAt: { $exists: false } })
+  const connection = await connections.findOne({ id, provider: PROVIDER, disabledAt: null })
   if (!connection?.selectedSite || !connection.encryptedRefreshToken) return
 
   try {
@@ -236,7 +239,7 @@ export async function syncSearchConsoleConnection(id: string): Promise<void> {
       { $set: { ...report, connectionId: id, siteUrl: connection.selectedSite, fetchedAt: now, updatedAt: now } },
       { upsert: true },
     )
-    await connections.updateOne({ id }, { $set: { lastSyncedAt: now, lastSyncError: undefined, updatedAt: now } })
+    await connections.updateOne({ id }, { $set: { lastSyncedAt: now, updatedAt: now }, $unset: { lastSyncError: '' } })
   } catch (error) {
     const message = error instanceof Error ? error.message.slice(0, 220) : 'Unable to refresh Search Console data'
     await connections.updateOne({ id }, { $set: { lastSyncError: message, updatedAt: new Date() } })
@@ -248,7 +251,7 @@ export async function syncPrimarySearchConsoleConnection(): Promise<void> {
   const db = await getAdminDb()
   const connection = await db.collection<SearchConsoleConnectionDocument>('search_console_connections').findOne({
     provider: PROVIDER,
-    disabledAt: { $exists: false },
+    disabledAt: null,
     isPrimary: true,
   })
   if (connection) await syncSearchConsoleConnection(connection.id)
@@ -260,12 +263,12 @@ export async function getPrimarySearchConsoleReport(): Promise<SearchConsoleRepo
   const db = await getAdminDb()
   const primary = await db.collection<SearchConsoleConnectionDocument>('search_console_connections').findOne({
     provider: PROVIDER,
-    disabledAt: { $exists: false },
+    disabledAt: null,
     isPrimary: true,
   })
   if (!primary) return null
   return db.collection<SearchConsoleReportDocument>('search_console_reports').findOne(
-    { connectionId: primary.id },
+    { connectionId: primary.id, siteUrl: primary.selectedSite },
     { projection: { connectionId: 0 } },
   )
 }

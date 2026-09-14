@@ -28,6 +28,7 @@ export async function Footer() {
     {
       title: 'Learn',
       links: [
+        { label: 'Getting started with Carnatic music', href: '/getting-started' },
         { label: 'Learning · Sādhana', href: '/learning' },
         { label: 'Carnatic vocal classes in Hyderabad', href: '/carnatic-vocal-classes-hyderabad' },
         { label: 'Classes in Jubilee Hills', href: '/music-classes/jubilee-hills' },
@@ -86,7 +87,8 @@ export async function Footer() {
             <p className="mt-4 text-[length:var(--text-step--1)] text-[color-mix(in_srgb,var(--color-on-accent)_72%,transparent)]">
               School of Indian Classical Music
               <br />
-              {site.locality}, {site.city}
+              {site.streetAddress && <>{site.streetAddress}<br /></>}
+              {site.locality}, {site.city} {site.postalCode}
             </p>
             <p className="mt-6">
               <span className="deva block text-[length:var(--text-step-1)] text-on-accent">

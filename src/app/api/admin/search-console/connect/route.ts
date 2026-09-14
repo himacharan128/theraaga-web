@@ -18,6 +18,11 @@ export async function GET(request: Request) {
 
   const state = createOAuthState()
   const { verifier, challenge } = createPkcePair()
-  await createSearchConsoleOAuthState({ stateHash: stateHash(state), verifier, username: session.username })
-  return NextResponse.redirect(googleAuthorizationUrl({ state, challenge }))
+  try {
+    await createSearchConsoleOAuthState({ stateHash: stateHash(state), verifier, username: session.username })
+    return NextResponse.redirect(googleAuthorizationUrl({ state, challenge }))
+  } catch {
+    base.searchParams.set('notice', 'connection-failed')
+    return NextResponse.redirect(base)
+  }
 }

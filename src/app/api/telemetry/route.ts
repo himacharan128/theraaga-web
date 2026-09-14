@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { recordAggregateTelemetry } from '@/data/analytics'
+import { externalReferrerHost } from '@/lib/traffic-source'
 
 const eventSchema = z.enum([
   'page_view',
@@ -26,6 +27,7 @@ const payloadSchema = z.object({
     .regex(/^\/(?!\/)/, 'A same-site pathname is required.'),
   label: z.string().max(64).optional(),
   device: z.enum(['mobile', 'tablet', 'desktop']),
+  referrerHost: z.string().max(100).regex(/^[a-z0-9.-]+$/).optional(),
   utmSource: z.string().max(64).optional(),
   utmMedium: z.string().max(64).optional(),
   utmCampaign: z.string().max(64).optional(),
@@ -92,7 +94,9 @@ export async function POST(request: Request) {
       utmSource: value.utmSource,
       utmMedium: value.utmMedium,
       utmCampaign: value.utmCampaign,
-      referrerHost: referrerHost(request.headers.get('referer')),
+      referrerHost: value.referrerHost
+        ? externalReferrerHost(`https://${value.referrerHost}`)
+        : referrerHost(request.headers.get('referer')),
       country: compactHeader(request.headers.get('x-vercel-ip-country'), 3),
       region: compactHeader(request.headers.get('x-vercel-ip-country-region'), 32),
       city: compactHeader(request.headers.get('x-vercel-ip-city'), 64),

@@ -41,6 +41,7 @@ export async function chooseSearchConsoleSite(formData: FormData): Promise<void>
   const siteUrl = String(formData.get('siteUrl') ?? '')
   if (!id || siteUrl.length > 240) return
   await setSearchConsoleSite(id, siteUrl)
+  await syncSearchConsoleConnection(id)
   refresh()
 }
 

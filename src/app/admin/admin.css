@@ -1,0 +1,31 @@
+.admin-shell {
+  font-family: var(--font-ui), sans-serif;
+  --admin-ink: #172325;
+  color: var(--admin-ink);
+  background: #f4f6f7;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.admin-shell h1, .admin-shell h2, .admin-shell h3 {
+  font-family: var(--font-ui), sans-serif;
+  font-weight: 600;
+  letter-spacing: -.035em;
+  line-height: 1.2;
+}
+.admin-shell h1 { font-size: clamp(1.75rem, 3vw, 2.4rem); }
+.admin-shell h2 { font-size: 1.25rem; }
+.admin-shell header { padding-top: .5rem; }
+.admin-shell header > div > div:first-child > p:first-child { color: #6b1f2a; }
+.admin-shell input, .admin-shell select, .admin-shell button { font: inherit; }
+.admin-shell button, .admin-shell select, .admin-shell nav a { min-height: 42px; }
+.admin-shell :focus-visible { outline: 3px solid #956b2a; outline-offset: 3px; }
+.admin-shell table { font-size: 13px; }
+.admin-shell tbody tr:hover { background: #faf8f5; }
+.admin-shell th { white-space: nowrap; }
+.admin-shell article > p.text-4xl { font-size: 2rem; font-weight: 650; letter-spacing: -.04em; }
+.admin-shell .bg-stone-100 { background-color: #f4f6f7; }
+.admin-shell .shadow-sm { box-shadow: 0 2px 5px #17232504; }
+@media (max-width: 640px) {
+  .admin-shell header nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .admin-shell header nav a { text-align: center; }
+}

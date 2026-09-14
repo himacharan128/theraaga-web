@@ -40,6 +40,9 @@ export interface SiteSettings {
   country: string
   /** null until the client confirms a publishable street address. */
   streetAddress: string | null
+  postalCode?: string
+  geo?: { latitude: number; longitude: number }
+  mapsUrl?: string
   whatsapp: string
   phoneDisplay: string
   /**
@@ -126,6 +129,9 @@ export interface Centre {
   cta: string
   href: string
   streetAddress: string | null
+  postalCode?: string
+  geo?: { latitude: number; longitude: number }
+  mapsUrl?: string
   /** Drives the mode chip label on the enquiry form, so the two never drift. */
   formLabel: string
   /** Localities this centre is realistically reachable from. */

@@ -98,6 +98,7 @@ export default async function CentrePage({
       </PageHero>
 
       <CurrentBatches />
+      {centre.streetAddress && <Section id="directions" eyebrow="Plan your visit" title={`Visit RAAGA in ${centre.name}`}><address className="not-italic text-xl leading-8">{centre.streetAddress}<br />{centre.locality}, Telangana {centre.postalCode}</address><p className="mt-4 text-text-secondary">Contact the school to confirm your class time before travelling.</p>{centre.mapsUrl && <a className="mt-5 inline-block text-accent underline underline-offset-4" href={centre.mapsUrl} target="_blank" rel="noopener noreferrer">Open the supplied location in Google Maps →</a>}</Section>}
 
       <Section
         id="nearby"
