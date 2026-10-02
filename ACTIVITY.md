@@ -15,6 +15,59 @@ Newest entry first.
 
 ---
 
+## 2026-10-02 — Unblock deployment; correct the admin client's scope comment
+
+- **Requested:** Bhasuri's first merge did not reach production. Find out why and
+  get deployment working.
+- **Diagnosis:** Vercel reported *"Deployment was blocked — the commit author did
+  not have contributing access to the project on Vercel. The Hobby Plan does not
+  support collaboration for private repositories."* Both the preview (`2d80cb4`)
+  and the production deploy (`a934fa1`) were refused; the last success was
+  `854f0c0` on 14 September, authored by himacharan128. Production was serving a
+  17-day-old build the whole time and visitors were unaffected, but nothing
+  could ship. Cause: a private repo plus a collaborator plus the Hobby plan.
+  The stored Vercel CLI token is also dead — `vercel whoami` returns
+  "User not found", so there is no CLI access until it is replaced.
+- **Decision / scope:** Owner chose to **make the repository public**, which
+  Hobby does allow collaboration on. Before doing so, the full git history was
+  audited: no `.env`, credential or lead file has ever been committed, no
+  connection string, API key or private key appears anywhere in history, and the
+  only phone number present is the `9848012345` fixture in
+  `scripts/test-enquiry.ts`. The seed content that became public is already
+  visible on the live site. Two alternatives were offered and declined —
+  transferring both repo and Vercel project to Bhasuri's own accounts, and
+  upgrading to Pro.
+- **Work completed:** Repository made public by himacharan128 (Bhasuri has
+  `admin: false` and cannot change visibility). Corrected the scope comment on
+  `src/data/admin-mongo.ts`: it claimed the URI is "never sent to the browser or
+  used by a public page", but `/api/telemetry` is public and unauthenticated and
+  writes `analytics_daily` through that client, so every public page view can
+  trigger a write with those credentials. The comment is what someone reads when
+  scoping the Atlas user, so it now states the real surface and the privilege the
+  account actually needs.
+- **Files or services changed:** `src/data/admin-mongo.ts` (comment only, no
+  runtime change); repository visibility.
+- **Verification:** `npm run verify` green. Commit `4937b20`, authored as
+  Bhasuri, deployed successfully — confirming the public switch fixed the block.
+  Production returns 200 on `/`, `/contact`, `/learning`, `/gurus` and
+  `/music-classes/jubilee-hills`; zero matches for `priceRange`, Meta Pixel,
+  GTM or `gtag(`; `admin.theraaga.in/robots.txt` still `Disallow: /`.
+- **Deployment / production status:** Live, `4937b20`.
+- **Follow-up / owner action:**
+  - **Scope every Vercel secret to the Production environment only.** Now that
+    the repository is public, anyone may open a pull request from a fork, and
+    Vercel builds previews for pull requests. Any variable also enabled for
+    Preview is readable by code in a stranger's PR. Production-only scoping is
+    free and also stops a preview from writing to the real lead list.
+  - Replace the dead Vercel CLI token if CLI access is wanted.
+  - Atlas hardening, still outstanding — see the entry below and
+    `Credentials/README.md`.
+- **Credential or access impact:** none read, printed or rotated. The Vercel
+  environment-variable page was deliberately **not** read — it renders secret
+  values.
+
+---
+
 ## 2026-10-02 — Laptop handover: git, GitHub and working agreement
 
 - **Requested:** Bhasuri took over the project on her own MacBook Air. Set up
