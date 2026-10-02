@@ -3,12 +3,24 @@ import 'server-only'
 import { MongoClient, type Db } from 'mongodb'
 
 /**
- * Read/write access for the password-protected school dashboard only.
+ * The read/write Atlas connection, used by the dashboard AND by aggregate
+ * telemetry.
  *
  * This MUST be a different Atlas user from MONGODB_URI. The public enquiry
- * account can insert leads but cannot read them; the dashboard account may
- * read/update `leads` and maintain aggregate `analytics_daily` documents.
- * Its URI is never sent to the browser or used by a public page.
+ * account can insert leads but cannot read them; this account may read/update
+ * `leads` and maintain `analytics_daily`, plus the three `search_console_*`
+ * collections, so it needs `readWrite` on the database rather than a
+ * collection-scoped privilege — it creates indexes.
+ *
+ * SCOPE — read before scoping the Atlas user or moving a caller.
+ * This URI is never sent to the browser, but it is NOT reached only from
+ * behind the admin password: `/api/telemetry` is a public, unauthenticated
+ * route and it writes `analytics_daily` through `recordAggregateTelemetry`,
+ * which uses this client. So the surface that can trigger a write with these
+ * credentials includes every public page view, not just an authenticated
+ * dashboard session. That is why the telemetry route validates its payload
+ * with a closed Zod enum, restricts the dimension alphabet, and stores no
+ * identifier — the write path is public even though the credential is not.
  */
 const uri = process.env.MONGODB_ADMIN_URI
 const dbName = process.env.MONGODB_DB ?? 'raaga'
