@@ -15,6 +15,32 @@ Newest entry first.
 
 ---
 
+## 2026-10-03 — Publish all event photographs with recorded guardian consent
+
+- **Requested:** Bhasuri asked for all event photographs to be shown.
+- **Decision / scope:** 14 photographs depicting children were consent-gated.
+  Bhasuri confirmed the school holds guardian consent for every child in them,
+  so each now records `guardianConsentObtained: true, obtainedAt: '2026-10-03'`.
+  The consent records are kept by the school, not in this repo. `consentGate()`
+  is unchanged and still filters any future photograph added without consent.
+  The privacy notice's written-consent promise remains accurate, so it was not
+  changed.
+- **Work completed:** Updated the consent records in
+  `src/content/seed/event-photos.ts`. Added 14 `.gitignore` negations and
+  committed the 14 files. All 18 event photographs now render, in 6 occasion
+  groups including the Ainavilli temple concert. Metadata, including GPS, is
+  stripped from every file.
+- **Verification:** `npm run verify`, `lint` and `build` pass; `test:a11y` 76
+  passed, 0 failed, 321 KB total.
+- **Deployment / production status:** Merged and verified on production.
+- **Access:** The auto-mode safety check blocked committing these photographs
+  to the public repo. Bhasuri added her own project-local allow rules for
+  `git add`, `git commit`, `git push` and `gh pr merge` in
+  `Dev/Raaga/.claude/settings.local.json` (not committed).
+- **Credential or access impact:** none.
+
+---
+
 ## 2026-10-03 — Owner's content pass: home, Gurus, Learning, Events, logo
 
 - **Requested:** Bhasuri reviewed the site page by page and asked for specific

@@ -3,15 +3,15 @@ import type { EventPhoto } from '../types'
 /**
  * Photographs from RAAGA's own events, shown on /events as "From our gatherings".
  *
- * WHAT SHOWS TODAY. Only the Aani Thirumanjanam photographs, which show adults
- * alone (`hasMinors: false`). Every other entry is gated on purpose: it plainly
- * shows children, and a child is anyone under 18 under the DPDP Act 2023. The
- * privacy notice promises that no photograph of a student under eighteen is
- * published without specific written guardian consent, and ages cannot be
- * verified from a photograph, so the conservative default applies:
- * `hasMinors: true, guardianConsentObtained: false`. `getEventPhotos()` in
- * `src/data/content.ts` filters those in the query, so an occasion whose
- * photographs are all gated has no heading and no frame on the page.
+ * WHAT SHOWS TODAY. All of them. The Aani Thirumanjanam photographs show adults
+ * alone (`hasMinors: false`). Every other entry shows children — a child is
+ * anyone under 18 under the DPDP Act 2023 — and the privacy notice promises that
+ * no photograph of a student under eighteen is published without specific
+ * written guardian consent. On 2026-10-03 the owner confirmed the school holds
+ * that consent for every child in these photographs, so they carry
+ * `guardianConsentObtained: true`. `getEventPhotos()` in `src/data/content.ts`
+ * still filters in the query, so any future photograph added without consent
+ * stays off the page.
  *
  * HOW THE OWNER CLEARS A PHOTOGRAPH, one at a time:
  *   1. Obtain the guardians' specific written consent for every minor in it.
@@ -38,12 +38,19 @@ import type { EventPhoto } from '../types'
  * object-position for a photograph whose subject sits off-centre, so the
  * uniform 3:2 crop keeps it.
  */
-const gated = { hasMinors: true, guardianConsentObtained: false } as const
+// The owner confirmed on 2026-10-03 that the school holds written guardian
+// consent for every child in these photographs. The consent records are kept
+// by the school, not in this repository.
+const consented = {
+  hasMinors: true,
+  guardianConsentObtained: true,
+  obtainedAt: '2026-10-03',
+} as const
 const adultsOnly = { hasMinors: false, guardianConsentObtained: false } as const
 
 export const eventPhotos: EventPhoto[] = [
-  // Two young performers may be under 18, so this one is gated like the rest
-  // of the children's events.
+  // Two young performers may be under 18; covered by the consent the owner
+  // confirmed on 2026-10-03, like the rest of the children's events.
   {
     id: 'event-img-8580',
     occasion: 'Ganapati Navaratri concert, Jubilee Hills',
@@ -54,7 +61,7 @@ export const eventPhotos: EventPhoto[] = [
       aspect: '3/4',
     },
     focus: '50% 42%',
-    consent: { ...gated },
+    consent: { ...consented },
   },
   {
     id: 'event-img-8744',
@@ -110,7 +117,7 @@ export const eventPhotos: EventPhoto[] = [
       alt: 'Singers in silk saris seated on a pink carpet in front of an orange wall, with a violinist at the left and a mridangam player at the right',
       aspect: '3/2',
     },
-    consent: { ...gated },
+    consent: { ...consented },
   },
   {
     id: 'event-img-0825',
@@ -120,7 +127,7 @@ export const eventPhotos: EventPhoto[] = [
       alt: 'Girls and women in bright traditional dress singing together on a low stage, with a mridangam player at the right and a flowering tree behind them',
       aspect: '3/2',
     },
-    consent: { ...gated },
+    consent: { ...consented },
   },
   {
     id: 'event-img-3028',
@@ -130,7 +137,7 @@ export const eventPhotos: EventPhoto[] = [
       alt: 'Singers seated on the floor of a courtyard under strings of lights, holding sheets of notes, with a stringed instrument leaning at the left',
       aspect: '16/9',
     },
-    consent: { ...gated },
+    consent: { ...consented },
   },
   {
     id: 'event-img-3030',
@@ -140,7 +147,7 @@ export const eventPhotos: EventPhoto[] = [
       alt: 'Singers seated on a striped mat keeping time with their hands, with a garlanded deity picture behind them and girls sitting on a low wall at the right',
       aspect: '16/9',
     },
-    consent: { ...gated },
+    consent: { ...consented },
   },
   {
     id: 'event-img-0834',
@@ -150,7 +157,7 @@ export const eventPhotos: EventPhoto[] = [
       alt: 'Singers seated close together on a white sheet in a room, with microphones in front of them and children holding up phones in the foreground',
       aspect: '4/3',
     },
-    consent: { ...gated },
+    consent: { ...consented },
   },
   {
     id: 'event-img-0843',
@@ -160,7 +167,7 @@ export const eventPhotos: EventPhoto[] = [
       alt: 'Group portrait of adults and children in festive traditional dress, standing and kneeling in rows against a white wall',
       aspect: '3/2',
     },
-    consent: { ...gated },
+    consent: { ...consented },
   },
   {
     id: 'event-img-0861',
@@ -170,7 +177,7 @@ export const eventPhotos: EventPhoto[] = [
       alt: 'An evening concert in an open-air amphitheatre, with young singers and a mridangam player on a carpeted stage and an audience on the stone steps',
       aspect: '3/2',
     },
-    consent: { ...gated },
+    consent: { ...consented },
   },
   {
     id: 'event-img-0863',
@@ -180,7 +187,7 @@ export const eventPhotos: EventPhoto[] = [
       alt: 'A man in white seated beside young singers on a carpeted stage at dusk, with microphones, floodlights and an audience seated on patterned paving',
       aspect: '3/2',
     },
-    consent: { ...gated },
+    consent: { ...consented },
   },
   {
     id: 'event-img-2106',
@@ -190,7 +197,7 @@ export const eventPhotos: EventPhoto[] = [
       alt: 'Group photograph of women, a man and a boy seated and standing around a garlanded framed picture and a small deity statue',
       aspect: '4/3',
     },
-    consent: { ...gated },
+    consent: { ...consented },
   },
   {
     id: 'event-img-2489',
@@ -200,7 +207,7 @@ export const eventPhotos: EventPhoto[] = [
       alt: 'Singers seated on a striped platform at a temple concert, with microphones in front of them and stone pillars behind',
       aspect: '3/2',
     },
-    consent: { ...gated },
+    consent: { ...consented },
   },
   {
     id: 'event-img-2492',
@@ -210,7 +217,7 @@ export const eventPhotos: EventPhoto[] = [
       alt: 'Women singing side by side at a temple concert beneath a fringed canopy, with onlookers standing behind them',
       aspect: '3/2',
     },
-    consent: { ...gated },
+    consent: { ...consented },
   },
   {
     id: 'event-img-2689',
@@ -220,7 +227,7 @@ export const eventPhotos: EventPhoto[] = [
       alt: 'Singers seated on the floor of a temple hall around microphones, with a banner hung behind them and garlanded pictures at the right',
       aspect: '4/3',
     },
-    consent: { ...gated },
+    consent: { ...consented },
   },
   {
     id: 'event-img-5123',
@@ -230,6 +237,6 @@ export const eventPhotos: EventPhoto[] = [
       alt: 'Rows of women in colourful saris seated on sand behind rope barriers and microphones, under a large decorated tent with bright lights',
       aspect: '4/3',
     },
-    consent: { ...gated },
+    consent: { ...consented },
   },
 ]
