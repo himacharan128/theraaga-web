@@ -13,6 +13,7 @@ import { requireAdmin } from '@/lib/admin-auth'
 import { INTERESTS, LEARNERS, MODES } from '@/lib/enquiry-schema'
 import { AdminHeader } from '@/components/admin/AdminHeader'
 import {
+  AGE_LABELS,
   DeleteLeadControl,
   LEAD_STATUS_LABELS,
   LeadContact,
@@ -32,13 +33,6 @@ const MODE_LABELS: Record<Mode, string> = {
 const INTEREST_LABELS = {
   carnatic_vocal: 'Carnatic vocal',
   not_sure: 'Help me choose',
-} as const
-
-const AGE_LABELS = {
-  under_7: 'Under 7',
-  '7_12': '7–12',
-  '13_17': '13–17',
-  adult: 'Adult',
 } as const
 
 function formatDate(value: string): string {

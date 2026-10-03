@@ -4,7 +4,7 @@ import { getAdminDashboard, LEAD_STATUSES, type DashboardLead } from '@/data/adm
 import { requireAdmin } from '@/lib/admin-auth'
 import { logoutAdmin } from './actions'
 import { AdminHeader } from '@/components/admin/AdminHeader'
-import { LEAD_STATUS_LABELS, LeadContact, LeadStatusForm } from '@/components/admin/LeadParts'
+import { AGE_LABELS, LEAD_STATUS_LABELS, LeadContact, LeadStatusForm } from '@/components/admin/LeadParts'
 import { REPORT_PERIODS, reportDays, changeLabel } from '@/lib/reporting'
 
 function stat(value: number): string {
@@ -26,7 +26,7 @@ function formatDate(value: string): string {
 function LeadRequest({ lead }: { lead: DashboardLead }) {
   return (
     <>
-      <p>{lead.learner === 'my_child' ? 'For a child' : 'For myself'} · {lead.ageBand.replace('_', '–')}</p>
+      <p>{lead.learner === 'my_child' ? 'For a child' : 'For myself'} · {AGE_LABELS[lead.ageBand]}</p>
       <p className="mt-1 capitalize">{lead.mode.replace('-', ' ')}</p>
     </>
   )
@@ -119,7 +119,7 @@ async function AdminDashboardContent({ searchParams }: { searchParams: Promise<{
             {REPORT_PERIODS.map(period => <a key={period} href={`/admin?days=${period}`} aria-current={period === days ? 'page' : undefined} className={`rounded-lg px-3 py-2 text-xs font-semibold ${period === days ? 'bg-[#6b1f2a] text-white' : 'text-stone-600'}`}>{period} days</a>)}
           </nav>
         </div>
-        {dashboard.overdueLeads > 0 && <a href="/admin/enquiries?status=new" className="mt-5 block rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950"><strong>{dashboard.overdueLeads} enquiries need attention.</strong> These contacts have remained New for more than 48 hours. Open the enquiry queue →</a>}
+        {dashboard.overdueLeads > 0 && <a href="/admin/enquiries?status=new" className="mt-5 block rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950"><strong>{dashboard.overdueLeads} {dashboard.overdueLeads === 1 ? 'enquiry needs' : 'enquiries need'} attention.</strong> {dashboard.overdueLeads === 1 ? 'This contact has' : 'These contacts have'} remained New for more than 48 hours. Open the enquiry queue →</a>}
 
         <section className="mt-7 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
           {cards.map(([title, value, help, event]) => (

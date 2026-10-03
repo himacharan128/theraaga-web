@@ -1,5 +1,6 @@
 import { deleteLead, updateLeadStatus } from '@/app/admin/actions'
 import { LEAD_STATUSES, type LeadStatus } from '@/data/admin-dashboard'
+import type { AGE_BANDS } from '@/lib/enquiry-schema'
 
 /*
  * Pieces shared by the dashboard and the enquiries list. Each page renders a
@@ -13,6 +14,13 @@ export const LEAD_STATUS_LABELS: Record<LeadStatus, string> = {
   trial_booked: 'Trial booked',
   enrolled: 'Enrolled',
   lost: 'Closed',
+}
+
+export const AGE_LABELS: Record<(typeof AGE_BANDS)[number], string> = {
+  under_7: 'Under 7',
+  '7_12': '7–12',
+  '13_17': '13–17',
+  adult: 'Adult',
 }
 
 export function LeadContact({ name, phone }: { name: string; phone: string }) {
