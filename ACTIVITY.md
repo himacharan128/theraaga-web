@@ -15,6 +15,51 @@ Newest entry first.
 
 ---
 
+## 2026-10-03 — Restore the client's paisley emblem to the brand lockup
+
+- **Requested:** "This is the logo. This is missing in my website. Make it proper
+  clarity and then add it to assets and then add it wherever logo is required,
+  beside Raaga." Supplied as a gold image pasted into chat.
+- **Decision / scope:** The chat image was not used as the source. The client's
+  own master lockup — the paisley emblem *and* the `raaga` wordmark together — is
+  embedded at 2000x2000 in `docs/Music Teaching Portfolio Design.pdf`, and the
+  designer's website mockup in the same deck places the emblem to the left of the
+  wordmark in both header and footer. That settled both the artwork and its
+  placement from client material rather than from a redraw, which the
+  never-fabricate rule requires.
+- **Work completed:** Extracted the master lockup from the PDF's embedded image
+  streams. The motif within it is only 136x547 and soft-edged, so it was traced
+  to vector (potrace, over a smoothed coverage field — a direct trace encodes the
+  blur as thousands of nodes) rather than shipped as a blurry raster. Result:
+  `public/brand/raaga-emblem.svg`, 31 KB on disk, 10.7 KB gzipped, sharp at any
+  size. It is painted as `currentColor` through a CSS mask, so one cached file
+  serves the ivory header, the maroon footer and admin instead of one export per
+  colourway. New `Wordmark` component holds the lockup for all three call sites.
+- **Two judgement calls worth recording:** The emblem's ink is sampled from the
+  wordmark raster (`#834848`), *not* `--color-accent` (`#6B1F2A`) — the two sit
+  side by side and a deeper maroon beside the lettering reads as two marks rather
+  than one. And the master artwork puts the emblem at 2.45x the lettering's
+  height, which overflows the 64px mobile bar, so the lockup holds it at 1.35x
+  and derives the gap from the artwork's own ratio.
+- **Files or services changed:** `public/brand/raaga-emblem.svg` (new),
+  `src/components/ui/Wordmark.tsx` (new), `src/app/globals.css`,
+  `src/components/layout/Header.tsx`, `src/components/layout/Footer.tsx`,
+  `src/components/admin/AdminHeader.tsx`.
+- **Verification:** `verify` 14/14, `lint`, `build` clean. `test:a11y` against a
+  production build: 33/33, CSS 14/16 KB, fonts 112/120 KB, total 337/400 KB. No
+  budget was raised. Checked in Safari and at 375px. Production confirmed after
+  deploy: `/brand/raaga-emblem.svg` serves 200 `image/svg+xml` at 31,266 bytes,
+  and the lockup markup renders in both header and footer on theraaga.in.
+- **Deployment / production status:** Merged as #3 and live on theraaga.in.
+- **Follow-up / owner action:** Two items were deliberately left alone. (1)
+  `src/app/icon.svg` is a 394 KB crude trace of this same motif; replacing it
+  with the clean asset would cut ~92% from a file every visitor downloads, and it
+  awaits the owner's decision. (2) The OG image was not touched, because the
+  freeze rule governs it — see the note under that heading in `CLAUDE.md`.
+- **Credential or access impact:** none
+
+---
+
 ## 2026-10-03 — Full-site UAT review and fixes
 
 - **Requested:** Bhasuri asked for a review of theraaga.in and admin.theraaga.in
