@@ -4,6 +4,7 @@ import type { Filter } from 'mongodb'
 import type { StoredLead } from '@/data/leads'
 import { getAdminDb, isAdminDatabaseConfigured } from '@/data/admin-mongo'
 import { dayBefore, type DailyMetric } from '@/data/analytics'
+import { ensureLeadRetention } from '@/data/lead-retention'
 
 export const LEAD_STATUSES = [
   'new',
@@ -97,6 +98,7 @@ async function metricCount(event: string, since: string): Promise<number> {
 export async function getAdminDashboard(days: 7 | 30 | 90 = 30): Promise<AdminDashboard | null> {
   if (!isAdminDatabaseConfigured()) return null
 
+  await ensureLeadRetention()
   const since = dayBefore(days - 1)
   const until = dayBefore(0)
   const db = await getAdminDb()
@@ -262,6 +264,7 @@ export async function getAdminDashboard(days: 7 | 30 | 90 = 30): Promise<AdminDa
 export async function getAdminEnquiries(filters: EnquiryFilters): Promise<AdminEnquiries | null> {
   if (!isAdminDatabaseConfigured()) return null
 
+  await ensureLeadRetention()
   const db = await getAdminDb()
   const leads = db.collection<StoredLead>('leads')
   const filter: Filter<StoredLead> = {}
@@ -310,6 +313,7 @@ export async function getAdminEnquiries(filters: EnquiryFilters): Promise<AdminE
 }
 
 export async function setLeadStatus(id: string, status: LeadStatus): Promise<void> {
+  await ensureLeadRetention()
   const db = await getAdminDb()
   await db.collection<StoredLead>('leads').updateOne({ id }, { $set: { status } })
 }
