@@ -30,11 +30,9 @@ export interface LineageReference {
    * Portrait, imported statically so next/image gets its intrinsic size and a
    * blur placeholder. Optional: an entry without one renders as a finished
    * text card. Usage rights for the photographs are unconfirmed; to drop them,
-   * remove the import, these fields and the `photo` line below.
+   * remove the import, this field and the `photo` line below.
    */
   photo?: StaticImageData
-  /** Who to credit under the photo, shown as "Photo: {photoCredit}". */
-  photoCredit?: string
 }
 
 export interface ScholarlyWork {
@@ -68,7 +66,6 @@ export const lineageReferences: LineageReference[] = [
     name: 'Nookala Chinna Satyanarayana',
     note: 'A revered maestro of Carnatic Sangeetham, honoured with the Padma Bhushan, one of India’s highest civilian awards.',
     photo: nookalaPhoto,
-    photoCredit: 'The Hindu',
   },
 ]
 

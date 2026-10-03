@@ -5,8 +5,8 @@ import type { LineageReference } from '@/content/seed'
  * The maestros the Gurus trained under, as cards.
  *
  * Each card is complete as TEXT: an accent rule, the name with its honorific,
- * and the client-approved note. A portrait, when an entry has one, sits with
- * its credit beneath it. There is no frame waiting to be filled, so an entry
+ * and the client-approved note. A portrait, when an entry has one, is added
+ * above or beside that. There is no frame waiting to be filled, so an entry
  * without a photograph is a finished card and not a card with something
  * missing.
  *
@@ -49,11 +49,6 @@ export function LineageCards({ entries }: { entries: LineageReference[] }) {
                 loading="lazy"
                 className="h-auto w-full"
               />
-              {entry.photoCredit ? (
-                <figcaption className="border-b border-border px-7 py-2.5 text-[0.75rem] text-text-muted md:px-9">
-                  Photo: {entry.photoCredit}
-                </figcaption>
-              ) : null}
             </figure>
           ) : null}
           <div
