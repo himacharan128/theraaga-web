@@ -124,7 +124,8 @@ src/
     contact/  thank-you/      Prārambham
     admin/                    private, noindex operations dashboard
     music-classes/[centre]/   one locality page per physical centre, from data
-    carnatic-vocal-classes-hyderabad/  online-classes/   search landing pages
+    online-classes/           search landing page; the homepage owns "Carnatic vocal classes
+                              Hyderabad" (the retired /carnatic-vocal-classes-hyderabad 301s to /)
     privacy/ terms/ refund-policy/ child-safeguarding/   legal
   components/
     layout/        Header, Footer, Section (the degradation wrapper), PageHero
