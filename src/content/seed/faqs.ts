@@ -45,7 +45,7 @@ export const faqs: Faq[] = [
     order: 5,
     question: 'How long until my child can sing a full kriti?',
     answer:
-      'Honestly: about two to three years of steady weekly practice. The first six to twelve months build the foundation with varisais, alankarams and first geethams. Varnams take the better part of a year on their own. Anyone promising a kriti in three months is skipping the part that makes the voice.',
+      'Honestly: about two to three years of steady weekly practice. The first six to twelve months build the foundation with varisais, Alankaras and first Geetams. Varnams take the better part of a year on their own. Anyone promising a kriti in three months is skipping the part that makes the voice.',
     blocking: true,
   },
   {
