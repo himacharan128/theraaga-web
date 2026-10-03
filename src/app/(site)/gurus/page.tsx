@@ -2,14 +2,11 @@ import type { Metadata } from 'next'
 import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { FinalCta } from '@/components/sections/FinalCta'
-import { SwaraDivider } from '@/components/ui/Ornament'
-import { StickyAside } from '@/components/layout/Editorial'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import {
   getGurusIntro,
   getLineageReferences,
   getScholarlyWorks,
-  getTeachingPrinciples,
 } from '@/data/content'
 import { defaultOgImages } from '@/lib/og-image'
 
@@ -46,7 +43,6 @@ export const metadata: Metadata = {
  */
 export default async function GurusPage() {
   const intro = await getGurusIntro()
-  const principles = await getTeachingPrinciples()
   const lineage = await getLineageReferences()
   const works = await getScholarlyWorks()
 
@@ -143,47 +139,6 @@ export default async function GurusPage() {
             </li>
           ))}
         </ul>
-      </Section>
-
-      <Section
-        id="principles"
-        eyebrow="How we teach"
-        tone="surface"
-        renderIf={principles.length > 0}
-      >
-        <ul className="grid gap-x-14 gap-y-10 md:grid-cols-2">
-          {principles.map((p, i) => (
-            <li key={p.order}>
-              {i > 0 && (
-                <div className="mb-8 md:hidden">
-                  <SwaraDivider index={i} />
-                </div>
-              )}
-              <h2 className="text-[length:var(--text-step-1)] font-[400] leading-[var(--lh-snug)] text-accent">
-                {p.title}
-              </h2>
-              <p className="u-measure mt-3 text-text-secondary">{p.body}</p>
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section id="recognition">
-        <StickyAside
-          label="Recognition and honours"
-          aside={<p>Named in full, or not named at all.</p>}
-        >
-          <p>
-            Our Gurus have received numerous State and National honours. Each is
-            published here with its awarding body and year as it is confirmed in
-            full.
-          </p>
-          <p>
-            We would rather name nothing than name something imprecisely. In a
-            tradition where credentials are the credential, a vague honour is
-            worth less than none at all.
-          </p>
-        </StickyAside>
       </Section>
 
       <FinalCta />
