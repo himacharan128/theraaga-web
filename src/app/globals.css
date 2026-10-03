@@ -327,6 +327,45 @@ p {
   opacity: 0.45;
 }
 
+/* ----------------------------------------------------------------------------
+   The brand lockup — the client's paisley emblem beside the raaga wordmark.
+
+   The emblem is painted as `currentColor` through a mask rather than shipped as
+   a coloured image, so one cached 31 KB file serves every context: maroon on
+   ivory in the header, ivory on maroon in the footer, inherited ink in admin.
+   A second colourway would otherwise mean a second download.
+
+   Proportions are measured off the client's master artwork, where the emblem
+   stands 2.45x the height of the `raaga` text. That is too tall for a 64px
+   mobile bar, so the lockup holds the emblem at 1.35x the wordmark box and the
+   gap at the artwork's own ratio. Both derive from one --wm, set per call site.
+   ------------------------------------------------------------------------- */
+
+.brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--wm) * 0.18);
+  /* Sampled from the wordmark raster, not taken from the palette. The emblem
+     and the `raaga` lettering are one logo, so they must carry one ink — and
+     --color-accent (#6B1F2A) is visibly deeper than the artwork's #834848,
+     which reads as two marks pushed together. Decorative and aria-hidden, so
+     it is not a text/background pair the contrast guard governs. */
+  color: #834848;
+}
+
+.brand-lockup img {
+  height: var(--wm);
+  width: auto;
+}
+
+.brand-emblem {
+  height: calc(var(--wm) * 1.35);
+  aspect-ratio: 816 / 3282;
+  background-color: currentColor;
+  -webkit-mask: url('/brand/raaga-emblem.svg') no-repeat center / contain;
+  mask: url('/brand/raaga-emblem.svg') no-repeat center / contain;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
