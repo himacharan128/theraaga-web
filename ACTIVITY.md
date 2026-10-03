@@ -15,6 +15,25 @@ Newest entry first.
 
 ---
 
+## 2026-10-03 — New change flow and the never-focus-Safari rule
+
+- **Requested:** Bhasuri set two hard rules.
+  - Never bring Safari to the front.
+  - Every change follows: do it → localhost → tell her where to review → her
+    confirmation → ship all the way to production.
+- **Decision / scope:** This replaces the old 10-step loop that asked her to
+  confirm a proposal before building. Her confirmation after reviewing on
+  localhost is now the single gate. Requests that would break a legal constraint
+  are still raised before building.
+- **Work completed:** Rewrote "Working with Bhasuri" and the Browser paragraph in
+  `CLAUDE.md`. Updated the workspace `CLAUDE.md` and project memory to match.
+  Messaged the three running sessions.
+- **Verification:** Docs-only change; no application code touched.
+- **Deployment / production status:** Merged to main.
+- **Credential or access impact:** none.
+
+---
+
 ## 2026-10-03 — Publish all event photographs with recorded guardian consent
 
 - **Requested:** Bhasuri asked for all event photographs to be shown.
