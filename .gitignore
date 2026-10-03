@@ -29,3 +29,12 @@ next-env.d.ts
 
 # client source material — kept local, not in the repo
 docs/
+
+# Event photographs (public/events/). Most show children, and this repository
+# is PUBLIC, so committing a file publishes it. A photograph is kept out of git
+# until guardian consent is recorded for it in src/content/seed/event-photos.ts.
+# Ignore the CONTENTS (`/*`), not the directory: git cannot re-include a file
+# whose parent directory is ignored. Once consent is recorded, un-ignore that
+# one file by adding, on the line below:
+#   !public/events/img_0707.jpg
+public/events/*

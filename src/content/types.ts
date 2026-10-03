@@ -240,7 +240,7 @@ export interface MediaRef {
   src: string
   alt: string
   /** Reserved so the placeholder→real-photo swap costs zero layout shift. */
-  aspect: '4/5' | '3/2' | '1/1' | '16/9'
+  aspect: '4/5' | '3/2' | '4/3' | '1/1' | '16/9'
 }
 
 export interface Testimonial {
@@ -258,6 +258,19 @@ export interface GalleryItem {
   category: GalleryCategory
   media: MediaRef
   caption?: string
+  consent: Consent
+}
+
+/**
+ * A photograph from a real RAAGA event, grouped on /events by `occasion`.
+ * The consent gate treats it exactly like any other image of people: it is
+ * filtered in the query, never in a component.
+ */
+export interface EventPhoto {
+  id: string
+  /** The owner's caption for the occasion, e.g. "Annual concerts". */
+  occasion: string
+  media: MediaRef
   consent: Consent
 }
 

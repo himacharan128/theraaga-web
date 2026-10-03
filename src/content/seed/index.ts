@@ -27,6 +27,7 @@ export type {
   ScholarlyWork,
   TeachingPrinciple,
 } from './teaching'
+export { eventPhotos } from './event-photos'
 export { disciplines } from './disciplines'
 export { pillars } from './pillars'
 export { faqs } from './faqs'

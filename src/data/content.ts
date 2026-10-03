@@ -8,6 +8,7 @@ import type {
   CurriculumStage,
   Discipline,
   EventKind,
+  EventPhoto,
   Faculty,
   Faq,
   GalleryCategory,
@@ -167,6 +168,25 @@ export async function getTestimonials(): Promise<Testimonial[]> {
 
 export async function getGalleryItems(): Promise<GalleryItem[]> {
   return consentGate(seed.galleryItems)
+}
+
+/**
+ * Event photographs, grouped by occasion for /events.
+ *
+ * The consent gate runs first, so an occasion whose photographs are all gated
+ * is absent from the result rather than present and empty. Groups keep the
+ * seed's order, and so do the photographs within them.
+ */
+export async function getEventPhotos(): Promise<
+  { occasion: string; photos: EventPhoto[] }[]
+> {
+  const groups = new Map<string, EventPhoto[]>()
+  for (const photo of consentGate(seed.eventPhotos)) {
+    const group = groups.get(photo.occasion)
+    if (group) group.push(photo)
+    else groups.set(photo.occasion, [photo])
+  }
+  return [...groups].map(([occasion, photos]) => ({ occasion, photos }))
 }
 
 /**
