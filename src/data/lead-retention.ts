@@ -21,13 +21,26 @@ let failedAt = 0
 async function applyRetention(): Promise<void> {
   const db = await getAdminDb()
   const leads = db.collection<StoredLead>('leads')
-  await leads.updateMany({ retentionUntil: { $type: 'string' } }, [
-    { $set: { retentionUntil: { $toDate: '$retentionUntil' } } },
-  ])
+
+  // The index goes first and stands alone. If the backfill below ever failed,
+  // every new lead would still expire on time — the promise must not hinge on
+  // the oldest record being well-formed.
   await leads.createIndex(
     { retentionUntil: 1 },
     { expireAfterSeconds: 0, name: 'leads_retention_ttl' },
   )
+
+  // $convert rather than $toDate: one malformed value is left as it was
+  // instead of aborting the conversion of every other lead.
+  await leads.updateMany({ retentionUntil: { $type: 'string' } }, [
+    {
+      $set: {
+        retentionUntil: {
+          $convert: { input: '$retentionUntil', to: 'date', onError: '$retentionUntil' },
+        },
+      },
+    },
+  ])
 }
 
 /**
