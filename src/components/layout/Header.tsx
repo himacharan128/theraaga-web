@@ -93,7 +93,7 @@ export function Header({
           aria-label="RAAGA Home"
           className="flex shrink-0 items-center"
         >
-          <Wordmark className="[--wm:2.25rem] sm:[--wm:2.75rem]" priority />
+          <Wordmark className="[--wm:2.25rem] sm:[--wm:2.75rem]" />
         </Link>
 
         <nav aria-label="Main" className="hidden lg:block">

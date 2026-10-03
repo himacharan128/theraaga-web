@@ -1,19 +1,12 @@
 import { Section } from '@/components/layout/Section'
-import { getCurriculum, CURRICULUM_SOURCE } from '@/data/content'
-
-const TIER_LABEL = {
-  beginner: 'Beginner',
-  intermediate: 'Intermediate',
-  advanced: 'Advanced',
-} as const
+import { getCurriculum } from '@/data/content'
 
 /**
  * Sangeetha Mārgam — the highest-value content on the site, and it needs
  * nothing from the client.
  *
  * Drumeo and Pianote sell an INVENTED "10-Level Method" as their core
- * differentiator. This progression is four centuries old and corroborated
- * against a government university syllabus, so it is simultaneously the
+ * differentiator. This progression is four centuries old, so it is simultaneously the
  * strongest "cultural institution" signal we own and the section that ships
  * complete on day one.
  *
@@ -23,9 +16,8 @@ const TIER_LABEL = {
  * rendered prose. <details> gives correct semantics, keyboard operation and
  * find-in-page for free, at zero bytes.
  *
- * Every stage carries a plain Beginner/Intermediate/Advanced badge alongside
- * the traditional name: Sangeet Music Academy, Acharyanet and Go4Guru all pair
- * the two, and every aggregator search that matters is keyed on "beginner".
+ * No level badges, durations or source footnote: the owner removed them on
+ * 2026-10-03. Each stage is its name, what it is and what it lets you do.
  */
 export async function CurriculumTimeline() {
   const stages = await getCurriculum()
@@ -113,21 +105,12 @@ export async function CurriculumTimeline() {
                   </span>
                   {s.outcome}
                 </p>
-                <p className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 font-[var(--font-ui)] text-[length:var(--text-step--1)]">
-                  <span className="rounded-full border border-border bg-bg px-3 py-1 text-text-muted">
-                    {TIER_LABEL[s.tier]}
-                  </span>
-                  <span className="text-text-muted">{s.duration}</span>
-                </p>
               </div>
             </details>
           </li>
         ))}
       </ol>
 
-      <p className="u-measure mt-12 border-l-2 border-gold-hairline/50 pl-5 font-[var(--font-display)] text-[length:var(--text-step--1)] italic text-text-muted">
-        {CURRICULUM_SOURCE}
-      </p>
     </Section>
   )
 }

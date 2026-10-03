@@ -1,11 +1,18 @@
 import type { Metadata } from 'next'
 import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
+import { EventMoments } from '@/components/sections/EventMoments'
+import { PressMentions } from '@/components/sections/PressMentions'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { LedgerIndex } from '@/components/layout/Editorial'
 import { whatsappHref } from '@/lib/whatsapp'
-import { getEventKinds, getUpcomingEvents } from '@/data/content'
+import {
+  getEventKinds,
+  getEventPhotos,
+  getPressMentions,
+  getUpcomingEvents,
+} from '@/data/content'
 import { defaultOgImages } from '@/lib/og-image'
 
 export const metadata: Metadata = {
@@ -34,10 +41,25 @@ export const metadata: Metadata = {
  * only once `events` holds real ones. Nothing here implies a scheduled date —
  * an invented "Annual Day, March 2026" would be the single most damaging thing
  * this page could contain, because someone would turn up.
+ *
+ * Press clippings sit above the ledger: they are real coverage, supplied whole.
+ * Photographs of past events follow the same rule as everything depicting people: they render only once
+ * guardian consent is recorded for them, and the section is absent until then.
  */
 export default async function EventsPage() {
   const kinds = await getEventKinds()
   const upcoming = await getUpcomingEvents()
+  const press = await getPressMentions()
+  const moments = await getEventPhotos()
+
+  // Sections alternate between the page ground and the surface tint, counting
+  // only the ones that actually render, so two like tones never sit together.
+  const base: 'default' | 'surface' = upcoming.length > 0 ? 'default' : 'surface'
+  const flip = (t: 'default' | 'surface') => (t === 'surface' ? 'default' : 'surface')
+  const pressTone = flip(base)
+  const afterPress = press.length > 0 ? pressTone : base
+  const momentsTone = flip(afterPress)
+  const ledgerTone = flip(moments.length > 0 ? momentsTone : afterPress)
 
   return (
     <>
@@ -91,11 +113,36 @@ export default async function EventsPage() {
         </ul>
       </Section>
 
+      {/* Newspaper coverage. Clippings show adults only, so there is no
+          consent gate; the section appears whenever there is coverage. */}
+      <Section
+        id="press"
+        eyebrow="Coverage"
+        title="In the press."
+        tone={pressTone}
+        renderIf={press.length > 0}
+      >
+        <PressMentions items={press} />
+      </Section>
+
+      {/* Photographs of past events. The consent gate runs in the query, so
+          while none has recorded guardian consent this renders nothing: no
+          heading, no empty frame. */}
+      <Section
+        id="moments"
+        eyebrow="Photographs"
+        title="From our gatherings."
+        tone={momentsTone}
+        renderIf={moments.length > 0}
+      >
+        <EventMoments groups={moments} />
+      </Section>
+
       <Section
         id="what-we-hold"
         eyebrow="Through the year"
         title="What we hold."
-        tone={upcoming.length > 0 ? 'surface' : 'default'}
+        tone={ledgerTone}
         renderIf={kinds.length > 0}
       >
         {/* A ledger, not cards. These are the recurring gatherings of a year —

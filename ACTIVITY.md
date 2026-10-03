@@ -15,6 +15,63 @@ Newest entry first.
 
 ---
 
+## 2026-10-03 — Owner's content pass: home, Gurus, Learning, Events, logo
+
+- **Requested:** Bhasuri reviewed the site page by page and asked for specific
+  copy, layout and content changes, new photographs and press coverage, a
+  site-wide spelling check, and a crisp logo.
+- **Decision / scope:**
+  - Copy changes are the owner's own words or direct edits she asked for.
+  - The two maestro lines and the book notes were drafted from the content
+    master, then approved by her.
+  - She was told twice that the tambura photograph (probably from Pinterest)
+    and the Nookala portrait (The Hindu) appear to belong to other publishers.
+    She chose to publish them.
+  - **Event photos depicting children are consent-gated.** 14 photos are seeded
+    with `hasMinors: true` and no recorded consent, so `consentGate()` filters
+    them. Their files are excluded from this public repo by `.gitignore` until
+    consent is recorded per photo, with a negation line for each one cleared.
+    The 4 adult-only temple photos are live.
+- **Work completed:**
+  - *Home.* "A decade" replaces 2016; the hero line says "Carnatic vocal
+    classes". The centres are titled "RAAGA, Jubilee Hills/Phoenix Arena".
+    Online and Community are boxed like the centres, with Community highlighted.
+    "Gulf" is gone from the Online card. "Meet the tradition" is removed, and the
+    tambura photograph sits in the hero card.
+  - *Gurus.* "How we teach", "Recognition and honours" and Sri Dwaram
+    Durgaprasada Rao are removed. Padma Bhushan Dr. Nookala Chinna
+    Satyanarayana gets a portrait card. Both books show their covers.
+  - *Learning.* Level badges, week estimates, the source footnote and the
+    "Find your starting point" hub are removed.
+  - *Events.* "In the press" (Metro India, Sakshi, Andhra Jyothy) and "From our
+    gatherings", grouped by occasion. All photo metadata, including iPhone GPS,
+    is stripped.
+  - *Spelling.* Every page plus alt text and metadata was checked against a
+    dictionary. "Ainavilli" (owner's spelling) and "Thiruvaiyaru" are fixed, and
+    one FAQ is aligned to "Alankaras" and "Geetams".
+  - *Logo.* The raster wordmark had white-filled "g" counters and a clipped
+    final "a". It is replaced by a potrace vector of the client's 2000px master
+    (`raaga-wordmark.svg`, currentColor, evenodd holes). The footer lockup now
+    links home in ivory on the dark footer. The structured-data logo is now
+    `raaga-logo.png`.
+- **Files or services changed:** Home, Gurus, Learning and Events pages and their
+  components; seeds; `.gitignore`; `public/brand/`; `public/events/` (4 cleared
+  files); `src/assets/`.
+- **Verification:** `npm run verify`, `lint` and `build` pass. `test:a11y` gives
+  76 passed, 0 failed, with budgets met. Gated photo URLs are absent from the
+  rendered pages, and no gated image file is tracked by git.
+- **Deployment / production status:** Shipped as the next PR; verified on
+  production after merge.
+- **Follow-up / owner action:**
+  - Record guardian consent per event photo to publish the other 14.
+  - Supply a higher-resolution Swararaga Kadambam cover and the tambura original.
+  - The intent pages are no longer linked from the visible site since the hub
+    was hidden; they remain in the sitemap.
+  - Workspace rule added: never bring Safari to the front.
+- **Credential or access impact:** none.
+
+---
+
 ## 2026-10-03 — Restore the client's paisley emblem to the brand lockup
 
 - **Requested:** "This is the logo. This is missing in my website. Make it proper
@@ -113,8 +170,9 @@ Newest entry first.
   `MONGODB_URI=`. The 2026-10-02 entry below says `test:a11y` ran "with
   `MONGODB_URI` deliberately unset"; under this finding it was not actually
   unset. That run only loaded pages and submitted nothing, so no data was affected.
-- **Deployment / production status:** Not deployed. Awaiting owner review and merge.
-  On first admin load after deploy, the retention step creates the
+- **Deployment / production status:** Merged as #4 (with #2) and verified live on
+  theraaga.in: og:image on 21 of 21 routes, centre pages sharing 9 sentences (was
+  101), admin portal free of public chrome. On first admin load after deploy, the retention step creates the
   `leads_retention_ttl` index and converts existing leads' `retentionUntil` to Dates.
 - **Follow-up / owner action:**
   - Legal pages: grievance officer, safeguarding contact, registered entity, and

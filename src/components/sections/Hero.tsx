@@ -1,6 +1,8 @@
+import Image from 'next/image'
 import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
 import { whatsappHref } from '@/lib/whatsapp'
 import { getSite } from '@/data/content'
+import tambura from '@/assets/home/tambura.jpg'
 
 /**
  * Headline, subtitle and the primary button label are the CLIENT'S OWN COPY
@@ -17,12 +19,20 @@ import { getSite } from '@/data/content'
  * additive, never contradictory: brand voice on top, orientation underneath.
  *
  * The LCP element is deliberately the H1 TEXT on flat ivory, not a photograph.
- * That is also why shipping with no client photography costs this page nothing
- * where it matters most.
+ * On a phone the photo card sits below the buttons, so the photo is NOT
+ * `priority`: it is lazy, low fetch-priority, and must never be what the page
+ * waits for. It is not the first thing a parent sees, so it must not be the
+ * first thing the page spends bytes on. Measured: on a 360x800 phone the text
+ * is the LCP; on taller phones (375x812 and up) the top of the card peeks above
+ * the fold and the lazy image can overtake the paragraph as LCP, which is why it
+ * is kept to ~9-24 KB of AVIF at phone widths.
  *
- * The right-hand column is a TYPOGRAPHIC composition, not a frame waiting for
- * an asset. A visible "photo to follow" placeholder tells every visitor the
- * site is unfinished; this reads as a deliberate choice, because it is one.
+ * The right-hand card is a photograph with the Sanskrit line set over a maroon
+ * fade. The photograph is decorative (`alt=""`): the text carries the meaning,
+ * and it is a stock-style image of someone with a tambura, NOT a RAAGA teacher
+ * or student, so nothing may caption it as one. The card's maroon ground and
+ * fade stay in place under it, so if the image ever fails to load the text
+ * keeps its contrast and the card still reads as a designed panel.
  */
 export async function Hero() {
   const site = await getSite()
@@ -39,7 +49,7 @@ export async function Hero() {
               dot floating at the top-left of a box instead of centred on a
               line. Two ideas, no chrome, one line. */}
           <p className="u-eyebrow">
-            Carnatic Sangeetham · Hyderabad since {site.foundedYear}
+            Carnatic Sangeetham · A decade in Hyderabad
           </p>
 
           {/* One step down on small screens. At 390px the step-4 clamp resolves
@@ -69,7 +79,7 @@ export async function Hero() {
               names neither the subject nor the city fails the one visitor this
               site is built for. */}
           <p className="u-measure mt-4 text-[length:var(--text-step-0)] leading-[var(--lh-body)] text-text-secondary">
-            Carnatic vocal for children and adults at our{' '}
+            Carnatic vocal classes for children and adults at our{' '}
             <strong className="font-[400] text-text-secondary">Jubilee Hills</strong>{' '}
             and{' '}
             <strong className="font-[400] text-text-secondary">
@@ -88,30 +98,25 @@ export async function Hero() {
           </div>
         </div>
 
-        <aside className="relative z-10 mx-auto flex min-h-[19rem] w-full max-w-md flex-col justify-end overflow-hidden rounded-[var(--radius-lg)] lg:my-2 lg:max-w-none bg-[linear-gradient(145deg,#7a2934,#511721)] p-7 text-on-accent shadow-[var(--shadow-lift)] sm:p-9 lg:max-w-none">
-          <span
-            aria-hidden="true"
-            className="motion-orbit absolute -right-12 -top-12 size-60 rounded-full border border-[color-mix(in_srgb,var(--color-gold-hairline)_44%,transparent)] motion-reduce:transform-none"
+        <aside className="relative z-10 mx-auto flex min-h-[34rem] lg:min-h-[19rem] w-full max-w-md flex-col justify-end overflow-hidden rounded-[var(--radius-lg)] lg:my-2 lg:max-w-none bg-[linear-gradient(145deg,#7a2934,#511721)] p-7 text-on-accent shadow-[var(--shadow-lift)] sm:p-9 lg:max-w-none">
+          {/* The tall tambura is the subject, so the crop is anchored to keep
+              her face and the neck in view; the maroon fade below takes the
+              lower part of the frame, which is the bowl and the sand. The orbit
+              rings and tanpura strings that used to sit here were cut: over a
+              photograph of a real tambura they competed with its own strings. */}
+          <Image
+            src={tambura}
+            alt=""
+            fill
+            sizes="(min-width: 1280px) 520px, (min-width: 1024px) 45vw, min(448px, 90vw)"
+            placeholder="blur"
+            fetchPriority="low"
+            className="object-cover object-[50%_78%]"
           />
           <span
             aria-hidden="true"
-            className="absolute -right-2 -top-2 size-40 rounded-full border border-[color-mix(in_srgb,var(--color-on-accent)_16%,transparent)]"
+            className="absolute inset-0 rounded-[inherit] shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--color-accent)_14%,transparent)] bg-[linear-gradient(to_top,#511721_0%,rgba(81,23,33,0.97)_32%,rgba(81,23,33,0.85)_40%,rgba(81,23,33,0.6)_47%,rgba(81,23,33,0.32)_54%,rgba(81,23,33,0)_62%)]"
           />
-          {/* Four tanpura strings. The site has exactly one motif family and
-              this is it — the same rule that threads the syllabus and the
-              lineage. The waveform bars that were here said "audio product",
-              not "Carnatic school". */}
-          <span
-            aria-hidden="true"
-            className="absolute bottom-0 right-10 top-0 flex gap-3 opacity-40"
-          >
-            {[0, 1, 2, 3].map((i) => (
-              <span
-                key={i}
-                className="w-px bg-[linear-gradient(to_bottom,transparent,color-mix(in_srgb,var(--color-gold-hairline)_90%,transparent)_38%,color-mix(in_srgb,var(--color-gold-hairline)_90%,transparent)_62%,transparent)]"
-              />
-            ))}
-          </span>
           <div className="relative max-w-[18rem]">
             <p className="font-[var(--font-ui)] text-[0.7rem] font-medium uppercase tracking-[0.18em] text-[color-mix(in_srgb,var(--color-on-accent)_70%,transparent)]">
               The beginning

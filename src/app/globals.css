@@ -29,6 +29,11 @@
   --color-accent-muted: #8c6a15; /*  4.53:1 — the ONLY gold allowed as text */
   --color-gold-hairline: #c9a227; /*  2.22:1 — ornament ONLY, never text */
   --color-olive: #5a6047; /*  6.03:1 */
+  /* A flat wash of the accent over surface, to lift one panel out of its row.
+     Not a gradient. The percentages are mirrored in scripts/check-contrast.ts,
+     which asserts every text pair that sits on it. */
+  --color-accent-tint: color-mix(in srgb, var(--color-accent) 7%, var(--color-surface));
+  --color-accent-tint-hover: color-mix(in srgb, var(--color-accent) 11%, var(--color-surface));
 
   /* ---- Structure ---- */
   --color-border: #e3daca; /* decorative rules */
@@ -316,10 +321,11 @@ p {
 /* ----------------------------------------------------------------------------
    The brand lockup — the client's paisley emblem beside the raaga wordmark.
 
-   The emblem is painted as `currentColor` through a mask rather than shipped as
-   a coloured image, so one cached 31 KB file serves every context: maroon on
-   ivory in the header, ivory on maroon in the footer, inherited ink in admin.
-   A second colourway would otherwise mean a second download.
+   Emblem and wordmark are both painted as `currentColor` through a mask rather
+   than shipped as coloured images, so one cached file each serves every
+   context: maroon on ivory in the header, ivory on the dark footer, inherited
+   ink in admin. Masks over true holes also mean the counters of the `g` show
+   the page behind them, never a white fill.
 
    Proportions are measured off the client's master artwork, where the emblem
    stands 2.45x the height of the `raaga` text. That is too tall for a 64px
@@ -330,7 +336,7 @@ p {
 .brand-lockup {
   display: inline-flex;
   align-items: center;
-  gap: calc(var(--wm) * 0.18);
+  gap: calc(var(--wm) * 0.3);
   /* Sampled from the wordmark raster, not taken from the palette. The emblem
      and the `raaga` lettering are one logo, so they must carry one ink — and
      --color-accent (#6B1F2A) is visibly deeper than the artwork's #834848,
@@ -339,17 +345,23 @@ p {
   color: #834848;
 }
 
-.brand-lockup img {
-  height: var(--wm);
-  width: auto;
+.brand-emblem,
+.brand-wordmark {
+  background-color: currentColor;
+  -webkit-mask: var(--m) no-repeat center / contain;
+  mask: var(--m) no-repeat center / contain;
 }
 
 .brand-emblem {
+  --m: url('/brand/raaga-emblem.svg');
   height: calc(var(--wm) * 1.35);
   aspect-ratio: 816 / 3282;
-  background-color: currentColor;
-  -webkit-mask: url('/brand/raaga-emblem.svg') no-repeat center / contain;
-  mask: url('/brand/raaga-emblem.svg') no-repeat center / contain;
+}
+
+.brand-wordmark {
+  --m: url('/brand/raaga-wordmark.svg');
+  height: calc(var(--wm) * 0.756);
+  aspect-ratio: 1000 / 438.3;
 }
 
 .sr-only {

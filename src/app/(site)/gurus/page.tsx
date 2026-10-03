@@ -2,14 +2,13 @@ import type { Metadata } from 'next'
 import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { FinalCta } from '@/components/sections/FinalCta'
-import { SwaraDivider } from '@/components/ui/Ornament'
-import { StickyAside } from '@/components/layout/Editorial'
+import { LineageCards } from '@/components/sections/LineageCards'
+import { ScholarlyWorks } from '@/components/sections/ScholarlyWorks'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import {
   getGurusIntro,
   getLineageReferences,
   getScholarlyWorks,
-  getTeachingPrinciples,
 } from '@/data/content'
 import { defaultOgImages } from '@/lib/og-image'
 
@@ -46,7 +45,6 @@ export const metadata: Metadata = {
  */
 export default async function GurusPage() {
   const intro = await getGurusIntro()
-  const principles = await getTeachingPrinciples()
   const lineage = await getLineageReferences()
   const works = await getScholarlyWorks()
 
@@ -98,25 +96,7 @@ export default async function GurusPage() {
         lede={<p>Eminent maestros under whom our Gurus trained, including:</p>}
         renderIf={lineage.length > 0}
       >
-        <ol className="relative max-w-2xl space-y-7 pl-7">
-          {/* The lineage thread — the same tanpura string as the syllabus spine. */}
-          <span
-            aria-hidden="true"
-            className="absolute bottom-2 left-[3px] top-2 w-px bg-gold-hairline/40"
-          />
-          {lineage.map((entry) => (
-            <li key={entry.order} className="relative">
-              <span
-                aria-hidden="true"
-                className="absolute -left-7 top-[0.55em] size-[7px] rounded-full bg-accent"
-              />
-              <p className="text-[length:var(--text-step-1)] font-[400] leading-[var(--lh-snug)]">
-                {entry.honorific ? `${entry.honorific} ` : ''}
-                {entry.name}
-              </p>
-            </li>
-          ))}
-        </ol>
+        <LineageCards entries={lineage} />
       </Section>
 
       <Section
@@ -131,59 +111,7 @@ export default async function GurusPage() {
           </p>
         }
       >
-        <ul className="grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2">
-          {works.map((w) => (
-            <li key={w.order} className="bg-surface p-7 md:p-9">
-              <h3 className="font-[var(--font-display)] text-[length:var(--text-step-2)] font-[300] italic text-accent">
-                {w.title}
-              </h3>
-              <p className="mt-3 text-[length:var(--text-step--1)] text-text-secondary">
-                {w.note}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section
-        id="principles"
-        eyebrow="How we teach"
-        tone="surface"
-        renderIf={principles.length > 0}
-      >
-        <ul className="grid gap-x-14 gap-y-10 md:grid-cols-2">
-          {principles.map((p, i) => (
-            <li key={p.order}>
-              {i > 0 && (
-                <div className="mb-8 md:hidden">
-                  <SwaraDivider index={i} />
-                </div>
-              )}
-              <h2 className="text-[length:var(--text-step-1)] font-[400] leading-[var(--lh-snug)] text-accent">
-                {p.title}
-              </h2>
-              <p className="u-measure mt-3 text-text-secondary">{p.body}</p>
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section id="recognition">
-        <StickyAside
-          label="Recognition and honours"
-          aside={<p>Named in full, or not named at all.</p>}
-        >
-          <p>
-            Our Gurus have received numerous State and National honours. Each is
-            published here with its awarding body and year as it is confirmed in
-            full.
-          </p>
-          <p>
-            We would rather name nothing than name something imprecisely. In a
-            tradition where credentials are the credential, a vague honour is
-            worth less than none at all.
-          </p>
-        </StickyAside>
+        <ScholarlyWorks works={works} />
       </Section>
 
       <FinalCta />

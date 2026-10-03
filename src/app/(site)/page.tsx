@@ -4,7 +4,6 @@ import { TrustStrip } from '@/components/sections/TrustStrip'
 import { Centres } from '@/components/sections/Centres'
 import { Pillars } from '@/components/sections/Pillars'
 import { ListenWatch } from '@/components/sections/ListenWatch'
-import { MeetTradition } from '@/components/sections/MeetTradition'
 import { TrialProcess } from '@/components/sections/TrialProcess'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { OrganizationSchema } from '@/components/seo/Schema'
@@ -18,7 +17,7 @@ export const metadata: Metadata = {
 /**
  * Nāda — the beginning.
  *
- * Eight sections, ~700 words. This page was previously seventeen sections and
+ * Seven sections, ~600 words. This page was previously seventeen sections and
  * read as a prospectus: the full curriculum ladder, the complete FAQ, the
  * events calendar and the whole enquiry form all lived here. Each of those has
  * moved to the page that owns it, because the homepage's only job is to answer
@@ -40,7 +39,6 @@ export default function HomePage() {
       <Centres />
       <Pillars />
       <ListenWatch />
-      <MeetTradition />
       <TrialProcess />
       <FinalCta />
     </>

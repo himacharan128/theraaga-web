@@ -1,7 +1,7 @@
 import { site, centres } from '@/content/seed/site'
 
 const BASE_URL = 'https://theraaga.in'
-const LOGO_URL = `${BASE_URL}/brand/raaga-wordmark.webp`
+const LOGO_URL = `${BASE_URL}/brand/raaga-logo.png`
 
 /**
  * Structured data — with three deliberate omissions.

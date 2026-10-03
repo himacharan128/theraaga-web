@@ -8,6 +8,7 @@ import type {
   CurriculumStage,
   Discipline,
   EventKind,
+  EventPhoto,
   Faculty,
   Faq,
   GalleryCategory,
@@ -15,6 +16,7 @@ import type {
   JournalTopic,
   PerformanceStrand,
   Pillar,
+  PressMention,
   RaagaEvent,
   SeoLandingPage,
   SiteSettings,
@@ -167,6 +169,33 @@ export async function getTestimonials(): Promise<Testimonial[]> {
 
 export async function getGalleryItems(): Promise<GalleryItem[]> {
   return consentGate(seed.galleryItems)
+}
+
+/**
+ * Press clippings, newest first. They show adults only, so there is no consent
+ * block to gate on; the seed is already in date order and the sort is stable.
+ */
+export async function getPressMentions(): Promise<PressMention[]> {
+  return [...seed.pressMentions].sort((a, b) => b.date.localeCompare(a.date))
+}
+
+/**
+ * Event photographs, grouped by occasion for /events.
+ *
+ * The consent gate runs first, so an occasion whose photographs are all gated
+ * is absent from the result rather than present and empty. Groups keep the
+ * seed's order, and so do the photographs within them.
+ */
+export async function getEventPhotos(): Promise<
+  { occasion: string; date?: string; photos: EventPhoto[] }[]
+> {
+  const groups = new Map<string, { date?: string; photos: EventPhoto[] }>()
+  for (const photo of consentGate(seed.eventPhotos)) {
+    const group = groups.get(photo.occasion)
+    if (group) group.photos.push(photo)
+    else groups.set(photo.occasion, { date: photo.date, photos: [photo] })
+  }
+  return [...groups].map(([occasion, g]) => ({ occasion, ...g }))
 }
 
 /**

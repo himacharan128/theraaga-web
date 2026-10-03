@@ -15,16 +15,35 @@
  * "renowned cultural institutions". The client wrote what they could support.
  */
 
+import type { StaticImageData } from 'next/image'
+import nookalaPhoto from '@/assets/gurus/nookala.jpg'
+import bhasuriCover from '@/assets/books/bhasuri.jpg'
+import swararagaCover from '@/assets/books/swararaga-kadambam.jpg'
+
 export interface LineageReference {
   order: number
   name: string
   honorific?: string
+  /** One owner-approved line about the maestro. Client facts only. */
+  note?: string
+  /**
+   * Portrait, imported statically so next/image gets its intrinsic size and a
+   * blur placeholder. Optional: an entry without one renders as a finished
+   * text card. Usage rights for the photographs are unconfirmed; to drop them,
+   * remove the import, this field and the `photo` line below.
+   */
+  photo?: StaticImageData
 }
 
 export interface ScholarlyWork {
   order: number
   title: string
   note: string
+  /**
+   * Cover image, imported statically so next/image gets its intrinsic size.
+   * Optional: a book without a cover renders as a finished text entry.
+   */
+  cover?: StaticImageData
 }
 
 export interface TeachingPrinciple {
@@ -45,11 +64,8 @@ export const lineageReferences: LineageReference[] = [
     order: 1,
     honorific: 'Padma Bhushan Dr.',
     name: 'Nookala Chinna Satyanarayana',
-  },
-  {
-    order: 2,
-    honorific: 'Sri',
-    name: 'Dwaram Durgaprasada Rao',
+    note: 'A revered maestro of Carnatic Sangeetham, honoured with the Padma Bhushan, one of India’s highest civilian awards.',
+    photo: nookalaPhoto,
   },
 ]
 
@@ -58,11 +74,13 @@ export const scholarlyWorks: ScholarlyWork[] = [
     order: 1,
     title: 'Swararaga Kadambam',
     note: 'Authored by our Gurus.',
+    cover: swararagaCover,
   },
   {
     order: 2,
     title: 'Bhasuri',
     note: 'Authored by our Gurus.',
+    cover: bhasuriCover,
   },
 ]
 

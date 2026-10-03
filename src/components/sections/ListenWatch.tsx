@@ -38,7 +38,7 @@ export async function ListenWatch() {
               <p className="font-[var(--font-display)] text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-secondary">
                 Every lesson begins by finding <em className="not-italic text-accent">Sa</em>.
                 Tap through the seven swaras, then play the tuning sequence that
-                gives a Carnatic voice its ground.
+                gives a Carnatic note its ground.
               </p>
             </div>
             <SwaraStrip />

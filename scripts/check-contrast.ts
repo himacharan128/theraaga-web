@@ -43,6 +43,16 @@ export function contrast(a: string, b: string): number {
   return (hi + 0.05) / (lo + 0.05)
 }
 
+/**
+ * Mirror of CSS `color-mix(in srgb, fg pct%, bg)`: a straight per-channel
+ * blend of the gamma-encoded values, which is what the browser computes.
+ */
+function mix(fg: string, bg: string, pct: number): string {
+  const [f, b] = [hexToRgb(fg), hexToRgb(bg)]
+  const ch = f.map((v, i) => Math.round(v * (pct / 100) + b[i] * (1 - pct / 100)))
+  return '#' + ch.map((v) => v.toString(16).padStart(2, '0')).join('')
+}
+
 const T = {
   bg: '#F7F3EA',
   surface: '#FFFCF5',
@@ -58,6 +68,11 @@ const T = {
   borderStrong: '#8F8070',
   onAccent: '#F7F3EA',
 }
+
+// The community panel's ground on the homepage: --color-accent-tint and its
+// hover state in globals.css (7% / 11% of accent over surface).
+const TINT = mix(T.accent, T.surface, 7)
+const TINT_HOVER = mix(T.accent, T.surface, 11)
 
 interface Check {
   name: string
@@ -77,11 +92,21 @@ const CHECKS: Check[] = [
   { name: 'text-muted on bg', fg: T.textMuted, bg: T.bg, min: 4.5 },
   { name: 'text-muted on surface', fg: T.textMuted, bg: T.surface, min: 4.5 },
 
-  // Accent used as ink. Elevated is the light-panel ground (MeetTradition's
-  // aside, ContactBlock's 'When we teach'), which carries the Devanagari accent.
+  // Accent used as ink. Elevated is the light-panel ground (ContactBlock's
+  // 'When we teach'), which carries the Devanagari accent.
   { name: 'accent on bg', fg: T.accent, bg: T.bg, min: 4.5 },
   { name: 'accent on surface', fg: T.accent, bg: T.surface, min: 4.5 },
   { name: 'accent on elevated', fg: T.accent, bg: T.elevated, min: 4.5 },
+
+  // Community panel on its accent tint (resting and hovered): title, body and
+  // the accent ring against the surface it sits in.
+  { name: 'text-primary on accent-tint', fg: T.textPrimary, bg: TINT, min: 4.5 },
+  { name: 'text-secondary on accent-tint', fg: T.textSecondary, bg: TINT, min: 4.5 },
+  { name: 'accent on accent-tint', fg: T.accent, bg: TINT, min: 4.5 },
+  { name: 'text-primary on accent-tint hover', fg: T.textPrimary, bg: TINT_HOVER, min: 4.5 },
+  { name: 'text-secondary on accent-tint hover', fg: T.textSecondary, bg: TINT_HOVER, min: 4.5 },
+  { name: 'accent on accent-tint hover', fg: T.accent, bg: TINT_HOVER, min: 4.5 },
+  { name: 'accent ring vs surface (UI)', fg: T.accent, bg: T.surface, min: 3 },
 
   // The gold that IS allowed to carry text.
   { name: 'accent-muted (gold text) on bg', fg: T.accentMuted, bg: T.bg, min: 4.5 },
