@@ -115,7 +115,7 @@ export default function PrivacyPage() {
           <br />
           {site.locality}, {site.city}, {site.region}, {site.country}
           <br />
-          <a href={telHref()}>{site.phoneDisplay}</a>
+          <a href={telHref()} className="inline-flex min-h-6 items-center">{site.phoneDisplay}</a>
         </p>
       </Prose>
     </>

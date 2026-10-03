@@ -58,7 +58,7 @@ export default function TermsPage() {
 
         <h2>Contact</h2>
         <p>
-          <a href={telHref()}>{site.phoneDisplay}</a>
+          <a href={telHref()} className="inline-flex min-h-6 items-center">{site.phoneDisplay}</a>
           <br />
           {site.locality}, {site.city}, {site.region}
         </p>

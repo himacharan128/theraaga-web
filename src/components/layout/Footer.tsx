@@ -102,12 +102,12 @@ export async function Footer() {
           {columns.map((col) => (
             <nav key={col.title} aria-label={col.title}>
               <h2 className="u-eyebrow mb-5 !text-[color-mix(in_srgb,var(--color-on-accent)_64%,transparent)]">{col.title}</h2>
-              <ul className="space-y-3">
+              <ul className="space-y-1">
                 {col.links.map((l) => (
                   <li key={l.href}>
                     <Link
                       href={l.href}
-                      className="text-[length:var(--text-step--1)] text-[color-mix(in_srgb,var(--color-on-accent)_86%,transparent)] no-underline transition-colors hover:text-on-accent hover:underline hover:underline-offset-4"
+                      className="inline-flex min-h-7 items-center text-[length:var(--text-step--1)] text-[color-mix(in_srgb,var(--color-on-accent)_86%,transparent)] no-underline transition-colors hover:text-on-accent hover:underline hover:underline-offset-4"
                     >
                       {l.label}
                     </Link>
@@ -126,13 +126,13 @@ export async function Footer() {
                 We do not invent a postal address or geo coordinates. */}
             {site.streetAddress ?? `${site.locality}, ${site.city}, ${site.region}`}
             <br />
-            <a href={`tel:+${site.whatsapp}`} className="hover:text-on-accent">
+            <a href={`tel:+${site.whatsapp}`} className="inline-flex min-h-7 items-center hover:text-on-accent">
               {site.phoneDisplay}
             </a>
             {site.email && (
               <>
                 {' · '}
-                <a href={`mailto:${site.email}`} className="hover:text-on-accent">
+                <a href={`mailto:${site.email}`} className="inline-flex min-h-7 items-center hover:text-on-accent">
                   {site.email}
                 </a>
               </>

@@ -540,7 +540,7 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => track('whatsapp_click', { cta_location: 'form' })}
-          className="inline-flex items-center gap-2 font-[var(--font-ui)] text-[length:var(--text-step--1)] text-accent underline underline-offset-4"
+          className="inline-flex min-h-11 items-center gap-2 font-[var(--font-ui)] text-[length:var(--text-step--1)] text-accent underline underline-offset-4"
         >
           <WhatsAppIcon />
           Or just ask on WhatsApp

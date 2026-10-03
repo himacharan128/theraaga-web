@@ -132,6 +132,66 @@ for (const route of ['/', '/contact', '/privacy', '/terms', '/refund-policy', '/
   check(`no dead contact link on ${route}`, dead.length === 0, dead.join(', '))
 }
 
+/**
+ * Target size — WCAG 2.2 SC 2.5.8 (AA), at the 360px mobile viewport.
+ *
+ * The footer says "Built to WCAG 2.2 AA", so the claim is asserted rather than
+ * assumed. Every visible interactive control must be at least 24x24 CSS px.
+ * Two exemptions, both from the criterion itself or its intent:
+ *   - `display: inline` elements that sit inside a sentence: the
+ *     inline-in-text exception. An inline link that stands alone (a footer list
+ *     item, a phone number after a <br>) is NOT in text and is measured, so
+ *     `display: inline` cannot be used to dodge the rule.
+ *   - visually hidden elements (zero or 1px boxes: the skip link until focused,
+ *     the honeypot, sr-only radios), which are not a target a pointer can hit.
+ */
+const TARGET_ROUTES = [
+  '/', '/about', '/contact', '/learning', '/gurus', '/events', '/gallery',
+  '/journal', '/getting-started', '/online-classes',
+  '/music-classes/jubilee-hills', '/music-classes/hitech-city',
+  '/carnatic-music-classes/beginners', '/thank-you',
+  '/privacy', '/terms', '/refund-policy', '/child-safeguarding',
+]
+for (const route of TARGET_ROUTES) {
+  const res = await p.goto(`${BASE}${route}`, { waitUntil: 'networkidle' })
+  if (!res || !res.ok()) {
+    check(`target size ≥24px on ${route}`, false, `HTTP ${res?.status()}`)
+    continue
+  }
+  const offenders = await p.evaluate(() => {
+    const out = []
+    const sel = 'a[href], button, summary, input:not([type="hidden"]), select, textarea'
+    for (const el of document.querySelectorAll(sel)) {
+      const cs = getComputedStyle(el)
+      if (cs.display === 'none' || cs.visibility === 'hidden') continue
+      if (cs.display === 'inline') {
+        let n = el
+        while (n.parentElement && getComputedStyle(n.parentElement).display === 'inline') n = n.parentElement
+        // Nearest sibling that is neither a comment (React's text separators)
+        // nor whitespace: if it is text, the link is part of a sentence.
+        const nearest = (x, dir) => {
+          for (x = x[dir]; x; x = x[dir]) {
+            if (x.nodeType === 8 || (x.nodeType === 3 && x.textContent.trim() === '')) continue
+            return x
+          }
+          return null
+        }
+        const textual = (x) => x && x.nodeType === 3
+        if (textual(nearest(n, 'previousSibling')) || textual(nearest(n, 'nextSibling'))) continue
+      }
+      const r = el.getBoundingClientRect()
+      if (r.width <= 1 || r.height <= 1) continue // sr-only / visually hidden
+      if (el.closest('[aria-hidden="true"]') && r.width <= 1) continue
+      if (r.width >= 24 && r.height >= 24) continue
+      const label = (el.getAttribute('aria-label') || el.textContent || el.getAttribute('name') || el.tagName)
+        .replace(/\s+/g, ' ').trim().slice(0, 40)
+      out.push(`${el.tagName.toLowerCase()} "${label}" ${Math.round(r.width)}x${Math.round(r.height)}`)
+    }
+    return out
+  })
+  check(`target size ≥24px on ${route}`, offenders.length === 0, offenders.join('; '))
+}
+
 // Back to the homepage for the performance budget.
 await p.goto(BASE, { waitUntil: 'networkidle' })
 
