@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { SwaraDivider } from '@/components/ui/Ornament'
 import { StatementBand, NumberedRail, StickyAside } from '@/components/layout/Editorial'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
-import { getSite, getCentres, getStory, getVision, getMission } from '@/data/content'
+import { getSite, getStory, getVision, getMission } from '@/data/content'
 
 export const metadata: Metadata = {
   title: 'About: Our Heritage',
@@ -31,11 +32,9 @@ export const metadata: Metadata = {
  */
 export default async function AboutPage() {
   const site = await getSite()
-  const centres = await getCentres()
   const story = await getStory()
   const vision = await getVision()
   const mission = await getMission()
-  const physical = centres.filter((c) => c.slug)
 
   return (
     <>
@@ -110,25 +109,20 @@ export default async function AboutPage() {
       </Section>
 
       <Section id="where" eyebrow="Where we teach" title="Two centres, and beyond.">
-        <ul className="grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2">
-          {physical.map((c) => (
-            <li key={c.key} className="bg-surface p-7 md:p-9">
-              <h2 className="text-[length:var(--text-step-2)] font-[300]">
-                {c.name}
-              </h2>
-              {c.locality && (
-                <p className="mt-1 font-[var(--font-ui)] text-[length:var(--text-step--1)] text-text-muted">
-                  {c.locality}
-                </p>
-              )}
-              <p className="mt-4 text-[length:var(--text-step--1)] leading-[var(--lh-body)] text-text-secondary">
-                {c.body}
-              </p>
-            </li>
-          ))}
-        </ul>
-        <p className="u-measure mt-8 text-text-secondary">
-          Students outside Hyderabad learn with us live online, at times that
+        <p className="u-measure text-text-secondary">
+          We teach at our centres in{' '}
+          <Link href="/music-classes/jubilee-hills" className="text-accent underline underline-offset-4">
+            Jubilee Hills
+          </Link>{' '}
+          and{' '}
+          <Link href="/music-classes/hitech-city" className="text-accent underline underline-offset-4">
+            Hitech City
+          </Link>
+          , and{' '}
+          <Link href="/online-classes" className="text-accent underline underline-offset-4">
+            live online
+          </Link>
+          . Students outside Hyderabad learn with us live online, at times that
           work for the Gulf, the UK and North America. We also teach classes
           hosted within residential communities.
         </p>
