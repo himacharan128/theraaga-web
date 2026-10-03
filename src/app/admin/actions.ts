@@ -10,22 +10,11 @@ import {
   requireAdmin,
   validateAdminCredentials,
 } from '@/lib/admin-auth'
+import { clearLoginAttempts, recordLoginAttempt } from '@/data/admin-login-attempts'
 // Aliased: this file exports a Server Action with the same name.
 import { LEAD_STATUSES, deleteLead as eraseLead, setLeadStatus } from '@/data/admin-dashboard'
 
 export type AdminLoginState = { error?: string }
-
-const LOGIN_WINDOW_MS = 15 * 60 * 1000
-const MAX_LOGIN_ATTEMPTS = 5
-const loginAttempts = new Map<string, number[]>()
-
-function loginRateLimited(key: string): boolean {
-  const now = Date.now()
-  const recent = (loginAttempts.get(key) ?? []).filter((attempt) => now - attempt < LOGIN_WINDOW_MS)
-  recent.push(now)
-  loginAttempts.set(key, recent)
-  return recent.length > MAX_LOGIN_ATTEMPTS
-}
 
 export async function loginAdmin(
   _previous: AdminLoginState,
@@ -42,7 +31,7 @@ export async function loginAdmin(
     requestHeaders.get('x-forwarded-for')?.split(',')[0]?.trim() ??
     'local'
 
-  if (loginRateLimited(ip)) {
+  if (await recordLoginAttempt(ip)) {
     return { error: 'Too many attempts. Please wait fifteen minutes and try again.' }
   }
 
@@ -51,6 +40,7 @@ export async function loginAdmin(
   const valid = await validateAdminCredentials(username, password)
   if (!valid) return { error: 'The username or password is not correct.' }
 
+  await clearLoginAttempts(ip)
   await createAdminSession(username.trim())
   redirect('/admin')
 }
