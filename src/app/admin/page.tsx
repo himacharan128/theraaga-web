@@ -1,18 +1,11 @@
 import { Suspense } from 'react'
 import { connection } from 'next/server'
-import { getAdminDashboard, LEAD_STATUSES } from '@/data/admin-dashboard'
+import { getAdminDashboard, LEAD_STATUSES, type DashboardLead } from '@/data/admin-dashboard'
 import { requireAdmin } from '@/lib/admin-auth'
-import { logoutAdmin, updateLeadStatus } from './actions'
+import { logoutAdmin } from './actions'
 import { AdminHeader } from '@/components/admin/AdminHeader'
+import { AGE_LABELS, LEAD_STATUS_LABELS, LeadContact, LeadStatusForm } from '@/components/admin/LeadParts'
 import { REPORT_PERIODS, reportDays, changeLabel } from '@/lib/reporting'
-
-const LEAD_STATUS_LABELS: Record<(typeof LEAD_STATUSES)[number], string> = {
-  new: 'New',
-  contacted: 'Contacted',
-  trial_booked: 'Trial booked',
-  enrolled: 'Enrolled',
-  lost: 'Closed',
-}
 
 function stat(value: number): string {
   return new Intl.NumberFormat('en-IN').format(value)
@@ -28,6 +21,15 @@ function formatDate(value: string): string {
     timeStyle: 'short',
     timeZone: 'Asia/Kolkata',
   }).format(new Date(value))
+}
+
+function LeadRequest({ lead }: { lead: DashboardLead }) {
+  return (
+    <>
+      <p>{lead.learner === 'my_child' ? 'For a child' : 'For myself'} · {AGE_LABELS[lead.ageBand]}</p>
+      <p className="mt-1 capitalize">{lead.mode.replace('-', ' ')}</p>
+    </>
+  )
 }
 
 function MetricList({
@@ -117,7 +119,7 @@ async function AdminDashboardContent({ searchParams }: { searchParams: Promise<{
             {REPORT_PERIODS.map(period => <a key={period} href={`/admin?days=${period}`} aria-current={period === days ? 'page' : undefined} className={`rounded-lg px-3 py-2 text-xs font-semibold ${period === days ? 'bg-[#6b1f2a] text-white' : 'text-stone-600'}`}>{period} days</a>)}
           </nav>
         </div>
-        {dashboard.overdueLeads > 0 && <a href="/admin/enquiries?status=new" className="mt-5 block rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950"><strong>{dashboard.overdueLeads} enquiries need attention.</strong> These contacts have remained New for more than 48 hours. Open the enquiry queue →</a>}
+        {dashboard.overdueLeads > 0 && <a href="/admin/enquiries?status=new" className="mt-5 block rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950"><strong>{dashboard.overdueLeads} {dashboard.overdueLeads === 1 ? 'enquiry needs' : 'enquiries need'} attention.</strong> {dashboard.overdueLeads === 1 ? 'This contact has' : 'These contacts have'} remained New for more than 48 hours. Open the enquiry queue →</a>}
 
         <section className="mt-7 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
           {cards.map(([title, value, help, event]) => (
@@ -194,46 +196,43 @@ async function AdminDashboardContent({ searchParams }: { searchParams: Promise<{
               </a>
             </div>
           </div>
-          <div className="mt-4 overflow-x-auto rounded-2xl border border-stone-200 bg-white shadow-sm">
+          <div className="mt-4 rounded-2xl border border-stone-200 bg-white shadow-sm">
             {dashboard.recentLeads.length ? (
-              <table className="w-full min-w-[760px] border-collapse text-left text-sm">
-                <thead className="bg-stone-50 text-xs uppercase tracking-[0.08em] text-stone-500">
-                  <tr>
-                    <th className="px-5 py-3 font-semibold">Contact</th>
-                    <th className="px-5 py-3 font-semibold">Learning request</th>
-                    <th className="px-5 py-3 font-semibold">Received</th>
-                    <th className="px-5 py-3 font-semibold">Status</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-stone-100">
+              <>
+                {/* Phones get a stacked card per lead; the 760px table needed a sideways swipe. */}
+                <ul className="divide-y divide-stone-100 md:hidden">
                   {dashboard.recentLeads.map((lead) => (
-                    <tr key={lead.id}>
-                      <td className="px-5 py-4">
-                        <p className="font-medium text-stone-900">{lead.contactName}</p>
-                        <a className="text-stone-600 hover:text-[#6b1f2a]" href={`https://wa.me/91${lead.phone}`} target="_blank" rel="noopener noreferrer">
-                          +91 {lead.phone}
-                        </a>
-                      </td>
-                      <td className="px-5 py-4 text-stone-600">
-                        <p>{lead.learner === 'my_child' ? 'For a child' : 'For myself'} · {lead.ageBand.replace('_', '–')}</p>
-                        <p className="mt-1 capitalize">{lead.mode.replace('-', ' ')}</p>
-                      </td>
-                      <td className="px-5 py-4 text-stone-600">{formatDate(lead.submittedAt)}</td>
-                      <td className="px-5 py-4">
-                        <form action={updateLeadStatus} className="flex items-center gap-2">
-                          <input type="hidden" name="id" value={lead.id} />
-                          <select name="status" defaultValue={lead.status} className="rounded-lg border border-stone-300 bg-white px-2 py-1.5 text-sm">
-                            {LEAD_STATUSES.map((status) => (
-                              <option key={status} value={status}>{LEAD_STATUS_LABELS[status]}</option>
-                            ))}
-                          </select>
-                          <button className="rounded-lg border border-stone-300 px-2.5 py-1.5 text-xs font-medium text-stone-700 hover:border-stone-400">Save</button>
-                        </form>
-                      </td>
-                    </tr>
+                    <li key={lead.id} className="grid gap-3 p-4 text-sm">
+                      <div><LeadContact name={lead.contactName} phone={lead.phone} /></div>
+                      <div className="text-stone-600"><LeadRequest lead={lead} /></div>
+                      <p className="text-xs text-stone-500">Received {formatDate(lead.submittedAt)}</p>
+                      <LeadStatusForm id={lead.id} name={lead.contactName} status={lead.status} />
+                    </li>
                   ))}
-                </tbody>
-              </table>
+                </ul>
+                <div className="hidden overflow-x-auto md:block">
+                  <table className="w-full min-w-[760px] border-collapse text-left text-sm">
+                    <thead className="bg-stone-50 text-xs uppercase tracking-[0.08em] text-stone-500">
+                      <tr>
+                        <th className="px-5 py-3 font-semibold">Contact</th>
+                        <th className="px-5 py-3 font-semibold">Learning request</th>
+                        <th className="px-5 py-3 font-semibold">Received</th>
+                        <th className="px-5 py-3 font-semibold">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-stone-100">
+                      {dashboard.recentLeads.map((lead) => (
+                        <tr key={lead.id}>
+                          <td className="px-5 py-4"><LeadContact name={lead.contactName} phone={lead.phone} /></td>
+                          <td className="px-5 py-4 text-stone-600"><LeadRequest lead={lead} /></td>
+                          <td className="px-5 py-4 text-stone-600">{formatDate(lead.submittedAt)}</td>
+                          <td className="px-5 py-4"><LeadStatusForm id={lead.id} name={lead.contactName} status={lead.status} /></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
             ) : (
               <p className="p-6 text-sm text-stone-500">No enquiries are available in the admin database yet.</p>
             )}

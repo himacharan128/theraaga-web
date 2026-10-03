@@ -5,6 +5,11 @@ const nextConfig: NextConfig = {
   // `experimental.ppr` / `experimental_ppr` were REMOVED in v16 — do not add them back.
   cacheComponents: true,
 
+  // Lets unmatched URLs render a 404 that carries its own header and footer
+  // without a root not-found.tsx, which would leak the public chrome into the
+  // RSC payload of every page, admin included. See src/app/global-not-found.tsx.
+  experimental: { globalNotFound: true },
+
   // NOTE: do NOT set `htmlLimitedBots`. `WhatsApp` is already in Next's default
   // regex, and any custom value REPLACES the default list — which would silently
   // drop Google, Bing, Twitter, LinkedIn, Slack, Discord and Facebook from
@@ -40,6 +45,9 @@ const nextConfig: NextConfig = {
       { source: '/communities', destination: '/contact', permanent: true },
       { source: '/sabha', destination: '/events', permanent: true },
       { source: '/manana', destination: '/journal', permanent: true },
+
+      // Retired: it shared the homepage's <title> and competed with it in search.
+      { source: '/carnatic-vocal-classes-hyderabad', destination: '/', permanent: true },
     ]
   },
 

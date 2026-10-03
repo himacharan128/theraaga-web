@@ -10,9 +10,12 @@ export interface StoredLead extends EnquiryInput {
   submittedAt: string
   /**
    * DPDP requires erasure once the purpose is served. 24 months is defensible
-   * for an enquiry. In Mongo this is backed by a TTL index on the field.
+   * for an enquiry. In Mongo this is a real `Date` because a TTL index only
+   * expires BSON dates and silently ignores strings; the index itself is
+   * created by `ensureLeadRetention` (the public insert-only user cannot
+   * create one). The JSONL dev fallback serialises it to an ISO string.
    */
-  retentionUntil: string
+  retentionUntil: Date
 }
 
 const RETENTION_MONTHS = 24
@@ -42,7 +45,7 @@ export async function saveLead(input: EnquiryInput): Promise<StoredLead> {
     id: crypto.randomUUID(),
     status: 'new',
     submittedAt: now.toISOString(),
-    retentionUntil: retention.toISOString(),
+    retentionUntil: retention,
   }
 
   const uri = process.env.MONGODB_URI

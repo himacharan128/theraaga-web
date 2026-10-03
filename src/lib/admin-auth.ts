@@ -102,8 +102,10 @@ export async function createAdminSession(username: string): Promise<void> {
   const secret = sessionSecret()
   if (!secret) throw new Error('ADMIN_SESSION_SECRET is not set')
 
+  // Store the canonical form: getAdminSession compares against the uppercased
+  // configured username, and login accepts any casing.
   const payload: SessionPayload = {
-    username,
+    username: canonicalUsername(username),
     expiresAt: Math.floor(Date.now() / 1000) + SESSION_TTL_SECONDS,
     nonce: randomBytes(16).toString('base64url'),
   }

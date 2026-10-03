@@ -76,6 +76,9 @@ export function AnalyticsTracker() {
   const pathname = usePathname()
 
   useEffect(() => {
+    // The tracker is mounted only by the (site) layout, so the admin portal
+    // never loads it. This guard stays as defence in depth: admin traffic must
+    // never be recorded even if the tracker is ever moved.
     if (!pathname || pathname.startsWith('/admin')) return
 
     const onTelemetry = (event: WindowEventMap['raaga:telemetry']) => {

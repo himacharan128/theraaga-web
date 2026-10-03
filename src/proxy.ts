@@ -19,8 +19,10 @@ function isAsset(pathname: string): boolean {
 /**
  * Vercel sends both theraaga.in and admin.theraaga.in to this deployment. The
  * subdomain is a separate private surface: its root resolves to /admin and no
- * public marketing route is rendered on it. Authorization is still enforced
- * again inside each admin Server Component/Server Action.
+ * public marketing route is rendered on it. The public chrome belongs to the
+ * (site) route group, so /admin renders under the bare root layout without it.
+ * Authorization is still enforced again inside each admin Server Component/
+ * Server Action.
  */
 export function proxy(request: NextRequest) {
   const host = hostOf(request)

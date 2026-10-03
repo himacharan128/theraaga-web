@@ -87,7 +87,7 @@ export async function Centres() {
               </p>
               <Link
                 href={c.href}
-                className="mt-5 inline-flex items-center gap-2 font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium text-accent underline decoration-[color-mix(in_srgb,var(--color-accent)_35%,transparent)] underline-offset-[6px] transition-[text-decoration-color] hover:decoration-current"
+                className="mt-3 inline-flex min-h-11 items-center gap-2 font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium text-accent underline decoration-[color-mix(in_srgb,var(--color-accent)_35%,transparent)] underline-offset-[6px] transition-[text-decoration-color] hover:decoration-current"
               >
                 {c.cta}
                 <svg className="raga-link-arrow" width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">

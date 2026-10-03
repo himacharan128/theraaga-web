@@ -1,6 +1,5 @@
-import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
-import { EmptyState, Section } from '@/components/layout/Section'
-import { whatsappHref } from '@/lib/whatsapp'
+import { ButtonLink } from '@/components/ui/Button'
+import { Section } from '@/components/layout/Section'
 import { getBatches } from '@/data/content'
 import type { Mode } from '@/content/types'
 
@@ -18,6 +17,10 @@ const MODE_LABEL: Record<Mode, string> = {
  * is it?" — and a batch table is the highest-converting artefact this content
  * model can produce: *Saturday 10:00, Jubilee Hills, 4 seats left*.
  *
+ * With no batches the section renders nothing at all, rather than an empty
+ * state: the enquiry form already asks for preferred times, so a second ask
+ * here only repeated it.
+ *
  * NO FEE COLUMN. Prices never appear on this site; fees are a WhatsApp
  * conversation. See plan §3.
  */
@@ -30,20 +33,6 @@ export async function CurrentBatches() {
       eyebrow="Open now"
       title="Current batches."
       renderIf={batches.length > 0}
-      fallback={
-        <EmptyState
-          action={
-            <ButtonLink variant="secondary" href={whatsappHref('BATCHES-EMPTY')}>
-              <WhatsAppIcon />
-              Tell us what suits you
-            </ButtonLink>
-          }
-        >
-          Batches for the coming term are being finalised. Tell us the days and
-          times that suit you. We open new batches around our students, at both
-          centres and online.
-        </EmptyState>
-      }
     >
       <div className="overflow-x-auto rounded-[var(--radius-md)] border border-border bg-[color-mix(in_srgb,var(--color-surface)_82%,transparent)] px-5 shadow-[0_10px_24px_rgba(71,49,34,0.04)] sm:px-7">
         <table className="w-full min-w-[42rem] border-collapse text-left">

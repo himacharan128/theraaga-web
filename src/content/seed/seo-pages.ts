@@ -5,6 +5,10 @@ import type { SeoLandingPage } from '../types'
  * different decision a learner or parent is making, using claims already
  * supported by the school's published curriculum, FAQ and teaching content.
  *
+ * Where to learn (centres, online) is deliberately NOT repeated here: the
+ * centre pages and the homepage router own location, and every page ends on
+ * FinalCta, which owns the trial booking.
+ *
  * Do not turn this into a Hyderabad locality grid unless a page has a real,
  * specific reason to exist. Nearby-area terms belong on the physical-centre
  * pages until the client supplies distinct community or travel information.
@@ -42,16 +46,11 @@ export const seoLandingPages: SeoLandingPage[] = [
         title: 'A pace that respects the learner',
         body: 'Children from five and adults beginning at any age are welcome. Small batches make it possible for the teacher to listen to each student rather than teaching only to the room.',
       },
-      {
-        title: 'Learn in Hyderabad or live online',
-        body: 'Choose RAAGA at Jubilee Hills, Phoenix Arena in Hitech City or live online. The traditional progression stays the same in each setting.',
-      },
     ],
     related: [
       { label: 'See the full Carnatic curriculum', href: '/learning' },
       { label: 'Carnatic classes for children', href: '/carnatic-music-classes/children' },
       { label: 'Carnatic classes for adults', href: '/carnatic-music-classes/adults' },
-      { label: 'Book a trial class', href: '/contact' },
     ],
   },
   {
@@ -86,16 +85,11 @@ export const seoLandingPages: SeoLandingPage[] = [
         title: 'What parents can expect',
         body: 'Progress is gradual because Carnatic music is cumulative. A steady weekly class and small amounts of regular practice matter more than trying to move quickly through a syllabus.',
       },
-      {
-        title: 'Where your child can learn',
-        body: 'Classes are available at Jubilee Hills and Phoenix Arena in Hitech City. Live online learning is also available for families outside Hyderabad.',
-      },
     ],
     related: [
       { label: 'Beginner Carnatic music classes', href: '/carnatic-music-classes/beginners' },
       { label: 'Classes at Jubilee Hills', href: '/music-classes/jubilee-hills' },
       { label: 'Classes at Hitech City', href: '/music-classes/hitech-city' },
-      { label: 'Book a trial class', href: '/contact' },
     ],
   },
   {
@@ -116,10 +110,6 @@ export const seoLandingPages: SeoLandingPage[] = [
         title: 'Learn with your own cohort',
         body: 'Adult learners are taught separately from young children, so the room has the right pace and space for an adult beginner.',
       },
-      {
-        title: 'Choose in-person or online',
-        body: 'Learn at Jubilee Hills or Hitech City, or join a live online class from outside Hyderabad and across time zones.',
-      },
     ],
     sections: [
       {
@@ -130,16 +120,11 @@ export const seoLandingPages: SeoLandingPage[] = [
         title: 'A traditional journey, not a shortcut',
         body: 'The sequence begins with swaras and tala, then expands into geetams, varnams, kritis and eventually manodharma. Each stage gives the next one a foundation.',
       },
-      {
-        title: 'Make the first step simple',
-        body: 'Book a trial class or ask a question on WhatsApp. We will help you choose the centre or online option that fits your learning goals.',
-      },
     ],
     related: [
       { label: 'Beginner Carnatic music classes', href: '/carnatic-music-classes/beginners' },
       { label: 'Online Carnatic music classes', href: '/online-classes' },
       { label: 'The Carnatic syllabus', href: '/learning' },
-      { label: 'Book a trial class', href: '/contact' },
     ],
   },
   {
@@ -183,7 +168,6 @@ export const seoLandingPages: SeoLandingPage[] = [
       { label: 'See the Carnatic curriculum', href: '/learning' },
       { label: 'Carnatic academic pathways', href: '/carnatic-music-classes/academic-pathways' },
       { label: 'The teaching lineage', href: '/gurus' },
-      { label: 'Book a trial class', href: '/contact' },
     ],
   },
   {
@@ -227,7 +211,6 @@ export const seoLandingPages: SeoLandingPage[] = [
       { label: 'See the full Carnatic syllabus', href: '/learning' },
       { label: 'Carnatic performance training', href: '/carnatic-music-classes/performance-training' },
       { label: 'Carnatic classes for adults', href: '/carnatic-music-classes/adults' },
-      { label: 'Book a trial class', href: '/contact' },
     ],
   },
 ]

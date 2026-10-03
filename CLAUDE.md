@@ -93,9 +93,12 @@ npm run test:e2e   # real form submission — READ THE WARNING BELOW
 **`test:e2e` writes a real enquiry to whatever storage is configured, and
 `.env.local` points at the client's production Atlas cluster.** It cleans up
 after itself, but a crash mid-run leaves a fake lead in the list the school
-actually calls back. Run it against a dev server with `MONGODB_URI` unset
-(`env -u MONGODB_URI npx next dev`) so `src/data/leads.ts` falls back to the
-gitignored `.leads/leads.jsonl`. The fallback refuses in production mode by
+actually calls back. Run it against a dev server with `MONGODB_URI` set to an
+**empty string** (`MONGODB_URI= npx next dev`) so `src/data/leads.ts` falls back to the
+gitignored `.leads/leads.jsonl`. **Not** `env -u MONGODB_URI`: Next
+reloads `.env.local` at startup and refills an unset variable, so that command
+still writes to production. An empty value is kept, and `leads.ts` treats it as
+unset. The fallback refuses in production mode by
 design, so it needs `next dev`, not `next start`.
 
 Budgets are the measured cost of the shipped design, not aspirations. Tighten

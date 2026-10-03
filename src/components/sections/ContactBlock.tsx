@@ -57,23 +57,33 @@ export async function ContactBlock() {
           </div>
         </div>
 
-        <div className="rounded-[var(--radius-md)] bg-[linear-gradient(145deg,#7a2934,#511721)] p-7 text-on-accent shadow-[var(--shadow-soft)] md:p-9">
-          <h3 className="u-eyebrow !text-[color-mix(in_srgb,var(--color-on-accent)_70%,transparent)]">When we teach</h3>
-          <dl className="mt-5 space-y-3 text-[length:var(--text-step--1)]">
-            <div className="flex justify-between gap-6 border-b border-[color-mix(in_srgb,var(--color-on-accent)_16%,transparent)] pb-3">
-              <dt className="text-[color-mix(in_srgb,var(--color-on-accent)_88%,transparent)]">Weekday evenings</dt>
-              <dd className="text-right text-[color-mix(in_srgb,var(--color-on-accent)_62%,transparent)]">Institute &amp; online</dd>
+        {/* A light panel, not the maroon field, which is kept for the hero, the
+            closing band and /thank-you. Gold circles are decoration only. */}
+        <div className="relative overflow-hidden rounded-[var(--radius-md)] border border-border bg-elevated p-7 shadow-[var(--shadow-soft)] md:p-9">
+          <span
+            aria-hidden="true"
+            className="absolute -right-10 -top-12 size-44 rounded-full border border-gold-hairline/40"
+          />
+          <span
+            aria-hidden="true"
+            className="absolute -bottom-14 -left-10 size-36 rounded-full border border-gold-hairline/60"
+          />
+          <h3 className="u-eyebrow relative">When we teach</h3>
+          <dl className="relative mt-5 space-y-3 text-[length:var(--text-step--1)]">
+            <div className="flex justify-between gap-6 border-b border-border pb-3">
+              <dt className="text-text-primary">Weekday evenings</dt>
+              <dd className="text-right text-text-secondary">Institute &amp; online</dd>
             </div>
-            <div className="flex justify-between gap-6 border-b border-[color-mix(in_srgb,var(--color-on-accent)_16%,transparent)] pb-3">
-              <dt className="text-[color-mix(in_srgb,var(--color-on-accent)_88%,transparent)]">Weekend mornings</dt>
-              <dd className="text-right text-[color-mix(in_srgb,var(--color-on-accent)_62%,transparent)]">Jubilee Hills &amp; Hitech City</dd>
+            <div className="flex justify-between gap-6 border-b border-border pb-3">
+              <dt className="text-text-primary">Weekend mornings</dt>
+              <dd className="text-right text-text-secondary">Jubilee Hills &amp; Hitech City</dd>
             </div>
             <div className="flex justify-between gap-6">
-              <dt className="text-[color-mix(in_srgb,var(--color-on-accent)_88%,transparent)]">Early mornings IST</dt>
-              <dd className="text-right text-[color-mix(in_srgb,var(--color-on-accent)_62%,transparent)]">Online, for the US and UK</dd>
+              <dt className="text-text-primary">Early mornings IST</dt>
+              <dd className="text-right text-text-secondary">Online, for the US and UK</dd>
             </div>
           </dl>
-          <p className="mt-6 text-[length:var(--text-step--1)] text-[color-mix(in_srgb,var(--color-on-accent)_68%,transparent)]">
+          <p className="relative mt-6 text-[length:var(--text-step--1)] text-text-secondary">
             Exact batch timings vary by term. Message us and we’ll tell you what
             is running now.
           </p>

@@ -25,7 +25,12 @@ export async function TrustStrip() {
               <span className="block font-[var(--font-display)] text-[length:var(--text-step-3)] font-[300] leading-none text-accent">
                 {s.value}
               </span>
-              <span className="mt-3 block font-[var(--font-ui)] text-[length:var(--text-step--1)] leading-[1.4] text-text-muted">
+              {/* The <dt> above already names the stat for assistive tech; hide
+                  this visible copy so a screen reader does not read it twice. */}
+              <span
+                aria-hidden="true"
+                className="mt-3 block font-[var(--font-ui)] text-[length:var(--text-step--1)] leading-[1.4] text-text-muted"
+              >
                 {s.label}
               </span>
             </dd>

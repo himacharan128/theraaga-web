@@ -27,9 +27,14 @@ for (const page of seoLandingPages) {
   if (seenDescriptions.has(page.description)) issues.push(`${label}: duplicate description`)
   seenDescriptions.add(page.description)
 
-  if (!page.h1 || !page.intro || page.highlights.length < 3 || page.sections.length < 3) {
-    issues.push(`${label}: requires an H1, intro, three highlights and three content sections`)
+  // Two, not three: the location sections and highlights were removed from every
+  // page because the centre pages and homepage router own location. What is
+  // left is each page's genuinely distinct content, and padding it back to a
+  // count would mean inventing claims.
+  if (!page.h1 || !page.intro || page.highlights.length < 2 || page.sections.length < 2) {
+    issues.push(`${label}: requires an H1, intro, two highlights and two content sections`)
   }
+  // The trial link is no longer in `related`: every page ends on FinalCta.
   if (page.related.length < 3) {
     issues.push(`${label}: requires at least three useful related links`)
   }

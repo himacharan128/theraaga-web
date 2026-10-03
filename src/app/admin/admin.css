@@ -6,6 +6,7 @@
   font-size: 14px;
   line-height: 1.6;
 }
+.admin-shell main { overflow: visible; }
 .admin-shell h1, .admin-shell h2, .admin-shell h3 {
   font-family: var(--font-ui), sans-serif;
   font-weight: 600;

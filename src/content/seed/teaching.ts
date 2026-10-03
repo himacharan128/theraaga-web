@@ -70,7 +70,7 @@ export const teachingPrinciples: TeachingPrinciple[] = [
   {
     order: 1,
     title: 'The Guru–Shishya Parampara',
-    body: 'Carnatic Sangeetham is transmitted, not delivered. It passes from teacher to student by ear and by repetition — a phrase sung, a phrase returned, corrected, returned again. Almost nothing about that process has needed to change, and we have not changed it.',
+    body: 'Carnatic Sangeetham passes from teacher to student by ear and by repetition — a phrase sung, a phrase returned, corrected, returned again. Almost nothing about that process has needed to change, and we have not changed it.',
   },
   {
     order: 2,
