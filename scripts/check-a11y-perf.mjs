@@ -70,7 +70,9 @@ const menuBtn = p.locator('button[aria-controls="mobile-nav"]')
 await menuBtn.click()
 check('mobile menu opens', (await p.locator('#mobile-nav').count()) === 1)
 const navLinks = await p.locator('#mobile-nav a').count()
-check('mobile nav has all 8 items', navLinks === 8, `${navLinks}`)
+// Six, not eight: Gallery and Journal are left out of the nav until they have
+// content (see Header's hasGallery / hasJournal). Raise this when they return.
+check('mobile nav has all 6 items', navLinks === 6, `${navLinks}`)
 const smallTargets = await p.evaluate(() =>
   [...document.querySelectorAll('#mobile-nav a')].filter(
     (e) => e.getBoundingClientRect().height < 44,
