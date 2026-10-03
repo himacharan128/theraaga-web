@@ -87,10 +87,6 @@ export default async function CarnaticIntentPage({ params }: { params: Params })
       <BreadcrumbSchema
         items={[
           { name: 'Home', href: '/' },
-          {
-            name: 'Carnatic Music Classes in Hyderabad',
-            href: '/carnatic-vocal-classes-hyderabad',
-          },
           { name: page.h1.replace(/\.$/, ''), href },
         ]}
       />

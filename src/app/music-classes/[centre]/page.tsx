@@ -68,7 +68,6 @@ export default async function CentrePage({
       <BreadcrumbSchema
         items={[
           { name: 'Home', href: '/' },
-          { name: 'Carnatic Music Classes in Hyderabad', href: '/carnatic-vocal-classes-hyderabad' },
           { name: `Classes in ${centre.name}`, href: `/music-classes/${slug}` },
         ]}
       />

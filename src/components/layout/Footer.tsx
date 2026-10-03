@@ -30,7 +30,6 @@ export async function Footer() {
       links: [
         { label: 'Getting started with Carnatic music', href: '/getting-started' },
         { label: 'Learning · Sādhana', href: '/learning' },
-        { label: 'Carnatic vocal classes in Hyderabad', href: '/carnatic-vocal-classes-hyderabad' },
         { label: 'Classes in Jubilee Hills', href: '/music-classes/jubilee-hills' },
         { label: 'Classes in Hitech City', href: '/music-classes/hitech-city' },
         { label: 'Online classes', href: '/online-classes' },

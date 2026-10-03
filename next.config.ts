@@ -40,6 +40,9 @@ const nextConfig: NextConfig = {
       { source: '/communities', destination: '/contact', permanent: true },
       { source: '/sabha', destination: '/events', permanent: true },
       { source: '/manana', destination: '/journal', permanent: true },
+
+      // Retired: it shared the homepage's <title> and competed with it in search.
+      { source: '/carnatic-vocal-classes-hyderabad', destination: '/', permanent: true },
     ]
   },
 

@@ -10,7 +10,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ['', 1, 'weekly'],
     ['/learning', 0.9, 'monthly'],
     ['/getting-started', 0.8, 'monthly'],
-    ['/carnatic-vocal-classes-hyderabad', 0.9, 'weekly'],
     ['/online-classes', 0.8, 'weekly'],
     ['/music-classes/jubilee-hills', 0.8, 'monthly'],
     ['/music-classes/hitech-city', 0.8, 'monthly'],
