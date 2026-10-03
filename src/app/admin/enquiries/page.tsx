@@ -6,21 +6,19 @@ import {
   getAdminEnquiries,
   LEAD_STATUSES,
   type EnquiryFilters,
+  type EnquiryLead,
   type LeadStatus,
 } from '@/data/admin-dashboard'
 import { requireAdmin } from '@/lib/admin-auth'
 import { INTERESTS, LEARNERS, MODES } from '@/lib/enquiry-schema'
-import { updateLeadStatus } from '../actions'
 import { AdminHeader } from '@/components/admin/AdminHeader'
+import {
+  DeleteLeadControl,
+  LEAD_STATUS_LABELS,
+  LeadContact,
+  LeadStatusForm,
+} from '@/components/admin/LeadParts'
 import type { Mode } from '@/content/types'
-
-const LEAD_STATUS_LABELS: Record<LeadStatus, string> = {
-  new: 'New',
-  contacted: 'Contacted',
-  trial_booked: 'Trial booked',
-  enrolled: 'Enrolled',
-  lost: 'Closed',
-}
 
 // Record<Mode, string> rather than `as const`, so adding a delivery mode is a
 // compile error here instead of a blank cell in the enquiries table.
@@ -73,6 +71,20 @@ function queryString(filters: EnquiryFilters, page: number): string {
   if (page > 1) params.set('page', String(page))
   const encoded = params.toString()
   return encoded ? `/admin/enquiries?${encoded}` : '/admin/enquiries'
+}
+
+function LeadRequest({ lead }: { lead: EnquiryLead }) {
+  return (
+    <>
+      <p className="font-medium text-stone-900">
+        {lead.learner === 'my_child' ? 'For a child' : 'For myself'} · {AGE_LABELS[lead.ageBand]}
+      </p>
+      {lead.interest && (
+        <p className="mt-1">{INTEREST_LABELS[lead.interest]}</p>
+      )}
+      <p className="mt-1">{MODE_LABELS[lead.mode]}{lead.timezone ? ` · ${lead.timezone}` : ''}</p>
+    </>
+  )
 }
 
 function LoadingEnquiries() {
@@ -166,51 +178,57 @@ async function AdminEnquiriesContent({
           </form>
         </section>
 
-        <section className="mt-5 overflow-x-auto rounded-2xl border border-stone-200 bg-white shadow-sm">
+        <div className="mt-5 grid gap-1 text-sm leading-6 text-stone-600">
+          <p>Delete an enquiry when the person asks, within thirty days as the privacy notice promises.</p>
+          <p>If a message names a child, delete or ignore that detail, because the site never collects a child’s identity.</p>
+        </div>
+
+        <section className="mt-3 rounded-2xl border border-stone-200 bg-white shadow-sm">
           {enquiries.leads.length ? (
-            <table className="w-full min-w-[1080px] border-collapse text-left text-sm">
-              <thead className="bg-stone-50 text-xs uppercase tracking-[0.08em] text-stone-500">
-                <tr>
-                  <th className="px-5 py-3 font-semibold">Contact</th>
-                  <th className="px-5 py-3 font-semibold">Interest & learning request</th>
-                  <th className="px-5 py-3 font-semibold">Message</th>
-                  <th className="px-5 py-3 font-semibold">Received</th>
-                  <th className="px-5 py-3 font-semibold">Status</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-stone-100">
+            <>
+              {/* Phones get a stacked card per lead: a 1080px table meant swiping sideways to triage. */}
+              <ul className="divide-y divide-stone-100 md:hidden">
                 {enquiries.leads.map((lead) => (
-                  <tr key={lead.id} className="align-top">
-                    <td className="px-5 py-4">
-                      <p className="font-medium text-stone-900">{lead.contactName}</p>
-                      <a className="mt-1 inline-block text-stone-600 hover:text-[#6b1f2a]" href={`https://wa.me/91${lead.phone}`} target="_blank" rel="noopener noreferrer">
-                        +91 {lead.phone}
-                      </a>
-                    </td>
-                    <td className="px-5 py-4 text-stone-600">
-                      <p className="font-medium text-stone-900">
-                        {lead.learner === 'my_child' ? 'For a child' : 'For myself'} · {AGE_LABELS[lead.ageBand]}
-                      </p>
-                      {lead.interest && (
-                        <p className="mt-1">{INTEREST_LABELS[lead.interest]}</p>
-                      )}
-                      <p className="mt-1">{MODE_LABELS[lead.mode]}{lead.timezone ? ` · ${lead.timezone}` : ''}</p>
-                    </td>
-                    <td className="max-w-xs px-5 py-4 leading-6 text-stone-600">{lead.message || <span className="text-stone-400">No message</span>}</td>
-                    <td className="whitespace-nowrap px-5 py-4 text-stone-600">{formatDate(lead.submittedAt)}</td>
-                    <td className="px-5 py-4">
-                      <form action={updateLeadStatus} className="flex items-center gap-2">
-                        <input type="hidden" name="id" value={lead.id} />
-                        <select name="status" defaultValue={lead.status} aria-label={`Status for ${lead.contactName}`} className="rounded-lg border border-stone-300 bg-white px-2 py-1.5 text-sm">
-                          {LEAD_STATUSES.map((status) => <option key={status} value={status}>{LEAD_STATUS_LABELS[status]}</option>)}
-                        </select>
-                        <button className="rounded-lg border border-stone-300 px-2.5 py-1.5 text-xs font-medium text-stone-700 hover:border-stone-400">Save</button>
-                      </form>
-                    </td>
-                  </tr>
+                  <li key={lead.id} className="grid gap-3 p-4 text-sm">
+                    <div><LeadContact name={lead.contactName} phone={lead.phone} /></div>
+                    <div className="text-stone-600"><LeadRequest lead={lead} /></div>
+                    <p className="leading-6 text-stone-600">{lead.message || <span className="text-stone-400">No message</span>}</p>
+                    <p className="text-xs text-stone-500">Received {formatDate(lead.submittedAt)}</p>
+                    <LeadStatusForm id={lead.id} name={lead.contactName} status={lead.status} />
+                    <DeleteLeadControl id={lead.id} name={lead.contactName} />
+                  </li>
                 ))}
-              </tbody>
-            </table>
+              </ul>
+              <div className="hidden overflow-x-auto md:block">
+                <table className="w-full min-w-[1080px] border-collapse text-left text-sm">
+                  <thead className="bg-stone-50 text-xs uppercase tracking-[0.08em] text-stone-500">
+                    <tr>
+                      <th className="px-5 py-3 font-semibold">Contact</th>
+                      <th className="px-5 py-3 font-semibold">Interest & learning request</th>
+                      <th className="px-5 py-3 font-semibold">Message</th>
+                      <th className="px-5 py-3 font-semibold">Received</th>
+                      <th className="px-5 py-3 font-semibold">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-stone-100">
+                    {enquiries.leads.map((lead) => (
+                      <tr key={lead.id} className="align-top">
+                        <td className="px-5 py-4"><LeadContact name={lead.contactName} phone={lead.phone} /></td>
+                        <td className="px-5 py-4 text-stone-600"><LeadRequest lead={lead} /></td>
+                        <td className="max-w-xs px-5 py-4 leading-6 text-stone-600">{lead.message || <span className="text-stone-400">No message</span>}</td>
+                        <td className="whitespace-nowrap px-5 py-4 text-stone-600">{formatDate(lead.submittedAt)}</td>
+                        <td className="px-5 py-4">
+                          <LeadStatusForm id={lead.id} name={lead.contactName} status={lead.status} />
+                          <div className="mt-2">
+                            <DeleteLeadControl id={lead.id} name={lead.contactName} />
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
           ) : (
             <p className="p-7 text-sm leading-6 text-stone-500">No enquiries match these filters yet.</p>
           )}
