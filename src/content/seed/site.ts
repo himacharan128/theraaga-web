@@ -43,7 +43,7 @@ export const site: SiteSettings = {
   // Values are STRINGS. Merit School of Music and Furtados both currently ship
   // live homepages reading "0 +" because a count-up never fired.
   stats: [
-    { label: 'Teaching in Hyderabad for', value: 'A decade' },
+    { label: 'Teaching in Hyderabad', value: 'A decade' },
     { label: 'Centres, plus online and community classes', value: 'Two' },
     { label: 'Rooted in the Guru–Shishya', value: 'Parampara' },
     { label: 'Open to children and adults', value: 'All ages' },
