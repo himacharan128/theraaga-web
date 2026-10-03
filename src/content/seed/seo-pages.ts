@@ -120,10 +120,6 @@ export const seoLandingPages: SeoLandingPage[] = [
         title: 'A traditional journey, not a shortcut',
         body: 'The sequence begins with swaras and tala, then expands into geetams, varnams, kritis and eventually manodharma. Each stage gives the next one a foundation.',
       },
-      {
-        title: 'Make the first step simple',
-        body: 'Book a trial class or ask a question on WhatsApp. We will help you choose the centre or online option that fits your learning goals.',
-      },
     ],
     related: [
       { label: 'Beginner Carnatic music classes', href: '/carnatic-music-classes/beginners' },
