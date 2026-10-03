@@ -6,8 +6,9 @@ import { SwaraDivider } from '@/components/ui/Ornament'
  * The Guru–Shishya positioning, in brief.
  *
  * The full lineage, the scholarly work and the teaching principles live on
- * /gurus. This is the homepage's short form: enough to establish why the
- * teaching is what it is, then a route onward. Deliberately no portrait and no
+ * /gurus, and the Guru–Shishya explanation itself is told once, on /about.
+ * This is the homepage's short form: enough to establish why the teaching is
+ * what it is, then a route onward. Deliberately no portrait and no
  * placeholder frame — with no client photography, a person-shaped hole is what
  * makes a school site look abandoned.
  *
@@ -23,13 +24,6 @@ export function MeetTradition() {
             Learned in a line, from your first Sa.
           </h2>
           <div className="u-measure mt-7 space-y-5 text-[length:var(--text-step-0)] leading-[var(--lh-body)] text-text-secondary">
-            <p>
-              Carnatic music is transmitted, not delivered. It passes from
-              teacher to student by ear and by repetition. A phrase is sung,
-              returned, corrected and returned again. That is the
-              Guru–Shishya Parampara, and it is how every student here is
-              taught.
-            </p>
             <p>
               Students stay with their teacher rather than being handed between
               instructors as they progress. In this music that continuity is not
