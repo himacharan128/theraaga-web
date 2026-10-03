@@ -32,6 +32,7 @@ export function TrialProcess() {
   return (
     <Section
       id="trial"
+      size="lead"
       eyebrow="Prārambham · How to begin"
       title="What actually happens next."
       tone="surface"

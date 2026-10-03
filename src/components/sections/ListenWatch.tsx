@@ -23,6 +23,7 @@ export async function ListenWatch() {
   return (
     <Section
       id="listen"
+      rhythm="tight"
       eyebrow="Anubhava · Listen"
       title="Hear what a first lesson sounds like."
       tone="surface"

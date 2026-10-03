@@ -117,6 +117,8 @@ export async function Centres() {
   return (
     <Section
       id="centres"
+      size="lead"
+      rhythm="open"
       eyebrow="Sādhana · Where you learn"
       title="Two centres in Hyderabad."
       lede={

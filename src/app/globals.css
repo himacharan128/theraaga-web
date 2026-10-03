@@ -194,6 +194,38 @@ p {
   transform: none;
 }
 
+/* Scroll-linked reveal, where the browser supports it.
+
+   `view()` ties progress to the element's own travel through the viewport, so
+   the fade tracks the scroll instead of firing once when a class flips. It runs
+   on the compositor rather than the main thread, which is the only reason it is
+   safe on the mid-range Android this site is actually read on — and it costs no
+   JavaScript at all. The IntersectionObserver above stays as the fallback, so
+   browsers without scroll-driven animation are unaffected.
+
+   Nested inside `no-preference` on purpose: a scroll-driven animation takes its
+   progress from the timeline, not from `animation-duration`, so the blanket
+   duration override in the reduced-motion block below cannot neutralise it. The
+   only safe way to honour that preference is to never start it. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      animation: reveal-in both;
+      animation-timeline: view();
+      animation-range: entry 2% cover 20%;
+    }
+  }
+}
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
 /* Contemporary editorial primitives. Components use these sparingly so a
    scrolling page has rhythm instead of one repeated card treatment. */
 .section-shell {
