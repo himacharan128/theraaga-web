@@ -19,7 +19,6 @@ import type { StaticImageData } from 'next/image'
 import nookalaPhoto from '@/assets/gurus/nookala.jpg'
 import bhasuriCover from '@/assets/books/bhasuri.jpg'
 import swararagaCover from '@/assets/books/swararaga-kadambam.jpg'
-import dwaramPhoto from '@/assets/gurus/dwaram.jpg'
 
 export interface LineageReference {
   order: number
@@ -31,7 +30,7 @@ export interface LineageReference {
    * Portrait, imported statically so next/image gets its intrinsic size and a
    * blur placeholder. Optional: an entry without one renders as a finished
    * text card. Usage rights for the photographs are unconfirmed; to drop them,
-   * remove the two imports, these fields and the two `photo` lines below.
+   * remove the import, these fields and the `photo` line below.
    */
   photo?: StaticImageData
   /** Who to credit under the photo, shown as "Photo: {photoCredit}". */
@@ -69,14 +68,6 @@ export const lineageReferences: LineageReference[] = [
     name: 'Nookala Chinna Satyanarayana',
     note: 'A revered maestro of Carnatic Sangeetham, honoured with the Padma Bhushan, one of India’s highest civilian awards.',
     photo: nookalaPhoto,
-    photoCredit: 'The Hindu',
-  },
-  {
-    order: 2,
-    honorific: 'Sri',
-    name: 'Dwaram Durgaprasada Rao',
-    note: 'A distinguished exponent of the tradition, whose discipline and artistry live on in how our Gurus teach.',
-    photo: dwaramPhoto,
     photoCredit: 'The Hindu',
   },
 ]
