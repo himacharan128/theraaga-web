@@ -22,7 +22,9 @@ export async function TrustStrip() {
           <div key={s.label} className="relative px-5 text-center sm:px-6">
             <dt className="sr-only">{s.label}</dt>
             <dd>
-              <span className="block font-[var(--font-display)] text-[length:var(--text-step-3)] font-[300] leading-none text-accent">
+              {/* Step-2 below sm: at step-3 the two-up cells at 375px are ~127px
+                  wide and 'A decade' broke onto two lines, stranding 'A'. */}
+              <span className="block font-[var(--font-display)] text-[length:var(--text-step-2)] font-[300] leading-none text-accent sm:text-[length:var(--text-step-3)]">
                 {s.value}
               </span>
               {/* The <dt> above already names the stat for assistive tech; hide
