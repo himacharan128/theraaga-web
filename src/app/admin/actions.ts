@@ -10,7 +10,8 @@ import {
   requireAdmin,
   validateAdminCredentials,
 } from '@/lib/admin-auth'
-import { LEAD_STATUSES, setLeadStatus } from '@/data/admin-dashboard'
+// Aliased: this file exports a Server Action with the same name.
+import { LEAD_STATUSES, deleteLead as eraseLead, setLeadStatus } from '@/data/admin-dashboard'
 
 export type AdminLoginState = { error?: string }
 
@@ -59,14 +60,26 @@ export async function logoutAdmin(): Promise<void> {
   redirect('/admin/login')
 }
 
+const LEAD_ID = /^[0-9a-f]{8}-[0-9a-f-]{27}$/i
+
 export async function updateLeadStatus(formData: FormData): Promise<void> {
   await requireAdmin()
   const id = String(formData.get('id') ?? '')
   const status = String(formData.get('status') ?? '')
-  if (!/^[0-9a-f]{8}-[0-9a-f-]{27}$/i.test(id)) return
+  if (!LEAD_ID.test(id)) return
   if (!LEAD_STATUSES.includes(status as (typeof LEAD_STATUSES)[number])) return
 
   await setLeadStatus(id, status as (typeof LEAD_STATUSES)[number])
+  revalidatePath('/admin')
+  revalidatePath('/admin/enquiries')
+}
+
+export async function deleteLead(formData: FormData): Promise<void> {
+  await requireAdmin()
+  const id = String(formData.get('id') ?? '')
+  if (!LEAD_ID.test(id)) return
+
+  await eraseLead(id)
   revalidatePath('/admin')
   revalidatePath('/admin/enquiries')
 }

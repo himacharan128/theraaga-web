@@ -317,3 +317,13 @@ export async function setLeadStatus(id: string, status: LeadStatus): Promise<voi
   const db = await getAdminDb()
   await db.collection<StoredLead>('leads').updateOne({ id }, { $set: { status } })
 }
+
+/**
+ * Erasure on request. The privacy notice promises action within thirty days,
+ * and the 24-month TTL only covers the case where nobody asks.
+ */
+export async function deleteLead(id: string): Promise<void> {
+  await ensureLeadRetention()
+  const db = await getAdminDb()
+  await db.collection<StoredLead>('leads').deleteOne({ id })
+}

@@ -12,6 +12,7 @@ import { requireAdmin } from '@/lib/admin-auth'
 import { INTERESTS, LEARNERS, MODES } from '@/lib/enquiry-schema'
 import { updateLeadStatus } from '../actions'
 import { AdminHeader } from '@/components/admin/AdminHeader'
+import { DeleteLeadControl } from '@/components/admin/LeadParts'
 import type { Mode } from '@/content/types'
 
 const LEAD_STATUS_LABELS: Record<LeadStatus, string> = {
@@ -166,7 +167,12 @@ async function AdminEnquiriesContent({
           </form>
         </section>
 
-        <section className="mt-5 overflow-x-auto rounded-2xl border border-stone-200 bg-white shadow-sm">
+        <div className="mt-5 grid gap-1 text-sm leading-6 text-stone-600">
+          <p>Delete an enquiry when the person asks, within thirty days as the privacy notice promises.</p>
+          <p>If a message names a child, delete or ignore that detail, because the site never collects a child’s identity.</p>
+        </div>
+
+        <section className="mt-3 overflow-x-auto rounded-2xl border border-stone-200 bg-white shadow-sm">
           {enquiries.leads.length ? (
             <table className="w-full min-w-[1080px] border-collapse text-left text-sm">
               <thead className="bg-stone-50 text-xs uppercase tracking-[0.08em] text-stone-500">
@@ -206,6 +212,9 @@ async function AdminEnquiriesContent({
                         </select>
                         <button className="rounded-lg border border-stone-300 px-2.5 py-1.5 text-xs font-medium text-stone-700 hover:border-stone-400">Save</button>
                       </form>
+                      <div className="mt-2">
+                        <DeleteLeadControl id={lead.id} name={lead.contactName} />
+                      </div>
                     </td>
                   </tr>
                 ))}
