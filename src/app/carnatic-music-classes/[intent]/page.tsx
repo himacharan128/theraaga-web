@@ -5,6 +5,7 @@ import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { ButtonLink } from '@/components/ui/Button'
+import { FinalCta } from '@/components/sections/FinalCta'
 import {
   getSeoLandingPageBySlug,
   getSeoLandingPages,
@@ -105,7 +106,11 @@ export default async function CarnaticIntentPage({ params }: { params: Params })
         eyebrow="At a glance"
         title="A clear way to begin."
       >
-        <ul className="grid gap-4 md:grid-cols-3 md:gap-5">
+        <ul
+          className={`grid gap-4 md:gap-5 ${
+            page.highlights.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3'
+          }`}
+        >
           {page.highlights.map((highlight) => (
             <li
               key={highlight.title}
@@ -156,6 +161,8 @@ export default async function CarnaticIntentPage({ params }: { params: Params })
           ))}
         </ul>
       </Section>
+
+      <FinalCta />
     </>
   )
 }
