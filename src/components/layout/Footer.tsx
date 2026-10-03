@@ -29,7 +29,7 @@ export async function Footer() {
       title: 'Learn',
       links: [
         { label: 'Getting started with Carnatic music', href: '/getting-started' },
-        { label: 'Learning · Sādhana', href: '/learning' },
+        { label: 'Learning', href: '/learning' },
         { label: 'Classes in Jubilee Hills', href: '/music-classes/jubilee-hills' },
         { label: 'Classes in Hitech City', href: '/music-classes/hitech-city' },
         { label: 'Online classes', href: '/online-classes' },
@@ -38,12 +38,12 @@ export async function Footer() {
     {
       title: 'The school',
       links: [
-        { label: 'About · Parampara', href: '/about' },
-        { label: 'The Gurus · Guru Parampara', href: '/gurus' },
-        { label: 'Events · Sabha', href: '/events' },
-        { label: 'Journal · Manana', href: '/journal' },
-        { label: 'Gallery · Anubhava', href: '/gallery' },
-        { label: 'Contact · Prārambham', href: '/contact' },
+        { label: 'About', href: '/about' },
+        { label: 'The Gurus', href: '/gurus' },
+        { label: 'Events', href: '/events' },
+        { label: 'Journal', href: '/journal' },
+        { label: 'Gallery', href: '/gallery' },
+        { label: 'Contact', href: '/contact' },
       ],
     },
     {
