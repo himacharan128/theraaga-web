@@ -10,6 +10,7 @@ import {
   getSeoLandingPageBySlug,
   getSeoLandingPages,
 } from '@/data/content'
+import { defaultOgImages } from '@/lib/og-image'
 
 const BASE_URL = 'https://theraaga.in'
 
@@ -36,11 +37,13 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
       title: `${title} at RAAGA`,
       description: page.description,
       url: `${BASE_URL}${canonical}`,
+      images: defaultOgImages,
     },
     twitter: {
       card: 'summary_large_image',
       title: `${title} at RAAGA`,
       description: page.description,
+      images: defaultOgImages,
     },
   }
 }

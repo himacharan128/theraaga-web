@@ -5,6 +5,7 @@ import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { whatsappHref } from '@/lib/whatsapp'
+import { defaultOgImages } from '@/lib/og-image'
 
 /**
  * The NRI page — timezone-first, because that is the actual objection.
@@ -23,6 +24,7 @@ export const metadata: Metadata = {
     description:
       'Live classes over video, never recordings. The same guru and syllabus at a time that works where you live.',
     url: 'https://theraaga.in/online-classes',
+    images: defaultOgImages,
   },
 }
 

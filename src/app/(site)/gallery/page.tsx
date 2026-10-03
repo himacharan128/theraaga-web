@@ -4,6 +4,7 @@ import { Section } from '@/components/layout/Section'
 import { GalleryGrid } from '@/components/sections/GalleryGrid'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { getGalleryByCategory } from '@/data/content'
+import { defaultOgImages } from '@/lib/og-image'
 
 export const metadata: Metadata = {
   title: 'Gallery: Moments and Memories',
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
     description:
       'Classes, performances and workshops at our Carnatic vocal school in Hyderabad.',
     url: 'https://theraaga.in/gallery',
+    images: defaultOgImages,
   },
 }
 

@@ -7,6 +7,7 @@ import { SwaraDivider } from '@/components/ui/Ornament'
 import { StatementBand, NumberedRail, StickyAside } from '@/components/layout/Editorial'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { getSite, getStory, getVision, getMission } from '@/data/content'
+import { defaultOgImages } from '@/lib/og-image'
 
 export const metadata: Metadata = {
   title: 'About: Our Heritage',
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
     description:
       'Founded in 2016 in Jubilee Hills, Hyderabad. Carnatic Sangeetham taught in the Guru–Shishya Parampara, at two centres and online.',
     url: 'https://theraaga.in/about',
+    images: defaultOgImages,
   },
 }
 

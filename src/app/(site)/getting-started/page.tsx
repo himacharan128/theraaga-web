@@ -5,12 +5,13 @@ import { ButtonLink } from '@/components/ui/Button'
 import { PathCard } from '@/components/sections/ExploreLearningGoals'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
+import { defaultOgImages } from '@/lib/og-image'
 
 export const metadata: Metadata = {
   title: 'Start Carnatic Music Classes in Hyderabad: A Learner’s Guide',
   description: 'Choosing Carnatic vocal classes for yourself or your child? Explore RAAGA’s learning path, Hyderabad centres, online lessons and how to enquire about a trial.',
   alternates: { canonical: '/getting-started' },
-  openGraph: { title: 'Getting started with Carnatic music at RAAGA', description: 'Choose a learning format, understand the syllabus and prepare your questions for RAAGA.', url: 'https://theraaga.in/getting-started' },
+  openGraph: { title: 'Getting started with Carnatic music at RAAGA', description: 'Choose a learning format, understand the syllabus and prepare your questions for RAAGA.', url: 'https://theraaga.in/getting-started', images: defaultOgImages },
 }
 const FORMATS = [
   {

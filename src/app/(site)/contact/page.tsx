@@ -3,6 +3,7 @@ import { EnquirySection } from '@/components/sections/EnquirySection'
 import { ContactBlock } from '@/components/sections/ContactBlock'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { Faq } from '@/components/sections/Faq'
+import { defaultOgImages } from '@/lib/og-image'
 
 export const metadata: Metadata = {
   title: 'Book a Carnatic Music Trial Class',
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
     description:
       'Carnatic vocal classes for children and adults. Jubilee Hills, Hitech City, or online.',
     url: 'https://theraaga.in/contact',
+    images: defaultOgImages,
   },
 }
 

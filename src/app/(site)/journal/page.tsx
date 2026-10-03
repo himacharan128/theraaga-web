@@ -5,6 +5,7 @@ import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { LedgerIndex } from '@/components/layout/Editorial'
 import { getJournalTopics } from '@/data/content'
+import { defaultOgImages } from '@/lib/og-image'
 
 export const metadata: Metadata = {
   title: 'Journal: Writing on Carnatic Sangeetham',
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
     description:
       'Ragas, great composers, kritis explained, shruti and laya, voice culture and practice tips.',
     url: 'https://theraaga.in/journal',
+    images: defaultOgImages,
   },
 }
 

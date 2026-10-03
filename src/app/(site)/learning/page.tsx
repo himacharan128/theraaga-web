@@ -7,6 +7,7 @@ import { FinalCta } from '@/components/sections/FinalCta'
 import { ButtonLink } from '@/components/ui/Button'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { getAcademicPathways, getPerformanceStrands } from '@/data/content'
+import { defaultOgImages } from '@/lib/og-image'
 
 export const metadata: Metadata = {
   title: 'Carnatic Music Courses & Vocal Syllabus',
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
     description:
       'Ten stages from Sarali Swaras to Manodharma Sangeetham, published in full. Plus Certificate, Diploma and degree pathways, and concert training.',
     url: 'https://theraaga.in/learning',
+    images: defaultOgImages,
   },
 }
 

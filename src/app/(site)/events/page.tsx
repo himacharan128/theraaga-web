@@ -6,6 +6,7 @@ import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { LedgerIndex } from '@/components/layout/Editorial'
 import { whatsappHref } from '@/lib/whatsapp'
 import { getEventKinds, getUpcomingEvents } from '@/data/content'
+import { defaultOgImages } from '@/lib/og-image'
 
 export const metadata: Metadata = {
   title: 'Events: Concerts, Workshops and Recitals',
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
     description:
       'Kutcheris, workshops, lecture demonstrations, Guru Purnima, Tyagaraja Aradhana and student recitals.',
     url: 'https://theraaga.in/events',
+    images: defaultOgImages,
   },
 }
 

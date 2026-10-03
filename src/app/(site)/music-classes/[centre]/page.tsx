@@ -8,6 +8,7 @@ import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { whatsappHref } from '@/lib/whatsapp'
 import { getCentreBySlug, getCentres } from '@/data/content'
+import { defaultOgImages } from '@/lib/og-image'
 
 /**
  * One locality page per physical centre, generated from the centres data.
@@ -50,6 +51,7 @@ export async function generateMetadata({
       title: `${title} at RAAGA`,
       description,
       url: `https://theraaga.in/music-classes/${slug}`,
+      images: defaultOgImages,
     },
   }
 }

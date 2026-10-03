@@ -11,6 +11,7 @@ import {
   getScholarlyWorks,
   getTeachingPrinciples,
 } from '@/data/content'
+import { defaultOgImages } from '@/lib/og-image'
 
 export const metadata: Metadata = {
   title: 'The Gurus: Our Musical Lineage',
@@ -22,6 +23,7 @@ export const metadata: Metadata = {
     description:
       'Accomplished musicians, scholars, performers and authors. Students are thoughtfully guided to the Guru best suited to their journey.',
     url: 'https://theraaga.in/gurus',
+    images: defaultOgImages,
   },
 }
 

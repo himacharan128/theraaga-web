@@ -192,6 +192,43 @@ for (const route of TARGET_ROUTES) {
   check(`target size ≥24px on ${route}`, offenders.length === 0, offenders.join('; '))
 }
 
+/**
+ * Social preview image on every public page.
+ *
+ * Next merges metadata shallowly: a page that exports its own `openGraph`
+ * silently drops the `opengraph-image.tsx` card the root layout would have
+ * supplied, and twelve pages shipped with no `og:image` while the homepage kept
+ * it. The WhatsApp forward is the go-to-market and its card is seen far more
+ * often than the page, so assert the tag on every page in the sitemap (plus the
+ * noindex thank-you page), that it is an absolute https://theraaga.in URL, and
+ * that the image path actually serves a PNG from this server.
+ */
+const sitemapXml = await (await fetch(`${BASE}/sitemap.xml`)).text()
+const ogRoutes = [
+  ...new Set([
+    ...[...sitemapXml.matchAll(/<loc>https:\/\/theraaga\.in([^<]*)<\/loc>/g)].map((m) => m[1] || '/'),
+    '/thank-you',
+  ]),
+]
+check('sitemap lists the public routes', ogRoutes.length >= 15, `${ogRoutes.length} routes`)
+const ogImagePaths = new Set()
+for (const route of ogRoutes) {
+  const res = await fetch(`${BASE}${route}`)
+  const html = res.ok ? await res.text() : ''
+  const tag = html.match(/<meta[^>]*property="og:image"[^>]*content="([^"]*)"/)
+    ?? html.match(/<meta[^>]*content="([^"]*)"[^>]*property="og:image"/)
+  const url = tag?.[1] ?? ''
+  const ok = /^https:\/\/theraaga\.in\/[^\s"]+$/.test(url)
+  console.log(`    ${route} → ${url || '(none)'}`)
+  check(`og:image is an absolute theraaga.in URL on ${route}`, ok, res.ok ? `got "${url}"` : `HTTP ${res.status}`)
+  if (ok) ogImagePaths.add(new URL(url).pathname + new URL(url).search)
+}
+for (const path of ogImagePaths) {
+  const res = await fetch(`${BASE}${path}`)
+  const type = res.headers.get('content-type') ?? ''
+  check(`og:image ${path} serves 200 image/png`, res.status === 200 && type.startsWith('image/png'), `${res.status} ${type}`)
+}
+
 // Back to the homepage for the performance budget.
 await p.goto(BASE, { waitUntil: 'networkidle' })
 
