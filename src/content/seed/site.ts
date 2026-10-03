@@ -43,7 +43,7 @@ export const site: SiteSettings = {
   // Values are STRINGS. Merit School of Music and Furtados both currently ship
   // live homepages reading "0 +" because a count-up never fired.
   stats: [
-    { label: 'Teaching in Hyderabad since', value: '2016' },
+    { label: 'Teaching in Hyderabad for', value: 'A decade' },
     { label: 'Centres, plus online and community classes', value: 'Two' },
     { label: 'Rooted in the Guru–Shishya', value: 'Parampara' },
     { label: 'Open to children and adults', value: 'All ages' },
@@ -67,7 +67,7 @@ export const centres: Centre[] = [
     eyebrow: 'At the centre',
     name: 'Jubilee Hills',
     locality: 'Jubilee Hills, Hyderabad',
-    body: 'Our founding centre, teaching here since 2016. Small batches for children and adults, in person, with the guru in the room.',
+    body: 'Our founding centre, teaching here for a decade. Small batches for children and adults, in person, with the guru in the room.',
     cta: 'Classes at Jubilee Hills',
     href: '/music-classes/jubilee-hills',
     streetAddress: 'Road Number 24, Jawahar Colony, Venkatagiri',
@@ -111,7 +111,7 @@ export const centres: Centre[] = [
     eyebrow: 'From anywhere',
     name: 'Online',
     locality: null,
-    body: 'Live classes over video for students outside Hyderabad and across the world, at times that work for the Gulf, the UK and North America.',
+    body: 'Live classes online, worldwide, taught by the same Gurus to the same syllabus.',
     cta: 'Online Carnatic classes',
     href: '/online-classes',
     streetAddress: null,

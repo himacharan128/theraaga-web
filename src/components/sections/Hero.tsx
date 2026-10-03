@@ -39,7 +39,7 @@ export async function Hero() {
               dot floating at the top-left of a box instead of centred on a
               line. Two ideas, no chrome, one line. */}
           <p className="u-eyebrow">
-            Carnatic Sangeetham · Hyderabad since {site.foundedYear}
+            Carnatic Sangeetham · A decade in Hyderabad
           </p>
 
           {/* One step down on small screens. At 390px the step-4 clamp resolves
@@ -69,7 +69,7 @@ export async function Hero() {
               names neither the subject nor the city fails the one visitor this
               site is built for. */}
           <p className="u-measure mt-4 text-[length:var(--text-step-0)] leading-[var(--lh-body)] text-text-secondary">
-            Carnatic vocal for children and adults at our{' '}
+            Carnatic vocal classes for children and adults at our{' '}
             <strong className="font-[400] text-text-secondary">Jubilee Hills</strong>{' '}
             and{' '}
             <strong className="font-[400] text-text-secondary">

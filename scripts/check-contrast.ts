@@ -77,8 +77,8 @@ const CHECKS: Check[] = [
   { name: 'text-muted on bg', fg: T.textMuted, bg: T.bg, min: 4.5 },
   { name: 'text-muted on surface', fg: T.textMuted, bg: T.surface, min: 4.5 },
 
-  // Accent used as ink. Elevated is the light-panel ground (MeetTradition's
-  // aside, ContactBlock's 'When we teach'), which carries the Devanagari accent.
+  // Accent used as ink. Elevated is the light-panel ground (ContactBlock's
+  // 'When we teach'), which carries the Devanagari accent.
   { name: 'accent on bg', fg: T.accent, bg: T.bg, min: 4.5 },
   { name: 'accent on surface', fg: T.accent, bg: T.surface, min: 4.5 },
   { name: 'accent on elevated', fg: T.accent, bg: T.elevated, min: 4.5 },
