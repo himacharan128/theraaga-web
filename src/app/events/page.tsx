@@ -4,6 +4,7 @@ import { Section } from '@/components/layout/Section'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { LedgerIndex } from '@/components/layout/Editorial'
+import { whatsappHref } from '@/lib/whatsapp'
 import { getEventKinds, getUpcomingEvents } from '@/data/content'
 
 export const metadata: Metadata = {
@@ -103,8 +104,19 @@ export default async function EventsPage() {
 
         {upcoming.length === 0 && (
           <p className="u-measure mt-12 border-l-2 border-gold-hairline/50 pl-5 font-[var(--font-display)] text-[length:var(--text-step--1)] italic text-text-muted">
-            Dates for the coming term are confirmed with students first. Message
-            us if you would like to be told when the next kutcheri or workshop is
+            Dates for the coming term are confirmed with students first.{' '}
+            <a
+              href={whatsappHref(
+                'EVENTS',
+                'Hello RAAGA — please let me know when the next kutcheri or workshop is announced.',
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-accent underline underline-offset-4"
+            >
+              Message us
+            </a>{' '}
+            if you would like to be told when the next kutcheri or workshop is
             announced.
           </p>
         )}
