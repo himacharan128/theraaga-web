@@ -242,7 +242,7 @@ export interface MediaRef {
   src: string
   alt: string
   /** Reserved so the placeholder→real-photo swap costs zero layout shift. */
-  aspect: '4/5' | '3/2' | '4/3' | '1/1' | '16/9'
+  aspect: '4/5' | '3/4' | '3/2' | '4/3' | '1/1' | '16/9'
 }
 
 export interface Testimonial {
@@ -272,7 +272,11 @@ export interface EventPhoto {
   id: string
   /** The owner's caption for the occasion, e.g. "Annual concerts". */
   occasion: string
+  /** ISO month, e.g. "2026-09". Shown beside the occasion when present. */
+  date?: string
   media: MediaRef
+  /** CSS object-position for the grid crop, when the subject is off-centre. */
+  focus?: string
   consent: Consent
 }
 

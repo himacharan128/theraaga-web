@@ -64,7 +64,7 @@ export function PressMentions({ items }: { items: PressMention[] }) {
                 </p>
                 <h3
                   lang={telugu ? 'te' : undefined}
-                  className="mt-3 font-[var(--font-display)] text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text transition-colors group-hover:text-accent"
+                  className="mt-3 font-[var(--font-display)] text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-primary transition-colors group-hover:text-accent"
                 >
                   {m.headline}
                 </h3>

@@ -1,18 +1,19 @@
 import type { EventPhoto } from '../types'
 
 /**
- * Photographs from RAAGA's own events, shown on /events.
+ * Photographs from RAAGA's own events, shown on /events as "From our gatherings".
  *
- * EVERY ENTRY IS GATED, ON PURPOSE. Most of these pictures plainly show
- * children, and a child is anyone under 18 under the DPDP Act 2023. The privacy
- * notice promises that no photograph of a student under eighteen is published
- * without specific written guardian consent. Ages cannot be verified from a
- * photograph, so the conservative default applies to all of them:
+ * WHAT SHOWS TODAY. Only the Aani Thirumanjanam photographs, which show adults
+ * alone (`hasMinors: false`). Every other entry is gated on purpose: it plainly
+ * shows children, and a child is anyone under 18 under the DPDP Act 2023. The
+ * privacy notice promises that no photograph of a student under eighteen is
+ * published without specific written guardian consent, and ages cannot be
+ * verified from a photograph, so the conservative default applies:
  * `hasMinors: true, guardianConsentObtained: false`. `getEventPhotos()` in
- * `src/data/content.ts` filters these in the query, so today /events shows no
- * photograph and no gallery heading at all.
+ * `src/data/content.ts` filters those in the query, so an occasion whose
+ * photographs are all gated has no heading and no frame on the page.
  *
- * HOW THE OWNER RECORDS CONSENT, per photograph:
+ * HOW THE OWNER CLEARS A PHOTOGRAPH, one at a time:
  *   1. Obtain the guardians' specific written consent for every minor in it.
  *   2. Set `guardianConsentObtained: true` and add `obtainedAt: 'YYYY-MM-DD'`.
  *      (If, after checking, nobody under 18 appears, `hasMinors: false` is the
@@ -20,21 +21,75 @@ import type { EventPhoto } from '../types'
  *   3. Un-ignore that one file by adding `!public/events/<file>.jpg` to
  *      `.gitignore`, directly under `public/events/*`. Until then the file is
  *      kept out of git, because this repository is PUBLIC and committing a file
- *      publishes it.
+ *      publishes it. (A photograph that is cleared here but not un-ignored
+ *      renders as a broken image in production, since the file never deploys.)
  *
  * The files are `/events/<name>.jpg` in `public/`, resized to 1600px at most
  * with every byte of metadata (including GPS) stripped. `media.src` is a plain
  * string path, not an import, so a gated photograph is never bundled.
  *
- * Alt text describes only what is visible. No names.
+ * Alt text describes only what is visible. No names, and no captions that say
+ * who is pictured.
  *
- * The order is the display order, grouped by occasion. The occasion captions
- * are the owner's; the Tyagaraja Aradhana is held at Thiruvaiyaru, and
- * "Aynavilli" is spelled as she wrote it.
+ * The order is the display order, grouped by occasion. `date` is an ISO month
+ * and is shown beside the occasion. The owner's own caption is kept for her
+ * sheet photographs; the Tyagaraja Aradhana is held at Thiruvaiyaru, and
+ * "Aynavilli" is spelled as she wrote it. `focus` is an optional CSS
+ * object-position for a photograph whose subject sits off-centre, so the
+ * uniform 3:2 crop keeps it.
  */
 const gated = { hasMinors: true, guardianConsentObtained: false } as const
+const adultsOnly = { hasMinors: false, guardianConsentObtained: false } as const
 
 export const eventPhotos: EventPhoto[] = [
+  // Two young performers may be under 18, so this one is gated like the rest
+  // of the children's events.
+  {
+    id: 'event-img-8580',
+    occasion: 'Ganapati Navaratri concert, Jubilee Hills',
+    date: '2026-09',
+    media: {
+      src: '/events/img_8580.jpg',
+      alt: 'Singers in bright silk saris seated on a red stage before a large painted Ganesha idol, with a man in the foreground playing a flute',
+      aspect: '3/4',
+    },
+    focus: '50% 42%',
+    consent: { ...gated },
+  },
+  {
+    id: 'event-img-16',
+    occasion: 'Aani Thirumanjanam festival, Nataraja Swamy temple, Tamil Nadu',
+    date: '2026-06',
+    media: {
+      src: '/events/img_16.jpg',
+      alt: 'Five people in traditional dress and silk shawls standing in a temple doorway, holding a framed certificate between them',
+      aspect: '1/1',
+    },
+    consent: { ...adultsOnly },
+  },
+  {
+    id: 'event-img-17',
+    occasion: 'Aani Thirumanjanam festival, Nataraja Swamy temple, Tamil Nadu',
+    date: '2026-06',
+    media: {
+      src: '/events/img_17.jpg',
+      alt: 'Three people in festive dress at a temple strung with coloured lights; the man in the middle holds a book',
+      aspect: '3/4',
+    },
+    focus: '50% 55%',
+    consent: { ...adultsOnly },
+  },
+  {
+    id: 'event-img-8352',
+    occasion: 'Aani Thirumanjanam festival, Nataraja Swamy temple, Tamil Nadu',
+    date: '2026-06',
+    media: {
+      src: '/events/img_8352.jpg',
+      alt: 'Four people in festive dress at a temple strung with coloured lights; one holds a book',
+      aspect: '4/3',
+    },
+    consent: { ...adultsOnly },
+  },
   {
     id: 'event-img-0707',
     occasion: 'Annual concerts',

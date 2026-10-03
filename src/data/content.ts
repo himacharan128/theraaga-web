@@ -187,15 +187,15 @@ export async function getPressMentions(): Promise<PressMention[]> {
  * seed's order, and so do the photographs within them.
  */
 export async function getEventPhotos(): Promise<
-  { occasion: string; photos: EventPhoto[] }[]
+  { occasion: string; date?: string; photos: EventPhoto[] }[]
 > {
-  const groups = new Map<string, EventPhoto[]>()
+  const groups = new Map<string, { date?: string; photos: EventPhoto[] }>()
   for (const photo of consentGate(seed.eventPhotos)) {
     const group = groups.get(photo.occasion)
-    if (group) group.push(photo)
-    else groups.set(photo.occasion, [photo])
+    if (group) group.photos.push(photo)
+    else groups.set(photo.occasion, { date: photo.date, photos: [photo] })
   }
-  return [...groups].map(([occasion, photos]) => ({ occasion, photos }))
+  return [...groups].map(([occasion, g]) => ({ occasion, ...g }))
 }
 
 /**

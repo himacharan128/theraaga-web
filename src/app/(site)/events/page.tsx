@@ -130,8 +130,8 @@ export default async function EventsPage() {
           heading, no empty frame. */}
       <Section
         id="moments"
-        eyebrow="From our gatherings"
-        title="Moments from past concerts and celebrations."
+        eyebrow="Photographs"
+        title="From our gatherings."
         tone={momentsTone}
         renderIf={moments.length > 0}
       >
