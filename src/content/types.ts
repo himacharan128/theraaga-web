@@ -242,7 +242,7 @@ export interface MediaRef {
   src: string
   alt: string
   /** Reserved so the placeholder→real-photo swap costs zero layout shift. */
-  aspect: '4/5' | '3/4' | '3/2' | '4/3' | '1/1' | '16/9'
+  aspect: '4/5' | '3/4' | '3/2' | '4/3' | '1/1' | '16/9' | '49/20'
 }
 
 export interface Testimonial {

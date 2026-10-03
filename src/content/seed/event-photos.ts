@@ -57,6 +57,18 @@ export const eventPhotos: EventPhoto[] = [
     consent: { ...gated },
   },
   {
+    id: 'event-img-8744',
+    occasion: 'Aani Thirumanjanam festival, Nataraja Swamy temple, Tamil Nadu',
+    date: '2026-06',
+    media: {
+      src: '/events/img_8744.jpg',
+      alt: 'A violinist, two women singing, one holding a book, and a mridangam player seated side by side on a striped mat in a temple courtyard',
+      // 1027x419: the feature of its group, shown whole at its own ratio.
+      aspect: '49/20',
+    },
+    consent: { ...adultsOnly },
+  },
+  {
     id: 'event-img-16',
     occasion: 'Aani Thirumanjanam festival, Nataraja Swamy temple, Tamil Nadu',
     date: '2026-06',

@@ -14,6 +14,8 @@ import type { EventPhoto } from '@/content/types'
  * and either two stacked tiles sit beside it, or one equal tile when that keeps
  * the remainder tidy. Whatever follows runs in rows of three, and the last two
  * tiles go half-width each if the count would otherwise leave one on its own.
+ * A panoramic feature (aspect 49/20) instead spans the full width at its own
+ * ratio, so nobody in it is cropped, with the rest in rows of three below.
  * On a phone it is two columns, with a lone last tile full width.
  *
  * All tiles are 3:2 crops via `object-cover`; the photographs are 3:2, 4:3,
@@ -63,11 +65,26 @@ function Occasion({
   const [feature, ...others] = photos
   // Choose how many sit beside the feature so the rest divides into rows of
   // three, or into rows of three plus a final pair.
-  const besideCount =
-    others.length <= 2 ? others.length : (others.length - 2) % 3 === 1 ? 1 : 2
+  // A panoramic feature takes the whole width, shown uncropped at its own
+  // ratio, and everything else runs in rows beneath it.
+  const wide = feature.media.aspect === '49/20'
+  const besideCount = wide
+    ? 0
+    : others.length <= 2
+      ? others.length
+      : (others.length - 2) % 3 === 1
+        ? 1
+        : 2
   const beside = others.slice(0, besideCount)
   const rest = others.slice(besideCount)
   const pairAtEnd = rest.length % 3 === 2
+  const featureClass = wide
+    ? 'aspect-[49/20] md:col-span-6'
+    : besideCount === 1
+      ? 'aspect-[3/2] md:col-span-3'
+      : besideCount === 0
+        ? 'aspect-[3/2] md:col-span-4'
+        : 'aspect-[3/2] md:col-span-4 md:row-span-2 md:aspect-auto'
 
   return (
     <div>
@@ -82,18 +99,14 @@ function Occasion({
       <span aria-hidden="true" className="mt-3 block h-0.5 w-10 bg-accent" />
 
       <ul className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-6 md:gap-4">
-        <li
-          className={`${frame} col-span-2 aspect-[3/2] ${
-            besideCount === 1
-              ? 'md:col-span-3'
-              : besideCount === 0
-                ? 'md:col-span-4'
-                : 'md:col-span-4 md:row-span-2 md:aspect-auto'
-          }`}
-        >
+        <li className={`${frame} col-span-2 ${featureClass}`}>
           <Photo
             photo={feature}
-            sizes="(min-width: 1280px) 740px, (min-width: 768px) 60vw, 100vw"
+            sizes={
+              wide
+                ? '(min-width: 1280px) 1136px, 100vw'
+                : '(min-width: 1280px) 740px, (min-width: 768px) 60vw, 100vw'
+            }
           />
         </li>
         {beside.map((p) => (
