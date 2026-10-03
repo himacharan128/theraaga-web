@@ -54,29 +54,32 @@ implementation minutiae: explain a recommendation by the outcome it produces —
 a parent's enquiry, a WhatsApp preview card, a page's load time — name the
 trade-off, and give one recommendation rather than a survey.
 
-**Every change follows this loop. Keep a visible todo list throughout.**
+**Every change follows this flow — a hard rule Bhasuri set on 2026-10-03.**
+Keep a visible todo list throughout.
 
-1. Propose the best design, with the trade-off named.
-2. **Confirm with her before building.**
-3. Build it.
-4. Test end to end (see Verification).
-5. Run locally and put Safari on the `localhost` URL for her to review.
-6. **Wait for her review.** Never ship unreviewed work.
-7. Commit, push, merge, deploy.
-8. Verify on production.
-9. Suggest the next piece of work.
-10. Log the entry in `ACTIVITY.md`.
+1. **Do it.** Build the change she asked for straight away — no proposal round
+   first — and test it end to end as you go (see Verification).
+2. **Run it on localhost** and open the page in a *background* Safari tab.
+3. **Ask her to review, with where to look:** every change, the exact localhost
+   URL, and the spot on the page.
+4. **Ask for her confirmation.** Wait for an explicit yes.
+5. **Deploy all the way to production:** commit, push, PR, merge, wait for the
+   production deploy, verify on theraaga.in, log the entry in `ACTIVITY.md`, and
+   tell her it is live.
 
-Steps 2 and 6 are her decision points and must not be collapsed.
+Step 4 is her one decision point; never ship without it. The exception to "do
+it first": if a request would break one of the four constraints above, stop and
+raise it *before* building.
 
 **Never add a `Co-Authored-By` trailer or any AI attribution** to a commit or PR.
 
-**Browser.** Safari is hers. It is drivable from the shell via AppleScript
-(`osascript -e 'tell application "Safari" …'`) for navigation, and `do
-JavaScript` works for reading the DOM and clicking. Never copy or import her
-Safari cookies — session cookies are credentials. Prefer `gh` and `vercel` CLIs
-over clicking inside her live authenticated dashboards, where a misread button
-can drop a database user.
+**Browser.** Safari is hers. It is drivable from the shell via AppleScript for
+navigation, and `do JavaScript` works for reading the DOM and clicking. **Never
+bring Safari to the front** — open review pages with `open -g -a Safari "<url>"`
+and never call `activate`; she works in other apps while changes are built.
+Never copy or import her Safari cookies — session cookies are credentials. Prefer
+`gh` and `vercel` CLIs over clicking inside her live authenticated dashboards,
+where a misread button can drop a database user.
 
 ---
 
