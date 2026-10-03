@@ -4,8 +4,6 @@ import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
 import { CurrentBatches } from '@/components/sections/CurrentBatches'
-import { Faq } from '@/components/sections/Faq'
-import { ContactBlock } from '@/components/sections/ContactBlock'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { whatsappHref } from '@/lib/whatsapp'
@@ -127,8 +125,6 @@ export default async function CentrePage({
         </p>
       </Section>
 
-      <Faq />
-      <ContactBlock />
       <FinalCta />
     </>
   )
