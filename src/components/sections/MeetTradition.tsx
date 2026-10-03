@@ -43,26 +43,28 @@ export function MeetTradition() {
         </div>
 
         {/* Text-led, not a photo slot. An intentional composition rather than a
-            frame waiting for an asset that may not arrive. */}
-        <aside className="relative flex min-h-[24rem] flex-col justify-center overflow-hidden rounded-[var(--radius-lg)] bg-[linear-gradient(145deg,#7a2934,#511721)] px-8 py-12 text-center text-on-accent shadow-[var(--shadow-lift)] md:px-12">
+            frame waiting for an asset that may not arrive. A light panel, not
+            the maroon field: that treatment is reserved for the hero, the
+            closing band and /thank-you, so it keeps its impact. */}
+        <aside className="relative flex min-h-[24rem] flex-col justify-center overflow-hidden rounded-[var(--radius-lg)] border border-border bg-elevated px-8 py-12 text-center shadow-[var(--shadow-soft)] md:px-12">
           <span
             aria-hidden="true"
-            className="absolute -right-12 -top-10 size-72 rounded-full border border-[color-mix(in_srgb,var(--color-on-accent)_16%,transparent)]"
+            className="absolute -right-12 -top-10 size-72 rounded-full border border-gold-hairline/40"
           />
           <span
             aria-hidden="true"
-            className="absolute -bottom-16 -left-12 size-52 rounded-full border border-[color-mix(in_srgb,var(--color-gold-hairline)_42%,transparent)]"
+            className="absolute -bottom-16 -left-12 size-52 rounded-full border border-gold-hairline/60"
           />
-          <p className="deva relative text-[length:var(--text-step-4)] leading-none text-on-accent">
+          <p className="deva relative text-[length:var(--text-step-4)] leading-none text-accent">
             नादब्रह्म
           </p>
-          <p className="relative mt-4 font-[var(--font-display)] text-[length:var(--text-step-1)] italic text-[color-mix(in_srgb,var(--color-on-accent)_76%,transparent)]">
+          <p className="relative mt-4 font-[var(--font-display)] text-[length:var(--text-step-1)] italic text-text-secondary">
             Nāda Brahma
           </p>
-          <div className="relative my-8 opacity-70">
+          <div className="relative my-8">
             <SwaraDivider index={4} />
           </div>
-          <p className="u-measure relative mx-auto font-[var(--font-display)] text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-[color-mix(in_srgb,var(--color-on-accent)_88%,transparent)]">
+          <p className="u-measure relative mx-auto font-[var(--font-display)] text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-primary">
             Sound is the divine. Every note carries a tradition, and every
             student carries it forward.
           </p>

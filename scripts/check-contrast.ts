@@ -71,17 +71,21 @@ const CHECKS: Check[] = [
   { name: 'text-primary on bg', fg: T.textPrimary, bg: T.bg, min: 4.5 },
   { name: 'text-primary on surface', fg: T.textPrimary, bg: T.surface, min: 4.5 },
   { name: 'text-primary on elevated', fg: T.textPrimary, bg: T.elevated, min: 4.5 },
+  { name: 'text-secondary on elevated', fg: T.textSecondary, bg: T.elevated, min: 4.5 },
   { name: 'text-secondary on bg', fg: T.textSecondary, bg: T.bg, min: 4.5 },
   { name: 'text-secondary on surface', fg: T.textSecondary, bg: T.surface, min: 4.5 },
   { name: 'text-muted on bg', fg: T.textMuted, bg: T.bg, min: 4.5 },
   { name: 'text-muted on surface', fg: T.textMuted, bg: T.surface, min: 4.5 },
 
-  // Accent used as ink.
+  // Accent used as ink. Elevated is the light-panel ground (MeetTradition's
+  // aside, ContactBlock's 'When we teach'), which carries the Devanagari accent.
   { name: 'accent on bg', fg: T.accent, bg: T.bg, min: 4.5 },
   { name: 'accent on surface', fg: T.accent, bg: T.surface, min: 4.5 },
+  { name: 'accent on elevated', fg: T.accent, bg: T.elevated, min: 4.5 },
 
   // The gold that IS allowed to carry text.
   { name: 'accent-muted (gold text) on bg', fg: T.accentMuted, bg: T.bg, min: 4.5 },
+  { name: 'accent-muted (gold text) on elevated', fg: T.accentMuted, bg: T.elevated, min: 4.5 },
   { name: 'olive on bg', fg: T.olive, bg: T.bg, min: 4.5 },
 
   // Reversed: label on the maroon button.
