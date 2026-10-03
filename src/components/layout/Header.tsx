@@ -103,7 +103,7 @@ export function Header({
           />
         </Link>
 
-        <nav aria-label="Main" className="hidden xl:block">
+        <nav aria-label="Main" className="hidden lg:block">
           <ul className="flex items-center gap-7 rounded-full border border-[color-mix(in_srgb,var(--color-border)_85%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_72%,transparent)] px-6 py-2.5 shadow-[0_8px_24px_rgba(71,49,34,0.05)]">
             {nav.map((item) => (
               <li key={item.href}>
@@ -150,7 +150,7 @@ export function Header({
             aria-controls="mobile-nav"
             aria-label={open ? 'Close menu' : 'Open menu'}
             onClick={() => setOpen((o) => !o)}
-            className="flex size-11 items-center justify-center rounded-full border border-transparent text-accent transition-colors hover:border-border-strong hover:bg-surface xl:hidden"
+            className="flex size-11 items-center justify-center rounded-full border border-transparent text-accent transition-colors hover:border-border-strong hover:bg-surface lg:hidden"
           >
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
               {open ? (
@@ -168,7 +168,7 @@ export function Header({
         <nav
           id="mobile-nav"
           aria-label="Main"
-          className="border-t border-border bg-[color-mix(in_srgb,var(--color-surface)_94%,transparent)] shadow-[0_16px_30px_rgba(71,49,34,0.08)] xl:hidden"
+          className="border-t border-border bg-[color-mix(in_srgb,var(--color-surface)_94%,transparent)] shadow-[0_16px_30px_rgba(71,49,34,0.08)] lg:hidden"
         >
           <ul className="u-shell py-3">
             {nav.map((item) => (
