@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { FinalCta } from '@/components/sections/FinalCta'
+import { LineageCards } from '@/components/sections/LineageCards'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import {
   getGurusIntro,
@@ -94,25 +95,7 @@ export default async function GurusPage() {
         lede={<p>Eminent maestros under whom our Gurus trained, including:</p>}
         renderIf={lineage.length > 0}
       >
-        <ol className="relative max-w-2xl space-y-7 pl-7">
-          {/* The lineage thread — the same tanpura string as the syllabus spine. */}
-          <span
-            aria-hidden="true"
-            className="absolute bottom-2 left-[3px] top-2 w-px bg-gold-hairline/40"
-          />
-          {lineage.map((entry) => (
-            <li key={entry.order} className="relative">
-              <span
-                aria-hidden="true"
-                className="absolute -left-7 top-[0.55em] size-[7px] rounded-full bg-accent"
-              />
-              <p className="text-[length:var(--text-step-1)] font-[400] leading-[var(--lh-snug)]">
-                {entry.honorific ? `${entry.honorific} ` : ''}
-                {entry.name}
-              </p>
-            </li>
-          ))}
-        </ol>
+        <LineageCards entries={lineage} />
       </Section>
 
       <Section

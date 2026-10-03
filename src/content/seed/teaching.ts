@@ -19,6 +19,8 @@ export interface LineageReference {
   order: number
   name: string
   honorific?: string
+  /** One owner-approved line about the maestro. Client facts only. */
+  note?: string
 }
 
 export interface ScholarlyWork {
@@ -45,11 +47,13 @@ export const lineageReferences: LineageReference[] = [
     order: 1,
     honorific: 'Padma Bhushan Dr.',
     name: 'Nookala Chinna Satyanarayana',
+    note: 'A revered maestro of Carnatic Sangeetham, honoured with the Padma Bhushan, one of India’s highest civilian awards.',
   },
   {
     order: 2,
     honorific: 'Sri',
     name: 'Dwaram Durgaprasada Rao',
+    note: 'A distinguished exponent of the tradition, whose discipline and artistry live on in how our Gurus teach.',
   },
 ]
 
