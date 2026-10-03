@@ -17,6 +17,8 @@
 
 import type { StaticImageData } from 'next/image'
 import nookalaPhoto from '@/assets/gurus/nookala.jpg'
+import bhasuriCover from '@/assets/books/bhasuri.jpg'
+import swararagaCover from '@/assets/books/swararaga-kadambam.jpg'
 import dwaramPhoto from '@/assets/gurus/dwaram.jpg'
 
 export interface LineageReference {
@@ -40,6 +42,11 @@ export interface ScholarlyWork {
   order: number
   title: string
   note: string
+  /**
+   * Cover image, imported statically so next/image gets its intrinsic size.
+   * Optional: a book without a cover renders as a finished text entry.
+   */
+  cover?: StaticImageData
 }
 
 export interface TeachingPrinciple {
@@ -79,11 +86,13 @@ export const scholarlyWorks: ScholarlyWork[] = [
     order: 1,
     title: 'Swararaga Kadambam',
     note: 'Authored by our Gurus.',
+    cover: swararagaCover,
   },
   {
     order: 2,
     title: 'Bhasuri',
     note: 'Authored by our Gurus.',
+    cover: bhasuriCover,
   },
 ]
 

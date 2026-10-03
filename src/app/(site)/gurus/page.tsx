@@ -3,6 +3,7 @@ import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { LineageCards } from '@/components/sections/LineageCards'
+import { ScholarlyWorks } from '@/components/sections/ScholarlyWorks'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import {
   getGurusIntro,
@@ -110,18 +111,7 @@ export default async function GurusPage() {
           </p>
         }
       >
-        <ul className="grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2">
-          {works.map((w) => (
-            <li key={w.order} className="bg-surface p-7 md:p-9">
-              <h3 className="font-[var(--font-display)] text-[length:var(--text-step-2)] font-[300] italic text-accent">
-                {w.title}
-              </h3>
-              <p className="mt-3 text-[length:var(--text-step--1)] text-text-secondary">
-                {w.note}
-              </p>
-            </li>
-          ))}
-        </ul>
+        <ScholarlyWorks works={works} />
       </Section>
 
       <FinalCta />
