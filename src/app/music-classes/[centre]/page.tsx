@@ -6,7 +6,7 @@ import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
 import { CurrentBatches } from '@/components/sections/CurrentBatches'
 import { Faq } from '@/components/sections/Faq'
 import { ContactBlock } from '@/components/sections/ContactBlock'
-import { EnquirySection } from '@/components/sections/EnquirySection'
+import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { whatsappHref } from '@/lib/whatsapp'
 import { getCentreBySlug, getCentres } from '@/data/content'
@@ -129,7 +129,7 @@ export default async function CentrePage({
 
       <Faq />
       <ContactBlock />
-      <EnquirySection />
+      <FinalCta />
     </>
   )
 }

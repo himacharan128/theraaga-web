@@ -20,13 +20,12 @@ export const metadata: Metadata = {
 /**
  * No PageHero. It restated the form's own promise directly above the form —
  * two intros, one task — and pushed the first field most of a screen down.
- * EnquirySection carries the h1 here instead; elsewhere it stays an h2 under
- * that page's own heading.
+ * EnquirySection carries the h1 here instead.
  */
 export default function ContactPage() {
   return (
     <>
-      <EnquirySection headingAs="h1" />
+      <EnquirySection />
       <TrialProcess />
       <ContactBlock />
       <Faq />

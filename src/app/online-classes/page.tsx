@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
-import { EnquirySection } from '@/components/sections/EnquirySection'
+import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { whatsappHref } from '@/lib/whatsapp'
 
@@ -135,7 +135,7 @@ export default function OnlineClassesPage() {
         </div>
       </Section>
 
-      <EnquirySection />
+      <FinalCta />
     </>
   )
 }

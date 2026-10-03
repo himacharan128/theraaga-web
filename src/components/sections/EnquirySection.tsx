@@ -20,17 +20,13 @@ import { getSite } from '@/data/content'
  * are read before you type a phone number); the WhatsApp alternative moves
  * below, where it is an escape hatch rather than an obstacle.
  *
- * `headingAs` exists because this section is embedded on five pages. On
- * /contact it IS the page, so it carries the h1 and the page drops its hero —
- * which removed a second competing intro directly above the form.
+ * This section is used on /contact only. Every other page ends with FinalCta,
+ * which sends the visitor here, so there is one form and one closing ask. Here
+ * it IS the page, so it carries the h1 and the page drops its hero — which
+ * removed a second competing intro directly above the form.
  */
-export async function EnquirySection({
-  headingAs = 'h2',
-}: {
-  headingAs?: 'h1' | 'h2'
-}) {
+export async function EnquirySection() {
   const site = await getSite()
-  const Heading = headingAs
 
   return (
     <section
@@ -47,9 +43,9 @@ export async function EnquirySection({
         <div className="contents lg:block lg:col-start-1 lg:row-start-1">
         <div className="order-1 lg:order-none">
           <p className="u-eyebrow">Prārambham · Begin the journey</p>
-          <Heading className="mt-4 text-[length:var(--text-step-3)] font-[300] leading-[var(--lh-snug)]">
-            Request an Introductory Session.
-          </Heading>
+          <h1 className="mt-4 text-[length:var(--text-step-3)] font-[300] leading-[var(--lh-snug)]">
+            Book a trial class.
+          </h1>
           <p className="mt-5 text-text-secondary">
             Tell us who is learning and where suits you. We will call to arrange
             a time.
