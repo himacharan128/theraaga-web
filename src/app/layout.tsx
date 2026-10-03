@@ -8,6 +8,7 @@ import { SectionViewTracker } from '@/components/ui/Reveal'
 import { AnalyticsTracker } from '@/components/analytics/AnalyticsTracker'
 import { whatsappHref } from '@/lib/whatsapp'
 import { site } from '@/content/seed/site'
+import { getGalleryByCategory } from '@/data/content'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://theraaga.in'),
@@ -57,9 +58,14 @@ export const viewport: Viewport = {
   colorScheme: 'light',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const hasGallery = (await getGalleryByCategory()).length > 0
+  // There is no posts getter yet: the journal is a subject index with no
+  // articles. Wire this to the published-posts query when the first post lands.
+  const hasJournal = false
+
   return (
     <html lang="en-IN" className={fontVariables}>
       <body>
@@ -69,7 +75,11 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <Header whatsappHref={whatsappHref('HEADER')} />
+        <Header
+          whatsappHref={whatsappHref('HEADER')}
+          hasGallery={hasGallery}
+          hasJournal={hasJournal}
+        />
         {/* tabIndex={-1} is what makes "Skip to content" actually work. Without
             it the browser scrolls to the anchor but leaves focus on the link, so
             the next Tab returns to the nav — the single most common way a
