@@ -1,6 +1,5 @@
 import { Section } from '@/components/layout/Section'
 import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
-import { AscendingScale } from '@/components/ui/Ornament'
 import { whatsappHref } from '@/lib/whatsapp'
 
 /**
@@ -12,7 +11,10 @@ import { whatsappHref } from '@/lib/whatsapp'
  * class" so it matches the buttons and does not repeat the hero's "Begin Your
  * Musical Journey".
  *
- * The ascending scale closes the metaphor the hero opened with: Sa to Sa.
+ * No ornament here. The ascending scale (Sa to Sa) that closes the metaphor the
+ * hero opened with lives at the top of the Footer, which this band always sits
+ * directly above; rendering it in both put the same ornament on screen twice,
+ * back to back.
  */
 export function FinalCta() {
   return (
@@ -37,10 +39,6 @@ export function FinalCta() {
             <WhatsAppIcon />
             Ask on WhatsApp
           </ButtonLink>
-        </div>
-
-        <div className="mt-14 opacity-70">
-          <AscendingScale />
         </div>
       </div>
     </Section>
