@@ -505,9 +505,15 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           aria-invalid={!!err.message}
-          aria-describedby={err.message ? 'err-message' : undefined}
+          aria-describedby={err.message ? 'hint-message err-message' : 'hint-message'}
           className="w-full resize-y rounded-[var(--radius-sm)] border border-border-strong bg-bg px-4 py-3 text-[length:var(--text-step-0)] outline-none focus:border-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         />
+        <p
+          id="hint-message"
+          className="mt-2 text-[length:var(--text-step--1)] text-text-muted"
+        >
+          Please don’t include your child’s name.
+        </p>
         {err.message && (
           <p
             id="err-message"
