@@ -1,3 +1,5 @@
+import type { StaticImageData } from 'next/image'
+
 /**
  * Content model — see plan §9.
  *
@@ -272,6 +274,26 @@ export interface EventPhoto {
   occasion: string
   media: MediaRef
   consent: Consent
+}
+
+/**
+ * A newspaper write-up of a RAAGA event, shown on /events under "In the press".
+ *
+ * The clipping is kept whole: its masthead and source line are the attribution,
+ * so they must never be cropped away. `headline` is exactly as printed;
+ * `headlineEnglish` is only a gloss for a non-English headline.
+ */
+export interface PressMention {
+  id: string
+  publication: string
+  language: 'en' | 'te'
+  /** ISO date of the edition, YYYY-MM-DD. */
+  date: string
+  headline: string
+  headlineEnglish?: string
+  occasion: string
+  /** Static import, so next/image has the intrinsic size and the asset URL. */
+  clipping: StaticImageData
 }
 
 export interface RaagaEvent {

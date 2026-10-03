@@ -28,6 +28,7 @@ export type {
   TeachingPrinciple,
 } from './teaching'
 export { eventPhotos } from './event-photos'
+export { pressMentions } from './press'
 export { disciplines } from './disciplines'
 export { pillars } from './pillars'
 export { faqs } from './faqs'

@@ -16,6 +16,7 @@ import type {
   JournalTopic,
   PerformanceStrand,
   Pillar,
+  PressMention,
   RaagaEvent,
   SeoLandingPage,
   SiteSettings,
@@ -168,6 +169,14 @@ export async function getTestimonials(): Promise<Testimonial[]> {
 
 export async function getGalleryItems(): Promise<GalleryItem[]> {
   return consentGate(seed.galleryItems)
+}
+
+/**
+ * Press clippings, newest first. They show adults only, so there is no consent
+ * block to gate on; the seed is already in date order and the sort is stable.
+ */
+export async function getPressMentions(): Promise<PressMention[]> {
+  return [...seed.pressMentions].sort((a, b) => b.date.localeCompare(a.date))
 }
 
 /**
