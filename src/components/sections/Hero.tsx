@@ -3,8 +3,11 @@ import { whatsappHref } from '@/lib/whatsapp'
 import { getSite } from '@/data/content'
 
 /**
- * Headline, subtitle and both button labels are the CLIENT'S OWN COPY from their
- * content master. Do not "optimise" them.
+ * Headline, subtitle and the primary button label are the CLIENT'S OWN COPY
+ * from their content master. Do not "optimise" them. The secondary button was
+ * the client's "Explore RAAGA"; the owner approved changing it to "Ask on
+ * WhatsApp" on 2026-10-03 after the site review, because the nav already offers
+ * About and WhatsApp is how enquiries actually arrive.
  *
  * One addition, deliberately: a single factual line under the subtitle naming
  * the centres, the ages and that beginners are welcome. The client's hero is
@@ -78,26 +81,11 @@ export async function Hero() {
 
           <div className="mt-8 flex flex-col gap-3 sm:mt-9 sm:flex-row">
             <ButtonLink href="/contact">Begin Your Musical Journey</ButtonLink>
-            <ButtonLink variant="secondary" href="/about">
-              Explore {site.shortName}
+            <ButtonLink variant="secondary" href={whatsappHref('HERO')}>
+              <WhatsAppIcon />
+              Ask on WhatsApp
             </ButtonLink>
           </div>
-
-          {/* WhatsApp keeps its place as a co-primary path without becoming a
-              third button: in this category it is how enquiries actually
-              arrive, and the client's two-button hero leaves no room for it. */}
-          <p className="mt-5 font-[var(--font-ui)] text-[length:var(--text-step--1)] text-text-muted">
-            Prefer to ask first?{' '}
-            <a
-              href={whatsappHref('HERO')}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-accent underline underline-offset-4"
-            >
-              <WhatsAppIcon />
-              Message us on WhatsApp
-            </a>
-          </p>
         </div>
 
         <aside className="relative z-10 mx-auto flex min-h-[19rem] w-full max-w-md flex-col justify-end overflow-hidden rounded-[var(--radius-lg)] lg:my-2 lg:max-w-none bg-[linear-gradient(145deg,#7a2934,#511721)] p-7 text-on-accent shadow-[var(--shadow-lift)] sm:p-9 lg:max-w-none">
