@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { EnquirySection } from '@/components/sections/EnquirySection'
 import { ContactBlock } from '@/components/sections/ContactBlock'
-import { TrialProcess } from '@/components/sections/TrialProcess'
+import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { Faq } from '@/components/sections/Faq'
 
 export const metadata: Metadata = {
@@ -25,8 +25,13 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', href: '/' },
+          { name: 'Contact', href: '/contact' },
+        ]}
+      />
       <EnquirySection />
-      <TrialProcess />
       <ContactBlock />
       <Faq />
     </>
