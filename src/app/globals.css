@@ -29,6 +29,11 @@
   --color-accent-muted: #8c6a15; /*  4.53:1 — the ONLY gold allowed as text */
   --color-gold-hairline: #c9a227; /*  2.22:1 — ornament ONLY, never text */
   --color-olive: #5a6047; /*  6.03:1 */
+  /* A flat wash of the accent over surface, to lift one panel out of its row.
+     Not a gradient. The percentages are mirrored in scripts/check-contrast.ts,
+     which asserts every text pair that sits on it. */
+  --color-accent-tint: color-mix(in srgb, var(--color-accent) 7%, var(--color-surface));
+  --color-accent-tint-hover: color-mix(in srgb, var(--color-accent) 11%, var(--color-surface));
 
   /* ---- Structure ---- */
   --color-border: #e3daca; /* decorative rules */
