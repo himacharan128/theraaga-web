@@ -1,10 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
+import { Wordmark } from '@/components/ui/Wordmark'
 import { track } from '@/lib/analytics'
 
 /**
@@ -91,16 +91,9 @@ export function Header({
         <Link
           href="/"
           aria-label="RAAGA Home"
-          className="flex h-9 shrink-0 items-center sm:h-11"
+          className="flex shrink-0 items-center"
         >
-          <Image
-            src="/brand/raaga-wordmark.webp"
-            alt="RAAGA, Sa. Pa. Sa."
-            width={600}
-            height={324}
-            priority
-            className="h-full w-auto"
-          />
+          <Wordmark className="[--wm:2.25rem] sm:[--wm:2.75rem]" priority />
         </Link>
 
         <nav aria-label="Main" className="hidden lg:block">

@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { logoutAdmin } from '@/app/admin/actions'
+import { Wordmark } from '@/components/ui/Wordmark'
 
 type AdminSection = 'overview' | 'enquiries' | 'search-console' | 'growth'
 
@@ -26,7 +26,7 @@ export function AdminHeader({
     <header className="border-b border-stone-200 pb-7">
       <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <div className="mb-5 flex items-center gap-3"><Image src="/brand/raaga-wordmark.webp" width={100} height={54} alt="RAAGA" className="h-9 w-auto" /><span className="border-l border-stone-300 pl-3 text-xs font-medium text-stone-500">School operations</span></div>
+          <div className="mb-5 flex items-center gap-3"><Wordmark className="[--wm:2.25rem]" /><span className="border-l border-stone-300 pl-3 text-xs font-medium text-stone-500">School operations</span></div>
           <p className="font-[var(--font-ui)] text-xs font-semibold uppercase tracking-[0.18em] text-[#8c6a15]">
             RAAGA operations · private
           </p>
