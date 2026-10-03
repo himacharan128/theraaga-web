@@ -1,4 +1,42 @@
-import { deleteLead } from '@/app/admin/actions'
+import { deleteLead, updateLeadStatus } from '@/app/admin/actions'
+import { LEAD_STATUSES, type LeadStatus } from '@/data/admin-dashboard'
+
+/*
+ * Pieces shared by the dashboard and the enquiries list. Each page renders a
+ * lead twice, as a stacked card on phones and as a table row from `md` up, so
+ * anything with behaviour lives here once rather than in both layouts.
+ */
+
+export const LEAD_STATUS_LABELS: Record<LeadStatus, string> = {
+  new: 'New',
+  contacted: 'Contacted',
+  trial_booked: 'Trial booked',
+  enrolled: 'Enrolled',
+  lost: 'Closed',
+}
+
+export function LeadContact({ name, phone }: { name: string; phone: string }) {
+  return (
+    <>
+      <p className="font-medium text-stone-900">{name}</p>
+      <a className="mt-1 inline-block text-stone-600 hover:text-[#6b1f2a]" href={`https://wa.me/91${phone}`} target="_blank" rel="noopener noreferrer">
+        +91 {phone}
+      </a>
+    </>
+  )
+}
+
+export function LeadStatusForm({ id, name, status }: { id: string; name: string; status: LeadStatus }) {
+  return (
+    <form action={updateLeadStatus} className="flex items-center gap-2">
+      <input type="hidden" name="id" value={id} />
+      <select name="status" defaultValue={status} aria-label={`Status for ${name}`} className="rounded-lg border border-stone-300 bg-white px-2 py-1.5 text-sm">
+        {LEAD_STATUSES.map((value) => <option key={value} value={value}>{LEAD_STATUS_LABELS[value]}</option>)}
+      </select>
+      <button className="rounded-lg border border-stone-300 px-2.5 py-1.5 text-xs font-medium text-stone-700 hover:border-stone-400">Save</button>
+    </form>
+  )
+}
 
 /**
  * Two-step erasure with no JavaScript: a native <details> keeps the permanent
