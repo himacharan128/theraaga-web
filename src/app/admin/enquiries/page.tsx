@@ -88,7 +88,7 @@ function LeadRequest({ lead }: { lead: EnquiryLead }) {
 }
 
 function LoadingEnquiries() {
-  return <main className="min-h-dvh bg-stone-100" aria-label="Loading enquiries" />
+  return <section className="min-h-dvh bg-stone-100" aria-label="Loading enquiries" />
 }
 
 async function AdminEnquiriesContent({
@@ -117,7 +117,7 @@ async function AdminEnquiriesContent({
   }
 
   return (
-    <main className="min-h-dvh bg-stone-100 px-4 py-5 text-stone-900 sm:px-8 sm:py-8">
+    <div className="min-h-dvh bg-stone-100 px-4 py-5 text-stone-900 sm:px-8 sm:py-8">
       <div className="mx-auto max-w-7xl">
         <AdminHeader
           current="enquiries"
@@ -248,7 +248,7 @@ async function AdminEnquiriesContent({
           </nav>
         )}
       </div>
-    </main>
+    </div>
   )
 }
 

@@ -115,6 +115,11 @@ entire go-to-market is link sharing.
 ```
 src/
   app/
+    layout.tsx                bare root: <html>, fonts, metadata — shared by every surface
+    (site)/                   public site; layout.tsx adds header, footer, sticky bar, trackers
+                              (route group, no URL segment); the public pages
+                              listed below all live inside it
+    global-not-found.tsx      404 for unmatched URLs; supplies its own header and footer
     page.tsx                  Nāda — 8 sections, ~720 words
     about/                    Parampara
     gurus/                    Guru Parampara
@@ -122,11 +127,11 @@ src/
     events/  journal/         Sabha · Manana
     gallery/                  Anubhava
     contact/  thank-you/      Prārambham
-    admin/                    private, noindex operations dashboard
     music-classes/[centre]/   one locality page per physical centre, from data
     online-classes/           search landing page; the homepage owns "Carnatic vocal classes
                               Hyderabad" (the retired /carnatic-vocal-classes-hyderabad 301s to /)
     privacy/ terms/ refund-policy/ child-safeguarding/   legal
+    admin/                    NOT in (site): private, noindex dashboard with no public chrome
   components/
     layout/        Header, Footer, Section (the degradation wrapper), PageHero
     sections/      composable sections, each with a full and an empty state

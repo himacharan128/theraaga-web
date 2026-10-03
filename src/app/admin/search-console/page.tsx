@@ -54,7 +54,7 @@ function Notice({ value }: { value?: string }) {
 }
 
 function LoadingSearchConsole() {
-  return <main className="min-h-dvh bg-stone-100" aria-label="Loading Search Console" />
+  return <section className="min-h-dvh bg-stone-100" aria-label="Loading Search Console" />
 }
 
 async function SearchConsoleContent({ searchParams }: { searchParams: Promise<{ notice?: string | string[] }> }) {
@@ -69,7 +69,7 @@ async function SearchConsoleContent({ searchParams }: { searchParams: Promise<{ 
   const configured = isSearchConsoleReady()
 
   return (
-    <main className="min-h-dvh bg-stone-100 px-4 py-5 text-stone-900 sm:px-8 sm:py-8">
+    <div className="min-h-dvh bg-stone-100 px-4 py-5 text-stone-900 sm:px-8 sm:py-8">
       <div className="mx-auto max-w-7xl">
         <AdminHeader
           current="search-console"
@@ -202,7 +202,7 @@ async function SearchConsoleContent({ searchParams }: { searchParams: Promise<{ 
           )}
         </section>
       </div>
-    </main>
+    </div>
   )
 }
 
