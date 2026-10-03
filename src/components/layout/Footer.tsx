@@ -74,9 +74,9 @@ export async function Footer() {
 
         <div className="mt-16 grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <div className="inline-flex rounded-[var(--radius-sm)] bg-on-accent p-3 shadow-[0_12px_30px_rgba(0,0,0,0.16)]">
-              <Wordmark className="[--wm:2.5rem]" />
-            </div>
+            <Link href="/" aria-label="RAAGA Home" className="inline-flex">
+              <Wordmark className="text-on-accent! [--wm:2.5rem]" />
+            </Link>
             <p className="mt-4 text-[length:var(--text-step--1)] text-[color-mix(in_srgb,var(--color-on-accent)_72%,transparent)]">
               School of Indian Classical Music
               <br />
