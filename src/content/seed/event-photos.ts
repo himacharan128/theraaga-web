@@ -34,7 +34,7 @@ import type { EventPhoto } from '../types'
  * The order is the display order, grouped by occasion. `date` is an ISO month
  * and is shown beside the occasion. The owner's own caption is kept for her
  * sheet photographs; the Tyagaraja Aradhana is held at Thiruvaiyaru, and
- * "Aynavilli" is spelled as she wrote it. `focus` is an optional CSS
+ * "Ainavilli" is the owner's confirmed spelling. `focus` is an optional CSS
  * object-position for a photograph whose subject sits off-centre, so the
  * uniform 3:2 crop keeps it.
  */
@@ -194,7 +194,7 @@ export const eventPhotos: EventPhoto[] = [
   },
   {
     id: 'event-img-2489',
-    occasion: 'Concert at the Aynavilli temple',
+    occasion: 'Concert at the Ainavilli temple',
     media: {
       src: '/events/img_2489.jpg',
       alt: 'Singers seated on a striped platform at a temple concert, with microphones in front of them and stone pillars behind',
@@ -204,7 +204,7 @@ export const eventPhotos: EventPhoto[] = [
   },
   {
     id: 'event-img-2492',
-    occasion: 'Concert at the Aynavilli temple',
+    occasion: 'Concert at the Ainavilli temple',
     media: {
       src: '/events/img_2492.jpg',
       alt: 'Women singing side by side at a temple concert beneath a fringed canopy, with onlookers standing behind them',
@@ -214,7 +214,7 @@ export const eventPhotos: EventPhoto[] = [
   },
   {
     id: 'event-img-2689',
-    occasion: 'Concert at the Aynavilli temple',
+    occasion: 'Concert at the Ainavilli temple',
     media: {
       src: '/events/img_2689.jpg',
       alt: 'Singers seated on the floor of a temple hall around microphones, with a banner hung behind them and garlanded pictures at the right',
