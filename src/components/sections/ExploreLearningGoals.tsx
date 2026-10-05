@@ -20,9 +20,9 @@ export function PathCard({
   return (
     <Link
       href={href}
-      className="flex h-full min-h-48 flex-col rounded-[var(--radius-md)] border border-border bg-surface p-6 no-underline transition-[transform,border-color,box-shadow] duration-[var(--dur)] ease-[var(--ease-raaga)] hover:-translate-y-1 hover:border-accent hover:shadow-[var(--shadow-lift)] motion-reduce:transition-none motion-reduce:hover:transform-none"
+      className="flex h-full min-h-48 flex-col rounded-[var(--radius-lg)] border border-border bg-surface p-6 no-underline transition-[border-color,transform] duration-[var(--dur)] ease-[var(--ease-raaga)] hover:border-accent motion-safe:hover:-translate-y-0.5"
     >
-      <h3 className="text-[length:var(--text-step-1)] font-[400] text-text-primary group-hover:text-accent">
+      <h3 className="text-[length:var(--text-step-1)] font-[400] text-text-primary transition-colors duration-[var(--dur-fast)] group-hover:text-accent">
         {title}
       </h3>
       <p className="mt-3 flex-1 text-[length:var(--text-step--1)] leading-[var(--lh-body)] text-text-secondary">
@@ -77,7 +77,6 @@ export async function ExploreLearningGoals() {
         </p>
       }
       renderIf={pages.length > 0}
-      tone="surface"
     >
       <ul className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {cards.map((card) => (

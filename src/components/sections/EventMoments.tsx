@@ -25,9 +25,9 @@ import type { EventPhoto } from '@/content/types'
  */
 
 const frame =
-  'group relative overflow-hidden rounded-[var(--radius-sm)] border border-border bg-surface shadow-[0_8px_20px_rgba(71,49,34,0.05)]'
+  'group relative overflow-hidden rounded-[var(--radius-md)] bg-surface'
 const zoom =
-  'object-cover transition-transform duration-500 ease-[var(--ease-raaga)] motion-safe:group-hover:scale-[1.035] motion-reduce:transition-none'
+  'object-cover transition-transform duration-[var(--dur-slow)] ease-[var(--ease-raaga)] motion-safe:lg:group-hover:scale-[1.02]'
 
 function Photo({ photo, sizes }: { photo: EventPhoto; sizes: string }) {
   return (
@@ -96,7 +96,6 @@ function Occasion({
           <time dateTime={date}>{monthYear(date)}</time>
         </p>
       )}
-      <span aria-hidden="true" className="mt-3 block h-0.5 w-10 bg-accent" />
 
       <ul className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-6 md:gap-4">
         <li className={`${frame} col-span-2 ${featureClass}`}>

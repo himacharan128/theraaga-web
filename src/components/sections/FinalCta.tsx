@@ -32,10 +32,10 @@ export function FinalCta() {
         </p>
 
         <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-          <ButtonLink variant="onAccent" href="/contact">
+          <ButtonLink href="/contact">
             Book a trial
           </ButtonLink>
-          <ButtonLink variant="onAccentGhost" href={whatsappHref('FINAL_CTA')}>
+          <ButtonLink variant="secondary" href={whatsappHref('FINAL_CTA')}>
             <WhatsAppIcon />
             Ask on WhatsApp
           </ButtonLink>

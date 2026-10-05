@@ -110,7 +110,7 @@ export default async function CentrePage({
           {centre.nearby.map((n) => (
             <li
               key={n}
-              className="rounded-full border border-border-strong bg-[color-mix(in_srgb,var(--color-elevated)_72%,transparent)] px-4 py-2 font-[var(--font-ui)] text-[length:var(--text-step--1)] text-text-secondary shadow-[0_6px_14px_rgba(71,49,34,0.04)]"
+              className="rounded-full border border-border-strong px-4 py-2 font-[var(--font-ui)] text-[length:var(--text-step--1)] text-text-secondary"
             >
               {n}
             </li>

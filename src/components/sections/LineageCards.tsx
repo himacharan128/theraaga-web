@@ -4,7 +4,7 @@ import type { LineageReference } from '@/content/seed'
 /**
  * The maestros the Gurus trained under, as cards.
  *
- * Each card is complete as TEXT: an accent rule, the name with its honorific,
+ * Each card is complete as TEXT: the name with its honorific
  * and the client-approved note. A portrait, when an entry has one, is added
  * above or beside that. There is no frame waiting to be filled, so an entry
  * without a photograph is a finished card and not a card with something
@@ -31,7 +31,7 @@ export function LineageCards({ entries }: { entries: LineageReference[] }) {
       {entries.map((entry) => (
         <li
           key={entry.order}
-          className={`flex overflow-hidden rounded-[var(--radius-md)] border border-border bg-elevated shadow-[var(--shadow-soft)] ${
+          className={`flex overflow-hidden rounded-[var(--radius-lg)] border border-border ${
             single ? 'flex-col md:flex-row' : 'flex-col'
           }`}
         >
@@ -56,10 +56,6 @@ export function LineageCards({ entries }: { entries: LineageReference[] }) {
               single ? 'md:justify-center md:p-12' : ''
             }`}
           >
-            <span
-              aria-hidden="true"
-              className="mb-5 block h-0.5 w-10 bg-accent"
-            />
             <h3 className="font-[var(--font-display)] text-[length:var(--text-step-2)] font-[400] leading-[var(--lh-snug)] text-text-primary">
               {entry.honorific ? `${entry.honorific} ` : ''}
               {entry.name}

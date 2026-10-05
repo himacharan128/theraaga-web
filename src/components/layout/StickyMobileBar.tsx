@@ -60,18 +60,20 @@ export function StickyMobileBar() {
       data-site-mobile-bar
       aria-hidden={!show}
       inert={!show}
-      className="fixed inset-x-0 bottom-0 z-40 transition-transform duration-[var(--dur)] ease-[var(--ease-raaga)] lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-bg px-3 pt-2 transition-transform duration-[var(--dur-slow)] ease-[var(--ease-raaga)] lg:hidden"
       style={{
-        transform: show ? 'none' : 'translateY(120%)',
-        paddingBottom: 'calc(env(safe-area-inset-bottom) + 12px)',
+        transform: show ? 'none' : 'translateY(110%)',
+        paddingBottom: 'calc(env(safe-area-inset-bottom) + 8px)',
       }}
     >
-      <div className="mx-3 flex gap-2 rounded-full border border-[color-mix(in_srgb,var(--color-border-strong)_50%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_92%,transparent)] p-1.5 shadow-[var(--shadow-lift)] backdrop-blur-xl">
+      {/* Docked to the bottom edge as a plain bar, not a floating capsule with
+          blur and a drop shadow. */}
+      <div className="flex gap-2">
         <Link
           href="/contact"
           tabIndex={show ? 0 : -1}
           onClick={() => track('cta_click', { cta_location: 'sticky_bar' })}
-          className="flex min-h-12 flex-1 items-center justify-center rounded-full bg-accent font-[var(--font-ui)] text-[0.92rem] font-medium text-on-accent no-underline shadow-[0_8px_16px_rgba(107,31,42,0.20)]"
+          className="flex min-h-12 flex-1 items-center justify-center rounded-[var(--radius-md)] bg-accent font-[var(--font-ui)] text-[0.92rem] font-medium text-on-accent no-underline transition-colors duration-[var(--dur-fast)] active:bg-accent-deep"
         >
           Book a trial
         </Link>
@@ -85,7 +87,7 @@ export function StickyMobileBar() {
           aria-label="Ask on WhatsApp"
           tabIndex={show ? 0 : -1}
           onClick={() => track('whatsapp_click', { cta_location: 'sticky_bar' })}
-          className="flex size-12 items-center justify-center rounded-full border border-border-strong text-accent transition-colors hover:bg-[color-mix(in_srgb,var(--color-accent)_7%,transparent)]"
+          className="flex size-12 items-center justify-center rounded-[var(--radius-md)] border border-border-strong text-accent transition-colors duration-[var(--dur-fast)] hover:border-accent"
         >
           <WhatsAppIcon />
         </a>

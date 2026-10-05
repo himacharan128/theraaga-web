@@ -58,16 +58,8 @@ export async function Footer() {
   ]
 
   return (
-    <footer className="relative overflow-hidden border-t border-[color-mix(in_srgb,var(--color-accent)_20%,transparent)] bg-ink text-on-accent">
-      <span
-        aria-hidden="true"
-        className="absolute -right-24 -top-36 size-[34rem] rounded-full border border-[color-mix(in_srgb,var(--color-on-accent)_10%,transparent)]"
-      />
-      <span
-        aria-hidden="true"
-        className="absolute -bottom-40 -left-32 size-[30rem] rounded-full border border-[color-mix(in_srgb,var(--color-gold-hairline)_26%,transparent)]"
-      />
-      <div className="u-shell relative py-16 md:py-24">
+    <footer className="bg-ink text-on-accent">
+      <div className="u-shell py-16 md:py-24">
         <div className="opacity-75">
           <AscendingScale />
         </div>

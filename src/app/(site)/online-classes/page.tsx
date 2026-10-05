@@ -111,7 +111,7 @@ export default function OnlineClassesPage() {
               b: 'For children under about eight, having an adult in the room for the first few weeks makes a real difference. After that, rarely.',
             },
           ].map((i) => (
-            <li key={i.t} className="rounded-[var(--radius-md)] border border-border bg-[color-mix(in_srgb,var(--color-surface)_80%,transparent)] p-6 md:p-7">
+            <li key={i.t} className="border-t border-border pt-6">
               <h3 className="text-[length:var(--text-step-1)] font-[400]">{i.t}</h3>
               <p className="mt-3 text-text-secondary">{i.b}</p>
             </li>

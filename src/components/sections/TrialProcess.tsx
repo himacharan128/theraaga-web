@@ -36,29 +36,20 @@ export function TrialProcess() {
       title="What actually happens next."
       tone="surface"
     >
-      {/* NOT three cards.
-          Boxing these forced all three to the height of the longest, which left
-          two of them sitting in visible dead space — and it made a sequence
-          look like a set of alternatives. A sequence wants a line through it,
-          so the numerals sit ON a rule and the eye reads left to right. */}
-      <ol className="relative grid gap-12 md:grid-cols-3 md:gap-10">
+      {/* NOT three cards. Boxing these forced all three to the height of the
+          longest and made a sequence look like a set of alternatives. Each
+          step is a numeral over a hairline, so the row reads left to right
+          without discs or connectors to carry it. */}
+      <ol className="grid gap-10 md:grid-cols-3 md:gap-10">
         {STEPS.map((s) => (
-          <li
-            key={s.n}
-            /* The connector is drawn per step rather than as one rule across
-               the row: a single spanning rule ran past 03 and trailed off into
-               the margin, which is the sort of detail that reads as unfinished.
-               Each step now joins to the next and the last one draws nothing.
-               Width is the column plus the gap, less the numeral. */
-            className="relative md:after:absolute md:after:left-[3.25rem] md:after:top-[1.375rem] md:after:h-px md:after:w-[calc(100%-0.75rem)] md:after:bg-gold-hairline md:after:opacity-50 md:after:content-[''] md:last:after:hidden"
-          >
+          <li key={s.n} className="border-t border-border pt-6">
             <span
               aria-hidden="true"
-              className="relative z-10 flex size-11 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--color-accent)_22%,transparent)] bg-bg font-[var(--font-ui)] text-[0.76rem] font-medium tracking-[0.12em] text-accent"
+              className="font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium tabular-nums text-accent"
             >
               0{s.n}
             </span>
-            <h3 className="mt-6 text-[length:var(--text-step-1)] font-[400]">
+            <h3 className="mt-3 text-[length:var(--text-step-1)] font-[400]">
               {s.title}
             </h3>
             <p className="u-measure mt-3 text-[length:var(--text-step--1)] leading-[var(--lh-body)] text-text-secondary">

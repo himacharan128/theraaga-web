@@ -131,7 +131,7 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
       action={action}
       onInput={onFirstInput}
       noValidate
-      className="grid gap-8 rounded-[var(--radius-lg)] border border-border bg-[color-mix(in_srgb,var(--color-elevated)_92%,transparent)] p-5 shadow-[var(--shadow-soft)] sm:p-8 md:p-10"
+      className="grid gap-8 rounded-[var(--radius-lg)] border border-border bg-surface p-5 sm:p-8 md:p-10"
     >
       <p className="font-[var(--font-ui)] text-[length:var(--text-step--1)] text-text-muted">
         Everything below is needed unless it says optional.
@@ -423,7 +423,7 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
       </div>
 
       {state.message && !state.ok && (
-        <p role="alert" className="border border-accent bg-surface px-4 py-3 text-accent">
+        <p role="alert" className="rounded-[var(--radius-sm)] border border-accent bg-bg px-4 py-3 text-accent">
           {state.message}
         </p>
       )}

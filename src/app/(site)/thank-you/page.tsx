@@ -22,10 +22,8 @@ export const metadata: Metadata = {
 export default function ThankYouPage() {
   return (
     <section className="u-shell py-16 md:py-24">
-      <div className="relative mx-auto max-w-3xl overflow-hidden rounded-[var(--radius-lg)] bg-[linear-gradient(145deg,#7a2934,#511721)] px-6 py-14 text-center text-on-accent shadow-[var(--shadow-lift)] sm:px-10 md:px-16 md:py-20">
-        <span aria-hidden="true" className="absolute -right-20 -top-20 size-72 rounded-full border border-[color-mix(in_srgb,var(--color-on-accent)_16%,transparent)]" />
-        <span aria-hidden="true" className="absolute -bottom-32 -left-24 size-72 rounded-full border border-[color-mix(in_srgb,var(--color-gold-hairline)_34%,transparent)]" />
-        <div className="relative">
+      <div className="on-accent mx-auto max-w-3xl rounded-[var(--radius-lg)] bg-accent-deep px-6 py-14 text-center text-on-accent sm:px-10 md:px-16 md:py-20">
+        <div>
         <p className="u-eyebrow !text-[color-mix(in_srgb,var(--color-on-accent)_70%,transparent)]">Prārambham · The beginning</p>
         <h1 className="mt-5 text-[length:var(--text-step-4)] font-[300] text-on-accent">
           Thank you for reaching out to RAAGA.
@@ -52,12 +50,11 @@ export default function ThankYouPage() {
               'THANKYOU',
               'Hello RAAGA, I have just submitted the trial class form.',
             )}
-            variant="onAccent"
           >
             <WhatsAppIcon />
             Confirm on WhatsApp
           </ButtonLink>
-          <ButtonLink variant="onAccentGhost" href="/">
+          <ButtonLink variant="secondary" href="/">
             Back to the school
           </ButtonLink>
         </div>

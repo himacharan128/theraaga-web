@@ -86,7 +86,10 @@ export function Header({
     href === '/' ? pathname === '/' : pathname.startsWith(href)
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[color-mix(in_srgb,var(--color-border)_72%,transparent)] bg-[color-mix(in_srgb,var(--color-bg)_78%,transparent)] backdrop-blur-xl">
+    // A plain solid bar. No blur, no floating capsule: the header is furniture,
+    // not a feature, and it holds still during route changes (see
+    // `site-header` in globals.css).
+    <header className="sticky top-0 z-50 border-b border-border bg-bg [view-transition-name:site-header]">
       <div className="u-shell flex h-16 items-center justify-between gap-3 md:h-20 md:gap-5">
         <Link
           href="/"
@@ -97,13 +100,13 @@ export function Header({
         </Link>
 
         <nav aria-label="Main" className="hidden lg:block">
-          <ul className="flex items-center gap-7 rounded-full border border-[color-mix(in_srgb,var(--color-border)_85%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_72%,transparent)] px-6 py-2.5 shadow-[0_8px_24px_rgba(71,49,34,0.05)]">
+          <ul className="flex items-center gap-7">
             {nav.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
                   aria-current={isCurrent(item.href) ? 'page' : undefined}
-                  className="block whitespace-nowrap font-[var(--font-ui)] text-[0.88rem] text-text-primary no-underline transition-colors hover:text-accent aria-[current=page]:text-accent"
+                  className="block whitespace-nowrap py-2 font-[var(--font-ui)] text-[0.88rem] text-text-primary no-underline decoration-[1.5px] underline-offset-[10px] transition-colors duration-[var(--dur-fast)] hover:text-accent aria-[current=page]:text-accent aria-[current=page]:underline"
                 >
                   {item.label}
                 </Link>
@@ -119,7 +122,7 @@ export function Header({
             rel="noopener noreferrer"
             aria-label="Ask on WhatsApp"
             onClick={() => track('whatsapp_click', { cta_location: 'header' })}
-            className="flex size-11 items-center justify-center rounded-full border border-border-strong text-accent md:hidden"
+            className="flex size-11 items-center justify-center rounded-[var(--radius-md)] border border-border-strong text-accent transition-colors duration-[var(--dur-fast)] hover:border-accent md:hidden"
           >
             <WhatsAppIcon />
           </a>
@@ -143,7 +146,7 @@ export function Header({
             aria-controls="mobile-nav"
             aria-label={open ? 'Close menu' : 'Open menu'}
             onClick={() => setOpen((o) => !o)}
-            className="flex size-11 items-center justify-center rounded-full border border-transparent text-accent transition-colors hover:border-border-strong hover:bg-surface lg:hidden"
+            className="flex size-11 items-center justify-center rounded-[var(--radius-md)] text-accent transition-colors duration-[var(--dur-fast)] hover:bg-surface lg:hidden"
           >
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
               {open ? (
@@ -161,7 +164,7 @@ export function Header({
         <nav
           id="mobile-nav"
           aria-label="Main"
-          className="border-t border-border bg-[color-mix(in_srgb,var(--color-surface)_94%,transparent)] shadow-[0_16px_30px_rgba(71,49,34,0.08)] lg:hidden"
+          className="u-enter border-t border-border bg-bg lg:hidden"
         >
           <ul className="u-shell py-3">
             {nav.map((item) => (
@@ -170,7 +173,7 @@ export function Header({
                   href={item.href}
                   aria-current={isCurrent(item.href) ? 'page' : undefined}
                   onClick={() => setOpen(false)}
-                  className="flex min-h-[54px] items-center justify-between gap-4 rounded-[var(--radius-sm)] px-3 py-3 no-underline transition-colors hover:bg-[color-mix(in_srgb,var(--color-accent)_6%,transparent)] aria-[current=page]:bg-[color-mix(in_srgb,var(--color-accent)_7%,transparent)] aria-[current=page]:text-accent"
+                  className="flex min-h-[54px] items-center justify-between gap-4 py-3 no-underline transition-colors duration-[var(--dur-fast)] hover:text-accent aria-[current=page]:text-accent"
                 >
                   <span className="font-[var(--font-ui)] text-[length:var(--text-step-0)]">
                     {item.label}

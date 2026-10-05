@@ -110,14 +110,14 @@ export default async function CarnaticIntentPage({ params }: { params: Params })
         title="A clear way to begin."
       >
         <ul
-          className={`grid gap-4 md:gap-5 ${
+          className={`grid gap-x-10 gap-y-8 ${
             page.highlights.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3'
           }`}
         >
           {page.highlights.map((highlight) => (
             <li
               key={highlight.title}
-              className="rounded-[var(--radius-md)] border border-border bg-[color-mix(in_srgb,var(--color-surface)_80%,transparent)] p-6 shadow-[0_10px_24px_rgba(71,49,34,0.04)] md:p-7"
+              className="border-t border-border pt-6"
             >
               <h3 className="text-[length:var(--text-step-1)] font-[400] text-accent">
                 {highlight.title}
@@ -146,14 +146,13 @@ export default async function CarnaticIntentPage({ params }: { params: Params })
         id="next-steps"
         eyebrow="Continue exploring"
         title="Take the next useful step."
-        tone="surface"
       >
         <ul className="grid gap-3 sm:grid-cols-2">
           {page.related.map((item) => (
             <li key={item.href}>
               <Link
                 href={item.href}
-                className="group flex min-h-16 items-center justify-between gap-4 rounded-[var(--radius-sm)] border border-border bg-surface px-5 py-4 font-[var(--font-ui)] text-text-primary no-underline transition-[transform,border-color,box-shadow] duration-[var(--dur-fast)] hover:-translate-y-0.5 hover:border-accent hover:shadow-[var(--shadow-soft)] motion-reduce:transition-none motion-reduce:hover:transform-none"
+                className="group flex min-h-16 items-center justify-between gap-4 rounded-[var(--radius-lg)] border border-border bg-surface px-5 py-4 font-[var(--font-ui)] text-text-primary no-underline transition-[border-color,transform] duration-[var(--dur)] ease-[var(--ease-raaga)] hover:border-accent motion-safe:hover:-translate-y-0.5"
               >
                 <span>{item.label}</span>
                 <svg className="raga-link-arrow shrink-0 text-accent" width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true">

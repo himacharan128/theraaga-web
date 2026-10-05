@@ -15,6 +15,34 @@ Newest entry first.
 
 ---
 
+## 2026-10-05: Quieter, more consistent visual design
+
+- **Requested:** Bhasuri found the UI overloaded with effects and asked for a
+  polish pass without touching copy, page structure, data or routing.
+- **Decision / scope:** One maroon, taken from the logo (#834848), with darker
+  hover (#6E3A3A) and deep (#612A2C) steps. Flat ivory ground, with off-white
+  only for forms and clickable cards. Removed the page grain, the radial washes,
+  the section gradients and the decorative circles. Buttons cut from five
+  variants to three (filled, outline, text). Radii 8 / 12 / 16 px, no shadows
+  at rest, one motion scale (120 / 180 / 240 ms), a 160 ms route fade. Plain
+  solid header, docked mobile bar. Non-clickable groups became ruled lists;
+  cards are kept for centres, learning paths, press clippings and the form.
+  Removed the unused orbit/breathe animations, `Reveal` and `TanpuraRule`. A
+  second, editorial redesign was tried the same day and rejected before it
+  shipped; it is not in this change.
+- **Work completed:** `globals.css` tokens, `Button`, `Header`,
+  `StickyMobileBar`, `Accordion`, `Section`, `PageHero` and 20 section and page
+  components. `check-contrast.ts` updated to the new palette. Browser theme
+  colour set to the logo maroon. The admin portal and the OG image are unchanged.
+- **Verification:** `test:contrast`, `test:no-prices`, `test:enquiry`,
+  `test:seo-intents`, lint and production build pass. `test:a11y` 76/76 against
+  the production build. `test:e2e` 13/13 against a dev server with local lead
+  storage. No horizontal overflow at 360, 390, 412, 820 or 1440 px.
+- **Deployment / production status:** Merged to main; Vercel production deploy.
+- **Credential or access impact:** none.
+
+---
+
 ## 2026-10-03 — New change flow and the never-focus-Safari rule
 
 - **Requested:** Bhasuri set two hard rules.

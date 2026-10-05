@@ -12,14 +12,12 @@ import type { ScholarlyWork } from '@/content/seed'
 export function ScholarlyWorks({ works }: { works: ScholarlyWork[] }) {
   return (
     <ul
-      className={`grid gap-px overflow-hidden border border-border bg-border ${
-        works.length > 1 ? 'lg:grid-cols-2' : ''
-      }`}
+      className={`grid gap-x-12 ${works.length > 1 ? 'lg:grid-cols-2' : ''}`}
     >
       {works.map((w) => (
         <li
           key={w.order}
-          className="flex flex-col gap-6 bg-surface p-7 sm:flex-row sm:items-start sm:gap-8 md:p-9"
+          className="flex flex-col gap-6 border-t border-border py-8 sm:flex-row sm:items-start sm:gap-8"
         >
           {w.cover ? (
             <Image
@@ -28,7 +26,7 @@ export function ScholarlyWorks({ works }: { works: ScholarlyWork[] }) {
               sizes="150px"
               placeholder="blur"
               loading="lazy"
-              className="h-auto w-[150px] shrink-0 rounded-[4px] shadow-[0_2px_4px_rgba(71,49,34,0.18),0_14px_30px_rgba(71,49,34,0.18)]"
+              className="h-auto w-[150px] shrink-0 rounded-[2px] shadow-[0_1px_3px_rgba(58,36,30,0.18)]"
             />
           ) : null}
           <div>

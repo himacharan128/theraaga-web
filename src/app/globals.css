@@ -5,6 +5,10 @@
    Every contrast ratio below is computed, not estimated, and asserted in CI by
    scripts/check-contrast.ts. Do not change a colour without re-running it.
 
+   One maroon. The logo's own ink (#834848) is the source of truth; hover and
+   pressed states are darker steps of it, not a second brand colour. Gold is
+   for 1px rules and tiny marks, never for labels or running text.
+
    HARD RULE: gold never carries text or meaning on ivory.
      #FFD700 on #F7F3EA = 1.29:1   #D4AF37 = 1.93:1   #C9A227 = 2.22:1
    All fail even the 3:1 UI floor. Use --accent-muted (#8C6A15) for gold-feeling
@@ -12,23 +16,27 @@
    ============================================================================ */
 
 @theme {
-  /* ---- Ground ---- */
-  --color-bg: #f7f3ea;
-  --color-surface: #fffcf5;
+  /* ---- Ground ----
+     One flat ivory for the page, one cleaner off-white for the few things that
+     sit on it (forms, selectable cards). The step between them is what gives
+     the page structure, so most sections need no border or shadow at all. */
+  --color-bg: #f5f0e6;
+  --color-surface: #fffdf8;
   --color-elevated: #ffffff;
-  --color-ink: #201b1a;
+  --color-ink: #1f1a17;
 
   /* ---- Ink ---- */
-  --color-text-primary: #221e1a; /* 14.95:1 on bg */
-  --color-text-secondary: #4a423a; /*  8.90:1 */
-  --color-text-muted: #6e655a; /*  5.16:1 */
+  --color-text-primary: #1f1a17; /* 15.18:1 on bg */
+  --color-text-secondary: #463d36; /*  9.33:1 */
+  --color-text-muted: #5f554b; /*  6.40:1 */
 
   /* ---- Accent ---- */
-  --color-accent: #6b1f2a; /* 10.23:1 — maroon, ink only */
-  --color-accent-hover: #5c1a20; /* 11.89:1 */
-  --color-accent-muted: #8c6a15; /*  4.53:1 — the ONLY gold allowed as text */
-  --color-gold-hairline: #c9a227; /*  2.22:1 — ornament ONLY, never text */
-  --color-olive: #5a6047; /*  6.03:1 */
+  --color-accent: #834848; /*  6.19:1 — the logo maroon */
+  --color-accent-hover: #6e3a3a; /*  7.94:1 — hover */
+  --color-accent-deep: #612a2c; /*  9.86:1 — pressed, and the closing band */
+  --color-accent-muted: #7d5f0f; /* the ONLY gold allowed as text */
+  --color-gold-hairline: #c9a227; /*  2.13:1 — ornament ONLY, never text */
+  --color-olive: #5a6047;
   /* A flat wash of the accent over surface, to lift one panel out of its row.
      Not a gradient. The percentages are mirrored in scripts/check-contrast.ts,
      which asserts every text pair that sits on it. */
@@ -36,9 +44,9 @@
   --color-accent-tint-hover: color-mix(in srgb, var(--color-accent) 11%, var(--color-surface));
 
   /* ---- Structure ---- */
-  --color-border: #e3daca; /* decorative rules */
-  --color-border-strong: #8f8070; /*  3.45:1 — anything bounding a control */
-  --color-on-accent: #f7f3ea; /* 10.23:1 on --color-accent */
+  --color-border: #e2d8c7; /* decorative rules */
+  --color-border-strong: #86786a; /*  3.77:1 — anything bounding a control */
+  --color-on-accent: #fbf7ef; /*  6.58:1 on --color-accent */
 
   /* ---- Type families ---- */
   --font-display: var(--font-newsreader), Georgia, serif;
@@ -61,7 +69,7 @@
   --spacing-gutter: clamp(1.25rem, 5vw, 3rem);
 
   /* ---- Motion ---- */
-  --ease-raaga: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-raaga: cubic-bezier(0.2, 0, 0, 1);
 }
 
 :root {
@@ -79,15 +87,20 @@
   --content-max: 72rem;
 
   --hairline: 1px;
-  --radius-sm: 0.75rem;
-  --radius-md: 1.5rem;
-  --radius-lg: 2.5rem;
-  --shadow-soft: 0 18px 50px rgba(71, 49, 34, 0.10);
-  --shadow-lift: 0 24px 60px rgba(71, 49, 34, 0.16);
+  /* Three radii, no more: 8 for small controls and tags, 12 for buttons and
+     images, 16 for cards. Pills (999px) are kept for genuine metadata only. */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  /* Surfaces are flat. This is the only shadow on the site, and it appears on
+     hover of the filled button, never at rest. */
+  --shadow-hover: 0 1px 2px rgba(58, 36, 30, 0.06), 0 6px 16px rgba(58, 36, 30, 0.07);
 
-  --dur-fast: 180ms;
-  --dur: 240ms;
-  --dur-slow: 320ms;
+  /* One motion scale. 120 for colour, 180 for small movement, 240 for
+     anything that enters or leaves. */
+  --dur-fast: 120ms;
+  --dur: 180ms;
+  --dur-slow: 240ms;
 }
 
 /* ============================================================================
@@ -111,15 +124,8 @@ body {
   font-synthesis-weight: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-
-  /* A living, low-contrast ground. It is deliberately not a stock texture or
-     fake paper photograph: the colour fields give sections depth without
-     turning the site into a heritage-theme template. */
-  background-image:
-    radial-gradient(circle at 94% -8%, rgba(107, 31, 42, 0.10), transparent 26rem),
-    radial-gradient(circle at -8% 38%, rgba(140, 106, 21, 0.07), transparent 25rem),
-    radial-gradient(rgba(107, 31, 42, 0.018) 0.5px, transparent 0.5px);
-  background-size: auto, auto, 4px 4px;
+  /* Flat. The radial washes and the 4px grain that used to sit here read as
+     wallpaper on a phone rather than as material. */
 }
 
 main {
@@ -164,7 +170,6 @@ p {
   outline: 2px solid var(--color-text-primary);
   outline-offset: 2px;
   box-shadow: 0 0 0 4px var(--color-bg);
-  border-radius: var(--radius-sm);
 }
 
 ::selection {
@@ -173,101 +178,85 @@ p {
 }
 
 /* ============================================================================
-   Motion — animate only transform and opacity. Nothing bounces, scales
-   or rotates. No scroll handler ever reads layout.
+   Motion — feedback only. Transform and opacity, nothing that loops, nothing
+   that runs without the visitor doing something. No scroll handler ever reads
+   layout.
    ============================================================================ */
 
+/* Route change: a short, quiet cross-fade of the page body. The header is its
+   own transition group, so it holds still while the content beneath it
+   changes, which is what tells you that you moved within one site. */
 @view-transition {
   navigation: auto;
 }
 
-.reveal {
-  opacity: 0;
-  transform: translateY(12px);
-  transition:
-    opacity var(--dur-slow) var(--ease-raaga),
-    transform var(--dur-slow) var(--ease-raaga);
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 160ms;
+  animation-timing-function: ease-out;
 }
 
-.reveal[data-visible='true'] {
-  opacity: 1;
-  transform: none;
+::view-transition-group(site-header) {
+  animation: none;
 }
 
-/* Contemporary editorial primitives. Components use these sparingly so a
-   scrolling page has rhythm instead of one repeated card treatment. */
+/* Toned sections. Flat colour only: no gradients, no orbs. */
 .section-shell {
   position: relative;
   isolation: isolate;
 }
 
-/* Flat, not a 135deg gradient. Across a full-bleed section the diagonal read
-   as a faint banding artefact rather than as depth, and it fought the ivory. */
 .section-shell--surface {
   background: var(--color-surface);
 }
 
 .section-shell--accent {
-  background:
-    radial-gradient(circle at 86% 18%, rgba(255, 252, 245, 0.12), transparent 19rem),
-    linear-gradient(125deg, #5c1a20 0%, var(--color-accent) 54%, #7c2934 100%);
+  background: var(--color-accent-deep);
 }
 
-/* REMOVED: .section-shell__orb
-   A 32rem hairline circle was stamped onto every toned section at an identical
-   offset. Decoration applied by rule rather than by intent is exactly what
-   makes a page read as generated, and at these sizes it also cut through
-   content — most visibly straight across the swara row.
-
-   Circles still appear where they are clipped by an object that owns them (the
-   hero card, the footer), because there they are texture on a surface rather
-   than a shape floating over the page. */
-
-.page-hero {
-  position: relative;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 92% 8%, rgba(107, 31, 42, 0.10), transparent 26rem),
-    linear-gradient(110deg, rgba(255, 252, 245, 0.86), rgba(247, 243, 234, 0.92));
+/* Buttons read their colours from here, so a maroon band can flip all three
+   variants by setting the context once instead of needing extra variants. */
+:root {
+  --btn-fill: var(--color-accent);
+  --btn-fill-hover: var(--color-accent-hover);
+  --btn-fill-active: var(--color-accent-deep);
+  --btn-on-fill: var(--color-on-accent);
+  --btn-line: var(--color-border-strong);
+  --btn-line-hover: var(--color-accent);
+  --btn-ink: var(--color-accent);
+  --btn-wash: color-mix(in srgb, var(--color-accent) 6%, transparent);
 }
 
-.page-hero::after {
-  content: '';
-  position: absolute;
-  right: clamp(-12rem, -8vw, -4rem);
-  top: clamp(-12rem, -10vw, -4rem);
-  width: clamp(15rem, 27vw, 27rem);
-  aspect-ratio: 1;
-  border: 1px solid rgba(107, 31, 42, 0.16);
-  border-radius: 999px;
-  box-shadow: inset 0 0 0 clamp(1.8rem, 4vw, 4.5rem) rgba(107, 31, 42, 0.025);
-  pointer-events: none;
+.on-accent {
+  --btn-fill: var(--color-on-accent);
+  --btn-fill-hover: #ffffff;
+  --btn-fill-active: color-mix(in srgb, var(--color-on-accent) 88%, var(--color-accent-deep));
+  --btn-on-fill: var(--color-accent-deep);
+  --btn-line: color-mix(in srgb, var(--color-on-accent) 55%, transparent);
+  --btn-line-hover: var(--color-on-accent);
+  --btn-ink: var(--color-on-accent);
+  --btn-wash: color-mix(in srgb, var(--color-on-accent) 10%, transparent);
+}
+
+/* Something appearing because you asked for it: the menu, an answer, a
+   curriculum stage. A short fade with 4px of travel, never a slide-in. */
+@keyframes raga-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+.u-enter {
+  animation: raga-enter var(--dur) var(--ease-raaga);
 }
 
 .raga-link-arrow {
-  transition: transform var(--dur-fast) var(--ease-raaga);
+  transition: transform var(--dur) var(--ease-raaga);
 }
 
 .group:hover .raga-link-arrow {
   transform: translateX(0.25rem);
-}
-
-@keyframes raga-orbit {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes raga-breathe {
-  0%, 100% { transform: scale(1); opacity: 0.72; }
-  50% { transform: scale(1.04); opacity: 1; }
-}
-
-.motion-orbit {
-  animation: raga-orbit 26s linear infinite;
-}
-
-.motion-breathe {
-  animation: raga-breathe 5s var(--ease-raaga) infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -279,13 +268,10 @@ p {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .reveal {
-    opacity: 1;
-    transform: none;
-  }
-  .motion-orbit,
-  .motion-breathe {
-    animation: none;
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }
 
@@ -309,7 +295,7 @@ p {
   font-weight: 500;
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
-  color: var(--color-accent-muted);
+  color: var(--color-accent);
 }
 
 .u-hairline {
@@ -337,12 +323,9 @@ p {
   display: inline-flex;
   align-items: center;
   gap: calc(var(--wm) * 0.3);
-  /* Sampled from the wordmark raster, not taken from the palette. The emblem
-     and the `raaga` lettering are one logo, so they must carry one ink — and
-     --color-accent (#6B1F2A) is visibly deeper than the artwork's #834848,
-     which reads as two marks pushed together. Decorative and aria-hidden, so
-     it is not a text/background pair the contrast guard governs. */
-  color: #834848;
+  /* The logo's ink, sampled from the wordmark raster, and the reason
+     --color-accent is #834848: the mark and the interface are one maroon. */
+  color: var(--color-accent);
 }
 
 .brand-emblem,
