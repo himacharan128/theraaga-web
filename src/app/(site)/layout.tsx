@@ -1,7 +1,7 @@
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { StickyMobileBar } from '@/components/layout/StickyMobileBar'
-import { SectionViewTracker } from '@/components/ui/Reveal'
+import { SectionViewTracker } from '@/components/ui/SectionViewTracker'
 import { AnalyticsTracker } from '@/components/analytics/AnalyticsTracker'
 import { whatsappHref } from '@/lib/whatsapp'
 import { getGalleryByCategory } from '@/data/content'

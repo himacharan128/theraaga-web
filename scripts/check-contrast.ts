@@ -54,23 +54,24 @@ function mix(fg: string, bg: string, pct: number): string {
 }
 
 const T = {
-  bg: '#F7F3EA',
-  surface: '#FFFCF5',
+  bg: '#F5F0E6',
+  surface: '#FFFDF8',
   elevated: '#FFFFFF',
-  textPrimary: '#221E1A',
-  textSecondary: '#4A423A',
-  textMuted: '#6E655A',
-  accent: '#6B1F2A',
-  accentHover: '#5C1A20',
-  accentMuted: '#8C6A15',
+  textPrimary: '#1F1A17',
+  textSecondary: '#463D36',
+  textMuted: '#5F554B',
+  accent: '#834848',
+  accentHover: '#6E3A3A',
+  accentDeep: '#612A2C',
+  accentMuted: '#7D5F0F',
   goldHairline: '#C9A227',
   olive: '#5A6047',
-  borderStrong: '#8F8070',
-  onAccent: '#F7F3EA',
+  borderStrong: '#86786A',
+  onAccent: '#FBF7EF',
 }
 
-// The community panel's ground on the homepage: --color-accent-tint and its
-// hover state in globals.css (7% / 11% of accent over surface).
+// The community card's ground on the homepage: --color-accent-tint in
+// globals.css (7% of accent over surface; the 11% hover step is kept covered).
 const TINT = mix(T.accent, T.surface, 7)
 const TINT_HOVER = mix(T.accent, T.surface, 11)
 
@@ -98,24 +99,28 @@ const CHECKS: Check[] = [
   { name: 'accent on surface', fg: T.accent, bg: T.surface, min: 4.5 },
   { name: 'accent on elevated', fg: T.accent, bg: T.elevated, min: 4.5 },
 
-  // Community panel on its accent tint (resting and hovered): title, body and
-  // the accent ring against the surface it sits in.
+  // Community card on its accent tint (resting and hovered): title, body and
+  // its maroon label and link.
   { name: 'text-primary on accent-tint', fg: T.textPrimary, bg: TINT, min: 4.5 },
   { name: 'text-secondary on accent-tint', fg: T.textSecondary, bg: TINT, min: 4.5 },
   { name: 'accent on accent-tint', fg: T.accent, bg: TINT, min: 4.5 },
   { name: 'text-primary on accent-tint hover', fg: T.textPrimary, bg: TINT_HOVER, min: 4.5 },
   { name: 'text-secondary on accent-tint hover', fg: T.textSecondary, bg: TINT_HOVER, min: 4.5 },
   { name: 'accent on accent-tint hover', fg: T.accent, bg: TINT_HOVER, min: 4.5 },
-  { name: 'accent ring vs surface (UI)', fg: T.accent, bg: T.surface, min: 3 },
 
   // The gold that IS allowed to carry text.
   { name: 'accent-muted (gold text) on bg', fg: T.accentMuted, bg: T.bg, min: 4.5 },
   { name: 'accent-muted (gold text) on elevated', fg: T.accentMuted, bg: T.elevated, min: 4.5 },
   { name: 'olive on bg', fg: T.olive, bg: T.bg, min: 4.5 },
 
-  // Reversed: label on the maroon button.
+  // Reversed: label on the maroon button, its hover and pressed states.
   { name: 'on-accent on accent', fg: T.onAccent, bg: T.accent, min: 4.5 },
   { name: 'on-accent on accent-hover', fg: T.onAccent, bg: T.accentHover, min: 4.5 },
+  { name: 'on-accent on accent-deep', fg: T.onAccent, bg: T.accentDeep, min: 4.5 },
+
+  // Inside the deep maroon band the filled button inverts: deep label on ivory.
+  { name: 'accent-deep on on-accent', fg: T.accentDeep, bg: T.onAccent, min: 4.5 },
+  { name: 'accent-deep on elevated', fg: T.accentDeep, bg: T.elevated, min: 4.5 },
 
   // Bounded controls need 3:1, not 4.5:1.
   { name: 'border-strong on bg (UI)', fg: T.borderStrong, bg: T.bg, min: 3 },

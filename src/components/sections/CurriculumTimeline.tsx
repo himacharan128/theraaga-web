@@ -53,30 +53,24 @@ export async function CurriculumTimeline() {
           </div>
         ))}
       </div>
-      <ol className="relative space-y-3">
-        {/* The spine — the same tanpura string that threads the lineage.
-            Decorative and static: `animation-timeline: scroll()` is not
-            Baseline, and it would mean two code paths for something nobody
-            notices. */}
-        <span
-          aria-hidden="true"
-          className="absolute bottom-6 left-[15px] top-6 w-px bg-gradient-to-b from-gold-hairline/10 via-gold-hairline/45 to-gold-hairline/10 md:left-[19px]"
-        />
-
+      {/* A ruled list with the stage number in a fixed left rail. Each stage
+          used to be its own bordered box hung off a gradient spine with a
+          filled maroon disc; the order is already carried by the numbers. */}
+      <ol className="border-t border-border">
         {stages.map((s) => (
-          <li key={s.slug} className="relative flex gap-4 last:pb-0 md:gap-7">
+          <li key={s.slug} className="flex gap-4 border-b border-border md:gap-7">
             <span
               aria-hidden="true"
-              className="relative z-10 mt-3 flex size-8 shrink-0 items-center justify-center rounded-full bg-accent font-[var(--font-ui)] text-[0.68rem] font-medium text-on-accent shadow-[0_6px_14px_rgba(107,31,42,0.18)] md:size-10"
+              className="mt-[1.4rem] w-6 shrink-0 font-[var(--font-ui)] text-[length:var(--text-step--1)] tabular-nums text-text-muted md:w-8"
             >
-              {s.order}
+              {String(s.order).padStart(2, '0')}
             </span>
 
-            <details className="group flex-1 rounded-[var(--radius-sm)] border border-border bg-[color-mix(in_srgb,var(--color-surface)_78%,transparent)] px-4 transition-[border-color,box-shadow] duration-[var(--dur-fast)] open:border-[color-mix(in_srgb,var(--color-accent)_45%,transparent)] open:shadow-[var(--shadow-soft)] md:px-6">
-              <summary className="flex min-h-[60px] cursor-pointer list-none items-center justify-between gap-4 py-4 [&::-webkit-details-marker]:hidden">
+            <details className="group flex-1">
+              <summary className="flex min-h-[60px] cursor-pointer list-none items-center justify-between gap-4 py-4 transition-colors duration-[var(--dur-fast)] hover:[&_.stage-name]:text-accent [&::-webkit-details-marker]:hidden">
                 <span>
                   <span className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <span className="text-[length:var(--text-step-2)] font-[300] text-text-primary">
+                    <span className="stage-name text-[length:var(--text-step-2)] font-[300] text-text-primary transition-colors duration-[var(--dur-fast)]">
                       {s.name}
                     </span>
                     <span className="deva text-[length:var(--text-step-0)] text-accent-muted">
@@ -89,15 +83,15 @@ export async function CurriculumTimeline() {
                 </span>
                 <span
                   aria-hidden="true"
-                  className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--color-accent)_7%,transparent)] text-accent transition-transform duration-[var(--dur-fast)] ease-[var(--ease-raaga)] group-open:rotate-45 motion-reduce:transition-none"
+                  className="flex size-6 shrink-0 items-center justify-center text-accent transition-transform duration-[var(--dur)] ease-[var(--ease-raaga)] group-open:rotate-45 motion-reduce:transition-none"
                 >
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
                     <path d="M9 1v16M1 9h16" stroke="currentColor" strokeWidth="1.2" />
                   </svg>
                 </span>
               </summary>
 
-              <div className="pb-7 pt-1">
+              <div className="u-enter pb-7 pt-1">
                 <p className="u-measure text-text-secondary">{s.body}</p>
                 <p className="u-measure mt-4 border-l-2 border-gold-hairline/50 pl-4 text-text-secondary">
                   <span className="block font-[var(--font-ui)] text-[length:var(--text-step--1)] uppercase tracking-[0.14em] text-text-muted">

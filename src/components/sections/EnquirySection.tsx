@@ -33,7 +33,7 @@ export async function EnquirySection() {
       id="prarambha"
       data-section="prarambha"
       data-has-content="true"
-      className="border-b border-border bg-surface py-[var(--spacing-section)]"
+      className="border-b border-border py-[var(--spacing-section)]"
     >
       <div className="u-shell grid gap-10 lg:grid-cols-[21rem_1fr] lg:items-start lg:gap-16 xl:gap-20">
         {/* `contents` on mobile so the three blocks are direct grid children and

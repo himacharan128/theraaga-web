@@ -47,14 +47,3 @@ export function AscendingScale() {
     </div>
   )
 }
-
-/** The tanpura string — a static hairline. Desktop only, decorative. */
-export function TanpuraRule({ className = '' }: { className?: string }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={`w-px bg-gradient-to-b from-transparent via-gold-hairline to-transparent opacity-40 ${className}`}
-    />
-  )
-}
-

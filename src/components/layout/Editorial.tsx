@@ -36,7 +36,7 @@ export function StatementBand({
   attribution?: ReactNode
 }) {
   return (
-    <section className="border-y border-border bg-accent py-[var(--spacing-section)] text-on-accent">
+    <section className="on-accent bg-accent-deep py-[var(--spacing-section)] text-on-accent">
       <div className="u-shell">
         <div className="mx-auto max-w-4xl text-center">
           {eyebrow && (

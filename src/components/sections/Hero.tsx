@@ -32,7 +32,8 @@ import tambura from '@/assets/home/tambura.jpg'
  * and it is a stock-style image of someone with a tambura, NOT a RAAGA teacher
  * or student, so nothing may caption it as one. The card's maroon ground and
  * fade stay in place under it, so if the image ever fails to load the text
- * keeps its contrast and the card still reads as a designed panel.
+ * keeps its contrast and the card still reads as a designed panel. The fade is
+ * the one gradient on the page, and it exists for legibility, not decoration.
  */
 export async function Hero() {
   const site = await getSite()
@@ -98,7 +99,7 @@ export async function Hero() {
           </div>
         </div>
 
-        <aside className="relative z-10 mx-auto flex min-h-[34rem] lg:min-h-[19rem] w-full max-w-md flex-col justify-end overflow-hidden rounded-[var(--radius-lg)] lg:my-2 lg:max-w-none bg-[linear-gradient(145deg,#7a2934,#511721)] p-7 text-on-accent shadow-[var(--shadow-lift)] sm:p-9 lg:max-w-none">
+        <aside className="relative z-10 mx-auto flex min-h-[34rem] w-full max-w-md flex-col justify-end overflow-hidden rounded-[var(--radius-md)] bg-accent-deep p-7 text-on-accent sm:p-9 lg:my-2 lg:min-h-[19rem] lg:max-w-none">
           {/* The tall tambura is the subject, so the crop is anchored to keep
               her face and the neck in view; the maroon fade below takes the
               lower part of the frame, which is the bowl and the sand. The orbit
@@ -115,7 +116,7 @@ export async function Hero() {
           />
           <span
             aria-hidden="true"
-            className="absolute inset-0 rounded-[inherit] shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--color-accent)_14%,transparent)] bg-[linear-gradient(to_top,#511721_0%,rgba(81,23,33,0.97)_32%,rgba(81,23,33,0.85)_40%,rgba(81,23,33,0.6)_47%,rgba(81,23,33,0.32)_54%,rgba(81,23,33,0)_62%)]"
+            className="absolute inset-0 bg-[linear-gradient(to_top,#612a2c_0%,rgba(97,42,44,0.97)_32%,rgba(97,42,44,0.85)_40%,rgba(97,42,44,0.6)_47%,rgba(97,42,44,0.32)_54%,rgba(97,42,44,0)_62%)]"
           />
           <div className="relative max-w-[18rem]">
             <p className="font-[var(--font-ui)] text-[0.7rem] font-medium uppercase tracking-[0.18em] text-[color-mix(in_srgb,var(--color-on-accent)_70%,transparent)]">

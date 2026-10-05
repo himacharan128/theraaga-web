@@ -148,14 +148,12 @@ export function SwaraStrip() {
               onClick={() => play(s.label, SA * s.ratio)}
               aria-label={`Play note ${s.label}: ${s.gloss}`}
               data-active={active === s.label}
-              className="flex size-[3.5rem] flex-col items-center justify-center rounded-full border border-border-strong sm:size-16
-                         bg-surface transition-[transform,background-color,border-color,box-shadow]
+              className="flex size-[3.5rem] flex-col items-center justify-center rounded-[var(--radius-md)] border border-border-strong sm:size-16
+                         bg-bg transition-[background-color,border-color]
                          duration-[var(--dur-fast)] ease-[var(--ease-raaga)]
-                         hover:border-accent hover:bg-[color-mix(in_srgb,var(--color-accent)_8%,transparent)]
-                         data-[active=true]:scale-[1.06] data-[active=true]:border-accent
-                         data-[active=true]:bg-[color-mix(in_srgb,var(--color-accent)_16%,transparent)]
-                         data-[active=true]:shadow-[0_0_0_4px_color-mix(in_srgb,var(--color-accent)_12%,transparent)]
-                         motion-reduce:transition-none motion-reduce:data-[active=true]:scale-100
+                         hover:border-accent
+                         data-[active=true]:border-accent
+                         data-[active=true]:bg-[color-mix(in_srgb,var(--color-accent)_12%,var(--color-bg))]
                          md:size-[4.25rem]"
             >
               <span className="deva text-[length:var(--text-step-1)] leading-none text-accent">
@@ -175,10 +173,10 @@ export function SwaraStrip() {
           type="button"
           onClick={playSequence}
           disabled={sequencing}
-          className="inline-flex min-h-11 items-center gap-2.5 border border-border-strong bg-surface px-5
+          className="inline-flex min-h-11 items-center gap-2.5 rounded-[var(--radius-md)] border border-border-strong px-5
                      font-[var(--font-ui)] text-[length:var(--text-step--1)] text-accent
                      transition-colors duration-[var(--dur-fast)] hover:border-accent
-                     disabled:opacity-60"
+                     hover:bg-[color-mix(in_srgb,var(--color-accent)_6%,transparent)] disabled:opacity-60"
         >
           <svg width="13" height="14" viewBox="0 0 13 14" fill="none" aria-hidden="true">
             <path d="M1.5 1.5l10 5.5-10 5.5V1.5Z" fill="currentColor" />

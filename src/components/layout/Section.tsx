@@ -42,7 +42,7 @@ export function Section({
 
   const toneClass =
     tone === 'accent'
-      ? 'section-shell--accent text-on-accent'
+      ? 'section-shell--accent on-accent text-on-accent'
       : tone === 'surface'
         ? 'section-shell--surface'
         : 'section-shell--default'
@@ -100,7 +100,7 @@ export function EmptyState({
   action?: ReactNode
 }) {
   return (
-    <div className="rounded-[var(--radius-lg)] border border-border bg-[color-mix(in_srgb,var(--color-surface)_88%,transparent)] px-6 py-12 text-center shadow-[var(--shadow-soft)] md:px-12 md:py-16">
+    <div className="rounded-[var(--radius-lg)] bg-surface px-6 py-12 text-center md:px-12 md:py-16">
       <p className="u-measure mx-auto text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-secondary">
         {children}
       </p>

@@ -1,26 +1,30 @@
 import Link from 'next/link'
 import type { ComponentProps, ReactNode } from 'react'
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'onAccent' | 'onAccentGhost'
+/**
+ * Three variants, no more: filled, outline, text. Colours come from the --btn-*
+ * custom properties in globals.css, so inside a maroon band (`.on-accent`) the
+ * same three variants invert without needing their own names.
+ *
+ * Hover changes colour (and, on the filled button, a faint shadow). Nothing
+ * lifts or jumps.
+ */
+type Variant = 'primary' | 'secondary' | 'ghost'
 
 const base =
-  'inline-flex items-center justify-center gap-2 font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium tracking-[0.02em] ' +
-  'px-6 py-3.5 min-h-[48px] rounded-full transition-[transform,background-color,border-color,box-shadow] duration-[var(--dur-fast)] ' +
-  'ease-[var(--ease-raaga)] no-underline hover:-translate-y-0.5 active:translate-y-0 motion-reduce:transform-none'
+  'inline-flex items-center justify-center gap-2 font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium tracking-[0.01em] ' +
+  'no-underline transition-[background-color,border-color,color,box-shadow] duration-[var(--dur-fast)] ease-[var(--ease-raaga)]'
+
+const box = 'min-h-[48px] rounded-[var(--radius-md)] px-6 py-3'
 
 const variants: Record<Variant, string> = {
-  // Maroon ink on ivory label — 10.23:1
-  primary: 'bg-accent text-on-accent shadow-[0_10px_24px_rgba(107,31,42,0.20)] hover:bg-accent-hover hover:shadow-[0_14px_28px_rgba(107,31,42,0.26)]',
-  // Bounded control, so it uses --border-strong (3.45:1), never --border
-  secondary:
-    'bg-[color-mix(in_srgb,var(--color-surface)_76%,transparent)] text-accent border border-border-strong hover:border-accent hover:bg-[color-mix(in_srgb,var(--color-accent)_6%,transparent)]',
-  ghost: 'bg-transparent text-accent underline underline-offset-4 px-0 py-0 min-h-0 hover:translate-y-0',
-  onAccent: 'bg-on-accent text-accent shadow-[0_12px_30px_rgba(32,27,26,0.18)] hover:bg-white',
-  // Outlined on the maroon field. The border is the ivory foreground at 55%,
-  // which keeps the control's own boundary above the 3:1 non-text minimum.
-  onAccentGhost:
-    'bg-[color-mix(in_srgb,var(--color-on-accent)_5%,transparent)] text-on-accent border border-[color-mix(in_srgb,var(--color-on-accent)_55%,transparent)] ' +
-    'hover:bg-[color-mix(in_srgb,var(--color-on-accent)_12%,transparent)]',
+  // Filled: on-accent label on the logo maroon, 6.58:1.
+  primary: `${box} bg-[var(--btn-fill)] text-[var(--btn-on-fill)] hover:bg-[var(--btn-fill-hover)] hover:shadow-[var(--shadow-hover)] active:bg-[var(--btn-fill-active)] active:shadow-none`,
+  // Outline: a bounded control, so its edge uses --border-strong (3.77:1).
+  secondary: `${box} border border-[var(--btn-line)] text-[var(--btn-ink)] hover:border-[var(--btn-line-hover)] hover:bg-[var(--btn-wash)]`,
+  // Text: an underlined link that happens to be a button.
+  ghost:
+    'text-[var(--btn-ink)] underline decoration-[color-mix(in_srgb,currentColor_35%,transparent)] underline-offset-[6px] hover:decoration-current',
 }
 
 export function Button({

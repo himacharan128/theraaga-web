@@ -16,8 +16,8 @@ export async function ContactBlock() {
 
   return (
     <Section id="contact" eyebrow="Prārambha · Find us" title="Come and see us.">
-      <div className="grid gap-5 md:grid-cols-2">
-        <div className="rounded-[var(--radius-md)] border border-border bg-[color-mix(in_srgb,var(--color-surface)_80%,transparent)] p-7 shadow-[0_10px_24px_rgba(71,49,34,0.05)] md:p-9">
+      <div className="grid gap-10 md:grid-cols-2 md:gap-12">
+        <div>
           <address className="not-italic text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)]">
             {site.streetAddress ? (
               <span className="block whitespace-pre-line">{site.streetAddress}</span>
@@ -57,19 +57,11 @@ export async function ContactBlock() {
           </div>
         </div>
 
-        {/* A light panel, not the maroon field, which is kept for the hero, the
-            closing band and /thank-you. Gold circles are decoration only. */}
-        <div className="relative overflow-hidden rounded-[var(--radius-md)] border border-border bg-elevated p-7 shadow-[var(--shadow-soft)] md:p-9">
-          <span
-            aria-hidden="true"
-            className="absolute -right-10 -top-12 size-44 rounded-full border border-gold-hairline/40"
-          />
-          <span
-            aria-hidden="true"
-            className="absolute -bottom-14 -left-10 size-36 rounded-full border border-gold-hairline/60"
-          />
-          <h3 className="u-eyebrow relative">When we teach</h3>
-          <dl className="relative mt-5 space-y-3 text-[length:var(--text-step--1)]">
+        {/* One quiet panel: the timetable is a grouped set, so it earns a
+            surface. The address beside it does not. */}
+        <div className="rounded-[var(--radius-lg)] bg-surface p-7 md:p-9">
+          <h3 className="u-eyebrow">When we teach</h3>
+          <dl className="mt-5 space-y-3 text-[length:var(--text-step--1)]">
             <div className="flex justify-between gap-6 border-b border-border pb-3">
               <dt className="text-text-primary">Weekday evenings</dt>
               <dd className="text-right text-text-secondary">Institute &amp; online</dd>
@@ -83,7 +75,7 @@ export async function ContactBlock() {
               <dd className="text-right text-text-secondary">Online, for the US and UK</dd>
             </div>
           </dl>
-          <p className="relative mt-6 text-[length:var(--text-step--1)] text-text-secondary">
+          <p className="mt-6 text-[length:var(--text-step--1)] text-text-secondary">
             Exact batch timings vary by term. Message us and we’ll tell you what
             is running now.
           </p>

@@ -78,9 +78,9 @@ export default async function CoursesPage() {
         }
         renderIf={pathways.length > 0}
       >
-        <ul className="grid gap-4 sm:grid-cols-2">
+        <ul className="grid gap-x-12 gap-y-8 sm:grid-cols-2">
           {pathways.map((p) => (
-            <li key={p.order} className="rounded-[var(--radius-md)] border border-border bg-[color-mix(in_srgb,var(--color-elevated)_74%,transparent)] p-7 shadow-[0_10px_24px_rgba(71,49,34,0.05)] md:p-9">
+            <li key={p.order} className="border-t border-border pt-6">
               <h3 className="text-[length:var(--text-step-1)] font-[400] text-accent">
                 {p.name}
               </h3>
@@ -108,9 +108,9 @@ export default async function CoursesPage() {
         }
         renderIf={strands.length > 0}
       >
-        <ul className="grid gap-4 md:grid-cols-2 md:gap-5">
+        <ul className="grid gap-x-12 gap-y-8 md:grid-cols-2">
           {strands.map((s) => (
-            <li key={s.order} className="rounded-[var(--radius-md)] border border-border bg-[color-mix(in_srgb,var(--color-surface)_76%,transparent)] p-6 md:p-7">
+            <li key={s.order} className="border-t border-border pt-6">
               <h3 className="text-[length:var(--text-step-1)] font-[400] leading-[var(--lh-snug)]">
                 {s.name}
               </h3>

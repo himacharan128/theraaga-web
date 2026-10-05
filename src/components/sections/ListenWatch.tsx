@@ -28,8 +28,8 @@ export async function ListenWatch() {
       tone="surface"
       renderIf={clips.length > 0}
       fallback={
-        <div className="relative overflow-hidden rounded-[var(--radius-lg)] border border-border bg-[linear-gradient(135deg,#fffdf7,#f4ece0)] px-5 py-8 shadow-[var(--shadow-soft)] sm:px-8 md:px-12 md:py-12">
-          <div className="relative grid items-center gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+        <div>
+          <div className="grid items-center gap-10 lg:grid-cols-[0.85fr_1.15fr]">
             <div className="max-w-md">
               {/* The Section above already carries the headline. A second one
                   here ("Every lesson begins by finding Sa") was two titles for
@@ -50,7 +50,7 @@ export async function ListenWatch() {
         {clips.map((c) => (
           <li key={c.id}>
             {/* TODO(v1.1): lite-youtube-embed facade. Never a bare iframe. */}
-            <div className="border border-border bg-bg p-6">
+            <div className="rounded-[var(--radius-lg)] border border-border bg-bg p-6">
               <p className="font-[400]">{c.caption ?? c.media.alt}</p>
             </div>
           </li>

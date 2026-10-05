@@ -36,7 +36,7 @@ export function PressMentions({ items }: { items: PressMention[] }) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Read the ${m.publication} clipping, ${date}`}
-              className="group flex w-full flex-col overflow-hidden rounded-[var(--radius-sm)] border border-border bg-surface shadow-[0_8px_20px_rgba(71,49,34,0.05)] transition-[border-color,box-shadow] duration-300 hover:border-accent hover:shadow-[0_14px_30px_rgba(71,49,34,0.12)] motion-reduce:transition-none"
+              className="group flex w-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-border bg-surface transition-[border-color,transform] duration-[var(--dur)] ease-[var(--ease-raaga)] hover:border-accent motion-safe:hover:-translate-y-0.5"
             >
               <div className="relative aspect-[4/3] w-full overflow-hidden border-b border-border bg-bg">
                 <Image
@@ -46,7 +46,7 @@ export function PressMentions({ items }: { items: PressMention[] }) {
                   sizes="(min-width: 1280px) 380px, (min-width: 768px) 30vw, 100vw"
                   placeholder="blur"
                   loading="lazy"
-                  className="object-cover object-top transition-transform duration-500 ease-[var(--ease-raaga)] motion-safe:group-hover:scale-[1.03] motion-reduce:transition-none"
+                  className="object-cover object-top transition-transform duration-[var(--dur-slow)] ease-[var(--ease-raaga)] motion-safe:lg:group-hover:scale-[1.02]"
                 />
               </div>
               <div className="flex flex-1 flex-col p-5 md:p-6">
@@ -56,7 +56,7 @@ export function PressMentions({ items }: { items: PressMention[] }) {
                   </span>
                   <span
                     lang={telugu ? 'te' : undefined}
-                    className="rounded-[var(--radius-sm)] border border-border px-2 py-0.5 text-[length:var(--text-step--1)] leading-tight"
+                    className="rounded-full border border-border px-2.5 py-0.5 text-[length:var(--text-step--1)] leading-tight"
                   >
                     {LANGUAGE_LABEL[m.language]}
                   </span>
@@ -64,7 +64,7 @@ export function PressMentions({ items }: { items: PressMention[] }) {
                 </p>
                 <h3
                   lang={telugu ? 'te' : undefined}
-                  className="mt-3 font-[var(--font-display)] text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-primary transition-colors group-hover:text-accent"
+                  className="mt-3 font-[var(--font-display)] text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-primary transition-colors duration-[var(--dur-fast)] group-hover:text-accent"
                 >
                   {m.headline}
                 </h3>
