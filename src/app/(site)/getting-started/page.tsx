@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { ButtonLink } from '@/components/ui/Button'
@@ -72,6 +73,13 @@ export default function GettingStartedPage() {
         <p className="u-measure text-text-secondary">
           You can enquire as a beginner. Tell RAAGA whether you are learning for yourself or choosing classes for a child, your preferred location or online format, and the times you can attend. If you have studied before, describe the exercises or compositions you have learned so the teacher can discuss an appropriate starting point.
         </p>
+        <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
+          {[
+            ['Beginner classes', 'beginners'],
+            ['Classes for children', 'children'],
+            ['Adult beginners and returners', 'adults'],
+          ].map(([label, slug]) => <li key={slug}><Link href={`/carnatic-music-classes/${slug}`} className="text-accent underline underline-offset-4">{label}</Link></li>)}
+        </ul>
       </Section>
 
       <Section id="syllabus" title="What the syllabus covers">

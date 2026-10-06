@@ -5,6 +5,7 @@ import type { StoredLead } from '@/data/leads'
 import { getAdminDb, isAdminDatabaseConfigured } from '@/data/admin-mongo'
 import { dayBefore, type DailyMetric } from '@/data/analytics'
 import { ensureLeadRetention } from '@/data/lead-retention'
+import { summarizeAiReferrals, type AiReferralSourceRow, type AiReferralSummary } from '@/lib/ai-referrals'
 
 export const LEAD_STATUSES = [
   'new',
@@ -72,6 +73,7 @@ export type AdminDashboard = {
   pageViewsByDay: TimelineRow[]
   topPages: CountRow[]
   sources: CountRow[]
+  aiReferrals: AiReferralSummary
   locations: CountRow[]
   devices: CountRow[]
   events: CountRow[]
@@ -83,12 +85,12 @@ function label(value: unknown, fallback: string): string {
   return typeof value === 'string' && value ? value : fallback
 }
 
-async function metricCount(event: string, since: string): Promise<number> {
+async function metricCount(event: string, since: string, until: string): Promise<number> {
   const db = await getAdminDb()
   const rows = await db
     .collection<DailyMetric>('analytics_daily')
     .aggregate<{ count: number }>([
-      { $match: { day: { $gte: since }, event } },
+      { $match: { day: { $gte: since, $lte: until }, event } },
       { $group: { _id: null, count: { $sum: '$count' } } },
     ])
     .toArray()
@@ -123,18 +125,18 @@ export async function getAdminDashboard(days: 7 | 30 | 90 = 30): Promise<AdminDa
     whatsappClicks,
     pageViewsByDay,
     topPages,
-    sources,
+    sourceRows,
     locations,
     devices,
     events,
     leadCounts,
     recentLeads,
   ] = await Promise.all([
-    metricCount('page_view', since),
-    metricCount('form_view', since),
-    metricCount('form_start', since),
-    metricCount('form_submit_success', since),
-    metricCount('whatsapp_click', since),
+    metricCount('page_view', since, until),
+    metricCount('form_view', since, until),
+    metricCount('form_start', since, until),
+    metricCount('form_submit_success', since, until),
+    metricCount('whatsapp_click', since, until),
     analytics
       .aggregate<TimelineRow>([
         { $match: { ...metrics, event: 'page_view' } },
@@ -153,17 +155,18 @@ export async function getAdminDashboard(days: 7 | 30 | 90 = 30): Promise<AdminDa
       ])
       .toArray(),
     analytics
-      .aggregate<CountRow>([
+      .aggregate<AiReferralSourceRow>([
         { $match: { ...metrics, event: 'page_view' } },
         {
           $group: {
-            _id: { $ifNull: ['$utmSource', { $ifNull: ['$referrerHost', 'Direct'] }] },
+            _id: {
+              utmSource: { $ifNull: ['$utmSource', null] },
+              referrerHost: { $ifNull: ['$referrerHost', null] },
+            },
             count: { $sum: '$count' },
           },
         },
-        { $project: { _id: 0, label: '$_id', count: 1 } },
-        { $sort: { count: -1, label: 1 } },
-        { $limit: 8 },
+        { $project: { _id: 0, utmSource: '$_id.utmSource', referrerHost: '$_id.referrerHost', count: 1 } },
       ])
       .toArray(),
     analytics
@@ -235,6 +238,14 @@ export async function getAdminDashboard(days: 7 | 30 | 90 = 30): Promise<AdminDa
       .toArray() as Promise<DashboardLead[]>,
   ])
 
+  // Classify all source pairs before limiting the general traffic list.
+  // A small AI source must not disappear behind eight larger sources.
+  const sourceCounts = new Map<string, number>()
+  for (const row of sourceRows) {
+    const source = row.utmSource || row.referrerHost || 'Direct / unknown'
+    sourceCounts.set(source, (sourceCounts.get(source) ?? 0) + row.count)
+  }
+
   return {
     since,
     until,
@@ -252,7 +263,10 @@ export async function getAdminDashboard(days: 7 | 30 | 90 = 30): Promise<AdminDa
       return { day, count: pageViewsByDay.find(row => row.day === day)?.count ?? 0 }
     }),
     topPages: topPages.map((row) => ({ ...row, label: label(row.label, '/') })),
-    sources: sources.map((row) => ({ ...row, label: label(row.label, 'Direct') })),
+    sources: Array.from(sourceCounts, ([label, count]) => ({ label, count }))
+      .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label))
+      .slice(0, 8),
+    aiReferrals: summarizeAiReferrals(sourceRows),
     locations: locations.map((row) => ({ ...row, label: label(row.label, 'Unknown') })),
     devices: devices.map((row) => ({ ...row, label: label(row.label, 'Unknown') })),
     events: events.map((row) => ({ ...row, label: label(row.label, 'Unknown') })),

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
@@ -17,7 +18,7 @@ import { defaultOgImages } from '@/lib/og-image'
 export const metadata: Metadata = {
   title: 'Online Carnatic Music & Vocal Classes',
   description:
-    'Live online Carnatic music and vocal classes from RAAGA, Hyderabad. Learn with the same guru and syllabus in time zones that work for India, the Gulf, the UK and North America.',
+    'Live online Carnatic singing classes from RAAGA, Hyderabad, for children and adults. Explore the vocal syllabus, lesson setup and trial enquiry.',
   alternates: { canonical: '/online-classes' },
   openGraph: {
     title: 'Online Carnatic music classes at RAAGA, Hyderabad',
@@ -135,6 +136,18 @@ export default function OnlineClassesPage() {
             Explore the learning journey
           </ButtonLink>
         </div>
+      </Section>
+
+      <Section id="online-learning-paths" title="Start at your own level.">
+        <p className="u-measure text-text-secondary">Online lessons follow the Carnatic vocal curriculum taught at our Hyderabad centres. Tell the team whether you are new to singing, returning after a break, or arranging lessons for a child.</p>
+        <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
+          {[
+            ['Beginner Carnatic classes', '/carnatic-music-classes/beginners'],
+            ['Adult learning and returning to music', '/carnatic-music-classes/adults'],
+            ['Children’s lessons', '/carnatic-music-classes/children'],
+          ].map(([label, href]) => <li key={href}><Link href={href} className="text-accent underline underline-offset-4">{label}</Link></li>)}
+        </ul>
+        <p className="u-measure mt-8 text-text-secondary">Not sure which format will suit you? <Link href="/guides/online-or-in-person-carnatic-classes" className="text-accent underline underline-offset-4">Compare live online and in-person lessons</Link> by sound, feedback, travel and the space you have at home.</p>
       </Section>
 
       <FinalCta />

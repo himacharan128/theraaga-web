@@ -1,15 +1,17 @@
 import type { MetadataRoute } from 'next'
-import { getSeoLandingPages } from '@/data/content'
+import { getLearningGuides, getSeoLandingPages } from '@/data/content'
 
 const BASE = 'https://theraaga.in'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const seoPages = await getSeoLandingPages()
+  const guides = await getLearningGuides()
 
   const routes: [string, number, MetadataRoute.Sitemap[number]['changeFrequency']][] = [
     ['', 1, 'weekly'],
     ['/learning', 0.9, 'monthly'],
     ['/getting-started', 0.8, 'monthly'],
+    ['/guides', 0.7, 'monthly'],
     ['/online-classes', 0.8, 'weekly'],
     ['/music-classes/jubilee-hills', 0.8, 'monthly'],
     ['/music-classes/hitech-city', 0.8, 'monthly'],
@@ -37,5 +39,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.75,
   }))
 
-  return [...core, ...intents]
+  return [...core, ...intents, ...guides.map((guide) => ({
+    url: `${BASE}/guides/${guide.slug}`,
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }))]
 }

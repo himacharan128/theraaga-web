@@ -4,40 +4,32 @@ import { Section } from '@/components/layout/Section'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { LedgerIndex } from '@/components/layout/Editorial'
-import { getJournalTopics } from '@/data/content'
+import { PathCard } from '@/components/sections/ExploreLearningGoals'
+import { getJournalTopics, getLearningGuides } from '@/data/content'
 import { defaultOgImages } from '@/lib/og-image'
 
 export const metadata: Metadata = {
-  title: 'Journal: Writing on Carnatic Sangeetham',
+  title: 'Carnatic Music Journal & Learning Guides',
   description:
-    'Manana — reflections on ragas, great composers, kritis, shruti and laya, voice culture and practice, from the Gurus at RAAGA in Hyderabad.',
+    'Explore RAAGA’s practical Carnatic music guides: choosing classes in Hyderabad, online learning and home practice, plus subjects from the musical tradition.',
   alternates: { canonical: '/journal' },
   openGraph: {
     title: 'Manana: the RAAGA journal',
     description:
-      'Ragas, great composers, kritis explained, shruti and laya, voice culture and practice tips.',
+      'Practical learning guides and subjects from the Carnatic musical tradition at RAAGA, Hyderabad.',
     url: 'https://theraaga.in/journal',
     images: defaultOgImages,
   },
 }
 
 /**
- * Manana — the Journal.
- *
- * The seven subjects are the client's own editorial plan, so they are real and
- * they are published. The ARTICLES are not invented — no fabricated posts, no
- * lorem excerpts, no fake dates.
- *
- * That makes this a subject index rather than a blog index, and it says so
- * plainly. A page that reads "here is what we will write about, and it is
- * being written" is honest and still communicates the school's scholarly bent;
- * a grid of ghost article cards communicates only that the site is unfinished.
- *
- * When posts exist they render above this and the note disappears — no code
- * change, the same pattern every other section on the site uses.
+ * Practical guides link to their canonical pages. The client's planned
+ * musical subjects remain separate from published writing. No guide is
+ * attributed to a Guru without their actual contribution and approval.
  */
 export default async function JournalPage() {
   const topics = await getJournalTopics()
+  const guides = await getLearningGuides()
 
   return (
     <>
@@ -49,14 +41,23 @@ export default async function JournalPage() {
       />
       <PageHero
         eyebrow="Manana · मनन · Reflection"
-        title="Writing on the music we teach."
+        title="Read, listen and keep learning."
         lede={
           <p>
-            Manana is reflection — the turning over of something learned until
-            it is understood. These are the subjects our Gurus write about.
+            Manana is reflection: returning to what you have learned and finding
+            more in it. Start with practical guides to choosing lessons and
+            practising between classes, then explore the subjects behind the music.
           </p>
         }
       />
+
+      <Section id="learning-guides" eyebrow="Practical reading" title="Questions before and between lessons." renderIf={guides.length > 0}>
+        <ul className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {guides.map((guide) => <li key={guide.slug} className="group">
+            <PathCard title={guide.title} body={guide.description} href={`/guides/${guide.slug}`} cta="Read the guide" />
+          </li>)}
+        </ul>
+      </Section>
 
       <Section id="subjects" eyebrow="Subjects" renderIf={topics.length > 0}>
         {/* Seven is prime: it orphaned an item in both the two- and
@@ -72,9 +73,9 @@ export default async function JournalPage() {
         />
 
         <p className="u-measure mt-12 border-l-2 border-gold-hairline/50 pl-5 font-[var(--font-display)] text-[length:var(--text-step--1)] italic text-text-muted">
-          The first pieces are being written. We would rather publish one essay
-          worth reading than a dozen that are not — so this page stays a list of
-          subjects until there is something here worth your time.
+          These are subjects for future essays and demonstrations. They are
+          separate from the practical guides above; new contributions will
+          appear here when they are ready.
         </p>
       </Section>
 

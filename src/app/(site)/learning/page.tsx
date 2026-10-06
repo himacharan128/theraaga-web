@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { CurriculumTimeline } from '@/components/sections/CurriculumTimeline'
+import { ExploreLearningGoals } from '@/components/sections/ExploreLearningGoals'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { ButtonLink } from '@/components/ui/Button'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
@@ -44,7 +45,7 @@ export default async function CoursesPage() {
       />
       <PageHero
         eyebrow="Sādhana · साधना · Journey of learning"
-        title="Sa. Pa. Sa. — the foundation of every musical journey."
+        title="Sa. Pa. Sa. The foundation of every musical journey."
         lede={
           <p>
             The timeless resonance every student begins with. From a first
@@ -64,6 +65,7 @@ export default async function CoursesPage() {
       </PageHero>
 
       <CurriculumTimeline />
+      <ExploreLearningGoals />
 
       <Section
         id="sangeetha-vidwat-patham"

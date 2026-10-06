@@ -85,6 +85,10 @@ export async function ExploreLearningGoals() {
           </li>
         ))}
       </ul>
+      <p className="u-measure mt-8 text-text-secondary">
+        For help choosing a class or planning practice between lessons, read our{' '}
+        <Link href="/guides" className="text-accent underline underline-offset-4">Carnatic music learning guides</Link>.
+      </p>
     </Section>
   )
 }

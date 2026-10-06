@@ -240,3 +240,56 @@ reporting regressions. With a local server running, run
 address and authentication checks. Screenshots go to `/tmp/raaga-release-qa`.
 Private production consent and database reports must be checked after release;
 the local environment has no admin database or admin session credentials.
+
+### October 2026 search content
+
+`/guides` lists practical, sourced learning guides, read through `src/data/content.ts`
+from `src/content/seed/learning-guides.ts`. These are admissions and learning
+guides, not articles attributed to a Guru. Do not invent review dates, authors,
+teacher credentials or class availability when extending them.
+
+The homepage owns Hyderabad-wide Carnatic class intent. Centre pages own the
+two actual locations. The five `/carnatic-music-classes/*` pages address learner
+goals and are linked from `/learning`; beginner, adult and children paths also
+appear on the centres, admissions guide and online page. New guides answer
+distinct decisions rather than duplicating a landing page for every locality.
+Add a guide through the seed data; its route, metadata and sitemap entry follow
+automatically. Add contextual links from relevant existing pages as well.
+
+`npm run test:seo-intents` checks guide metadata, anchors and content alongside
+the intent pages. After a production build, start on a free port and run
+`npm run test:seo-crawl -- http://localhost:3002` to check HTTP responses,
+canonical URLs, sitemap reachability through rendered links, and private-page
+exclusions. `/thank-you` is crawlable so its `noindex` can be read; it is never
+in the sitemap. Do not block it in robots.txt.
+
+Search improvements should be judged using non-brand queries, relevant page
+impressions and enquiries, not total average position alone. Report date ranges
+and avoid treating clicks as unique people or enquiries. Business Profile
+verification and Phoenix Arena address/hours still need owner-supplied facts.
+
+### AI referral reporting and teacher contributions
+
+The private overview separates recognised AI referrer page views from AI-tagged
+page views. Host checks cover ChatGPT, Claude, Perplexity, Gemini and Copilot.
+Campaign tags alone are not proof of a referral. A recognised referrer takes
+priority over a tag, and each page view is counted only once within this report.
+Classification uses all source pairs in the selected period, before the ordinary
+traffic-source list is limited to its top eight rows.
+
+This reads the existing `analytics_daily` aggregates. There is no additional
+tracking script, cookie, identifier, collection or permission requirement. Google
+and Bing referrers are not labelled as AI because ordinary search and AI traffic
+cannot be separated from those hostnames. Missing referrers, repeat views and
+blocked telemetry limit interpretation. These are not citation counts, unique
+visitors or person-level conversion reports.
+
+The Growth plan contains teacher contribution briefs. They are preparation
+checklists, not published articles or saved workflow statuses. Before publishing,
+obtain actual teacher material, factual review and permission for any attribution
+or media. Keep admissions guides distinct from teacher-authored articles. Do not
+create duplicate promotional blogs or pretend that RAAGA controls AI rankings.
+
+Run `npm run test:reporting` for source classification, admin routing, reporting
+period and rendered report checks. Production data rendering still requires an
+authenticated check after deployment.

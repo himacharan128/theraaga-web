@@ -1,4 +1,5 @@
 import { seoLandingPages } from '../src/content/seed/seo-pages'
+import { learningGuides } from '../src/content/seed/learning-guides'
 
 const issues: string[] = []
 const seenSlugs = new Set<string>()
@@ -45,7 +46,34 @@ for (const page of seoLandingPages) {
   }
 }
 
-console.log(`\n  Focused SEO pages — ${seoLandingPages.length} records\n`)
+for (const guide of learningGuides) {
+  const label = `/guides/${guide.slug}`
+  if (!/^[a-z0-9-]+$/.test(guide.slug) || seenSlugs.has(guide.slug)) issues.push(`${label}: invalid or duplicate slug`)
+  seenSlugs.add(guide.slug)
+  if (seenTitles.has(guide.title)) issues.push(`${label}: duplicate title`)
+  seenTitles.add(guide.title)
+  if (guide.title.length > 60) issues.push(`${label}: title exceeds 60 characters before brand`)
+  if (seenDescriptions.has(guide.description)) issues.push(`${label}: duplicate description`)
+  seenDescriptions.add(guide.description)
+  if (guide.description.length < 120 || guide.description.length > 160) issues.push(`${label}: description must be 120-160 characters`)
+  if (!guide.intro || guide.sections.length < 3) issues.push(`${label}: guide needs an introduction and distinct sections`)
+  const anchors = new Set<string>()
+  for (const section of guide.sections) {
+    if (!/^[a-z0-9-]+$/.test(section.id) || anchors.has(section.id) || section.id === 'next-steps') issues.push(`${label}: invalid or duplicate section anchor ${section.id}`)
+    anchors.add(section.id)
+    if (!section.title || !section.paragraphs.length) issues.push(`${label}: empty section`)
+  }
+  if (guide.related.length < 2) issues.push(`${label}: missing next steps`)
+  for (const link of guide.related) {
+    if (!link.href.startsWith('/') || link.href.startsWith('//')) issues.push(`${label}: related links must stay on site`)
+  }
+  for (const source of guide.sources) {
+    if (!source.href.startsWith('https://')) issues.push(`${label}: source must use HTTPS`)
+  }
+  if (/[\u2013\u2014]/.test(JSON.stringify(guide))) issues.push(`${label}: use plain punctuation`)
+}
+
+console.log(`\n  SEO content: ${seoLandingPages.length} intent pages, ${learningGuides.length} guides\n`)
 if (issues.length) {
   for (const issue of issues) console.error(`  ✗ ${issue}`)
   process.exit(1)

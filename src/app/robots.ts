@@ -6,10 +6,9 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        // The success route must not be indexed — it is a conversion endpoint,
-        // not a landing page, and an indexed thank-you page is a classic
-        // analytics contaminant.
-        disallow: ['/thank-you', '/admin'],
+        // Let crawlers read the thank-you page's noindex directive.
+        // Private admin routes remain blocked and require authentication.
+        disallow: ['/admin'],
       },
     ],
     sitemap: 'https://theraaga.in/sitemap.xml',

@@ -17,6 +17,8 @@
     "test:enquiry": "tsx scripts/test-enquiry.ts",
     "test:e2e": "node scripts/verify-e2e.mjs",
     "test:seo-intents": "tsx scripts/check-seo-intents.ts",
+    "test:seo-crawl": "node scripts/check-seo-crawl.mjs",
+    "test:reporting": "tsx scripts/test-reporting.ts && tsx scripts/test-ai-referrals.ts && tsx scripts/test-admin-discovery.tsx",
     "verify": "npm run typecheck && npm run test:contrast && npm run test:no-prices && npm run test:enquiry && npm run test:seo-intents",
     "build:fonts": "node scripts/build-fonts.mjs",
     "test:a11y": "node scripts/check-a11y-perf.mjs",

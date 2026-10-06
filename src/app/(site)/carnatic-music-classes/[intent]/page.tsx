@@ -91,6 +91,7 @@ export default async function CarnaticIntentPage({ params }: { params: Params })
       <BreadcrumbSchema
         items={[
           { name: 'Home', href: '/' },
+          { name: 'Learning', href: '/learning' },
           { name: page.h1.replace(/\.$/, ''), href },
         ]}
       />

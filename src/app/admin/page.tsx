@@ -4,6 +4,7 @@ import { getAdminDashboard, LEAD_STATUSES, type DashboardLead } from '@/data/adm
 import { requireAdmin } from '@/lib/admin-auth'
 import { logoutAdmin } from './actions'
 import { AdminHeader } from '@/components/admin/AdminHeader'
+import { AiReferralReport } from '@/components/admin/AiReferralReport'
 import { AGE_LABELS, LEAD_STATUS_LABELS, LeadContact, LeadStatusForm } from '@/components/admin/LeadParts'
 import { REPORT_PERIODS, reportDays, changeLabel } from '@/lib/reporting'
 
@@ -176,6 +177,8 @@ async function AdminDashboardContent({ searchParams }: { searchParams: Promise<{
           <MetricList title="Approximate locations" rows={dashboard.locations} empty="Location aggregates are available on Vercel-hosted traffic." />
           <MetricList title="Devices" rows={dashboard.devices} empty="No device aggregates yet." />
         </section>
+
+        <AiReferralReport report={dashboard.aiReferrals} />
 
         <section className="mt-8">
           <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">

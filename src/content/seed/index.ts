@@ -14,6 +14,7 @@ export {
   CURRICULUM_SOURCE,
 } from './curriculum'
 export { seoLandingPages } from './seo-pages'
+export { learningGuides } from './learning-guides'
 export {
   gurusIntro,
   lineageReferences,

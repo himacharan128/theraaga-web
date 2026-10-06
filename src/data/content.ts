@@ -1,6 +1,7 @@
 import 'server-only'
 
 import * as seed from '@/content/seed'
+import type { LearningGuide } from '@/content/seed/learning-guides'
 import type {
   AcademicPathway,
   Batch,
@@ -124,6 +125,14 @@ export async function getPillars(): Promise<Pillar[]> {
 
 export async function getSeoLandingPages(): Promise<SeoLandingPage[]> {
   return seed.seoLandingPages
+}
+
+export async function getLearningGuides(): Promise<LearningGuide[]> {
+  return seed.learningGuides
+}
+
+export async function getLearningGuideBySlug(slug: string): Promise<LearningGuide | undefined> {
+  return seed.learningGuides.find((guide) => guide.slug === slug)
 }
 
 export async function getSeoLandingPageBySlug(
