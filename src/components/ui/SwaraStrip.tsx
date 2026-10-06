@@ -148,10 +148,10 @@ export function SwaraStrip() {
               onClick={() => play(s.label, SA * s.ratio)}
               aria-label={`Play note ${s.label}: ${s.gloss}`}
               data-active={active === s.label}
-              className="flex size-[3.5rem] flex-col items-center justify-center rounded-[var(--radius-md)] border border-border-strong sm:size-16
-                         bg-bg transition-[background-color,border-color]
+              className="swara-key flex size-[3.5rem] flex-col items-center justify-center rounded-[var(--radius-md)] border border-border-strong sm:size-16
+                         bg-bg transition-[background-color,border-color,transform]
                          duration-[var(--dur-fast)] ease-[var(--ease-raaga)]
-                         hover:border-accent
+                         hover:border-accent motion-safe:hover:-translate-y-0.5
                          data-[active=true]:border-accent
                          data-[active=true]:bg-[color-mix(in_srgb,var(--color-accent)_12%,var(--color-bg))]
                          md:size-[4.25rem]"

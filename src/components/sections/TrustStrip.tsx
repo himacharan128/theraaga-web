@@ -17,9 +17,12 @@ export async function TrustStrip() {
 
   return (
     <Section id="trust" renderIf={stats.length > 0} className="!py-10 md:!py-12">
-      <dl className="grid grid-cols-2 gap-y-7 border-y border-border py-7 lg:grid-cols-4 lg:gap-y-0">
-        {stats.map((s) => (
-          <div key={s.label} className="relative px-5 text-center sm:px-6">
+      <dl className="rv-stagger grid grid-cols-2 gap-y-8 border-y border-border py-9 lg:grid-cols-4 lg:gap-y-0">
+        {stats.map((s, i) => (
+          <div
+            key={s.label}
+            className={`relative px-5 text-center sm:px-6 ${i > 0 ? 'lg:border-l lg:border-border' : ''}`}
+          >
             <dt className="sr-only">{s.label}</dt>
             <dd>
               {/* Step-2 below sm: at step-3 the two-up cells at 375px are ~127px

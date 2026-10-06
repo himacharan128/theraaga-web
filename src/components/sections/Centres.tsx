@@ -21,12 +21,11 @@ import type { Centre } from '@/content/types'
  * likely to be the answer. All four share one `Panel`.
  *
  * ONE CARD STYLE. These are the one place on the homepage where cards earn
- * their keep, because each is a route you pick. So each is a single, plain
- * card: off-white on ivory, a hairline edge, a text link. The numerals, pill
- * badge, inset ring and filled CTA that used to sit on them were cut; four
- * signals of "important" on one card meant none of them read. Community keeps
- * a quiet emphasis through its own label and a faint maroon ground, both
- * asserted in scripts/check-contrast.ts.
+ * their keep, because each is a route you pick. Each is a framed panel: a
+ * hairline edge with gold corner brackets that grow on hover, a large display
+ * numeral that comes forward on hover, and a text link. Community keeps its
+ * emphasis through its own label and a faint maroon ground, both asserted in
+ * scripts/check-contrast.ts.
  *
  * TITLES. The two centre cards read "RAAGA, Jubilee Hills" and "RAAGA, Phoenix
  * Arena". That prefix is display only: `centre.name` stays bare in the seed
@@ -41,24 +40,32 @@ const arrow = (
 function Panel({
   centre: c,
   title,
+  index,
   highlight = false,
 }: {
   centre: Centre
   title: string
+  index: number
   highlight?: boolean
 }) {
   return (
     <li className="group">
       <Link
         href={c.href}
-        className={`flex h-full flex-col rounded-[var(--radius-lg)] border p-7 no-underline transition-[border-color,transform] duration-[var(--dur)] ease-[var(--ease-raaga)] hover:border-accent motion-safe:hover:-translate-y-0.5 md:p-9 ${
+        className={`bracket flex h-full flex-col rounded-[var(--radius-lg)] border p-7 no-underline transition-[border-color,transform,box-shadow] duration-[var(--dur-slow)] ease-[var(--ease-out-expo)] hover:border-accent hover:shadow-[var(--shadow-hover)] motion-safe:hover:-translate-y-1 md:p-9 ${
           highlight ? 'border-[color-mix(in_srgb,var(--color-accent)_30%,transparent)] bg-accent-tint' : 'border-border bg-surface'
         }`}
       >
-        {highlight && (
-          <p className="u-eyebrow mb-4">{c.eyebrow}</p>
-        )}
-        <h3 className="text-[length:var(--text-step-2)] font-[300] leading-[var(--lh-snug)] text-text-primary md:text-[length:var(--text-step-3)]">
+        <div className="flex items-start justify-between gap-4">
+          {highlight ? <p className="u-eyebrow">{c.eyebrow}</p> : <span />}
+          <span
+            aria-hidden="true"
+            className="u-numeral -mt-1 font-[300] text-[length:var(--text-step-3)] text-accent opacity-30 transition-opacity duration-[var(--dur-slow)] group-hover:opacity-100"
+          >
+            0{index}
+          </span>
+        </div>
+        <h3 className="mt-4 text-[length:var(--text-step-2)] font-[300] leading-[var(--lh-snug)] text-text-primary md:text-[length:var(--text-step-3)]">
           {title}
         </h3>
         {c.locality && (
@@ -78,7 +85,7 @@ function Panel({
   )
 }
 
-const gridClass = 'grid gap-4 md:grid-cols-2 md:gap-5'
+const gridClass = 'rv-stagger grid gap-4 md:grid-cols-2 md:gap-5'
 
 export async function Centres() {
   const [site, centres] = await Promise.all([getSite(), getCentres()])
@@ -98,18 +105,19 @@ export async function Centres() {
       }
     >
       <ul className={gridClass}>
-        {physical.map((c) => (
-          <Panel key={c.key} centre={c} title={`${site.shortName}, ${c.name}`} />
+        {physical.map((c, i) => (
+          <Panel key={c.key} centre={c} index={i + 1} title={`${site.shortName}, ${c.name}`} />
         ))}
       </ul>
 
       <div className="mt-14">
-        <p className="u-eyebrow">Or learn from where you are</p>
+        <p className="u-eyebrow rv">Or learn from where you are</p>
         <ul className={`mt-6 ${gridClass}`}>
-          {remote.map((c) => (
+          {remote.map((c, i) => (
             <Panel
               key={c.key}
               centre={c}
+              index={physical.length + i + 1}
               title={c.name}
               highlight={c.key === 'community'}
             />

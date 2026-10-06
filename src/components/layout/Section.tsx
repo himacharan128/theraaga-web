@@ -56,7 +56,7 @@ export function Section({
     >
       <div className="u-shell relative">
         {(eyebrow || title || lede) && (
-          <header className="mb-10 md:mb-16">
+          <header className="rv mb-10 md:mb-16">
             {eyebrow && (
               <p
                 className={`u-eyebrow mb-4 ${tone === 'accent' ? '!text-[color-mix(in_srgb,var(--color-on-accent)_78%,transparent)]' : ''}`}
@@ -65,7 +65,7 @@ export function Section({
               </p>
             )}
             {title && (
-              <h2 className="text-[length:var(--text-step-3)] max-w-[20ch]">
+              <h2 className="max-w-[20ch] text-[length:var(--text-step-3)] md:text-[length:var(--text-step-4)]">
                 {title}
               </h2>
             )}
@@ -100,7 +100,7 @@ export function EmptyState({
   action?: ReactNode
 }) {
   return (
-    <div className="rounded-[var(--radius-lg)] bg-surface px-6 py-12 text-center md:px-12 md:py-16">
+    <div className="bracket rounded-[var(--radius-lg)] border border-border bg-surface px-6 py-12 text-center md:px-12 md:py-16">
       <p className="u-measure mx-auto text-[length:var(--text-step-1)] font-[300] leading-[var(--lh-snug)] text-text-secondary">
         {children}
       </p>

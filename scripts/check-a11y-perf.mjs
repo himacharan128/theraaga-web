@@ -261,7 +261,12 @@ const metrics = await p.evaluate(() => {
     cssBytes: css.reduce((s, r) => s + (r.transferSize || r.encodedBodySize || 0), 0),
     fontBytes: fonts.reduce((s, r) => s + (r.transferSize || r.encodedBodySize || 0), 0),
     totalBytes: res.reduce((s, r) => s + (r.transferSize || r.encodedBodySize || 0), 0),
-    thirdParty: res.filter(r => !r.name.includes('localhost')).map(r => new URL(r.name).host),
+    // An inline `data:` URI (the zari border tile in globals.css) shows up in
+    // resource timing with no host. It is not a request, so it is not a
+    // third party.
+    thirdParty: res
+      .filter(r => !r.name.includes('localhost') && !r.name.startsWith('data:'))
+      .map(r => new URL(r.name).host),
   }
 })
 /**

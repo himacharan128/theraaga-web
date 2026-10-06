@@ -36,20 +36,19 @@ export function TrialProcess() {
       title="What actually happens next."
       tone="surface"
     >
-      {/* NOT three cards. Boxing these forced all three to the height of the
-          longest and made a sequence look like a set of alternatives. Each
-          step is a numeral over a hairline, so the row reads left to right
-          without discs or connectors to carry it. */}
-      <ol className="grid gap-10 md:grid-cols-3 md:gap-10">
+      {/* The thread: one gold line drawn across the three steps as they come
+          into view, then a numeral over a hairline for each. */}
+      <div aria-hidden="true" className="rv-draw mb-8 h-px w-full origin-left bg-gold-hairline" />
+      <ol className="rv-stagger grid gap-10 md:grid-cols-3 md:gap-10">
         {STEPS.map((s) => (
-          <li key={s.n} className="border-t border-border pt-6">
+          <li key={s.n}>
             <span
               aria-hidden="true"
-              className="font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium tabular-nums text-accent"
+              className="u-numeral block font-[300] text-[length:var(--text-step-4)] text-accent"
             >
               0{s.n}
             </span>
-            <h3 className="mt-3 text-[length:var(--text-step-1)] font-[400]">
+            <h3 className="mt-4 text-[length:var(--text-step-1)] font-[400]">
               {s.title}
             </h3>
             <p className="u-measure mt-3 text-[length:var(--text-step--1)] leading-[var(--lh-body)] text-text-secondary">

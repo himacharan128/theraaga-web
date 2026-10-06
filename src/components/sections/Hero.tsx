@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
+import { NadaRings, Strings, SwaraMarquee } from '@/components/ui/Ornament'
 import { whatsappHref } from '@/lib/whatsapp'
 import { getSite } from '@/data/content'
 import tambura from '@/assets/home/tambura.jpg'
@@ -7,34 +8,42 @@ import tambura from '@/assets/home/tambura.jpg'
 /**
  * Headline, subtitle and the primary button label are the CLIENT'S OWN COPY
  * from their content master. Do not "optimise" them. The secondary button was
- * the client's "Explore RAAGA"; the owner approved changing it to "Ask on
- * WhatsApp" on 2026-10-03 after the site review, because the nav already offers
- * About and WhatsApp is how enquiries actually arrive.
+ * approved as "Ask on WhatsApp" on 2026-10-03. The one added line under the
+ * subtitle names the centres, the ages and that beginners are welcome, because
+ * the client's hero says neither what is taught nor where, and the visitor is
+ * a parent opening a WhatsApp forward on a 360px phone.
  *
- * One addition, deliberately: a single factual line under the subtitle naming
- * the centres, the ages and that beginners are welcome. The client's hero is
- * evocative but says neither what is taught nor where, and the fold budget is
- * 360 × ~640 CSS px for a parent opening a WhatsApp forward — India's dominant
- * mobile resolution is 360×800 and Android is 92.4% of traffic. The line is
- * additive, never contradictory: brand voice on top, orientation underneath.
+ * Motion, all CSS: the headline rises word by word, four tanpura strings hum
+ * at the left edge, rings of sound leave the headline, the photograph breathes
+ * very slowly, and the seven swaras pass along the bottom edge. None of it
+ * costs a request or a byte of JavaScript, and all of it stops under
+ * prefers-reduced-motion.
  *
  * The LCP element is deliberately the H1 TEXT on flat ivory, not a photograph.
  * On a phone the photo card sits below the buttons, so the photo is NOT
  * `priority`: it is lazy, low fetch-priority, and must never be what the page
- * waits for. It is not the first thing a parent sees, so it must not be the
- * first thing the page spends bytes on. Measured: on a 360x800 phone the text
- * is the LCP; on taller phones (375x812 and up) the top of the card peeks above
- * the fold and the lazy image can overtake the paragraph as LCP, which is why it
- * is kept to ~9-24 KB of AVIF at phone widths.
- *
- * The right-hand card is a photograph with the Sanskrit line set over a maroon
- * fade. The photograph is decorative (`alt=""`): the text carries the meaning,
- * and it is a stock-style image of someone with a tambura, NOT a RAAGA teacher
- * or student, so nothing may caption it as one. The card's maroon ground and
- * fade stay in place under it, so if the image ever fails to load the text
- * keeps its contrast and the card still reads as a designed panel. The fade is
- * the one gradient on the page, and it exists for legibility, not decoration.
+ * waits for. The photograph is decorative (`alt=""`): it is a stock-style image
+ * of someone with a tambura, NOT a RAAGA teacher or student, so nothing may
+ * caption it as one. The card's maroon ground and fade stay in place under it,
+ * so if the image ever fails to load the text keeps its contrast.
  */
+
+type Word = { text: string; italic?: boolean }
+
+const HEADLINE: Word[] = [
+  { text: 'A' },
+  { text: 'Journey' },
+  { text: 'Through' },
+  { text: 'the' },
+  { text: 'Timeless', italic: true },
+  { text: 'Tradition', italic: true },
+  { text: 'of' },
+  { text: 'Carnatic' },
+  { text: 'Sangeetham' },
+]
+
+const d = (ms: number) => ({ '--d': `${ms}ms` }) as React.CSSProperties
+
 export async function Hero() {
   const site = await getSite()
 
@@ -44,53 +53,48 @@ export async function Hero() {
       data-has-content="true"
       className="relative overflow-hidden border-b border-border"
     >
-      <div className="u-shell relative grid items-center gap-10 py-8 sm:py-12 md:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch lg:gap-16 xl:py-24">
+      <Strings className="hidden xl:block" />
+      <NadaRings className="left-[26%] top-[46%]" size="52rem" />
+
+      <div className="u-shell relative grid items-center gap-10 py-10 sm:py-14 md:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch lg:gap-16 xl:py-24">
         <div className="relative z-10">
-          {/* Three ideas in one pill wrapped it onto two lines, which left the
-              dot floating at the top-left of a box instead of centred on a
-              line. Two ideas, no chrome, one line. */}
-          <p className="u-eyebrow">
+          <p className="u-eyebrow fade-in" style={d(0)}>
             Carnatic Sangeetham · A decade in Hyderabad
           </p>
 
-          {/* One step down on small screens. At 390px the step-4 clamp resolves
-              to ~42px, which pushed the primary CTA below the fold — fatal when
-              the dominant arrival is a WhatsApp forward with ten seconds of
-              patience. */}
-          {/* The client's headline runs to nine words, so it steps down twice on
-              small screens. At step-5 it alone consumed the whole 360×640 fold
-              and pushed both buttons out of view. */}
-          {/* Set at step-4 rather than step-5 on desktop. At step-5 the nine
-              words broke to five lines and stranded "Through" and "Tradition"
-              each alone — the rag was the loudest thing on the page. At this
-              size it falls to three lines with the italic phrase carried whole,
-              which is a deliberate typographic moment instead of an accident. */}
-          <h1 className="mt-5 max-w-[20ch] text-[length:var(--text-step-3)] font-[300] sm:text-[length:var(--text-step-4)]">
-            A Journey Through the{' '}
-            <span className="italic text-accent">Timeless Tradition</span> of
-            Carnatic Sangeetham
+          <h1 className="mt-6 max-w-[20ch] text-[length:var(--text-step-3)] font-[300] sm:text-[length:var(--text-step-4)]">
+            {HEADLINE.map((w, i) => (
+              <span key={i} className="rise-line mr-[0.24em]">
+                <span
+                  className={`rise-word ${w.italic ? 'italic text-accent' : ''}`}
+                  style={{ '--i': i } as React.CSSProperties}
+                >
+                  {w.text}
+                </span>
+              </span>
+            ))}
           </h1>
 
-          <p className="u-measure mt-5 text-[length:var(--text-step-0)] font-[300] leading-[var(--lh-snug)] text-text-secondary sm:mt-6 sm:text-[length:var(--text-step-1)]">
+          <p
+            className="fade-in u-measure mt-6 text-[length:var(--text-step-0)] font-[300] leading-[var(--lh-snug)] text-text-secondary sm:text-[length:var(--text-step-1)]"
+            style={d(700)}
+          >
             Rooted in the Guru–Shishya Parampara, {site.shortName} nurtures music
             with devotion, discipline and sincerity.
           </p>
 
-          {/* The orientation line. Not in the client's copy, but a hero that
-              names neither the subject nor the city fails the one visitor this
-              site is built for. */}
-          <p className="u-measure mt-4 text-[length:var(--text-step-0)] leading-[var(--lh-body)] text-text-secondary">
+          <p
+            className="fade-in u-measure mt-4 text-[length:var(--text-step-0)] leading-[var(--lh-body)] text-text-secondary"
+            style={d(900)}
+          >
             Carnatic vocal classes for children and adults at our{' '}
-            <strong className="font-[400] text-text-secondary">Jubilee Hills</strong>{' '}
-            and{' '}
-            <strong className="font-[400] text-text-secondary">
-              Phoenix Arena, Hitech City
-            </strong>{' '}
-            centres, <strong className="font-[400] text-text-secondary">online</strong>{' '}
-            worldwide, or hosted in your community. Beginners welcome.
+            <strong className="font-[400] text-text-primary">Jubilee Hills</strong> and{' '}
+            <strong className="font-[400] text-text-primary">Phoenix Arena, Hitech City</strong>{' '}
+            centres, <strong className="font-[400] text-text-primary">online</strong> worldwide,
+            or hosted in your community. Beginners welcome.
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:mt-9 sm:flex-row">
+          <div className="fade-in mt-8 flex flex-col gap-3 sm:mt-9 sm:flex-row" style={d(1100)}>
             <ButtonLink href="/contact">Begin Your Musical Journey</ButtonLink>
             <ButtonLink variant="secondary" href={whatsappHref('HERO')}>
               <WhatsAppIcon />
@@ -99,12 +103,10 @@ export async function Hero() {
           </div>
         </div>
 
-        <aside className="relative z-10 mx-auto flex min-h-[34rem] w-full max-w-md flex-col justify-end overflow-hidden rounded-[var(--radius-md)] bg-accent-deep p-7 text-on-accent sm:p-9 lg:my-2 lg:min-h-[19rem] lg:max-w-none">
-          {/* The tall tambura is the subject, so the crop is anchored to keep
-              her face and the neck in view; the maroon fade below takes the
-              lower part of the frame, which is the bowl and the sand. The orbit
-              rings and tanpura strings that used to sit here were cut: over a
-              photograph of a real tambura they competed with its own strings. */}
+        <aside
+          className="fade-in relative z-10 mx-auto flex min-h-[34rem] w-full max-w-md flex-col justify-end overflow-hidden rounded-[var(--radius-md)] bg-accent-deep p-7 text-on-accent sm:p-9 lg:my-2 lg:min-h-[19rem] lg:max-w-none"
+          style={d(500)}
+        >
           <Image
             src={tambura}
             alt=""
@@ -112,7 +114,7 @@ export async function Hero() {
             sizes="(min-width: 1280px) 520px, (min-width: 1024px) 45vw, min(448px, 90vw)"
             placeholder="blur"
             fetchPriority="low"
-            className="object-cover object-[50%_78%]"
+            className="ken object-cover object-[50%_78%]"
           />
           <span
             aria-hidden="true"
@@ -133,6 +135,10 @@ export async function Hero() {
             </p>
           </div>
         </aside>
+      </div>
+
+      <div className="relative z-10 border-t border-border py-3">
+        <SwaraMarquee />
       </div>
     </section>
   )

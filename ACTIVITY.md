@@ -15,6 +15,50 @@ Newest entry first.
 
 ---
 
+## 2026-10-06: Motion and ornament on the homepage
+
+- **Requested:** The owner found the site stagnant and template-like and asked
+  for a much livelier design with many animations, traditional rather than
+  modern, with the copy unchanged. A first attempt that changed the ground to a
+  dark maroon and the display face to Rozha One was shown on localhost and
+  rejected ("lets not change font and colors lets improve the existing one").
+  It is parked, unpushed, on `design/kutcheri-revamp` and did not ship.
+- **Decision / scope:** Keep every colour token, typeface and radius from the
+  2026-10-05 design. Add movement and a small ornament family, all in CSS with
+  no JavaScript and no new requests: the hero headline rises word by word,
+  four tanpura strings hum in the left margin on wide screens, rings of sound
+  leave the headline, the photograph breathes slowly, the seven swaras pass
+  along the hero's bottom edge, section headers and card grids reveal on
+  scroll with CSS view timelines, the pillar watermarks drift against the
+  scroll, the trial thread draws in, swara keys send out a ring when they
+  sound, and the filled button's hover sweeps in. Ornament: a short gold rule
+  before every kicker, gold corner brackets and a numeral on the centre cards,
+  a zari border above the closing band and a kolam generated from rosette
+  curves. Everything stops under prefers-reduced-motion and no content is
+  hidden when an animation cannot run. Homepage and shared primitives only;
+  inner pages inherit the kicker rule, button hover and section reveal.
+- **Work completed:** `globals.css` (motion and ornament blocks, kicker rule,
+  slow step 420 ms), `Ornament` (Strings, NadaRings, SwaraMarquee, Kolam,
+  ZariBand), `Hero`, `Section`, `TrustStrip`, `Centres`, `Pillars`,
+  `ListenWatch`, `TrialProcess`, `FinalCta`, `Button`, `SwaraStrip`.
+  `check-a11y-perf.mjs` now ignores inline `data:` URIs in the third-party
+  count; they have no host and are not requests.
+- **Verification:** `test:contrast`, `test:no-prices`, `test:enquiry`,
+  `test:seo-intents`, lint and production build pass. `test:a11y` 76/76
+  against the production build with `MONGODB_URI` empty: JS 163 KB, CSS 14 KB,
+  fonts 112 KB, total 322 KB, zero third-party requests. Fold checked at 390
+  and 1440 px; the primary button stays above the fold at both. `test:e2e`
+  not run: no form or data change.
+- **Deployment / production status:** Merged to main; Vercel production
+  deploy; verified on theraaga.in.
+- **Follow-up / owner action:** Roll the same vocabulary to About, The Gurus,
+  Learning, Events and Contact once the homepage has been seen live. A second
+  session was editing SEO pages in the same checkout on this date; its work is
+  separate and was not included here.
+- **Credential or access impact:** none.
+
+---
+
 ## 2026-10-05: Quieter, more consistent visual design
 
 - **Requested:** Bhasuri found the UI overloaded with effects and asked for a
