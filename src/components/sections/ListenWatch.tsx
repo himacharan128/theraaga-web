@@ -1,5 +1,6 @@
 import { Section } from '@/components/layout/Section'
 import { SwaraStrip } from '@/components/ui/SwaraStrip'
+import { NadaRings } from '@/components/ui/Ornament'
 import { getGalleryItems } from '@/data/content'
 
 /**
@@ -28,8 +29,9 @@ export async function ListenWatch() {
       tone="surface"
       renderIf={clips.length > 0}
       fallback={
-        <div>
-          <div className="grid items-center gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+        <div className="rv relative">
+          <NadaRings size="40rem" className="left-[70%] opacity-70" />
+          <div className="relative grid items-center gap-10 lg:grid-cols-[0.85fr_1.15fr]">
             <div className="max-w-md">
               {/* The Section above already carries the headline. A second one
                   here ("Every lesson begins by finding Sa") was two titles for

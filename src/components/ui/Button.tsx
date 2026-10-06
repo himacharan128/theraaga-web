@@ -6,20 +6,20 @@ import type { ComponentProps, ReactNode } from 'react'
  * custom properties in globals.css, so inside a maroon band (`.on-accent`) the
  * same three variants invert without needing their own names.
  *
- * Hover changes colour (and, on the filled button, a faint shadow). Nothing
- * lifts or jumps.
+ * The filled button's hover colour sweeps in from the left (`.btn-wipe`) and
+ * the button lifts by one pixel; the outline button washes.
  */
 type Variant = 'primary' | 'secondary' | 'ghost'
 
 const base =
   'inline-flex items-center justify-center gap-2 font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium tracking-[0.01em] ' +
-  'no-underline transition-[background-color,border-color,color,box-shadow] duration-[var(--dur-fast)] ease-[var(--ease-raaga)]'
+  'no-underline transition-[background-color,border-color,color,box-shadow,transform] duration-[var(--dur)] ease-[var(--ease-raaga)]'
 
 const box = 'min-h-[48px] rounded-[var(--radius-md)] px-6 py-3'
 
 const variants: Record<Variant, string> = {
   // Filled: on-accent label on the logo maroon, 6.58:1.
-  primary: `${box} bg-[var(--btn-fill)] text-[var(--btn-on-fill)] hover:bg-[var(--btn-fill-hover)] hover:shadow-[var(--shadow-hover)] active:bg-[var(--btn-fill-active)] active:shadow-none`,
+  primary: `${box} btn-wipe bg-[var(--btn-fill)] text-[var(--btn-on-fill)] hover:shadow-[var(--shadow-hover)] motion-safe:hover:-translate-y-px active:translate-y-0 active:shadow-none`,
   // Outline: a bounded control, so its edge uses --border-strong (3.77:1).
   secondary: `${box} border border-[var(--btn-line)] text-[var(--btn-ink)] hover:border-[var(--btn-line-hover)] hover:bg-[var(--btn-wash)]`,
   // Text: an underlined link that happens to be a button.

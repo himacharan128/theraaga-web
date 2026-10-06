@@ -70,6 +70,7 @@
 
   /* ---- Motion ---- */
   --ease-raaga: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :root {
@@ -100,7 +101,7 @@
      anything that enters or leaves. */
   --dur-fast: 120ms;
   --dur: 180ms;
-  --dur-slow: 240ms;
+  --dur-slow: 420ms;
 }
 
 /* ============================================================================
@@ -178,14 +179,12 @@ p {
 }
 
 /* ============================================================================
-   Motion — feedback only. Transform and opacity, nothing that loops, nothing
-   that runs without the visitor doing something. No scroll handler ever reads
-   layout.
+   Motion. Everything here is transform or opacity, honours
+   prefers-reduced-motion, and never hides content when it cannot run. No
+   scroll handler ever reads layout: the scroll-linked pieces use CSS view
+   timelines and simply sit still in browsers without them.
    ============================================================================ */
 
-/* Route change: a short, quiet cross-fade of the page body. The header is its
-   own transition group, so it holds still while the content beneath it
-   changes, which is what tells you that you moved within one site. */
 @view-transition {
   navigation: auto;
 }
@@ -200,7 +199,6 @@ p {
   animation: none;
 }
 
-/* Toned sections. Flat colour only: no gradients, no orbs. */
 .section-shell {
   position: relative;
   isolation: isolate;
@@ -214,8 +212,6 @@ p {
   background: var(--color-accent-deep);
 }
 
-/* Buttons read their colours from here, so a maroon band can flip all three
-   variants by setting the context once instead of needing extra variants. */
 :root {
   --btn-fill: var(--color-accent);
   --btn-fill-hover: var(--color-accent-hover);
@@ -238,8 +234,29 @@ p {
   --btn-wash: color-mix(in srgb, var(--color-on-accent) 10%, transparent);
 }
 
-/* Something appearing because you asked for it: the menu, an answer, a
-   curriculum stage. A short fade with 4px of travel, never a slide-in. */
+/* The filled button: the hover colour sweeps in from the left. */
+.btn-wipe {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.btn-wipe::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--btn-fill-hover);
+  transform: translateX(-101%);
+  transition: transform var(--dur-slow) var(--ease-out-expo);
+}
+
+.btn-wipe:hover::before,
+.btn-wipe:focus-visible::before {
+  transform: translateX(0);
+}
+
+/* Something appearing because you asked for it: the menu, an answer. */
 @keyframes raga-enter {
   from {
     opacity: 0;
@@ -256,7 +273,200 @@ p {
 }
 
 .group:hover .raga-link-arrow {
-  transform: translateX(0.25rem);
+  transform: translateX(0.35rem);
+}
+
+/* --- Scroll reveal, driven by the element's own place in the viewport. --- */
+@keyframes rv-in {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+}
+
+@keyframes rv-drift {
+  from {
+    transform: translateY(3rem);
+  }
+  to {
+    transform: translateY(-3rem);
+  }
+}
+
+@keyframes rv-draw {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .rv {
+    animation: rv-in linear both;
+    animation-timeline: view();
+    animation-range: entry 5% entry 40%;
+  }
+  .rv-stagger > * {
+    animation: rv-in linear both;
+    animation-timeline: view();
+    animation-range: entry 5% entry 45%;
+  }
+  .rv-drift {
+    animation: rv-drift linear both;
+    animation-timeline: view();
+  }
+  .rv-draw {
+    animation: rv-draw linear both;
+    animation-timeline: view();
+    animation-range: entry 10% entry 70%;
+  }
+}
+
+/* --- Hero: word-by-word rise. Each word sits in a clipped line box. --- */
+@keyframes word-rise {
+  from {
+    transform: translateY(110%);
+  }
+}
+
+.rise-line {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+
+.rise-word {
+  display: inline-block;
+  animation: word-rise 900ms var(--ease-out-expo) both;
+  animation-delay: calc(var(--i, 0) * 70ms + 120ms);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.fade-in {
+  animation: fade-in 1200ms ease-out both;
+  animation-delay: var(--d, 600ms);
+}
+
+/* --- Tanpura strings: a gold hairline and a wider, fainter glow that
+   breathes beside it, each at its own period. --- */
+.string {
+  position: absolute;
+  top: -4%;
+  bottom: -4%;
+  width: 1px;
+  background: var(--color-gold-hairline);
+  opacity: 0.55;
+}
+
+.string::after {
+  content: '';
+  position: absolute;
+  inset: 0 -5px;
+  background: linear-gradient(to right, transparent, var(--color-gold-hairline), transparent);
+  opacity: 0.35;
+  animation: string-hum var(--period, 3.2s) ease-in-out infinite alternate;
+  animation-delay: var(--phase, 0s);
+}
+
+@keyframes string-hum {
+  from {
+    transform: scaleX(0.15);
+    opacity: 0.1;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0.5;
+  }
+}
+
+/* --- Nāda: rings of sound leaving a point. --- */
+.ring {
+  position: absolute;
+  border-radius: 999px;
+  border: 1px solid var(--color-gold-hairline);
+  opacity: 0;
+  animation: ring-out 9s cubic-bezier(0.1, 0.5, 0.4, 1) infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes ring-out {
+  0% {
+    transform: scale(0.25);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* --- The scale, passing. Content is duplicated once; the track slides half
+   its own width, so the loop is seamless. --- */
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee 48s linear infinite;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* --- The hero photograph breathes very slowly. --- */
+.ken {
+  animation: ken 26s ease-in-out infinite alternate;
+}
+
+@keyframes ken {
+  to {
+    transform: scale(1.07);
+  }
+}
+
+/* --- Swara keys: a ring leaves the key when it sounds. --- */
+.swara-key {
+  position: relative;
+}
+
+.swara-key::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border: 1px solid var(--color-accent);
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.swara-key[data-active='true']::after {
+  animation: key-ring 1200ms var(--ease-out-expo);
+}
+
+@keyframes key-ring {
+  from {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.7);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -268,11 +478,96 @@ p {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  .rv,
+  .rv-stagger > *,
+  .rv-drift,
+  .rv-draw,
+  .rise-word,
+  .fade-in,
+  .string::after,
+  .ring,
+  .marquee__track,
+  .ken {
+    animation: none !important;
+  }
   ::view-transition-group(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {
     animation: none !important;
   }
+}
+
+/* ============================================================================
+   Ornament
+   ============================================================================ */
+
+/* Zari: the woven gold border of a silk sari, as a 22px band on the deep
+   maroon. One small SVG tile, repeated, slowly drifting. */
+.zari {
+  height: 22px;
+  background-color: var(--color-accent-deep);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='22' viewBox='0 0 44 22'%3E%3Cpath d='M11 3l8 8-8 8-8-8z' fill='none' stroke='%23c9a227' stroke-width='1'/%3E%3Cpath d='M11 7l4 4-4 4-4-4z' fill='%23c9a227'/%3E%3Ccircle cx='33' cy='11' r='1.6' fill='%23c9a227'/%3E%3Cpath d='M26 11h3M37 11h3' stroke='%23c9a227' stroke-width='1'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  animation: zari-drift 30s linear infinite;
+}
+
+@keyframes zari-drift {
+  to {
+    background-position: 440px 0;
+  }
+}
+
+/* Corner brackets: a frame drawn at two corners, growing on hover. */
+.bracket {
+  position: relative;
+}
+
+.bracket::before,
+.bracket::after {
+  content: '';
+  position: absolute;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid var(--color-gold-hairline);
+  transition:
+    width var(--dur-slow) var(--ease-out-expo),
+    height var(--dur-slow) var(--ease-out-expo);
+  pointer-events: none;
+}
+
+.bracket::before {
+  top: -1px;
+  left: -1px;
+  border-right: 0;
+  border-bottom: 0;
+  border-top-left-radius: inherit;
+}
+
+.bracket::after {
+  right: -1px;
+  bottom: -1px;
+  border-left: 0;
+  border-top: 0;
+  border-bottom-right-radius: inherit;
+}
+
+.bracket:hover::before,
+.bracket:hover::after {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+/* A Devanagari glyph as a watermark. Declared here because `.deva` sets its
+   own font-size and, being unlayered, would beat a Tailwind size utility. */
+.u-watermark {
+  font-size: clamp(6rem, 11vw, 9.5rem);
+  line-height: 1;
+}
+
+.u-numeral {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
 }
 
 /* ============================================================================
@@ -290,12 +585,27 @@ p {
 }
 
 .u-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   font-family: var(--font-ui);
   font-size: var(--text-step--1);
   font-weight: 500;
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
   color: var(--color-accent);
+}
+
+.u-eyebrow::before {
+  content: '';
+  width: 2rem;
+  height: 1px;
+  background: var(--color-gold-hairline);
+  flex: none;
+}
+
+.u-eyebrow--plain::before {
+  display: none;
 }
 
 .u-hairline {
