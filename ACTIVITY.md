@@ -15,6 +15,61 @@ Newest entry first.
 
 ---
 
+## 2026-10-09: Site redesign, header fix and homepage intro
+
+- **Requested:** On 2026-10-08 Bhasuri asked for a full revamp of the public
+  site's look with the words unchanged, a fix for the header vanishing on cream
+  pages, and a cinematic homepage intro. After seeing the intro on localhost
+  she set its rule: the full version on every new tab, never on a refresh. She
+  reviewed all three on localhost and approved them for production.
+- **Decision / scope:** A second-generation design system read as a concert
+  programme: parchment grounds ruled with hairlines, light literary display
+  type, Inter for anything operated (buttons, menu, chips and labels had been
+  falling back to the serif), and whole chapters changing ground (parchment,
+  paper, sand, the dark stage, the maroon close) instead of coloured boxes.
+  Every public page rebuilt on it; copy unchanged apart from long dashes. The
+  header now takes its ink from what is actually beneath it, so a page Next
+  keeps hidden in the document after a visit can no longer set it. The intro,
+  "sound becoming form", plays once per tab on a fresh arrival at `/` from
+  outside the site: 2.9 s on a desktop, shorter on a phone, a plain fade under
+  reduced motion. Never on a reload, back or forward, a second arrival in the
+  same tab, a background tab or a deep link. Any key, tap, wheel or scroll
+  lifts it; it keeps only a per-tab sessionStorage flag and fails open. The
+  admin portal is not restyled.
+- **Work completed:** The intro in `src/components/intro/` (score, runtime,
+  markup). `globals.css` split into ordered partials in `src/app/styles/`
+  (tokens, tones, base, type, components, motion, chrome, intro) so no file
+  passes 500 lines. `Header`, `Footer`, `StickyMobileBar`, `PageHero`,
+  `Section`, `Prose` (new, the legal pages as a numbered document with a
+  contents rail), `Reveal` and `AddressLine` (new), and every section and page
+  under `src/app/(site)`. New checks: `test:no-long-dashes` in `verify`, and
+  `test:intro` (Chromium and WebKit) after `test:a11y`, which now also checks
+  header legibility across client-side navigation.
+- **Verification:** `verify`, lint and production build pass. `test:a11y`
+  93/93 on the production build: JS 169 KB, CSS 15 KB, fonts 112 KB, total
+  353 KB, zero third-party requests; no budget raised. `test:intro` 93/93,
+  including LCP 212 ms with the intro against 204 ms without and CLS 0.
+  `test:e2e` 13/13 against a dev server with `MONGODB_URI` empty. The
+  stylesheet split was built before and after: every CSS and JS file
+  byte-identical.
+- **Deployment / production status:** PR #12 merged to main (`4f9d829`);
+  Vercel production deploy succeeded. Verified on theraaga.in in Chromium and
+  WebKit with analytics blocked: the intro plays in a new tab and not on a
+  reload or an inner page, the phone and reduced-motion versions run, the
+  header reads at 15:1 on Contact after the Gurus page, all 25 sitemap pages
+  answer 200, the 404 page renders, no console errors. Production CSS is
+  byte-identical to the tested build.
+- **Follow-up / owner action:** Bhasuri to decide whether the intro gets a
+  visible Skip button (any tap or key already skips it), "Prārambha" or
+  "Prārambham", whether number ranges such as the age bands keep their en
+  dash, rights to the hero photograph, the empty Gallery wording, and whether
+  the admin portal is restyled. Note: the first visit after a deploy can miss
+  the intro while the homepage cache is rebuilt, because the intro skips any
+  page that took over 2.5 s to arrive.
+- **Credential or access impact:** none.
+
+---
+
 ## 2026-10-06: Motion and ornament on the homepage
 
 - **Requested:** The owner found the site stagnant and template-like and asked
