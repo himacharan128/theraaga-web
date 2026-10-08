@@ -1,0 +1,166 @@
+/* ============================================================================
+   Type roles. One class per role; colour comes from the chapter's tone.
+   Newsreader carries anything read as language, Inter anything operated or
+   scanned, Tiro only Devanagari.
+   ============================================================================ */
+
+@layer components {
+  .t-hero,
+  .t-display,
+  .t-headline,
+  .t-statement,
+  .t-subhead,
+  .t-title,
+  .t-standfirst,
+  .t-prose,
+  .t-caption,
+  .t-numeral {
+    font-family: var(--font-display);
+  }
+
+  .t-hero {
+    font-size: var(--fs-hero);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.032em;
+  }
+
+  /* The homepage headline is set in three lines on a phone as on a desktop.
+     Its longest line, "of Carnatic Sangeetham", measures about 9.2em in
+     Newsreader Light, so on a phone the size follows the column instead. */
+  @media (width < 48rem) {
+    .t-hero-fit {
+      font-size: min(var(--fs-hero), (100vw - 2 * var(--gutter)) / 9.4);
+    }
+  }
+
+  .t-display {
+    font-size: var(--fs-display);
+    font-weight: 300;
+    line-height: 1.02;
+    letter-spacing: -0.028em;
+  }
+
+  .t-headline {
+    font-size: var(--fs-headline);
+    font-weight: 300;
+    line-height: 1.06;
+    letter-spacing: -0.024em;
+  }
+
+  .t-statement {
+    font-size: var(--fs-statement);
+    font-weight: 300;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  .t-subhead {
+    font-size: var(--fs-subhead);
+    font-weight: 300;
+    line-height: 1.14;
+    letter-spacing: -0.016em;
+  }
+
+  .t-title {
+    font-size: var(--fs-title);
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  .t-standfirst {
+    font-size: var(--fs-standfirst);
+    font-weight: 350;
+    line-height: 1.42;
+  }
+
+  .t-prose {
+    font-size: var(--fs-prose);
+    font-weight: 400;
+    line-height: 1.7;
+  }
+
+  .t-body {
+    font-family: var(--font-ui);
+    font-size: var(--fs-body);
+    line-height: 1.62;
+  }
+
+  .t-small {
+    font-family: var(--font-ui);
+    font-size: var(--fs-small);
+    line-height: 1.55;
+  }
+
+  .t-meta {
+    font-family: var(--font-ui);
+    font-size: var(--fs-meta);
+    line-height: 1.45;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .t-label,
+  .kicker {
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .t-caption {
+    font-size: 0.9375rem;
+    font-style: italic;
+    line-height: 1.45;
+  }
+
+  .t-numeral {
+    font-weight: 300;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+
+  /* The chapter label: a short brass rule, then the words. */
+  .kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--kicker);
+  }
+
+  .kicker::before {
+    content: '';
+    inline-size: 1.5rem;
+    block-size: 1px;
+    flex: none;
+    background: var(--mark);
+  }
+
+  .kicker-center::after {
+    content: '';
+    inline-size: 1.5rem;
+    block-size: 1px;
+    flex: none;
+    background: var(--mark);
+  }
+
+  /* A running head: the label sits on a rule that runs to the margin. */
+  .runhead::after {
+    content: '';
+    flex: 1;
+    block-size: 1px;
+    background: var(--line);
+  }
+
+  /* Devanagari: the vertical-metric fix lives in fonts.ts (size-adjust);
+     this isolates Indic runs so a Sanskrit word never makes a line jump. */
+  .deva {
+    font-family: var(--font-deva);
+    font-size: 0.92em;
+    line-height: 1.8;
+  }
+}

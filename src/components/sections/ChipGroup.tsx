@@ -70,25 +70,18 @@ export function ChipGroup({
       {/* No asterisk. Every field in the main path is required and the form
           says so once, at the top; five red stars down one column is noise
           that marks nothing. Only the exceptions are marked. */}
-      <legend className="mb-3 block font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium">
+      <legend className="field-label mb-3">
         {legend}
-        {!required && <span className="text-text-muted"> (optional)</span>}
+        {!required && <span className="optional"> (optional)</span>}
       </legend>
       <div className="flex flex-wrap gap-2">
         {options.map((o) => {
           const selected = value === o.value
           return (
-            <label
-              key={o.value}
-              /* The radio is sr-only, so without has-[:focus-visible] a
-                 keyboard user could tab through these chips with nothing on
-                 screen moving — the control was operable but invisible. */
-              className={`flex min-h-11 cursor-pointer select-none items-center rounded-[var(--radius-sm)] border px-4 font-[var(--font-ui)] text-[length:var(--text-step--1)] transition-colors duration-[var(--dur-fast)] has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent ${
-                selected
-                  ? 'border-accent bg-accent text-on-accent'
-                  : 'border-border-strong bg-bg text-text-secondary hover:border-accent hover:bg-[color-mix(in_srgb,var(--color-accent)_5%,transparent)]'
-              }`}
-            >
+            /* The radio is sr-only, so the label carries the keyboard ring
+               (`.chip:has(:focus-visible)`); without it a keyboard user could
+               tab through these chips with nothing on screen moving. */
+            <label key={o.value} className="chip" data-selected={selected}>
               <input
                 type="radio"
                 name={name}
@@ -103,7 +96,7 @@ export function ChipGroup({
         })}
       </div>
       {error && (
-        <p role="alert" className="mt-2 text-[length:var(--text-step--1)] text-accent">
+        <p role="alert" className="field-error">
           {error}
         </p>
       )}

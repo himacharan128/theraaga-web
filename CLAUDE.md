@@ -89,7 +89,8 @@ where a misread button can drop a database user.
 npm run verify     # typecheck · contrast · no-prices · enquiry · seo-intents
 npm run lint
 npm run build
-npm run test:a11y  # accessibility + perf budget — needs a running server
+npm run test:a11y  # accessibility + perf budget, then test:intro (needs a running server)
+npm run test:intro # the homepage intro's rules and exits, Chromium + WebKit
 npm run test:e2e   # real form submission — READ THE WARNING BELOW
 ```
 
@@ -108,7 +109,7 @@ Budgets are the measured cost of the shipped design, not aspirations. Tighten
 them if the numbers improve; **never raise one to make a check pass.**
 
 Playwright's browsers must be installed for the harness to run:
-`npx playwright install chromium`.
+`npx playwright install chromium webkit`.
 
 ---
 

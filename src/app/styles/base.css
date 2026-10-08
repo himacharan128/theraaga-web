@@ -1,0 +1,64 @@
+/* ============================================================================
+   Base
+   ============================================================================ */
+
+@layer base {
+  * {
+    min-width: 0;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-ui);
+    font-size: var(--fs-body);
+    line-height: 1.6;
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Clip sideways only, so a hero can slide up under the header. */
+  main {
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Two-tone focus: the ring takes the chapter's ink and carries a halo of
+     the chapter's ground, so it reads on every surface, buttons included. */
+  :focus-visible {
+    outline: 2px solid var(--fg);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px var(--tone-bg);
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+}

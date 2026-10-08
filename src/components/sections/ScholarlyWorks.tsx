@@ -1,42 +1,39 @@
 import Image from 'next/image'
+import type { CSSProperties } from 'react'
 import type { ScholarlyWork } from '@/content/seed'
 
 /**
- * The Gurus' books, set out like a publisher's catalogue: the cover, then the
- * title and note beside it, stacked on a phone.
+ * The Gurus' books, shown as a small exhibition: each cover mounted on paper,
+ * the title in the display italic beneath it, the note in small type.
  *
- * The cover is a fixed ~150px wide. One of the two source scans is only 150px
- * across, so rendering any larger would only show its pixels. A work without a
- * `cover` is a finished text entry — there is no empty frame waiting for one.
+ * Every cover is set at the same 150px width. One of the two source scans is
+ * only 150px across, so rendering any larger would only show its pixels, and
+ * two books at different sizes would read as a ranking. A work without a
+ * `cover` is a finished caption with no empty frame above it.
  */
 export function ScholarlyWorks({ works }: { works: ScholarlyWork[] }) {
   return (
-    <ul
-      className={`grid gap-x-12 ${works.length > 1 ? 'lg:grid-cols-2' : ''}`}
-    >
-      {works.map((w) => (
-        <li
-          key={w.order}
-          className="flex flex-col gap-6 border-t border-border py-8 sm:flex-row sm:items-start sm:gap-8"
-        >
+    <ul className="flex flex-wrap gap-x-[clamp(2rem,6vw,5rem)] gap-y-14">
+      {works.map((w, i) => (
+        <li key={w.order} className="reveal w-[9.375rem] sm:w-[14rem]" style={{ '--i': i } as CSSProperties}>
+          {/* Covers stand on a common baseline, like books on a shelf, so the
+              titles beneath them line up whatever the scans' proportions. */}
           {w.cover ? (
-            <Image
-              src={w.cover}
-              alt={`Cover of ${w.title}`}
-              sizes="150px"
-              placeholder="blur"
-              loading="lazy"
-              className="h-auto w-[150px] shrink-0 rounded-[2px] shadow-[0_1px_3px_rgba(58,36,30,0.18)]"
-            />
+            <div className="flex h-[13.75rem] items-end">
+              <div className="plate inline-block p-1.5">
+                <Image
+                  src={w.cover}
+                  alt={`Cover of ${w.title}`}
+                  sizes="150px"
+                  placeholder="blur"
+                  loading="lazy"
+                  className="h-auto w-[8.625rem]"
+                />
+              </div>
+            </div>
           ) : null}
-          <div>
-            <h3 className="font-[var(--font-display)] text-[length:var(--text-step-2)] font-[300] italic text-accent">
-              {w.title}
-            </h3>
-            <p className="mt-3 text-[length:var(--text-step--1)] text-text-secondary">
-              {w.note}
-            </p>
-          </div>
+          <h3 className={`t-title italic text-fg ${w.cover ? 'mt-6' : ''}`}>{w.title}</h3>
+          <p className="t-small mt-1 text-fg-3">{w.note}</p>
         </li>
       ))}
     </ul>

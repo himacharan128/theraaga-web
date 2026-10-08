@@ -1,91 +1,76 @@
 import Link from 'next/link'
+import type { CSSProperties } from 'react'
 import { Section } from '@/components/layout/Section'
+import { Arrow } from '@/components/ui/Button'
 import { getCentres, getSite } from '@/data/content'
 import type { Centre } from '@/content/types'
 
 /**
- * The router — the most important section on the homepage, because the first
+ * The router: the most important section on the homepage, because the first
  * question a parent scrolling a WhatsApp forward answers is "is this near me,
  * or can we do it from home?"
  *
- * WHY THIS IS NOT A CARD GRID.
- * There are four options, and a three-column grid orphaned the fourth into a
- * row of its own beside two-thirds of empty page. So the split is 2 + 2:
- * the two Hyderabad centres, then "Or learn from where you are" — online and
- * community. Symmetric at every breakpoint.
+ * A RULED GRID, NOT CARDS. Four routes in a 2 + 2 grid drawn with hairlines,
+ * like the panels of a printed programme: the two Hyderabad centres, then "Or
+ * learn from where you are", online and community. Symmetric at every
+ * breakpoint, and no fourth option orphaned beside empty page.
  *
- * ALL FOUR ARE CARDS. Online and community were briefly set as an unboxed
- * band, on the reasoning that they are not places. The owner reversed that on
- * 2026-10-03: with only the centres boxed, online and community read as
- * footnotes, and for a parent in a gated community that is the option most
- * likely to be the answer. All four share one `Panel`.
+ * ALL FOUR ARE EQUAL. Online and community were briefly set apart on the
+ * reasoning that they are not places. The owner reversed that on 2026-10-03:
+ * set apart, online and community read as footnotes, and for a parent in a
+ * gated community that is the option most likely to be the answer. All four
+ * share one `Route`; community keeps its own label.
  *
- * ONE CARD STYLE. These are the one place on the homepage where cards earn
- * their keep, because each is a route you pick. Each is a framed panel: a
- * hairline edge with gold corner brackets that grow on hover, a large display
- * numeral that comes forward on hover, and a text link. Community keeps its
- * emphasis through its own label and a faint maroon ground, both asserted in
- * scripts/check-contrast.ts.
- *
- * TITLES. The two centre cards read "RAAGA, Jubilee Hills" and "RAAGA, Phoenix
+ * TITLES. The two centres read "RAAGA, Jubilee Hills" and "RAAGA, Phoenix
  * Arena". That prefix is display only: `centre.name` stays bare in the seed
  * because breadcrumbs, schema and the centre pages reuse it and would double up.
  */
-const arrow = (
-  <svg className="raga-link-arrow" width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
-    <path d="M9 1l4 4-4 4M13 5H0" stroke="currentColor" strokeWidth="1.2" />
-  </svg>
-)
-
-function Panel({
+function Route({
   centre: c,
   title,
   index,
-  highlight = false,
+  label,
 }: {
   centre: Centre
   title: string
   index: number
-  highlight?: boolean
+  label?: string
 }) {
   return (
-    <li className="group">
+    <li className="reveal border-b border-line md:odd:border-r" style={{ '--i': index % 2 } as CSSProperties}>
       <Link
         href={c.href}
-        className={`bracket flex h-full flex-col rounded-[var(--radius-lg)] border p-7 no-underline transition-[border-color,transform,box-shadow] duration-[var(--dur-slow)] ease-[var(--ease-out-expo)] hover:border-accent hover:shadow-[var(--shadow-hover)] motion-safe:hover:-translate-y-1 md:p-9 ${
-          highlight ? 'border-[color-mix(in_srgb,var(--color-accent)_30%,transparent)] bg-accent-tint' : 'border-border bg-surface'
-        }`}
+        className={`group relative flex h-full flex-col py-8 no-underline md:py-10 ${index % 2 ? 'md:pr-10' : 'md:pl-10'}`}
       >
-        <div className="flex items-start justify-between gap-4">
-          {highlight ? <p className="u-eyebrow">{c.eyebrow}</p> : <span />}
+        {/* On a phone a route without a label sets its numeral beside the
+            title rather than on a row of its own; side by side from md, every
+            route keeps the row so the four titles share one line. */}
+        <div
+          className={`flex items-baseline justify-between gap-4 ${label ? '' : 'max-md:absolute max-md:top-[1.85rem] max-md:right-0'}`}
+        >
+          {label ? <p className="t-label text-kicker">{label}</p> : <span />}
           <span
             aria-hidden="true"
-            className="u-numeral -mt-1 font-[300] text-[length:var(--text-step-3)] text-accent opacity-30 transition-opacity duration-[var(--dur-slow)] group-hover:opacity-100"
+            className="t-numeral text-[1.75rem] text-fg-3 transition-colors duration-[var(--dur-2)] group-hover:text-kicker"
           >
-            0{index}
+            {String(index).padStart(2, '0')}
           </span>
         </div>
-        <h3 className="mt-4 text-[length:var(--text-step-2)] font-[300] leading-[var(--lh-snug)] text-text-primary md:text-[length:var(--text-step-3)]">
+        <h3
+          className={`t-subhead pr-12 text-fg transition-colors duration-[var(--dur-2)] group-hover:text-kicker md:mt-5 md:pr-0 ${label ? 'mt-5' : ''}`}
+        >
           {title}
         </h3>
-        {c.locality && (
-          <p className="mt-2 font-[var(--font-ui)] text-[length:var(--text-step--1)] text-text-muted">
-            {c.locality}
-          </p>
-        )}
-        <p className="u-measure mt-5 flex-1 text-[length:var(--text-step-0)] leading-[var(--lh-body)] text-text-secondary">
-          {c.body}
-        </p>
-        <span className="mt-7 inline-flex items-center gap-2 self-start font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium text-accent">
+        {c.locality && <p className="t-meta mt-2 text-fg-3">{c.locality}</p>}
+        <p className="t-body mt-4 max-w-[44ch] flex-1 text-fg-2">{c.body}</p>
+        <span className="link-arrow mt-7 self-start">
           {c.cta}
-          {arrow}
+          <Arrow />
         </span>
       </Link>
     </li>
   )
 }
-
-const gridClass = 'rv-stagger grid gap-4 md:grid-cols-2 md:gap-5'
 
 export async function Centres() {
   const [site, centres] = await Promise.all([getSite(), getCentres()])
@@ -95,6 +80,8 @@ export async function Centres() {
   return (
     <Section
       id="centres"
+      tone="paper"
+      layout="split"
       eyebrow="Sādhana · Where you learn"
       title="Two centres in Hyderabad."
       lede={
@@ -104,26 +91,27 @@ export async function Centres() {
         </p>
       }
     >
-      <ul className={gridClass}>
+      <ul className="grid border-t border-line md:grid-cols-2">
         {physical.map((c, i) => (
-          <Panel key={c.key} centre={c} index={i + 1} title={`${site.shortName}, ${c.name}`} />
+          <Route key={c.key} centre={c} index={i + 1} title={`${site.shortName}, ${c.name}`} />
         ))}
       </ul>
 
-      <div className="mt-14">
-        <p className="u-eyebrow rv">Or learn from where you are</p>
-        <ul className={`mt-6 ${gridClass}`}>
-          {remote.map((c, i) => (
-            <Panel
-              key={c.key}
-              centre={c}
-              index={physical.length + i + 1}
-              title={c.name}
-              highlight={c.key === 'community'}
-            />
-          ))}
-        </ul>
-      </div>
+      <p className="reveal t-label runhead flex items-center gap-4 pt-12 pb-5 text-kicker md:pt-14">
+        Or learn from where you are
+      </p>
+
+      <ul className="grid border-t border-line md:grid-cols-2">
+        {remote.map((c, i) => (
+          <Route
+            key={c.key}
+            centre={c}
+            index={physical.length + i + 1}
+            title={c.name}
+            label={c.key === 'community' ? c.eyebrow : undefined}
+          />
+        ))}
+      </ul>
     </Section>
   )
 }

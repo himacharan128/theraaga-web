@@ -1,0 +1,90 @@
+/* ============================================================================
+   Tones
+   ============================================================================ */
+
+@layer components {
+  :root,
+  .tone-light,
+  .tone-paper,
+  .tone-sand {
+    --fg: var(--color-text-primary);
+    --fg-2: var(--color-text-secondary);
+    --fg-3: var(--color-text-muted);
+    --kicker: var(--color-accent);
+    --line: var(--color-border);
+    --line-strong: var(--color-border-strong);
+    --mark: var(--color-gold-hairline);
+    --tone-bg: var(--color-bg);
+    --brand-ink: var(--color-accent);
+    --btn-fill: var(--color-accent);
+    --btn-fill-hover: var(--color-accent-deep);
+    --btn-on-fill: var(--color-on-accent);
+    --btn-line: var(--color-border-strong);
+    --btn-ink: var(--color-accent);
+    --btn-wash: color-mix(in srgb, var(--color-accent) 7%, transparent);
+  }
+
+  .tone-paper {
+    --tone-bg: var(--color-surface);
+  }
+
+  .tone-sand {
+    --tone-bg: var(--color-sand);
+  }
+
+  .tone-night,
+  .site-header[data-ink='night'],
+  /* A page that opens on a dark hero says so with data-hero-tone, so the
+     header at rest takes the night ink on the very first paint of a full page
+     load, before the header's observer has run. From its first report on, the
+     observer alone decides (data-ink): Next keeps the pages a visitor has left
+     in the document, hidden, and this selector would still find their heroes.
+     It once left the header cream on the cream Contact page after the Gurus. */
+  html:has([data-hero-tone='dark']) .site-header:not([data-ink]):not([data-scrolled='true']) {
+    --fg: var(--color-on-night);
+    --fg-2: var(--color-on-night-secondary);
+    --fg-3: var(--color-on-night-muted);
+    --kicker: var(--color-brass-night);
+    --line: rgb(243 235 223 / 0.14);
+    --line-strong: rgb(243 235 223 / 0.42);
+    --mark: rgb(207 174 114 / 0.6);
+    --tone-bg: var(--color-night);
+    --brand-ink: var(--color-on-night);
+    --btn-fill: var(--color-on-night);
+    --btn-fill-hover: #ffffff;
+    --btn-on-fill: var(--color-night);
+    --btn-line: rgb(243 235 223 / 0.45);
+    --btn-ink: var(--color-on-night);
+    --btn-wash: rgb(243 235 223 / 0.08);
+  }
+
+  .tone-maroon,
+  .site-header[data-ink='maroon'],
+  /* The same first-paint promise for the one page that opens on maroon. */
+  html:has([data-hero-tone='maroon']) .site-header:not([data-ink]):not([data-scrolled='true']) {
+    --fg: var(--color-on-accent);
+    --fg-2: var(--color-on-accent-secondary);
+    --fg-3: var(--color-on-accent-secondary);
+    --kicker: var(--color-brass-maroon);
+    --line: rgb(251 247 239 / 0.18);
+    --line-strong: rgb(251 247 239 / 0.5);
+    --mark: rgb(226 196 142 / 0.65);
+    --tone-bg: var(--color-accent-deep);
+    --brand-ink: var(--color-on-accent);
+    --btn-fill: var(--color-on-accent);
+    --btn-fill-hover: #ffffff;
+    --btn-on-fill: var(--color-accent-deep);
+    --btn-line: rgb(251 247 239 / 0.5);
+    --btn-ink: var(--color-on-accent);
+    --btn-wash: rgb(251 247 239 / 0.1);
+  }
+
+  .tone-light,
+  .tone-paper,
+  .tone-sand,
+  .tone-night,
+  .tone-maroon {
+    background-color: var(--tone-bg);
+    color: var(--fg);
+  }
+}

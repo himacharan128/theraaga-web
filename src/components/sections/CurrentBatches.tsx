@@ -14,7 +14,7 @@ const MODE_LABEL: Record<Mode, string> = {
 
 /**
  * "When is it?" is the second question every parent asks, right after "where
- * is it?" — and a batch table is the highest-converting artefact this content
+ * is it?", and a batch table is the highest-converting artefact this content
  * model can produce: *Saturday 10:00, Jubilee Hills, 4 seats left*.
  *
  * With no batches the section renders nothing at all, rather than an empty
@@ -37,12 +37,12 @@ export async function CurrentBatches() {
       <div className="overflow-x-auto">
         <table className="w-full min-w-[42rem] border-collapse text-left">
           <thead>
-            <tr className="border-b border-border-strong">
+            <tr className="border-b border-line-strong">
               {['Day', 'Time', 'Where', 'Ages', 'Seats'].map((h) => (
                 <th
                   key={h}
                   scope="col"
-                  className="u-eyebrow py-4 pr-6 font-medium"
+                  className="t-label py-4 pr-6 text-fg-3"
                 >
                   {h}
                 </th>
@@ -56,19 +56,19 @@ export async function CurrentBatches() {
             {batches.map((b) => {
               const left = b.seatsTotal - b.seatsFilled
               return (
-                <tr key={b.id} className="border-b border-border">
-                  <td className="py-5 pr-6">{b.dayOfWeek}</td>
-                  <td className="py-5 pr-6">{b.time}</td>
-                  <td className="py-5 pr-6 text-text-secondary">
+                <tr key={b.id} className="t-body border-b border-line">
+                  <td className="t-title py-5 pr-6 text-fg">{b.dayOfWeek}</td>
+                  <td className="py-5 pr-6 tabular-nums text-fg">{b.time}</td>
+                  <td className="py-5 pr-6 text-fg-2">
                     {MODE_LABEL[b.mode]}
                     {b.locationLabel ? ` · ${b.locationLabel}` : ''}
                   </td>
-                  <td className="py-5 pr-6 text-text-secondary">{b.ageBand}</td>
+                  <td className="py-5 pr-6 text-fg-2">{b.ageBand}</td>
                   <td className="py-5 pr-6">
                     {left > 0 ? (
                       <span className="text-accent">{left} left</span>
                     ) : (
-                      <span className="text-text-muted">Full</span>
+                      <span className="text-fg-3">Full</span>
                     )}
                   </td>
                   <td className="py-5">

@@ -1,0 +1,144 @@
+/* ============================================================================
+   Site chrome
+   ============================================================================ */
+
+/* The header is transparent at rest and turns solid once the page moves. Over
+   a dark chapter it takes that chapter's ink (data-ink, from its observer). A
+   page whose hero is dark says so with data-hero-tone, so the very first paint
+   is right before script runs. */
+.site-header {
+  transition:
+    background-color var(--dur-2) var(--ease-raaga),
+    border-color var(--dur-2) var(--ease-raaga),
+    color var(--dur-2) var(--ease-raaga);
+}
+
+.site-header[data-scrolled='true'] {
+  background-color: var(--color-bg);
+  border-color: var(--color-border);
+}
+
+.site-header[data-scrolled='true'][data-ink='night'] {
+  background-color: var(--color-night);
+  border-color: rgb(243 235 223 / 0.12);
+}
+
+.site-header[data-scrolled='true'][data-ink='maroon'] {
+  background-color: var(--color-accent-deep);
+  border-color: rgb(251 247 239 / 0.14);
+}
+
+.site-header[data-menu='open'] {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+/* The nav underline grows from the left on hover and stays on the current page. */
+.nav-link {
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition:
+    background-size var(--dur-2) var(--ease-out-expo),
+    color var(--dur-1) var(--ease-raaga);
+}
+
+.nav-link:hover,
+.nav-link[aria-current='page'] {
+  background-size: 100% 1px;
+}
+
+/* The phone dock slides up from the bottom edge and steps aside for the menu. */
+.phone-dock {
+  transform: translateY(110%);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform 420ms var(--ease-out-expo),
+    opacity 420ms var(--ease-out-expo),
+    visibility 0s linear 420ms;
+}
+
+.phone-dock[data-show='true'] {
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    transform 420ms var(--ease-out-expo),
+    opacity 420ms var(--ease-out-expo),
+    visibility 0s;
+}
+
+html[data-menu='open'] .phone-dock {
+  visibility: hidden;
+}
+
+/* The mobile menu: a full-height sheet that falls like a curtain. */
+.menu-sheet {
+  clip-path: inset(0 0 0 0);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .menu-sheet[data-state='open'] {
+    animation: menu-open 560ms var(--ease-in-out) both;
+  }
+
+  .menu-sheet[data-state='closing'] {
+    animation: menu-close 300ms var(--ease-in-out) both;
+  }
+
+  .menu-sheet[data-state='open'] .menu-item {
+    animation: arrive 700ms var(--ease-out-expo) both;
+    animation-delay: calc(var(--i, 0) * 55ms + 180ms);
+  }
+}
+
+@keyframes menu-open {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+@keyframes menu-close {
+  to {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   The brand lockup: the client's paisley emblem beside the raaga wordmark.
+
+   Emblem and wordmark are both painted as `currentColor` through a mask rather
+   than shipped as coloured images, so one cached file each serves every
+   context: maroon on parchment, ivory on the dark stage. Masks over true holes
+   also mean the counters of the `g` show the page behind them, never a fill.
+
+   Proportions are measured off the client's master artwork, where the emblem
+   stands 2.45x the height of the `raaga` text. That is too tall for a 64px
+   mobile bar, so the lockup holds the emblem at 1.35x the wordmark box and the
+   gap at the artwork's own ratio. Both derive from one --wm, set per call site.
+   ------------------------------------------------------------------------- */
+
+.brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--wm) * 0.3);
+  color: var(--brand-ink, var(--color-accent));
+}
+
+.brand-emblem,
+.brand-wordmark {
+  background-color: currentColor;
+  -webkit-mask: var(--m) no-repeat center / contain;
+  mask: var(--m) no-repeat center / contain;
+}
+
+.brand-emblem {
+  --m: url('/brand/raaga-emblem.svg');
+  height: calc(var(--wm) * 1.35);
+  aspect-ratio: 816 / 3282;
+}
+
+.brand-wordmark {
+  --m: url('/brand/raaga-wordmark.svg');
+  height: calc(var(--wm) * 0.756);
+  aspect-ratio: 1000 / 438.3;
+}

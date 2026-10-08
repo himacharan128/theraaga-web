@@ -1,0 +1,60 @@
+/* ----------------------------------------------------------------------------
+   The homepage intro (components/intro): its geometry and colour. Its timing
+   lives in score.ts.
+
+   --e, the emblem's height, is the unit of the whole composition. The lockup
+   is drawn from it at the master proportions (--wm), and the axis and rings
+   stand on the emblem's centre line, 0.1243 --e from the lockup's left edge.
+   On a phone the width governs it, on a desktop the height.
+   ------------------------------------------------------------------------- */
+
+@layer components {
+  .intro {
+    --e: clamp(7.5rem, min(34vw, 25vh), 13.5rem);
+    --wm: calc(var(--e) / 1.35);
+    z-index: 60;
+    contain: strict;
+    background: var(--color-bg);
+  }
+
+  /* Shown only while the intro's script holds the document. The animation is
+     a backstop: whatever becomes of the script, the veil cannot outlive 3.2s. */
+  html[data-intro] .intro {
+    display: block !important;
+    animation: intro-gone 1ms 3.2s forwards;
+  }
+
+  /* Once the veil starts to lift, input passes through to the page. */
+  html[data-intro='out'] .intro {
+    pointer-events: none;
+  }
+
+  .intro-glow {
+    background: radial-gradient(55% 50% at 50% 46%, var(--color-surface), transparent 72%);
+  }
+
+  .intro-axis,
+  .intro-ring {
+    left: calc(var(--e) * 0.1243);
+  }
+
+  /* Centred by layout, not by a half-pixel transform, so the hairline lands
+     on whole pixels and stays crisp. */
+  .intro-axis {
+    height: var(--e);
+    margin-left: -0.5px;
+  }
+
+  /* Hairlines in the logo's maroon, softened; the last ring is brass. */
+  .intro-ring {
+    width: calc(var(--r) * var(--e));
+    aspect-ratio: 1;
+    border-color: color-mix(in srgb, var(--color-accent) 42%, transparent);
+  }
+}
+
+@keyframes intro-gone {
+  to {
+    visibility: hidden;
+  }
+}

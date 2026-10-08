@@ -87,13 +87,13 @@ export const scholarlyWorks: ScholarlyWork[] = [
 export const teachingPrinciples: TeachingPrinciple[] = [
   {
     order: 1,
-    title: 'The Guru–Shishya Parampara',
-    body: 'Carnatic Sangeetham passes from teacher to student by ear and by repetition — a phrase sung, a phrase returned, corrected, returned again. Almost nothing about that process has needed to change, and we have not changed it.',
+    title: 'The Guru-Shishya Parampara',
+    body: 'Carnatic Sangeetham passes from teacher to student by ear and by repetition: a phrase sung, a phrase returned, corrected, returned again. Almost nothing about that process has needed to change, and we have not changed it.',
   },
   {
     order: 2,
     title: 'A tradition of excellence',
-    body: 'Our Gurus were trained under eminent maestros and hold their students to the standards of that tradition — in śruti, in laya, and in the discipline of daily practice.',
+    body: 'Our Gurus were trained under eminent maestros and hold their students to the standards of that tradition: in śruti, in laya, and in the discipline of daily practice.',
   },
   {
     order: 3,

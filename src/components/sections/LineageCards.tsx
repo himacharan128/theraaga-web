@@ -1,18 +1,20 @@
 import Image from 'next/image'
+import type { CSSProperties } from 'react'
 import type { LineageReference } from '@/content/seed'
 
 /**
- * The maestros the Gurus trained under, as cards.
+ * The maestros the Gurus trained under, set like an archive's portrait
+ * plates: the photograph mounted on paper, and beside it a museum label (the
+ * honorific in small capitals, the name at display size, the client-approved
+ * note beneath a brass rule).
  *
- * Each card is complete as TEXT: the name with its honorific
- * and the client-approved note. A portrait, when an entry has one, is added
- * above or beside that. There is no frame waiting to be filled, so an entry
- * without a photograph is a finished card and not a card with something
- * missing.
+ * Each entry is complete as TEXT. A portrait is added when an entry has one;
+ * there is no frame waiting to be filled, so an entry without a photograph is
+ * a finished label and not a plate with something missing.
  *
- * Two or more entries sit in a two-up grid, portrait above text. A lone entry
- * would be half of that grid with a hole beside it, so it gets one wider
- * horizontal card instead: portrait left, text right, stacked on a phone.
+ * A lone entry is set wide, portrait left and label right (stacked on a
+ * phone). Two or more sit two-up, portrait above label, so a second maestro
+ * never leaves a hole beside the first.
  *
  * Nothing here may attach a maestro to a specific Guru; the notes say what the
  * client's content master says and no more.
@@ -21,53 +23,46 @@ export function LineageCards({ entries }: { entries: LineageReference[] }) {
   const single = entries.length === 1
 
   return (
-    <ul
-      className={
-        single
-          ? 'max-w-4xl'
-          : 'grid gap-6 sm:grid-cols-2 lg:max-w-4xl lg:gap-8'
-      }
-    >
-      {entries.map((entry) => (
-        <li
-          key={entry.order}
-          className={`flex overflow-hidden rounded-[var(--radius-lg)] border border-border ${
-            single ? 'flex-col md:flex-row' : 'flex-col'
-          }`}
-        >
-          {entry.photo ? (
-            <figure className={single ? 'md:w-[19rem] md:shrink-0' : undefined}>
-              <Image
-                src={entry.photo}
-                alt={`Portrait of ${entry.honorific ? `${entry.honorific} ` : ''}${entry.name}`}
-                sizes={
-                  single
-                    ? '(min-width: 768px) 304px, calc(100vw - 2rem)'
-                    : '(min-width: 1024px) 432px, (min-width: 640px) 45vw, calc(100vw - 2rem)'
-                }
-                placeholder="blur"
-                loading="lazy"
-                className="h-auto w-full"
-              />
-            </figure>
-          ) : null}
-          <div
-            className={`flex flex-1 flex-col p-7 md:p-9 ${
-              single ? 'md:justify-center md:p-12' : ''
-            }`}
+    <ul className={single ? '' : 'grid gap-x-10 gap-y-16 md:grid-cols-2'}>
+      {entries.map((entry, i) => {
+        const fullName = `${entry.honorific ? `${entry.honorific} ` : ''}${entry.name}`
+        return (
+          <li
+            key={entry.order}
+            className={`reveal grid gap-y-8 ${single ? 'md:grid-cols-12 md:items-center md:gap-x-10' : ''}`}
+            style={{ '--i': i } as CSSProperties}
           >
-            <h3 className="font-[var(--font-display)] text-[length:var(--text-step-2)] font-[400] leading-[var(--lh-snug)] text-text-primary">
-              {entry.honorific ? `${entry.honorific} ` : ''}
-              {entry.name}
-            </h3>
-            {entry.note ? (
-              <p className="mt-4 text-[length:var(--text-step--1)] text-text-secondary">
-                {entry.note}
-              </p>
+            {entry.photo ? (
+              <figure className={single ? 'md:col-span-5 lg:col-span-4' : ''}>
+                <div className="plate max-w-[26rem]">
+                  <Image
+                    src={entry.photo}
+                    alt={`Portrait of ${fullName}`}
+                    sizes="(min-width: 768px) 26rem, calc(100vw - 3.5rem)"
+                    placeholder="blur"
+                    loading="lazy"
+                    className="h-auto w-full"
+                  />
+                </div>
+              </figure>
             ) : null}
-          </div>
-        </li>
-      ))}
+            <div className={single ? 'md:col-span-7 md:col-start-6 lg:col-span-6 lg:col-start-6' : ''}>
+              <h3>
+                {entry.honorific && (
+                  <span className="t-label block text-kicker">{entry.honorific}</span>
+                )}
+                <span className="t-display mt-4 block text-balance text-fg">{entry.name}</span>
+              </h3>
+              {entry.note ? (
+                <>
+                  <span aria-hidden="true" className="mt-8 block h-px w-16 bg-mark" />
+                  <p className="t-standfirst mt-8 max-w-[38ch] text-fg-2">{entry.note}</p>
+                </>
+              ) : null}
+            </div>
+          </li>
+        )
+      })}
     </ul>
   )
 }

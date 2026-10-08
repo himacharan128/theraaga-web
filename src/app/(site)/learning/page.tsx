@@ -1,12 +1,19 @@
 import type { Metadata } from 'next'
-import { PageHero } from '@/components/layout/PageHero'
+import type { CSSProperties } from 'react'
+import { PageHero, type HeroIndexEntry } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
+import { ProgrammeList } from '@/components/layout/Editorial'
 import { CurriculumTimeline } from '@/components/sections/CurriculumTimeline'
 import { ExploreLearningGoals } from '@/components/sections/ExploreLearningGoals'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { ButtonLink } from '@/components/ui/Button'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
-import { getAcademicPathways, getPerformanceStrands } from '@/data/content'
+import {
+  getAcademicPathways,
+  getCurriculum,
+  getPerformanceStrands,
+  getSeoLandingPages,
+} from '@/data/content'
 import { defaultOgImages } from '@/lib/og-image'
 
 export const metadata: Metadata = {
@@ -28,12 +35,29 @@ export const metadata: Metadata = {
  * it made the page read as a prospectus.
  *
  * This is the page that earns the search traffic and the credibility, because
- * almost no competitor publishes their actual syllabus — and it is entirely
+ * almost no competitor publishes their actual syllabus, and it is entirely
  * true with zero client content.
+ *
+ * It opens as a contents page, since it is long and read in parts: the title
+ * on the left, the four chapters indexed on the right. Then the journey on
+ * the light ground, the starting points on the dark stage, the qualifications
+ * set as a rising stair, and the stage itself as a concert programme on sand.
  */
 export default async function CoursesPage() {
-  const pathways = await getAcademicPathways()
-  const strands = await getPerformanceStrands()
+  const [curriculum, goals, pathways, strands] = await Promise.all([
+    getCurriculum(),
+    getSeoLandingPages(),
+    getAcademicPathways(),
+    getPerformanceStrands(),
+  ])
+
+  // The index lists only chapters that render, so no link points at nothing.
+  const index: HeroIndexEntry[] = [
+    curriculum.length > 0 && { href: '#sangeetha-margam', label: 'The musical journey' },
+    goals.length > 0 && { href: '#learning-goals', label: 'Find your starting point' },
+    pathways.length > 0 && { href: '#sangeetha-vidwat-patham', label: 'Academic pathways' },
+    strands.length > 0 && { href: '#sangeetha-vedika', label: 'The stage' },
+  ].filter((entry): entry is HeroIndexEntry => Boolean(entry))
 
   return (
     <>
@@ -44,22 +68,26 @@ export default async function CoursesPage() {
         ]}
       />
       <PageHero
+        variant="archive"
         eyebrow="Sādhana · साधना · Journey of learning"
-        title="Sa. Pa. Sa. The foundation of every musical journey."
+        title={
+          <>
+            <em className="block text-accent">Sa. Pa. Sa.</em> The foundation of every musical journey.
+          </>
+        }
         lede={
           <p>
             The timeless resonance every student begins with. From a first
             lesson through to improvisation, learning here develops four things
-            at once:{' '}
-            <strong className="font-[400] text-text-primary">śruti</strong>, the
-            ear for pitch;{' '}
-            <strong className="font-[400] text-text-primary">laya</strong>, the
-            sense of rhythm;{' '}
-            <strong className="font-[400] text-text-primary">bhāva</strong>, the
+            at once: <strong className="font-normal text-fg">śruti</strong>, the
+            ear for pitch; <strong className="font-normal text-fg">laya</strong>,
+            the sense of rhythm;{' '}
+            <strong className="font-normal text-fg">bhāva</strong>, the
             expression that gives a phrase meaning; and the confidence to sing
             in front of other people.
           </p>
         }
+        index={index}
       >
         <ButtonLink href="/contact">Book a trial</ButtonLink>
       </PageHero>
@@ -71,7 +99,7 @@ export default async function CoursesPage() {
         id="sangeetha-vidwat-patham"
         eyebrow="Sangeetha Vidwat Pātham"
         title="Academic pathways."
-        tone="surface"
+        layout="split"
         lede={
           <p>
             For students who want the qualification as well as the music, we
@@ -80,19 +108,26 @@ export default async function CoursesPage() {
         }
         renderIf={pathways.length > 0}
       >
-        <ul className="grid gap-x-12 gap-y-8 sm:grid-cols-2">
-          {pathways.map((p) => (
-            <li key={p.order} className="border-t border-border pt-6">
-              <h3 className="text-[length:var(--text-step-1)] font-[400] text-accent">
-                {p.name}
-              </h3>
-              <p className="mt-3 text-[length:var(--text-step--1)] leading-[var(--lh-body)] text-text-secondary">
-                {p.body}
-              </p>
+        {/* The four qualifications climb: each tread sits higher than the
+            last on a wide screen, so the order reads as an ascent. */}
+        <ol className="grid gap-y-10 md:grid-cols-2 md:gap-x-10 lg:grid-cols-4 lg:items-start">
+          {pathways.map((p, i) => (
+            <li
+              key={p.order}
+              className="reveal"
+              style={{ '--i': i, '--step': pathways.length - 1 - i } as CSSProperties}
+            >
+              <div className="border-t border-mark pt-6 lg:mt-[calc(var(--step)*3.5rem)]">
+                <span aria-hidden="true" className="t-numeral block text-[2.5rem] text-accent-muted md:text-[3rem]">
+                  {String(p.order).padStart(2, '0')}
+                </span>
+                <h3 className="t-title mt-5 text-fg">{p.name}</h3>
+                <p className="t-body mt-3 max-w-[40ch] text-fg-2">{p.body}</p>
+              </div>
             </li>
           ))}
-        </ul>
-        <p className="u-measure mt-8 font-[var(--font-display)] text-[length:var(--text-step--1)] italic text-text-muted">
+        </ol>
+        <p className="reveal t-caption mt-12 max-w-[52ch] border-l border-mark pl-5 text-fg-2 md:mt-16 md:text-[1.0625rem]">
           Speak to us about which pathway suits your stage of learning, and
           which examining bodies we currently prepare students for.
         </p>
@@ -100,6 +135,8 @@ export default async function CoursesPage() {
 
       <Section
         id="sangeetha-vedika"
+        tone="sand"
+        layout="split"
         eyebrow="Sangeetha Vedika"
         title="The stage."
         lede={
@@ -110,16 +147,7 @@ export default async function CoursesPage() {
         }
         renderIf={strands.length > 0}
       >
-        <ul className="grid gap-x-12 gap-y-8 md:grid-cols-2">
-          {strands.map((s) => (
-            <li key={s.order} className="border-t border-border pt-6">
-              <h3 className="text-[length:var(--text-step-1)] font-[400] leading-[var(--lh-snug)]">
-                {s.name}
-              </h3>
-              <p className="u-measure mt-2 text-text-secondary">{s.body}</p>
-            </li>
-          ))}
-        </ul>
+        <ProgrammeList items={strands.map((s) => ({ key: s.order, title: s.name, body: s.body }))} />
       </Section>
 
       <FinalCta />

@@ -127,16 +127,9 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
   const err = state.errors ?? {}
 
   return (
-    <form
-      action={action}
-      onInput={onFirstInput}
-      noValidate
-      className="grid gap-8 rounded-[var(--radius-lg)] border border-border bg-surface p-5 sm:p-8 md:p-10"
-    >
-      <p className="font-[var(--font-ui)] text-[length:var(--text-step--1)] text-text-muted">
-        Everything below is needed unless it says optional.
-      </p>
-      {/* Honeypot — off-screen, never announced, never focusable. */}
+    <form action={action} onInput={onFirstInput} noValidate className="grid gap-9">
+      <p className="t-small text-fg-3">Everything below is needed unless it says optional.</p>
+      {/* Honeypot: off-screen, never announced, never focusable. */}
       <div aria-hidden="true" className="sr-only">
         <label htmlFor="websiteUrl">Leave this field empty</label>
         <input
@@ -157,10 +150,7 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
           enough to earn a pair. */}
       <div className="grid gap-6">
         <div>
-          <label
-            htmlFor="contactName"
-            className="mb-2 block font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium"
-          >
+          <label htmlFor="contactName" className="field-label">
             {learner === 'my_child' ? 'Parent or guardian’s name' : 'Your name'}
           </label>
           <input
@@ -174,33 +164,24 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
             autoCapitalize="words"
             aria-invalid={!!err.contactName}
             aria-describedby={err.contactName ? 'err-contactName' : undefined}
-            className="w-full rounded-[var(--radius-sm)] border border-border-strong bg-bg px-4 py-3 text-[length:var(--text-step-0)] outline-none focus:border-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            className="field"
           />
           {err.contactName && (
-            <p
-              id="err-contactName"
-              role="alert"
-              className="mt-2 text-[length:var(--text-step--1)] text-accent"
-            >
+            <p id="err-contactName" role="alert" className="field-error">
               {err.contactName}
             </p>
           )}
         </div>
 
         <div>
-          <label
-            htmlFor="phone"
-            className="mb-2 block font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium"
-          >
+          <label htmlFor="phone" className="field-label">
             WhatsApp number
           </label>
-          {/* One bordered container, not two boxes shoved together. The +91
-              now reads as part of the field rather than as a label that lost
-              its input. */}
-          <div className="flex items-stretch overflow-hidden rounded-[var(--radius-sm)] border border-border-strong bg-bg focus-within:border-accent">
-            <span className="flex items-center border-r border-border px-3.5 font-[var(--font-ui)] text-[length:var(--text-step--1)] text-text-muted">
-              +91
-            </span>
+          {/* One bordered control, not two boxes shoved together: the +91
+              reads as part of the field rather than as a label that lost its
+              input. */}
+          <div className="field-group">
+            <span className="field-prefix">+91</span>
             <input
               id="phone"
               name="phone"
@@ -213,12 +194,12 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
               maxLength={12}
               aria-invalid={!!err.phone}
               aria-describedby="hint-phone"
-              className="w-full bg-transparent px-4 py-3 text-[length:var(--text-step-0)] outline-none"
+              className="field-bare"
             />
           </div>
           <p
             id="hint-phone"
-            className={`mt-2 text-[length:var(--text-step--1)] ${err.phone ? 'text-accent' : 'text-text-muted'}`}
+            className={err.phone ? 'field-error' : 'field-hint'}
             role={err.phone ? 'alert' : undefined}
           >
             {err.phone ?? 'We’ll message you, not spam you.'}
@@ -256,7 +237,7 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
         error={err.ageBand}
       />
 
-      {/* Conditional reveal — the form never looks longer than it needs to. */}
+      {/* Conditional reveal: the form never looks longer than it needs to. */}
       {mode === 'online' && (
         <ChipGroup
           name="timezone"
@@ -269,24 +250,25 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
       )}
 
       {/* DPDP: a child is anyone under 18. We never collect the child's name or
-          date of birth here — only the adult's identity plus this confirmation. */}
+          date of birth here, only the adult's identity plus this confirmation.
+          The checkbox stays a native, visible control. */}
       {learner === 'my_child' && (
-        <div>
+        <div className="border-l-2 border-mark pl-5">
           <label className="flex cursor-pointer items-start gap-3">
             <input
               type="checkbox"
               name="guardianConsent"
               checked={guardianConsent}
               onChange={(e) => setGuardianConsent(e.target.checked)}
-              className="mt-1 size-5 shrink-0 accent-[var(--color-accent)]"
+              className="mt-0.5 size-5 shrink-0 accent-[var(--color-accent)]"
             />
-            <span className="text-[length:var(--text-step--1)] text-text-secondary">
+            <span className="t-small text-fg-2">
               I am the parent or guardian of the learner and I consent to RAAGA
               contacting me about classes.
             </span>
           </label>
           {err.guardianConsent && (
-            <p role="alert" className="mt-2 text-[length:var(--text-step--1)] text-accent">
+            <p role="alert" className="field-error">
               {err.guardianConsent}
             </p>
           )}
@@ -301,20 +283,22 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
           completion falls as field count rises, and the four that actually
           route a lead are already above. Native <details> keeps the short path
           short at zero JS, and anyone who wants to tell us more can. */}
-      <details className="group border-t border-border pt-6">
-        <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-4 font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium text-accent [&::-webkit-details-marker]:hidden">
-          Tell us more
-          <span className="text-text-muted">(optional)</span>
+      <details className="group border-y border-line">
+        <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 font-ui text-[length:var(--fs-small)] font-medium text-[var(--btn-ink)] [&::-webkit-details-marker]:hidden">
+          <span>
+            Tell us more <span className="optional font-normal text-fg-3">(optional)</span>
+          </span>
+          <span aria-hidden="true" className="relative size-3 text-kicker">
+            <span className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-current" />
+            <span className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-current transition-transform duration-[var(--dur-2)] group-open:scale-y-0" />
+          </span>
         </summary>
 
-        <div className="grid gap-8 pt-8">
+        <div className="grid gap-8 pt-4 pb-8">
           <div className="grid gap-6 sm:grid-cols-2">
             <div>
-              <label
-                htmlFor="email"
-                className="mb-2 block font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium"
-              >
-                Email <span className="text-text-muted">(optional)</span>
+              <label htmlFor="email" className="field-label">
+                Email <span className="optional">(optional)</span>
               </label>
               <input
                 id="email"
@@ -326,21 +310,18 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
                 inputMode="email"
                 aria-invalid={!!err.email}
                 aria-describedby={err.email ? 'err-email' : undefined}
-                className="w-full rounded-[var(--radius-sm)] border border-border-strong bg-bg px-4 py-3 text-[length:var(--text-step-0)] outline-none focus:border-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                className="field"
               />
               {err.email && (
-                <p id="err-email" role="alert" className="mt-2 text-[length:var(--text-step--1)] text-accent">
+                <p id="err-email" role="alert" className="field-error">
                   {err.email}
                 </p>
               )}
             </div>
 
             <div>
-              <label
-                htmlFor="city"
-                className="mb-2 block font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium"
-              >
-                City <span className="text-text-muted">(optional)</span>
+              <label htmlFor="city" className="field-label">
+                City <span className="optional">(optional)</span>
               </label>
               <input
                 id="city"
@@ -349,7 +330,7 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 autoComplete="address-level2"
-                className="w-full rounded-[var(--radius-sm)] border border-border-strong bg-bg px-4 py-3 text-[length:var(--text-step-0)] outline-none focus:border-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                className="field"
               />
             </div>
           </div>
@@ -387,12 +368,9 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
       </details>
 
       <div>
-        <label
-          htmlFor="message"
-          className="mb-2 block font-[var(--font-ui)] text-[length:var(--text-step--1)] font-medium"
-        >
+        <label htmlFor="message" className="field-label">
           Anything you’d like us to know
-          <span className="text-text-muted"> (optional)</span>
+          <span className="optional"> (optional)</span>
         </label>
         <textarea
           id="message"
@@ -403,51 +381,49 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
           onChange={(e) => setMessage(e.target.value)}
           aria-invalid={!!err.message}
           aria-describedby={err.message ? 'hint-message err-message' : 'hint-message'}
-          className="w-full resize-y rounded-[var(--radius-sm)] border border-border-strong bg-bg px-4 py-3 text-[length:var(--text-step-0)] outline-none focus:border-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          className="field resize-y"
         />
-        <p
-          id="hint-message"
-          className="mt-2 text-[length:var(--text-step--1)] text-text-muted"
-        >
+        <p id="hint-message" className="field-hint">
           Please don’t include your child’s name.
         </p>
         {err.message && (
-          <p
-            id="err-message"
-            role="alert"
-            className="mt-2 text-[length:var(--text-step--1)] text-accent"
-          >
+          <p id="err-message" role="alert" className="field-error">
             {err.message}
           </p>
         )}
       </div>
 
       {state.message && !state.ok && (
-        <p role="alert" className="rounded-[var(--radius-sm)] border border-accent bg-bg px-4 py-3 text-accent">
+        <p
+          role="alert"
+          className="border-l-2 border-[var(--color-accent)] bg-[color-mix(in_srgb,var(--color-accent)_6%,transparent)] px-4 py-3 font-ui text-[length:var(--fs-small)] text-[var(--color-accent)]"
+        >
           {state.message}
         </p>
       )}
 
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-        <Button type="submit" disabled={pending}>
-          {pending ? 'Sending…' : 'Book a trial class'}
-        </Button>
-        <a
-          href={whatsappHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => track('whatsapp_click', { cta_location: 'form' })}
-          className="inline-flex min-h-11 items-center gap-2 font-[var(--font-ui)] text-[length:var(--text-step--1)] text-accent underline underline-offset-4"
-        >
-          <WhatsAppIcon />
-          Or just ask on WhatsApp
-        </a>
-      </div>
+      <div className="grid gap-5 border-t border-line pt-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+          <Button type="submit" disabled={pending} className="sm:min-w-[15rem]">
+            {pending ? 'Sending…' : 'Book a trial class'}
+          </Button>
+          <a
+            href={whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => track('whatsapp_click', { cta_location: 'form' })}
+            className="link-arrow self-start sm:self-center"
+          >
+            <WhatsAppIcon />
+            Or just ask on WhatsApp
+          </a>
+        </div>
 
-      <p className="text-[length:var(--text-step--1)] text-text-muted">
-        We’ll call you within one working day, usually the same evening, to
-        arrange a trial that suits you.
-      </p>
+        <p className="t-small text-fg-3">
+          We’ll call you within one working day, usually the same evening, to
+          arrange a trial that suits you.
+        </p>
+      </div>
     </form>
   )
 }

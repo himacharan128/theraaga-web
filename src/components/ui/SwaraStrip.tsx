@@ -132,53 +132,54 @@ export function SwaraStrip() {
 
   return (
     <div>
-      {/* Seven items in a wrapping flex row break wherever they happen to fit —
-          which gave 6 + 1, an orphaned "Ni" that read as a bug. The break is now
+      {/* Seven items in a wrapping flex row break wherever they happen to fit,
+          which gave 6 + 1, an orphaned "Ni" that read as a bug. The break is
           explicit: 4 + 3 below sm, one row of seven above it. Seven across at
-          360px would put each circle under the 44px tap minimum, so two rows on
-          mobile is the honest answer; making the split deliberate is what stops
-          it looking broken. */}
-      <ul className="flex flex-wrap justify-center gap-2.5 sm:gap-3 md:gap-4">
+          360px would put each key under the 44px tap minimum, so two rows on
+          mobile is the honest answer; making the split deliberate is what
+          stops it looking broken.
+
+          Sa and Pa carry a small brass mark: they are the two fixed notes the
+          explainer below talks about. */}
+      <ul className="flex flex-wrap justify-center gap-2.5 sm:mx-auto sm:w-fit sm:gap-0 sm:divide-x sm:divide-line sm:border sm:border-line">
         {SWARAS.map((s, i) => (
           <Fragment key={s.label}>
             {i === 4 && <li aria-hidden="true" className="basis-full sm:hidden" />}
-          <li>
-            <button
-              type="button"
-              onClick={() => play(s.label, SA * s.ratio)}
-              aria-label={`Play note ${s.label}: ${s.gloss}`}
-              data-active={active === s.label}
-              className="swara-key flex size-[3.5rem] flex-col items-center justify-center rounded-[var(--radius-md)] border border-border-strong sm:size-16
-                         bg-bg transition-[background-color,border-color,transform]
-                         duration-[var(--dur-fast)] ease-[var(--ease-raaga)]
-                         hover:border-accent motion-safe:hover:-translate-y-0.5
-                         data-[active=true]:border-accent
-                         data-[active=true]:bg-[color-mix(in_srgb,var(--color-accent)_12%,var(--color-bg))]
-                         md:size-[4.25rem]"
-            >
-              <span className="deva text-[length:var(--text-step-1)] leading-none text-accent">
-                {s.devanagari}
-              </span>
-              <span className="mt-1 font-[var(--font-ui)] text-[0.68rem] tracking-[0.14em] text-text-muted">
-                {s.label.toUpperCase()}
-              </span>
-            </button>
-          </li>
+            <li>
+              <button
+                type="button"
+                onClick={() => play(s.label, SA * s.ratio)}
+                aria-label={`Play note ${s.label}: ${s.gloss}`}
+                data-active={active === s.label}
+                className="swara-key group relative flex h-[5.25rem] w-16 flex-col items-center justify-center gap-2 border border-line text-fg
+                           transition-colors duration-[var(--dur-1)] ease-[var(--ease-raaga)]
+                           hover:bg-[var(--btn-wash)]
+                           data-[active=true]:bg-[rgb(207_174_114/0.16)]
+                           sm:h-32 sm:w-[4.75rem] sm:border-0 md:w-24 lg:h-36 lg:w-28"
+              >
+                {(s.label === 'Sa' || s.label === 'Pa') && (
+                  <span aria-hidden="true" className="absolute top-2.5 size-1 rotate-45 bg-mark sm:top-4" />
+                )}
+                <span className="deva text-[1.75rem] leading-none sm:text-[2.25rem] lg:text-[2.5rem]">
+                  {s.devanagari}
+                </span>
+                <span className="t-label text-[0.625rem] text-kicker transition-colors group-data-[active=true]:text-fg">
+                  {s.label}
+                </span>
+              </button>
+            </li>
           </Fragment>
         ))}
       </ul>
 
-      <div className="mt-8 flex justify-center">
+      <div className="mt-8 flex justify-center md:mt-10">
         <button
           type="button"
           onClick={playSequence}
           disabled={sequencing}
-          className="inline-flex min-h-11 items-center gap-2.5 rounded-[var(--radius-md)] border border-border-strong px-5
-                     font-[var(--font-ui)] text-[length:var(--text-step--1)] text-accent
-                     transition-colors duration-[var(--dur-fast)] hover:border-accent
-                     hover:bg-[color-mix(in_srgb,var(--color-accent)_6%,transparent)] disabled:opacity-60"
+          className="btn btn-secondary disabled:opacity-60"
         >
-          <svg width="13" height="14" viewBox="0 0 13 14" fill="none" aria-hidden="true">
+          <svg width="12" height="13" viewBox="0 0 13 14" fill="none" aria-hidden="true">
             <path d="M1.5 1.5l10 5.5-10 5.5V1.5Z" fill="currentColor" />
           </svg>
           {sequencing ? 'Playing…' : 'Play Sa · Pa · Sa'}
@@ -190,7 +191,7 @@ export function SwaraStrip() {
         {active ? `Playing ${active}` : ''}
       </p>
 
-      <p className="u-measure mx-auto mt-8 text-center text-[length:var(--text-step--1)] leading-[var(--lh-body)] text-text-muted">
+      <p className="t-small mx-auto mt-8 max-w-[58ch] text-center text-fg-3 md:mt-10">
         Tap a swara to hear it. Sa and Pa never move. They are the two fixed
         notes a tanpura is tuned to, and the reference every other note is heard
         against. These seven are the whole of Carnatic music; everything else is

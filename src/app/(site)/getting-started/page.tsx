@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import type { CSSProperties } from 'react'
 import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
+import { IndexList, LinkRows } from '@/components/layout/Editorial'
 import { ButtonLink } from '@/components/ui/Button'
-import { PathCard } from '@/components/sections/ExploreLearningGoals'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { defaultOgImages } from '@/lib/og-image'
@@ -48,6 +48,11 @@ const QUESTIONS = [
 /**
  * The closing ask is the shared FinalCta below; this page deliberately has no
  * second "ready to speak with the school?" block of its own.
+ *
+ * Read as a short guide in five movements, each with its own shape: the
+ * formats as a contents page, the beginner's note in a rail on sand, the
+ * syllabus as a single paragraph, the questions as a numbered list on the
+ * dark stage, and the goals in a rail.
  */
 export default function GettingStartedPage() {
   return (
@@ -59,54 +64,60 @@ export default function GettingStartedPage() {
         lede={<p>A practical guide for adults starting for themselves and parents choosing lessons for a child. RAAGA teaches Carnatic vocal music in Hyderabad and live online.</p>}
       />
 
-      <Section id="formats" eyebrow="Choose a format" title="Where would you like to learn?">
-        <ul className="grid gap-4 md:grid-cols-2">
-          {FORMATS.map((f) => (
-            <li key={f.href} className="group">
-              <PathCard {...f} cta="Explore" />
-            </li>
-          ))}
-        </ul>
+      <Section id="formats" eyebrow="Choose a format" title="Where would you like to learn?" layout="split">
+        <IndexList items={FORMATS.map((f) => ({ ...f, action: 'Explore' }))} />
       </Section>
 
-      <Section id="beginners" title="Starting without previous training" tone="surface">
-        <p className="u-measure text-text-secondary">
+      <Section id="beginners" title="Starting without previous training" tone="sand" layout="rail">
+        <p className="reveal t-standfirst max-w-[52ch] text-fg-2">
           You can enquire as a beginner. Tell RAAGA whether you are learning for yourself or choosing classes for a child, your preferred location or online format, and the times you can attend. If you have studied before, describe the exercises or compositions you have learned so the teacher can discuss an appropriate starting point.
         </p>
-        <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
-          {[
-            ['Beginner classes', 'beginners'],
-            ['Classes for children', 'children'],
-            ['Adult beginners and returners', 'adults'],
-          ].map(([label, slug]) => <li key={slug}><Link href={`/carnatic-music-classes/${slug}`} className="text-accent underline underline-offset-4">{label}</Link></li>)}
-        </ul>
+        <LinkRows
+          className="reveal mt-10"
+          links={[
+            { label: 'Beginner classes', href: '/carnatic-music-classes/beginners' },
+            { label: 'Classes for children', href: '/carnatic-music-classes/children' },
+            { label: 'Adult beginners and returners', href: '/carnatic-music-classes/adults' },
+          ]}
+        />
       </Section>
 
-      <Section id="syllabus" title="What the syllabus covers">
-        <p className="u-measure text-text-secondary">
-          RAAGA’s published progression begins with Sarali Swaras, Janta Swaras and Alankaras. Students then work through compositions including Geetams, Swarajatis, Varnams, Keertanas and Kritis. Advanced learning includes Manodharma Sangeetham. Progress depends on the learner and the teacher’s guidance; a list of stages is not a promise of a fixed completion date.
-        </p>
-        <div className="mt-8">
-          <ButtonLink variant="secondary" href="/learning">Read the complete Carnatic syllabus</ButtonLink>
+      <Section id="syllabus" title="What the syllabus covers" layout="split">
+        <div className="reveal lg:grid lg:grid-cols-12 lg:gap-x-10">
+          <p className="t-prose max-w-[60ch] text-fg-2 lg:col-span-7 lg:col-start-6">
+            RAAGA’s published progression begins with Sarali Swaras, Janta Swaras and Alankaras. Students then work through compositions including Geetams, Swarajatis, Varnams, Keertanas and Kritis. Advanced learning includes Manodharma Sangeetham. Progress depends on the learner and the teacher’s guidance; a list of stages is not a promise of a fixed completion date.
+          </p>
+          <div className="mt-8 lg:col-span-7 lg:col-start-6">
+            <ButtonLink variant="secondary" href="/learning">Read the complete Carnatic syllabus</ButtonLink>
+          </div>
         </div>
       </Section>
 
-      <Section id="questions" title="Questions to ask before joining" tone="surface">
-        <ul className="u-measure list-disc space-y-3 pl-6 text-text-secondary">
-          {QUESTIONS.map((q) => (
-            <li key={q}>{q}</li>
+      <Section id="questions" title="Questions to ask before joining" tone="night" layout="center">
+        <ol className="mx-auto max-w-3xl border-t border-line">
+          {QUESTIONS.map((q, i) => (
+            <li
+              key={q}
+              className="reveal grid grid-cols-[2.5rem_1fr] items-baseline gap-x-3 border-b border-line py-6 md:grid-cols-[4rem_1fr] md:py-7"
+              style={{ '--i': i % 4 } as CSSProperties}
+            >
+              <span aria-hidden="true" className="t-numeral text-[1.25rem] text-kicker md:text-[1.5rem]">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span className="t-title text-fg">{q}</span>
+            </li>
           ))}
-        </ul>
-        <p className="u-measure mt-8 text-text-secondary">
+        </ol>
+        <p className="reveal t-caption mx-auto mt-10 max-w-3xl border-l border-mark pl-5 text-fg-2 md:text-[1.0625rem]">
           For a child’s enquiry, provide the parent or guardian’s contact details and an age band. The website does not need the child’s name or date of birth.
         </p>
       </Section>
 
-      <Section id="goals" title="Academic and performance goals">
-        <p className="u-measure text-text-secondary">
+      <Section id="goals" title="Academic and performance goals" layout="rail">
+        <p className="reveal t-standfirst max-w-[52ch] text-fg-2">
           RAAGA offers guidance for students pursuing certificate, diploma and degree pathways, alongside performance preparation. Ask the team about your intended programme and its requirements. Preparation at RAAGA should not be confused with a university awarding a qualification.
         </p>
-        <div className="mt-8">
+        <div className="reveal mt-8">
           <ButtonLink variant="secondary" href="/gurus">Explore RAAGA’s teaching tradition</ButtonLink>
         </div>
       </Section>

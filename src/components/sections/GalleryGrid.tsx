@@ -13,7 +13,7 @@ import type { GalleryItem } from '@/content/types'
  *  2. Never a bare YouTube iframe. web.dev measures those at 500 KB+ and up to
  *     2 MB of JavaScript; this renders a poster facade that links out, which is
  *     ~0 KB until tapped.
- *  3. The consent gate has already run in the DAL — anything depicting a minor
+ *  3. The consent gate has already run in the DAL: anything depicting a minor
  *     without recorded guardian consent never reaches this component. That
  *     filter lives in the query on purpose, so no UI change can bypass it.
  *
@@ -33,7 +33,7 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
           <figure>
             <div
               style={{ aspectRatio: item.media.aspect }}
-              className="relative w-full overflow-hidden rounded-[var(--radius-md)] bg-surface"
+              className="media w-full"
             >
               <Image
                 src={item.media.src}
@@ -41,7 +41,7 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
                 fill
                 sizes="(min-width: 768px) 33vw, 50vw"
                 loading={i < EAGER_COUNT ? 'eager' : 'lazy'}
-                className="object-cover transition-transform duration-[var(--dur-slow)] ease-[var(--ease-raaga)] motion-safe:lg:group-hover:scale-[1.02]"
+                className="object-cover transition-transform duration-[var(--dur-3)] ease-[var(--ease-raaga)] motion-safe:lg:group-hover:scale-[1.025]"
               />
               {item.kind === 'video' && (
                 <span
@@ -57,7 +57,7 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
               )}
             </div>
             {item.caption && (
-              <figcaption className="mt-2 px-1 text-[length:var(--text-step--1)] leading-[var(--lh-body)] text-text-muted">
+              <figcaption className="t-small mt-2 text-fg-3">
                 {item.caption}
               </figcaption>
             )}

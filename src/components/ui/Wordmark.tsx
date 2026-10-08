@@ -6,14 +6,16 @@
  *
  * Emblem and wordmark are both vector traces of the client's artwork, painted
  * through a CSS mask as `currentColor` (see `.brand-emblem` and
- * `.brand-wordmark` in globals.css). They take the ink of whatever they sit in
- * rather than needing one file per colourway, and, being masks over true holes,
- * the counters of the `g` show whatever is behind the logo — never a white
- * fill. Both are `aria-hidden`; one `sr-only` name announces the lockup once.
+ * `.brand-wordmark` in app/styles/chrome.css). They take the ink of whatever
+ * they sit in rather than needing one file per colourway, and, being masks over
+ * true holes, the counters of the `g` show whatever is behind the logo, never a
+ * white fill. Both are `aria-hidden`; one `sr-only` name announces the lockup
+ * once.
  *
  * Size comes from `--wm`, the wordmark's nominal height; the emblem, the
  * wordmark ink and the gap are all derived from it. Set it on `className` at
- * the call site, responsively if the context needs it — e.g. `[--wm:2.25rem] sm:[--wm:2.75rem]`.
+ * the call site, responsively if the context needs it (for example
+ * `[--wm:2.25rem] sm:[--wm:2.75rem]`).
  */
 export function Wordmark({ className = '' }: { className?: string }) {
   return (

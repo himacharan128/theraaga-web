@@ -1,0 +1,358 @@
+/* ============================================================================
+   Components: layout, actions, media, long-form reading and form controls.
+   ============================================================================ */
+
+@layer components {
+  /* ---- Layout ---- */
+  .u-shell {
+    max-width: var(--shell);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .u-measure {
+    max-width: var(--measure);
+  }
+
+  .pad-section {
+    padding-block: var(--space-section);
+  }
+
+  .pad-section-sm {
+    padding-block: var(--space-section-sm);
+  }
+
+  /* ---- Actions. Primary, secondary, text link; colours from the tone. ---- */
+  .btn {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    min-height: 3rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-family: var(--font-ui);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    text-align: center;
+    text-decoration: none;
+    transition:
+      color var(--dur-2) var(--ease-raaga),
+      background-color var(--dur-2) var(--ease-raaga),
+      box-shadow var(--dur-2) var(--ease-raaga);
+  }
+
+  .btn:active {
+    translate: 0 1px;
+  }
+
+  .btn-primary {
+    background: var(--btn-fill);
+    color: var(--btn-on-fill);
+  }
+
+  /* The hover colour rises from the bottom edge, contained in the button. */
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--btn-fill-hover);
+    transform: scaleY(0);
+    transform-origin: 50% 100%;
+    transition: transform var(--dur-2) var(--ease-out-expo);
+  }
+
+  .btn-primary:hover::before {
+    transform: scaleY(1);
+  }
+
+  .btn-secondary {
+    color: var(--btn-ink);
+    box-shadow: inset 0 0 0 1px var(--btn-line);
+  }
+
+  .btn-secondary:hover {
+    background: var(--btn-wash);
+    box-shadow: inset 0 0 0 1px var(--btn-ink);
+  }
+
+  .btn-arrow {
+    transition: translate var(--dur-2) var(--ease-out-expo);
+  }
+
+  .btn:hover .btn-arrow,
+  .link-arrow:hover .btn-arrow {
+    translate: 0.25rem 0;
+  }
+
+  /* Text link: a quiet rule underneath that fills in on hover. */
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 1.75rem;
+    padding-bottom: 0.125rem;
+    font-family: var(--font-ui);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--btn-ink);
+    text-decoration: none;
+    background:
+      linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat,
+      linear-gradient(var(--line-strong), var(--line-strong)) 0 100% / 100% 1px no-repeat;
+    transition: background-size var(--dur-3) var(--ease-out-expo);
+  }
+
+  .link-arrow:hover {
+    background-size:
+      100% 1px,
+      100% 1px;
+  }
+
+  /* Links inside running text. */
+  .link {
+    color: var(--btn-ink);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+    transition: text-decoration-color var(--dur-1) var(--ease-raaga);
+  }
+
+  .link:hover {
+    text-decoration-color: currentColor;
+  }
+
+  /* ---- Media ---- */
+  .media {
+    position: relative;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--fg) 7%, var(--tone-bg));
+  }
+
+  /* A mounted print: archive material (clippings, covers, portraits). */
+  .plate {
+    background: var(--color-surface);
+    padding: 0.5rem;
+    box-shadow: var(--shadow-plate);
+  }
+
+  /* ---- Long-form reading ---- */
+  .prose-raaga {
+    max-width: var(--measure);
+    font-family: var(--font-display);
+    font-size: var(--fs-prose);
+    line-height: 1.7;
+    color: var(--fg-2);
+  }
+
+  .prose-raaga :where(h2) {
+    margin-top: 3rem;
+    font-size: var(--fs-subhead);
+    color: var(--fg);
+  }
+
+  .prose-raaga :where(h3) {
+    margin-top: 2rem;
+    font-size: var(--fs-title);
+    font-weight: 400;
+    color: var(--fg);
+  }
+
+  .prose-raaga :where(p, ul, ol) {
+    margin-top: 1rem;
+  }
+
+  .prose-raaga :where(ul) {
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+
+  .prose-raaga :where(ol) {
+    list-style: decimal;
+    padding-left: 1.25rem;
+  }
+
+  .prose-raaga :where(li) {
+    margin-top: 0.5rem;
+    padding-left: 0.25rem;
+  }
+
+  .prose-raaga :where(li)::marker {
+    color: var(--kicker);
+  }
+
+  .prose-raaga :where(strong) {
+    font-weight: 500;
+    color: var(--fg);
+  }
+
+  .prose-raaga :where(a) {
+    color: var(--btn-ink);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+  }
+
+  .prose-raaga > :first-child {
+    margin-top: 0;
+  }
+
+  /* A numbered section heading (see components/layout/Prose.tsx) and its
+     first paragraph. */
+  .prose-raaga :where(header + *) {
+    margin-top: 1.5rem;
+  }
+
+  /* --------------------------------------------------------------------------
+     Form controls. Every line that bounds a control is --line-strong, at least
+     3:1 against its ground (WCAG 1.4.11). Input text is 1rem or more so iOS
+     never zooms the page on focus. Focus is a maroon border plus a soft ring,
+     replacing the global outline, which would double it.
+     ----------------------------------------------------------------------- */
+  .field-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-ui);
+    font-size: var(--fs-small);
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--fg);
+  }
+
+  .field-label .optional,
+  legend .optional {
+    font-weight: 400;
+    color: var(--fg-3);
+  }
+
+  .field,
+  .field-group {
+    width: 100%;
+    min-height: 3rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-elevated);
+    color: var(--fg);
+    transition:
+      border-color var(--dur-1) var(--ease-raaga),
+      box-shadow var(--dur-1) var(--ease-raaga);
+  }
+
+  .field,
+  .field-bare {
+    padding: 0.75rem 1rem;
+    font-family: var(--font-ui);
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+  .field-group {
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  .field-bare {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+  }
+
+  .field-prefix {
+    display: flex;
+    align-items: center;
+    padding-inline: 0.875rem;
+    border-right: 1px solid var(--line);
+    font-family: var(--font-ui);
+    font-size: var(--fs-small);
+    color: var(--fg-3);
+  }
+
+  .field:hover,
+  .field-group:hover {
+    border-color: var(--fg-2);
+  }
+
+  .field:focus,
+  .field-group:focus-within {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow:
+      0 0 0 1px var(--color-accent),
+      0 0 0 5px color-mix(in srgb, var(--color-accent) 14%, transparent);
+  }
+
+  .field:focus-visible,
+  .field-bare:focus-visible {
+    outline: none;
+  }
+
+  .field[aria-invalid='true'],
+  .field-group:has([aria-invalid='true']) {
+    border-color: var(--color-accent);
+  }
+
+  .field-hint,
+  .field-error {
+    margin-top: 0.5rem;
+    font-family: var(--font-ui);
+    font-size: var(--fs-small);
+    line-height: 1.5;
+  }
+
+  .field-hint {
+    color: var(--fg-3);
+  }
+
+  .field-error {
+    color: var(--color-accent);
+    font-weight: 500;
+  }
+
+  /* A segmented choice: the radio is visually hidden, the label is the
+     control, and the keyboard ring is drawn on the label. */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding-inline: 1.125rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-elevated);
+    color: var(--fg-2);
+    font-family: var(--font-ui);
+    font-size: var(--fs-small);
+    cursor: pointer;
+    user-select: none;
+    transition:
+      background-color var(--dur-1) var(--ease-raaga),
+      border-color var(--dur-1) var(--ease-raaga),
+      color var(--dur-1) var(--ease-raaga);
+  }
+
+  .chip:hover {
+    border-color: var(--color-accent);
+    color: var(--fg);
+    background: color-mix(in srgb, var(--color-accent) 5%, var(--color-elevated));
+  }
+
+  .chip[data-selected='true'] {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  .chip:has(:focus-visible) {
+    outline: 2px solid var(--fg);
+    outline-offset: 2px;
+  }
+}

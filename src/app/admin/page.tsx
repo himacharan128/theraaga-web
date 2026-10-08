@@ -138,7 +138,7 @@ async function AdminDashboardContent({ searchParams }: { searchParams: Promise<{
           <div className="rounded-2xl border border-stone-200 bg-white p-5"><h2>Enquiry activity</h2><p className="mt-2 text-xs text-stone-500">Aggregate event ratios for the selected period. Events cannot be joined to individual people.</p><dl className="mt-5 space-y-3">{[
             ['Completions per 100 form starts', dashboard.submissions, dashboard.formStarts],
             ['WhatsApp clicks per 100 page views', dashboard.whatsappClicks, dashboard.pageViews],
-          ].map(([label, numerator, denominator]) => <div key={label} className="flex justify-between gap-4 border-b border-stone-100 pb-3"><dt className="text-sm text-stone-600">{label}</dt><dd className="font-semibold tabular-nums">{Number(denominator) ? ((Number(numerator) / Number(denominator)) * 100).toFixed(1) : '—'}</dd></div>)}</dl><p className="mt-4 text-xs text-stone-500">Repeat actions can produce ratios above 100. Missing or blocked telemetry can undercount activity.</p></div>
+          ].map(([label, numerator, denominator]) => <div key={label} className="flex justify-between gap-4 border-b border-stone-100 pb-3"><dt className="text-sm text-stone-600">{label}</dt><dd className="font-semibold tabular-nums">{Number(denominator) ? ((Number(numerator) / Number(denominator)) * 100).toFixed(1) : 'n/a'}</dd></div>)}</dl><p className="mt-4 text-xs text-stone-500">Repeat actions can produce ratios above 100. Missing or blocked telemetry can undercount activity.</p></div>
         </section>
 
         <section className="mt-7 grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">

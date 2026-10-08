@@ -1,11 +1,14 @@
 import type { Metadata } from 'next'
+import type { CSSProperties } from 'react'
+import Link from 'next/link'
 import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { LedgerIndex } from '@/components/layout/Editorial'
-import { PathCard } from '@/components/sections/ExploreLearningGoals'
+import { Arrow } from '@/components/ui/Button'
 import { getJournalTopics, getLearningGuides } from '@/data/content'
+import { guideMeta } from '@/lib/reading'
 import { defaultOgImages } from '@/lib/og-image'
 
 export const metadata: Metadata = {
@@ -26,10 +29,14 @@ export const metadata: Metadata = {
  * Practical guides link to their canonical pages. The client's planned
  * musical subjects remain separate from published writing. No guide is
  * attributed to a Guru without their actual contribution and approval.
+ *
+ * Set as the front page of a small publication: the first guide leads at
+ * display size with the others filed beside it, then the subjects the journal
+ * will write about, as a ledger on sand.
  */
 export default async function JournalPage() {
-  const topics = await getJournalTopics()
-  const guides = await getLearningGuides()
+  const [topics, guides] = await Promise.all([getJournalTopics(), getLearningGuides()])
+  const [lead, ...rest] = guides
 
   return (
     <>
@@ -51,15 +58,61 @@ export default async function JournalPage() {
         }
       />
 
-      <Section id="learning-guides" eyebrow="Practical reading" title="Questions before and between lessons." renderIf={guides.length > 0}>
-        <ul className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {guides.map((guide) => <li key={guide.slug} className="group">
-            <PathCard title={guide.title} body={guide.description} href={`/guides/${guide.slug}`} cta="Read the guide" />
-          </li>)}
-        </ul>
+      <Section
+        id="learning-guides"
+        eyebrow="Practical reading"
+        title="Questions before and between lessons."
+        renderIf={guides.length > 0}
+      >
+        {lead && (
+          <div className="grid gap-y-12 lg:grid-cols-12 lg:gap-x-10">
+            <Link
+              href={`/guides/${lead.slug}`}
+              className={`reveal group block border-t border-mark pt-8 no-underline ${
+                rest.length > 0 ? 'lg:col-span-7' : 'lg:col-span-8'
+              }`}
+            >
+              <p className="t-meta text-fg-3">01 · {guideMeta(lead)}</p>
+              <h3 className="t-display mt-5 max-w-[16ch] text-balance text-fg transition-colors duration-[var(--dur-2)] group-hover:text-kicker">
+                {lead.title}
+              </h3>
+              <p className="t-standfirst mt-6 max-w-[44ch] text-fg-2">{lead.description}</p>
+              <span className="t-small mt-8 inline-flex items-center gap-2 font-medium text-[var(--btn-ink)]">
+                Read the guide
+                <Arrow className="group-hover:translate-x-1" />
+              </span>
+            </Link>
+
+            {rest.length > 0 && (
+              <ol start={2} className="border-t border-line lg:col-span-5">
+                {rest.map((guide, i) => (
+                  <li
+                    key={guide.slug}
+                    className="reveal border-b border-line"
+                    style={{ '--i': i + 1 } as CSSProperties}
+                  >
+                    <Link href={`/guides/${guide.slug}`} className="group block py-7 no-underline md:py-8">
+                      <p className="t-meta text-fg-3">
+                        {String(i + 2).padStart(2, '0')} · {guideMeta(guide)}
+                      </p>
+                      <h3 className="t-subhead mt-3 text-balance text-fg transition-colors duration-[var(--dur-2)] group-hover:text-kicker">
+                        {guide.title}
+                      </h3>
+                      <p className="t-body mt-3 max-w-[48ch] text-fg-2">{guide.description}</p>
+                      <span className="t-small mt-4 inline-flex items-center gap-2 font-medium text-[var(--btn-ink)]">
+                        Read the guide
+                        <Arrow className="group-hover:translate-x-1" />
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+            )}
+          </div>
+        )}
       </Section>
 
-      <Section id="subjects" eyebrow="Subjects" renderIf={topics.length > 0}>
+      <Section id="subjects" eyebrow="Subjects" tone="sand" renderIf={topics.length > 0}>
         {/* Seven is prime: it orphaned an item in both the two- and
             three-column grid this used to be. A journal's subject index is a
             list anyway, and a ledger takes any count without leaving a gap. */}
@@ -72,7 +125,7 @@ export default async function JournalPage() {
           }))}
         />
 
-        <p className="u-measure mt-12 border-l-2 border-gold-hairline/50 pl-5 font-[var(--font-display)] text-[length:var(--text-step--1)] italic text-text-muted">
+        <p className="reveal t-caption mt-10 max-w-[52ch] border-l border-mark pl-5 text-fg-2 md:text-[1.0625rem]">
           These are subjects for future essays and demonstrations. They are
           separate from the practical guides above; new contributions will
           appear here when they are ready.

@@ -4,8 +4,8 @@ import { fontVariables } from './fonts'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { NotFoundContent } from '@/components/layout/NotFoundContent'
-import { whatsappHref } from '@/lib/whatsapp'
-import { getGalleryByCategory } from '@/data/content'
+import { telHref, whatsappHref } from '@/lib/whatsapp'
+import { getGalleryByCategory, getSite } from '@/data/content'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://theraaga.in'),
@@ -25,7 +25,8 @@ export const metadata: Metadata = {
  * (Requires experimental.globalNotFound in next.config.ts.)
  */
 export default async function GlobalNotFound() {
-  const hasGallery = (await getGalleryByCategory()).length > 0
+  const [site, gallery] = await Promise.all([getSite(), getGalleryByCategory()])
+  const hasGallery = gallery.length > 0
   // Mirrors the (site) layout: the journal has no posts yet.
   const hasJournal = false
 
@@ -34,6 +35,8 @@ export default async function GlobalNotFound() {
       <body>
         <Header
           whatsappHref={whatsappHref('HEADER')}
+          telHref={telHref()}
+          phoneDisplay={site.phoneDisplay}
           hasGallery={hasGallery}
           hasJournal={hasJournal}
         />
