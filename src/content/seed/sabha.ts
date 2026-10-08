@@ -19,7 +19,7 @@ export const eventKinds: EventKind[] = [
   {
     order: 2,
     name: 'Workshops',
-    body: 'Focused sessions on a particular aspect of practice — a raga, a form, or an element of technique.',
+    body: 'Focused sessions on a particular aspect of practice: a raga, a form, or an element of technique.',
   },
   {
     order: 3,
@@ -66,7 +66,7 @@ export const journalTopics: JournalTopic[] = [
   {
     order: 3,
     name: 'Kritis Explained',
-    body: 'Individual compositions read closely — the text, the raga, and what the sangatis do.',
+    body: 'Individual compositions read closely: the text, the raga, and what the sangatis do.',
   },
   {
     order: 4,

@@ -39,7 +39,8 @@ enquiries rather than losing them** — serverless filesystems are ephemeral.
 npm run lint         # eslint (next/core-web-vitals + typescript)
 npm run verify       # typecheck · contrast · no-prices · enquiry validation
 npm run test:e2e     # real form submission through a browser (needs the server running)
-npm run test:a11y    # accessibility + performance budget (run against `npm run start`)
+npm run test:a11y    # accessibility + performance budget, then the intro (run against `npm run start`)
+npm run test:intro   # the homepage intro: when it plays, every way out, Chromium + WebKit
 npm run build:fonts  # re-subset the fonts after adding Devanagari copy
 ```
 

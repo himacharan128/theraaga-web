@@ -2,7 +2,7 @@
  * CI guard: every text/background pair in the palette must actually pass WCAG.
  *
  * This exists because the client's own brand direction specified gold lettering
- * on ivory, and the computed contrast is 2.22:1 — a failure so far below the
+ * on ivory, and the computed contrast is 2.22:1: a failure so far below the
  * 4.5:1 body threshold that it fails even the 3:1 floor for UI components. That
  * was caught by computing it rather than by looking at it, which is the whole
  * argument for this file.
@@ -54,26 +54,37 @@ function mix(fg: string, bg: string, pct: number): string {
 }
 
 const T = {
+  // Grounds
   bg: '#F5F0E6',
   surface: '#FFFDF8',
   elevated: '#FFFFFF',
+  sand: '#ECE4D5',
+  night: '#1D1714',
+  // Ink on the light grounds
   textPrimary: '#1F1A17',
   textSecondary: '#463D36',
   textMuted: '#5F554B',
+  // Ink on the dark stage
+  onNight: '#F3EBDF',
+  onNightSecondary: '#CFC2B1',
+  onNightMuted: '#A99B8C',
+  // Maroon
   accent: '#834848',
   accentHover: '#6E3A3A',
   accentDeep: '#612A2C',
-  accentMuted: '#7D5F0F',
-  goldHairline: '#C9A227',
-  olive: '#5A6047',
-  borderStrong: '#86786A',
   onAccent: '#FBF7EF',
+  onAccentSecondary: '#E8D5CC',
+  // Brass
+  accentMuted: '#7D5F0F',
+  goldHairline: '#B39258',
+  brassNight: '#CFAE72',
+  brassMaroon: '#E2C48E',
+  // Structure
+  borderStrong: '#86786A',
 }
 
-// The community card's ground on the homepage: --color-accent-tint in
-// globals.css (7% of accent over surface; the 11% hover step is kept covered).
-const TINT = mix(T.accent, T.surface, 7)
-const TINT_HOVER = mix(T.accent, T.surface, 11)
+// A choice chip's hover ground: 5% of accent over the control's white.
+const CHIP_HOVER = mix(T.accent, T.elevated, 5)
 
 interface Check {
   name: string
@@ -82,63 +93,66 @@ interface Check {
   min: number
 }
 
+const LIGHT = { bg: T.bg, surface: T.surface, sand: T.sand, elevated: T.elevated }
+
+/** One ink checked on every light ground a chapter or control can have. */
+const onLight = (ink: string, fg: string, min = 4.5): Check[] =>
+  Object.entries(LIGHT).map(([ground, bg]) => ({ name: `${ink} on ${ground}`, fg, bg, min }))
+
 const CHECKS: Check[] = [
-  // Body text on all three ground levels.
-  { name: 'text-primary on bg', fg: T.textPrimary, bg: T.bg, min: 4.5 },
-  { name: 'text-primary on surface', fg: T.textPrimary, bg: T.surface, min: 4.5 },
-  { name: 'text-primary on elevated', fg: T.textPrimary, bg: T.elevated, min: 4.5 },
-  { name: 'text-secondary on elevated', fg: T.textSecondary, bg: T.elevated, min: 4.5 },
-  { name: 'text-secondary on bg', fg: T.textSecondary, bg: T.bg, min: 4.5 },
-  { name: 'text-secondary on surface', fg: T.textSecondary, bg: T.surface, min: 4.5 },
-  { name: 'text-muted on bg', fg: T.textMuted, bg: T.bg, min: 4.5 },
-  { name: 'text-muted on surface', fg: T.textMuted, bg: T.surface, min: 4.5 },
+  // Body text, secondary text and captions on parchment, paper, sand and the
+  // white of a form control.
+  ...onLight('text-primary', T.textPrimary),
+  ...onLight('text-secondary', T.textSecondary),
+  ...onLight('text-muted', T.textMuted),
 
-  // Accent used as ink. Elevated is the light-panel ground (ContactBlock's
-  // 'When we teach'), which carries the Devanagari accent.
-  { name: 'accent on bg', fg: T.accent, bg: T.bg, min: 4.5 },
-  { name: 'accent on surface', fg: T.accent, bg: T.surface, min: 4.5 },
-  { name: 'accent on elevated', fg: T.accent, bg: T.elevated, min: 4.5 },
+  // Maroon as ink: labels, links and the outline button's text.
+  ...onLight('accent', T.accent),
 
-  // Community card on its accent tint (resting and hovered): title, body and
-  // its maroon label and link.
-  { name: 'text-primary on accent-tint', fg: T.textPrimary, bg: TINT, min: 4.5 },
-  { name: 'text-secondary on accent-tint', fg: T.textSecondary, bg: TINT, min: 4.5 },
-  { name: 'accent on accent-tint', fg: T.accent, bg: TINT, min: 4.5 },
-  { name: 'text-primary on accent-tint hover', fg: T.textPrimary, bg: TINT_HOVER, min: 4.5 },
-  { name: 'text-secondary on accent-tint hover', fg: T.textSecondary, bg: TINT_HOVER, min: 4.5 },
-  { name: 'accent on accent-tint hover', fg: T.accent, bg: TINT_HOVER, min: 4.5 },
+  // The brass that IS allowed to carry text: numerals and the curriculum's
+  // Devanagari.
+  ...onLight('accent-muted (brass text)', T.accentMuted),
 
-  // The gold that IS allowed to carry text.
-  { name: 'accent-muted (gold text) on bg', fg: T.accentMuted, bg: T.bg, min: 4.5 },
-  { name: 'accent-muted (gold text) on elevated', fg: T.accentMuted, bg: T.elevated, min: 4.5 },
-  { name: 'olive on bg', fg: T.olive, bg: T.bg, min: 4.5 },
-
-  // Reversed: label on the maroon button, its hover and pressed states.
+  // The filled button on light grounds, at rest and hovered, and the chosen
+  // chip; a hovered chip keeps its label on a faint maroon wash.
   { name: 'on-accent on accent', fg: T.onAccent, bg: T.accent, min: 4.5 },
   { name: 'on-accent on accent-hover', fg: T.onAccent, bg: T.accentHover, min: 4.5 },
   { name: 'on-accent on accent-deep', fg: T.onAccent, bg: T.accentDeep, min: 4.5 },
+  { name: 'text-primary on chip hover', fg: T.textPrimary, bg: CHIP_HOVER, min: 4.5 },
 
-  // Inside the deep maroon band the filled button inverts: deep label on ivory.
-  { name: 'accent-deep on on-accent', fg: T.accentDeep, bg: T.onAccent, min: 4.5 },
-  { name: 'accent-deep on elevated', fg: T.accentDeep, bg: T.elevated, min: 4.5 },
+  // The dark stage: headings, body, captions and brass labels, and its
+  // inverted button, at rest and hovered.
+  { name: 'on-night on night', fg: T.onNight, bg: T.night, min: 4.5 },
+  { name: 'on-night-secondary on night', fg: T.onNightSecondary, bg: T.night, min: 4.5 },
+  { name: 'on-night-muted on night', fg: T.onNightMuted, bg: T.night, min: 4.5 },
+  { name: 'brass-night on night', fg: T.brassNight, bg: T.night, min: 4.5 },
+  { name: 'night on on-night (button)', fg: T.night, bg: T.onNight, min: 4.5 },
+  { name: 'night on white (button hover)', fg: T.night, bg: T.elevated, min: 4.5 },
 
-  // Bounded controls need 3:1, not 4.5:1.
-  { name: 'border-strong on bg (UI)', fg: T.borderStrong, bg: T.bg, min: 3 },
-  { name: 'border-strong on surface (UI)', fg: T.borderStrong, bg: T.surface, min: 3 },
+  // The maroon close: the same four inks, and its inverted button.
+  { name: 'on-accent-secondary on accent-deep', fg: T.onAccentSecondary, bg: T.accentDeep, min: 4.5 },
+  { name: 'brass-maroon on accent-deep', fg: T.brassMaroon, bg: T.accentDeep, min: 4.5 },
+  { name: 'accent-deep on on-accent (button)', fg: T.accentDeep, bg: T.onAccent, min: 4.5 },
+  { name: 'accent-deep on white (button hover)', fg: T.accentDeep, bg: T.elevated, min: 4.5 },
+
+  // Anything that bounds a control needs 3:1, not 4.5:1.
+  ...onLight('border-strong (UI)', T.borderStrong, 3),
 ]
 
 /**
  * The gold hairline is EXPECTED to fail as text. Asserting that it fails is the
- * point: it documents why the token may only ever be a 1px rule or an icon
- * stroke, and it will fail this build if anyone "fixes" it into a text colour.
+ * point: it documents why the token may only ever be a 1px rule, a diamond or
+ * a stroke, and it will fail this build if anyone "fixes" it into a text
+ * colour.
  */
 const MUST_FAIL: Check[] = [
   { name: 'gold-hairline as text on bg', fg: T.goldHairline, bg: T.bg, min: 3 },
+  { name: 'gold-hairline as text on surface', fg: T.goldHairline, bg: T.surface, min: 3 },
 ]
 
 let failed = 0
 
-console.log('\n  Contrast — WCAG 2.2 AA\n')
+console.log('\n  Contrast: WCAG 2.2 AA\n')
 
 for (const c of CHECKS) {
   const ratio = contrast(c.fg, c.bg)
@@ -157,7 +171,7 @@ for (const c of MUST_FAIL) {
   if (!correctlyFails) {
     failed++
     console.log(
-      `  ✗ ${c.name} now passes at ${ratio.toFixed(2)}:1 — it is documented as decorative-only. Update the docs or revert.`,
+      `  ✗ ${c.name} now passes at ${ratio.toFixed(2)}:1, but it is documented as decorative-only. Update the docs or revert.`,
     )
   } else {
     console.log(

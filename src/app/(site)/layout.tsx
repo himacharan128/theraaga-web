@@ -3,8 +3,10 @@ import { Footer } from '@/components/layout/Footer'
 import { StickyMobileBar } from '@/components/layout/StickyMobileBar'
 import { SectionViewTracker } from '@/components/ui/SectionViewTracker'
 import { AnalyticsTracker } from '@/components/analytics/AnalyticsTracker'
-import { whatsappHref } from '@/lib/whatsapp'
-import { getGalleryByCategory } from '@/data/content'
+import { Reveal } from '@/components/ui/Reveal'
+import { Intro } from '@/components/intro/Intro'
+import { telHref, whatsappHref } from '@/lib/whatsapp'
+import { getGalleryByCategory, getSite } from '@/data/content'
 
 /**
  * Public site chrome. Every marketing route lives in this route group, so the
@@ -14,21 +16,27 @@ import { getGalleryByCategory } from '@/data/content'
 export default async function SiteLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const hasGallery = (await getGalleryByCategory()).length > 0
+  const [site, gallery] = await Promise.all([getSite(), getGalleryByCategory()])
+  const hasGallery = gallery.length > 0
   // There is no posts getter yet: the journal is a subject index with no
   // articles. Wire this to the published-posts query when the first post lands.
   const hasJournal = false
 
   return (
     <>
+      {/* First in the body, so its script decides before anything below it
+          is parsed. It only ever plays on the homepage; see Intro. */}
+      <Intro line={site.sanskritLine} />
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:bg-accent focus:px-4 focus:py-2 focus:text-on-accent"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-3 focus:z-[100] focus:rounded-md focus:bg-accent focus:px-4 focus:py-2.5 focus:font-ui focus:text-[0.875rem] focus:text-on-accent"
       >
         Skip to content
       </a>
       <Header
         whatsappHref={whatsappHref('HEADER')}
+        telHref={telHref()}
+        phoneDisplay={site.phoneDisplay}
         hasGallery={hasGallery}
         hasJournal={hasJournal}
       />
@@ -42,6 +50,7 @@ export default async function SiteLayout({
       <Footer />
       <StickyMobileBar />
       <SectionViewTracker />
+      <Reveal />
       <AnalyticsTracker />
     </>
   )

@@ -1,0 +1,169 @@
+/* ============================================================================
+   Motion. Transform, opacity and clip-path only. Nothing loops, nothing hides
+   content when it cannot run, and all of it stops under reduced motion.
+   ============================================================================ */
+
+/* Far enough that no ascender shows in the mask's padding before the word
+   rises: 105% left the tops of tall letters peeking out. */
+@keyframes rise {
+  from {
+    transform: translateY(125%);
+  }
+}
+
+@keyframes arrive {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+
+@keyframes unveil {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+}
+
+@keyframes settle {
+  from {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes draw {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes key-ring {
+  from {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.3);
+  }
+}
+
+/* The hero's words each rise inside their own clipped box. */
+.word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0.04em 0.08em 0.2em 0;
+  margin: -0.04em -0.08em -0.2em 0;
+}
+
+.word-mask > span {
+  display: inline-block;
+}
+
+.draw-x {
+  transform-origin: 0 50%;
+}
+
+.swara-key {
+  position: relative;
+}
+
+.swara-key::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border: 1px solid var(--kicker);
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* The homepage intro holds the hero's entrance until its veil lifts, then runs
+   it a little quicker (components/intro/runtime.ts). Everywhere else, and once
+   the intro has handed over, these are 0ms and 1. The photograph is not held:
+   it is the LCP element and unveils under the veil from the first frame. */
+[data-section='hero'] {
+  --hand: var(--intro-hand, 0ms);
+  --pace: var(--intro-pace, 1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Page load: the hero's sequence, once. */
+  .word-mask > span {
+    animation: rise 1100ms var(--ease-out-expo) both;
+    animation-delay: calc((var(--i, 0) * 70ms + 80ms) * var(--pace, 1) + var(--hand, 0ms));
+  }
+
+  .on-load {
+    animation: arrive 1000ms var(--ease-out-expo) both;
+    animation-delay: calc(var(--d, 500ms) * var(--pace, 1) + var(--hand, 0ms));
+  }
+
+  .on-load-unveil {
+    animation: unveil 1500ms var(--ease-out-expo) both;
+    animation-delay: var(--d, 150ms);
+  }
+
+  .on-load-settle {
+    animation: settle 2600ms var(--ease-out-expo) both;
+    animation-delay: var(--d, 150ms);
+  }
+
+  .on-load-draw {
+    animation: draw 1400ms var(--ease-out-expo) both;
+    animation-delay: var(--d, 900ms);
+  }
+
+  /* Scroll reveals (`.reveal`, `.reveal-unveil`, `.reveal-draw`) are Web
+     Animations started by components/ui/Reveal.tsx, not CSS: no stylesheet
+     rule ever hides them, so markup without the script is always visible. */
+
+  .swara-key[data-active='true']::after {
+    animation: key-ring 1200ms var(--ease-out-expo);
+  }
+
+  /* An FAQ answer or an opened <details> is shown at once and its type eases
+     in. The animation restarts each time the panel leaves `hidden`, or each
+     time `open` is set: keyed on the attribute, not on how the browser hides
+     closed content. */
+  .faq-answer,
+  details[open] > .unfold {
+    animation: arrive 520ms var(--ease-out-expo) both;
+  }
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 180ms;
+  animation-timing-function: ease-out;
+}
+
+::view-transition-group(site-header) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

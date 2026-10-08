@@ -1,10 +1,13 @@
+import Link from 'next/link'
+import type { CSSProperties } from 'react'
 import { EnquiryForm } from './EnquiryForm'
+import { ProgrammeHeader } from '@/components/layout/PageHero'
 import { WhatsAppIcon } from '@/components/ui/Button'
 import { whatsappHref, telHref } from '@/lib/whatsapp'
 import { getSite } from '@/data/content'
 
 /**
- * Prārambham — the beginning.
+ * Prārambham: the beginning.
  *
  * Two things were wrong with the previous layout and both came from the same
  * decision: the two columns were vertically CENTRED against each other. The
@@ -33,61 +36,62 @@ export async function EnquirySection() {
       id="prarambha"
       data-section="prarambha"
       data-has-content="true"
-      className="border-b border-border py-[var(--spacing-section)]"
+      className="relative pt-[clamp(2rem,5vw,4.5rem)] pb-[var(--space-section)]"
     >
-      <div className="u-shell grid gap-10 lg:grid-cols-[21rem_1fr] lg:items-start lg:gap-16 xl:gap-20">
+      <div className="u-shell grid gap-y-10 lg:grid-cols-12 lg:items-start lg:gap-x-10">
         {/* `contents` on mobile so the three blocks are direct grid children and
-            can be ordered independently; a plain column at lg so the rail reads
-            as one piece. Placing the escape hatch in an explicit second row
-            instead left a gap the height of the form's overhang. */}
-        <div className="contents lg:block lg:col-start-1 lg:row-start-1">
-        <div className="order-1 lg:order-none">
-          <p className="u-eyebrow">Prārambham · Begin the journey</p>
-          <h1 className="mt-4 text-[length:var(--text-step-3)] font-[300] leading-[var(--lh-snug)]">
-            Book a trial class.
-          </h1>
-          <p className="mt-5 text-text-secondary">
-            Tell us who is learning and where suits you. We will call to arrange
-            a time.
-          </p>
+            can be ordered independently; one sticky column at lg so the rail
+            reads as a single piece and the WhatsApp route stays in view while
+            the form is filled. */}
+        <div className="contents lg:sticky lg:top-[calc(var(--header-h)+2rem)] lg:col-span-5 lg:block xl:col-span-4">
+          <div className="order-1 lg:order-none">
+            <ProgrammeHeader text="Prārambham · Begin the journey" />
+            <h1 className="t-display on-load mt-6 text-fg md:mt-8" style={{ '--d': '60ms' } as CSSProperties}>
+              Book a trial class.
+            </h1>
+            <p className="t-standfirst on-load mt-6 max-w-[34ch] text-fg-2" style={{ '--d': '200ms' } as CSSProperties}>
+              Tell us who is learning and where suits you. We will call to arrange
+              a time.
+            </p>
 
-          {/* The one thing a parent most wants to know before typing a phone
-              number into a form belonging to a school they have not met. */}
-          <p className="mt-8 border-l-2 border-gold-hairline pl-5 text-[length:var(--text-step--1)] leading-[var(--lh-body)] text-text-muted">
-            We ask for your name and number, never your child’s. Nothing is
-            shared with anyone, and you can ask us to delete your enquiry at any
-            time. See our{' '}
-            <a href="/privacy" className="text-accent underline underline-offset-4">
-              privacy notice
+            {/* The one thing a parent most wants to know before typing a phone
+                number into a form belonging to a school they have not met. */}
+            <p className="t-small on-load mt-8 max-w-[44ch] border-l border-mark pl-5 text-fg-3" style={{ '--d': '320ms' } as CSSProperties}>
+              We ask for your name and number, never your child’s. Nothing is
+              shared with anyone, and you can ask us to delete your enquiry at any
+              time. See our{' '}
+              <Link href="/privacy" className="link">
+                privacy notice
+              </Link>
+              .
+            </p>
+          </div>
+
+          <div className="order-3 border-t border-line pt-8 lg:order-none lg:mt-14">
+            <p className="t-small text-fg-3">Would rather not fill a form?</p>
+            <a
+              href={whatsappHref('FORM_ASIDE')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-arrow mt-3"
+            >
+              <WhatsAppIcon />
+              Message us on WhatsApp
             </a>
-            .
-          </p>
+            <p className="t-small mt-4 text-fg-3">
+              or call{' '}
+              <a href={telHref()} className="link">
+                {site.phoneDisplay}
+              </a>
+            </p>
+          </div>
         </div>
 
-        <div className="order-3 border-t border-border pt-8 lg:order-none lg:mt-8">
-          <p className="font-[var(--font-ui)] text-[length:var(--text-step--1)] text-text-muted">
-            Would rather not fill a form?
-          </p>
-          <a
-            href={whatsappHref('FORM_ASIDE')}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-3 inline-flex min-h-11 items-center gap-2.5 font-[var(--font-ui)] text-[length:var(--text-step-0)] font-medium text-accent underline decoration-[color-mix(in_srgb,var(--color-accent)_35%,transparent)] underline-offset-[6px] hover:decoration-current"
-          >
-            <WhatsAppIcon />
-            Message us on WhatsApp
-          </a>
-          <p className="mt-4 font-[var(--font-ui)] text-[length:var(--text-step--1)] text-text-muted">
-            or call{' '}
-            <a href={telHref()} className="text-accent underline underline-offset-4">
-              {site.phoneDisplay}
-            </a>
-          </p>
-        </div>
-        </div>
-
-        <div className="order-2 lg:order-none lg:col-start-2 lg:row-start-1">
-          <EnquiryForm whatsappHref={whatsappHref('FORM')} />
+        {/* The form on a sheet of paper: the one grouped object on the page. */}
+        <div className="order-2 lg:order-none lg:col-span-7 xl:col-span-7 xl:col-start-6">
+          <div className="tone-paper on-load -mx-[var(--gutter)] border-y border-line px-[var(--gutter)] py-8 sm:mx-0 sm:border sm:p-8 md:p-10 xl:p-12" style={{ '--d': '160ms' } as CSSProperties}>
+            <EnquiryForm whatsappHref={whatsappHref('FORM')} />
+          </div>
         </div>
       </div>
     </section>

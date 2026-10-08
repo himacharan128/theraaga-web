@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { AscendingScale } from '@/components/ui/Ornament'
 import { Wordmark } from '@/components/ui/Wordmark'
 import { getSite } from '@/data/content'
 
@@ -7,19 +6,22 @@ import { getSite } from '@/data/content'
  * A literal, not `new Date().getFullYear()`.
  *
  * Under `cacheComponents`, reading the clock in a Server Component without
- * first reading uncached or request data is a build error — and rightly so:
+ * first reading uncached or request data is a build error, and rightly so:
  * it would opt the footer, and therefore every page, out of static prerender
  * for a number that changes once a year.
  */
 const COPYRIGHT_YEAR = 2026
 
 /**
- * Every institution studied — Berklee, RCM, Merit, ICMP — carries full postal
+ * The close of every page: the school's line in Sanskrit as its last word,
+ * then the address, the routes and the policies.
+ *
+ * Every institution studied (Berklee, RCM, Merit, ICMP) carries full postal
  * address and phone in the footer. It is simultaneously the trust anchor and
  * the primary local-SEO NAP signal.
  *
- * The five legal links are non-negotiable: a payment aggregator checks for
- * exactly this list before activating a merchant ID, even pre-revenue.
+ * The legal links are non-negotiable: a payment aggregator checks for exactly
+ * this list before activating a merchant ID, even pre-revenue.
  */
 export async function Footer() {
   const site = await getSite()
@@ -58,78 +60,80 @@ export async function Footer() {
   ]
 
   return (
-    <footer className="bg-ink text-on-accent">
-      <div className="u-shell py-16 md:py-24">
-        <div className="opacity-75">
-          <AscendingScale />
-        </div>
+    <footer data-site-footer data-tone="dark" className="tone-night">
+      <div className="u-shell pt-[clamp(4rem,9vw,7.5rem)] pb-10">
+        <p className="reveal max-w-4xl">
+          <span lang="sa" className="deva block text-[clamp(2.5rem,1.6rem+4vw,4.75rem)] leading-[1.25] text-fg">
+            {site.sanskritLine.devanagari}
+          </span>
+          <span className="mt-3 block font-display text-[length:var(--fs-standfirst)] italic text-fg-2">
+            {site.sanskritLine.roman}: {site.sanskritLine.gloss}
+          </span>
+        </p>
 
-        <div className="mt-16 grid gap-12 md:grid-cols-2 lg:grid-cols-4">
-          <div>
-            <Link href="/" aria-label="RAAGA Home" className="inline-flex">
-              <Wordmark className="text-on-accent! [--wm:2.5rem]" />
+        <div className="mt-[clamp(3rem,7vw,5.5rem)] grid gap-x-10 gap-y-12 border-t border-line pt-12 lg:grid-cols-12">
+          <div className="lg:col-span-4">
+            <Link href="/" aria-label="RAAGA Home" className="inline-flex min-h-11 items-center">
+              <Wordmark className="[--wm:2.75rem]" />
             </Link>
-            <p className="mt-4 text-[length:var(--text-step--1)] text-[color-mix(in_srgb,var(--color-on-accent)_72%,transparent)]">
+            <address className="t-small mt-6 not-italic text-fg-2">
               School of Indian Classical Music
               <br />
-              {site.streetAddress && <>{site.streetAddress}<br /></>}
+              {site.streetAddress && (
+                <>
+                  {site.streetAddress}
+                  <br />
+                </>
+              )}
               {site.locality}, {site.city} {site.postalCode}
-            </p>
-            <p className="mt-6">
-              <span className="deva block text-[length:var(--text-step-1)] text-on-accent">
-                {site.sanskritLine.devanagari}
-              </span>
-              <span className="mt-1 block font-[var(--font-display)] italic text-[color-mix(in_srgb,var(--color-on-accent)_72%,transparent)]">
-                {site.sanskritLine.roman}: {site.sanskritLine.gloss}
-              </span>
-            </p>
+              <br />
+              <a
+                href={`tel:+${site.whatsapp}`}
+                className="mt-2 inline-flex min-h-7 items-center text-fg no-underline hover:text-kicker"
+              >
+                {site.phoneDisplay}
+              </a>
+              {site.email && (
+                <>
+                  <br />
+                  <a
+                    href={`mailto:${site.email}`}
+                    className="inline-flex min-h-7 items-center text-fg no-underline hover:text-kicker"
+                  >
+                    {site.email}
+                  </a>
+                </>
+              )}
+            </address>
           </div>
 
-          {columns.map((col) => (
-            <nav key={col.title} aria-label={col.title}>
-              <h2 className="u-eyebrow mb-5 !text-[color-mix(in_srgb,var(--color-on-accent)_64%,transparent)]">{col.title}</h2>
-              <ul className="space-y-1">
-                {col.links.map((l) => (
-                  <li key={l.href}>
-                    <Link
-                      href={l.href}
-                      className="inline-flex min-h-7 items-center text-[length:var(--text-step--1)] text-[color-mix(in_srgb,var(--color-on-accent)_86%,transparent)] no-underline transition-colors hover:text-on-accent hover:underline hover:underline-offset-4"
-                    >
-                      {l.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          ))}
+          <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:col-span-8">
+            {columns.map((col) => (
+              <nav key={col.title} aria-label={col.title}>
+                <h2 className="t-label mb-4 text-kicker">{col.title}</h2>
+                <ul className="space-y-0.5">
+                  {col.links.map((l) => (
+                    <li key={l.href}>
+                      <Link
+                        href={l.href}
+                        className="nav-link inline-flex min-h-7 items-center text-[0.9375rem] leading-snug text-fg-2 no-underline hover:text-fg"
+                      >
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            ))}
+          </div>
         </div>
 
-        <hr className="my-12 border-0 border-t border-[color-mix(in_srgb,var(--color-on-accent)_18%,transparent)]" />
-
-        <address className="grid gap-6 not-italic md:grid-cols-2">
-          <p className="text-[length:var(--text-step--1)] text-[color-mix(in_srgb,var(--color-on-accent)_82%,transparent)]">
-            {/* Street address is intentionally absent until the client confirms one.
-                We do not invent a postal address or geo coordinates. */}
-            {site.streetAddress ?? `${site.locality}, ${site.city}, ${site.region}`}
-            <br />
-            <a href={`tel:+${site.whatsapp}`} className="inline-flex min-h-7 items-center hover:text-on-accent">
-              {site.phoneDisplay}
-            </a>
-            {site.email && (
-              <>
-                {' · '}
-                <a href={`mailto:${site.email}`} className="inline-flex min-h-7 items-center hover:text-on-accent">
-                  {site.email}
-                </a>
-              </>
-            )}
-          </p>
-          <p className="text-[length:var(--text-step--1)] text-[color-mix(in_srgb,var(--color-on-accent)_62%,transparent)] md:text-right">
+        <div className="t-meta mt-14 flex flex-col gap-2 border-t border-line pt-6 text-fg-3 md:flex-row md:justify-between">
+          <p>
             © {COPYRIGHT_YEAR} {site.shortName}. All rights reserved.
-            <br />
-            Built to WCAG 2.2 AA and IS 17802. This site sets no tracking cookies.
           </p>
-        </address>
+          <p>Built to WCAG 2.2 AA and IS 17802. This site sets no tracking cookies.</p>
+        </div>
       </div>
     </footer>
   )

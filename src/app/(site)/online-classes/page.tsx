@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
+import type { CSSProperties } from 'react'
 import Link from 'next/link'
 import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
+import { LinkRows, ProgrammeList } from '@/components/layout/Editorial'
 import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
@@ -9,11 +11,14 @@ import { whatsappHref } from '@/lib/whatsapp'
 import { defaultOgImages } from '@/lib/og-image'
 
 /**
- * The NRI page — timezone-first, because that is the actual objection.
+ * The NRI page: timezone-first, because that is the actual objection.
  *
- * This is the highest revenue-per-student segment in the research: the Bay Area
- * comparable charges $145–210 per four classes. But no prices appear here, by
- * standing instruction — the WhatsApp path carries that conversation.
+ * This is the highest revenue-per-student segment in the research. But no
+ * prices appear here, by standing instruction: the WhatsApp path carries that
+ * conversation.
+ *
+ * It opens on the dark stage, then reads as a timetable board, a programme of
+ * what is needed, a quiet interlude on sand and a rail of places to begin.
  */
 export const metadata: Metadata = {
   title: 'Online Carnatic Music & Vocal Classes',
@@ -48,6 +53,7 @@ export default function OnlineClassesPage() {
         ]}
       />
       <PageHero
+        variant="night"
         eyebrow="Online · Anywhere in the world"
         title="Learn Carnatic vocal from Hyderabad, wherever you are."
         lede={
@@ -57,32 +63,25 @@ export default function OnlineClassesPage() {
           </p>
         }
       >
-        <div className="flex flex-wrap gap-3">
-          <ButtonLink href="/contact">Book a trial</ButtonLink>
-          <ButtonLink variant="secondary" href={whatsappHref('ONLINE-PAGE')}>
-            <WhatsAppIcon />
-            Ask about your time zone
-          </ButtonLink>
-        </div>
+        <ButtonLink href="/contact">Book a trial</ButtonLink>
+        <ButtonLink variant="secondary" href={whatsappHref('ONLINE-PAGE')}>
+          <WhatsAppIcon />
+          Ask about your time zone
+        </ButtonLink>
       </PageHero>
 
-      <Section
-        id="timezones"
-        eyebrow="Timings"
-        title="When we teach, where you are."
-        tone="accent"
-      >
-        <dl className="grid border-y border-[color-mix(in_srgb,var(--color-on-accent)_20%,transparent)] sm:grid-cols-2 lg:grid-cols-3">
-          {SLOTS.map((s) => (
-            <div key={s.region} className="border-b border-[color-mix(in_srgb,var(--color-on-accent)_16%,transparent)] px-0 py-6 last:border-b-0 sm:px-6 sm:[&:nth-child(odd)]:border-r lg:[&:nth-child(2)]:border-r lg:[&:nth-child(3)]:border-r-0 lg:[&:nth-child(4)]:border-b-0 lg:[&:nth-child(5)]:border-b-0 lg:[&:nth-child(6)]:border-b-0">
-              <dt className="font-[400] text-on-accent">{s.region}</dt>
-              <dd className="mt-2 text-[length:var(--text-step--1)] text-[color-mix(in_srgb,var(--color-on-accent)_72%,transparent)]">
-                {s.detail}
-              </dd>
+      {/* Set as a timetable board: each region under a brass rule, its hours
+          beneath, three to a row on a wide screen. */}
+      <Section id="timezones" eyebrow="Timings" title="When we teach, where you are." tone="paper" layout="split">
+        <dl className="grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+          {SLOTS.map((s, i) => (
+            <div key={s.region} className="reveal border-t border-mark pt-5" style={{ '--i': i % 3 } as CSSProperties}>
+              <dt className="t-subhead text-fg">{s.region}</dt>
+              <dd className="t-body mt-3 max-w-[30ch] text-fg-2">{s.detail}</dd>
             </div>
           ))}
         </dl>
-        <p className="mt-8 text-[length:var(--text-step--1)] text-[color-mix(in_srgb,var(--color-on-accent)_72%,transparent)]">
+        <p className="reveal t-caption mt-12 max-w-[52ch] border-l border-mark pl-5 text-fg-2 md:text-[1.0625rem]">
           Exact slots vary by term and by teacher availability. Tell us your city
           and we’ll send you what is open now.
         </p>
@@ -92,62 +91,65 @@ export default function OnlineClassesPage() {
         id="online-how"
         eyebrow="How online classes work"
         title="What you need, and what you don’t."
+        layout="split"
       >
-        <ul className="grid gap-4 md:grid-cols-2 md:gap-5">
-          {[
+        <ProgrammeList
+          numbered={false}
+          items={[
             {
-              t: 'A phone or laptop is enough',
-              b: 'No special equipment. Wired earphones help more than an expensive microphone because they stop the echo that makes a teacher unable to hear pitch.',
+              key: 'device',
+              title: 'A phone or laptop is enough',
+              body: 'No special equipment. Wired earphones help more than an expensive microphone because they stop the echo that makes a teacher unable to hear pitch.',
             },
             {
-              t: 'A free shruti app, not a tanpura',
-              b: 'For the first year an app on a phone is genuinely fine, and it is what most of our students use. We’ll tell you when it is worth buying a shruti box.',
+              key: 'shruti',
+              title: 'A free shruti app, not a tanpura',
+              body: 'For the first year an app on a phone is genuinely fine, and it is what most of our students use. We’ll tell you when it is worth buying a shruti box.',
             },
             {
-              t: 'Smaller batches than in person',
-              b: 'A teacher cannot hear individual voices over a shared connection in a large group, so online batches are kept deliberately small.',
+              key: 'batches',
+              title: 'Smaller batches than in person',
+              body: 'A teacher cannot hear individual voices over a shared connection in a large group, so online batches are kept deliberately small.',
             },
             {
-              t: 'A parent nearby, for younger children',
-              b: 'For children under about eight, having an adult in the room for the first few weeks makes a real difference. After that, rarely.',
+              key: 'parent',
+              title: 'A parent nearby, for younger children',
+              body: 'For children under about eight, having an adult in the room for the first few weeks makes a real difference. After that, rarely.',
             },
-          ].map((i) => (
-            <li key={i.t} className="border-t border-border pt-6">
-              <h3 className="text-[length:var(--text-step-1)] font-[400]">{i.t}</h3>
-              <p className="mt-3 text-text-secondary">{i.b}</p>
-            </li>
-          ))}
-        </ul>
+          ]}
+        />
       </Section>
 
       <Section
         id="sadhana"
         eyebrow="Sādhana · The learning journey"
         title="The same journey, wherever you learn from."
-        tone="surface"
+        tone="sand"
+        layout="center"
       >
-        <div className="u-measure">
-          <p className="text-text-secondary">
+        <div className="reveal mx-auto flex max-w-[46ch] flex-col items-center text-center">
+          <p className="t-standfirst text-fg-2">
             Online students follow the same traditional progression as students
             at our Hyderabad centres, from their first swaras through to
             advanced artistry.
           </p>
-          <ButtonLink variant="secondary" href="/learning" className="mt-7">
+          <ButtonLink variant="secondary" href="/learning" className="mt-8">
             Explore the learning journey
           </ButtonLink>
         </div>
       </Section>
 
-      <Section id="online-learning-paths" title="Start at your own level.">
-        <p className="u-measure text-text-secondary">Online lessons follow the Carnatic vocal curriculum taught at our Hyderabad centres. Tell the team whether you are new to singing, returning after a break, or arranging lessons for a child.</p>
-        <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
-          {[
-            ['Beginner Carnatic classes', '/carnatic-music-classes/beginners'],
-            ['Adult learning and returning to music', '/carnatic-music-classes/adults'],
-            ['Children’s lessons', '/carnatic-music-classes/children'],
-          ].map(([label, href]) => <li key={href}><Link href={href} className="text-accent underline underline-offset-4">{label}</Link></li>)}
-        </ul>
-        <p className="u-measure mt-8 text-text-secondary">Not sure which format will suit you? <Link href="/guides/online-or-in-person-carnatic-classes" className="text-accent underline underline-offset-4">Compare live online and in-person lessons</Link> by sound, feedback, travel and the space you have at home.</p>
+      <Section id="online-learning-paths" title="Start at your own level." layout="rail">
+        <p className="reveal t-standfirst max-w-[52ch] text-fg-2">Online lessons follow the Carnatic vocal curriculum taught at our Hyderabad centres. Tell the team whether you are new to singing, returning after a break, or arranging lessons for a child.</p>
+        <LinkRows
+          className="reveal mt-10"
+          links={[
+            { label: 'Beginner Carnatic classes', href: '/carnatic-music-classes/beginners' },
+            { label: 'Adult learning and returning to music', href: '/carnatic-music-classes/adults' },
+            { label: 'Children’s lessons', href: '/carnatic-music-classes/children' },
+          ]}
+        />
+        <p className="reveal t-caption mt-10 max-w-[52ch] border-l border-mark pl-5 text-fg-2 md:text-[1.0625rem]">Not sure which format will suit you? <Link href="/guides/online-or-in-person-carnatic-classes" className="link">Compare live online and in-person lessons</Link> by sound, feedback, travel and the space you have at home.</p>
       </Section>
 
       <FinalCta />

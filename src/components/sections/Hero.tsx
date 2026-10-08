@@ -1,6 +1,6 @@
 import Image from 'next/image'
+import type { CSSProperties } from 'react'
 import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
-import { NadaRings, Strings, SwaraMarquee } from '@/components/ui/Ornament'
 import { whatsappHref } from '@/lib/whatsapp'
 import { getSite } from '@/data/content'
 import tambura from '@/assets/home/tambura.jpg'
@@ -13,89 +13,100 @@ import tambura from '@/assets/home/tambura.jpg'
  * the client's hero says neither what is taught nor where, and the visitor is
  * a parent opening a WhatsApp forward on a 360px phone.
  *
- * Motion, all CSS: the headline rises word by word, four tanpura strings hum
- * at the left edge, rings of sound leave the headline, the photograph breathes
- * very slowly, and the seven swaras pass along the bottom edge. None of it
- * costs a request or a byte of JavaScript, and all of it stops under
- * prefers-reduced-motion.
+ * COMPOSITION, art-directed separately for each size:
  *
- * The LCP element is deliberately the H1 TEXT on flat ivory, not a photograph.
- * On a phone the photo card sits below the buttons, so the photo is NOT
- * `priority`: it is lazy, low fetch-priority, and must never be what the page
- * waits for. The photograph is decorative (`alt=""`): it is a stock-style image
- * of someone with a tambura, NOT a RAAGA teacher or student, so nothing may
- * caption it as one. The card's maroon ground and fade stay in place under it,
- * so if the image ever fails to load the text keeps its contrast.
+ * - From lg, the words stand on parchment at the left and the photograph hangs
+ *   at the right as a tall print, never cropped, pegs to bowl. The school's
+ *   line in Sanskrit is set straight into the print's empty dawn sky, like an
+ *   inscription, where it covers neither the singer nor the instrument.
+ * - On a tablet the print is narrower and the inscription sits beneath it.
+ * - On a phone the photograph opens the hero, cropped to a wide frame of the
+ *   hand on the tanpura's neck and the singer's face (the old tall crop showed
+ *   mostly sky). The Sanskrit line closes the hero as an epigraph.
+ *
+ * THE PHOTOGRAPH IS ONLY 736px WIDE, so it is never shown much larger than it
+ * is: about 470px at most on a desktop, the phone's width on a phone. Do not
+ * add a zoom or parallax to it; any scale above 1 shows the softness.
+ *
+ * LCP. In this layout the photograph is the largest element in the first
+ * screen at every size, so it loads first (`preload`). The headline's words
+ * are split for their entrance and could never be the LCP element anyway.
+ *
+ * MOTION, CSS only and once: the photograph is unveiled upward and settles to
+ * its true size, the headline's words rise in sequence, then the supporting
+ * lines and the label arrive. Nothing loops; all of it stops under reduced
+ * motion.
+ *
+ * The photograph is decorative (`alt=""`): it is a stock-style image of someone
+ * with a tanpura, NOT a RAAGA teacher or student, so nothing may caption it as
+ * one. The Sanskrit label is the school's line, deliberately not a figcaption.
  */
 
-type Word = { text: string; italic?: boolean }
+type Word = { text: string; italic?: boolean; br?: boolean }
 
 const HEADLINE: Word[] = [
   { text: 'A' },
   { text: 'Journey' },
   { text: 'Through' },
-  { text: 'the' },
+  { text: 'the', br: true },
   { text: 'Timeless', italic: true },
-  { text: 'Tradition', italic: true },
+  { text: 'Tradition', italic: true, br: true },
   { text: 'of' },
   { text: 'Carnatic' },
   { text: 'Sangeetham' },
 ]
 
-const d = (ms: number) => ({ '--d': `${ms}ms` }) as React.CSSProperties
+const d = (ms: number) => ({ '--d': `${ms}ms` }) as CSSProperties
 
 export async function Hero() {
   const site = await getSite()
+  const line = site.sanskritLine
 
   return (
-    <section
-      data-section="hero"
-      data-has-content="true"
-      className="relative overflow-hidden border-b border-border"
-    >
-      <Strings className="hidden xl:block" />
-      <NadaRings className="left-[26%] top-[46%]" size="52rem" />
-
-      <div className="u-shell relative grid items-center gap-10 py-10 sm:py-14 md:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch lg:gap-16 xl:py-24">
-        <div className="relative z-10">
-          <p className="u-eyebrow fade-in" style={d(0)}>
+    <section data-section="hero" data-has-content="true" className="relative">
+      <div className="u-shell grid md:grid-cols-12 md:items-start md:gap-x-8 md:pt-[clamp(1.5rem,3vw,2.5rem)] md:pb-12 lg:gap-x-10">
+        <div className="pt-9 pb-2 md:col-span-7 md:pt-[clamp(1rem,4vh,3rem)]">
+          <p className="kicker on-load" style={d(300)}>
             Carnatic Sangeetham · A decade in Hyderabad
           </p>
 
-          <h1 className="mt-6 max-w-[20ch] text-[length:var(--text-step-3)] font-[300] sm:text-[length:var(--text-step-4)]">
+          {/* On a phone and from lg the headline is set as three deliberate
+              lines, the italic phrase alone on the middle one; the size is
+              capped so the longest line always fits (see .t-hero-fit and
+              --fs-hero). On a tablet's narrow column it wraps freely. */}
+          <h1 className="t-hero t-hero-fit mt-5 text-balance text-fg md:mt-7 md:max-w-[13ch] lg:max-w-none">
             {HEADLINE.map((w, i) => (
-              <span key={i} className="rise-line mr-[0.24em]">
-                <span
-                  className={`rise-word ${w.italic ? 'italic text-accent' : ''}`}
-                  style={{ '--i': i } as React.CSSProperties}
-                >
-                  {w.text}
-                </span>
+              <span key={w.text}>
+                <span className="word-mask">
+                  <span
+                    className={w.italic ? 'italic text-kicker' : undefined}
+                    style={{ '--i': i } as CSSProperties}
+                  >
+                    {w.text}
+                  </span>
+                </span>{' '}
+                {w.br && <br className="md:max-lg:hidden" />}
               </span>
             ))}
           </h1>
 
-          <p
-            className="fade-in u-measure mt-6 text-[length:var(--text-step-0)] font-[300] leading-[var(--lh-snug)] text-text-secondary sm:text-[length:var(--text-step-1)]"
-            style={d(700)}
-          >
-            Rooted in the Guru–Shishya Parampara, {site.shortName} nurtures music
+          <p className="t-standfirst on-load mt-6 max-w-[34ch] text-fg-2 md:mt-8" style={d(820)}>
+            Rooted in the Guru-Shishya Parampara, {site.shortName} nurtures music
             with devotion, discipline and sincerity.
           </p>
 
-          <p
-            className="fade-in u-measure mt-4 text-[length:var(--text-step-0)] leading-[var(--lh-body)] text-text-secondary"
-            style={d(900)}
-          >
+          <p className="t-body on-load mt-4 max-w-[48ch] text-fg-3" style={d(940)}>
             Carnatic vocal classes for children and adults at our{' '}
-            <strong className="font-[400] text-text-primary">Jubilee Hills</strong> and{' '}
-            <strong className="font-[400] text-text-primary">Phoenix Arena, Hitech City</strong>{' '}
-            centres, <strong className="font-[400] text-text-primary">online</strong> worldwide,
+            <strong className="font-medium text-fg">Jubilee Hills</strong> and{' '}
+            <strong className="font-medium text-fg">Phoenix Arena, Hitech City</strong>{' '}
+            centres, <strong className="font-medium text-fg">online</strong> worldwide,
             or hosted in your community. Beginners welcome.
           </p>
 
-          <div className="fade-in mt-8 flex flex-col gap-3 sm:mt-9 sm:flex-row" style={d(1100)}>
-            <ButtonLink href="/contact">Begin Your Musical Journey</ButtonLink>
+          <div className="on-load mt-8 flex flex-col gap-3 xs:flex-row xs:flex-wrap md:mt-10" style={d(1060)}>
+            <ButtonLink href="/contact" arrow>
+              Begin Your Musical Journey
+            </ButtonLink>
             <ButtonLink variant="secondary" href={whatsappHref('HERO')}>
               <WhatsAppIcon />
               Ask on WhatsApp
@@ -103,42 +114,45 @@ export async function Hero() {
           </div>
         </div>
 
-        <aside
-          className="fade-in relative z-10 mx-auto flex min-h-[34rem] w-full max-w-md flex-col justify-end overflow-hidden rounded-[var(--radius-md)] bg-accent-deep p-7 text-on-accent sm:p-9 lg:my-2 lg:min-h-[19rem] lg:max-w-none"
-          style={d(500)}
-        >
-          <Image
-            src={tambura}
-            alt=""
-            fill
-            sizes="(min-width: 1280px) 520px, (min-width: 1024px) 45vw, min(448px, 90vw)"
-            placeholder="blur"
-            fetchPriority="low"
-            className="ken object-cover object-[50%_78%]"
-          />
-          <span
-            aria-hidden="true"
-            className="absolute inset-0 bg-[linear-gradient(to_top,#612a2c_0%,rgba(97,42,44,0.97)_32%,rgba(97,42,44,0.85)_40%,rgba(97,42,44,0.6)_47%,rgba(97,42,44,0.32)_54%,rgba(97,42,44,0)_62%)]"
-          />
-          <div className="relative max-w-[18rem]">
-            <p className="font-[var(--font-ui)] text-[0.7rem] font-medium uppercase tracking-[0.18em] text-[color-mix(in_srgb,var(--color-on-accent)_70%,transparent)]">
-              The beginning
-            </p>
-            <p className="deva mt-5 text-[length:var(--text-step-3)] leading-[1.35]">
-              {site.sanskritLine.devanagari}
-            </p>
-            <p className="mt-4 font-[var(--font-display)] text-[length:var(--text-step-1)] font-[300] italic leading-[var(--lh-snug)] text-[color-mix(in_srgb,var(--color-on-accent)_92%,transparent)]">
-              ♪ {site.sanskritLine.roman} ♪
-            </p>
-            <p className="mt-3 font-[var(--font-ui)] text-[length:var(--text-step--1)] text-[color-mix(in_srgb,var(--color-on-accent)_70%,transparent)]">
-              {site.sanskritLine.gloss}
-            </p>
+        {/* The print and its inscription. On a phone this wrapper dissolves
+            (display: contents) so the photograph can open the hero and the
+            inscription close it, without repeating either in the markup. */}
+        <div className="max-md:contents md:relative md:col-span-5 md:col-start-8">
+          <div
+            className="media on-load-unveil relative order-first -mx-[var(--gutter)] aspect-[16/9] sm:aspect-[2/1] md:mx-0 md:aspect-[736/1150]"
+            style={d(0)}
+          >
+            <Image
+              src={tambura}
+              alt=""
+              fill
+              preload
+              sizes="(min-width: 1280px) 480px, (min-width: 768px) 40vw, 100vw"
+              placeholder="blur"
+              className="on-load-settle object-cover object-[50%_48%] md:object-center"
+              style={d(0)}
+            />
           </div>
-        </aside>
-      </div>
 
-      <div className="relative z-10 border-t border-border py-3">
-        <SwaraMarquee />
+          {/* The school's line. An epigraph after the buttons on a phone, a
+              caption line under the print on a tablet, and from lg an
+              inscription set in the print's empty sky. Every lg position is a
+              percentage of the uncropped print, so the type keeps clear of the
+              tanpura's pegs (which begin 44.8% across) at any width. */}
+          <div
+            className="on-load order-last mt-12 md:mt-6 lg:absolute lg:top-[6.5%] lg:left-[5%] lg:mt-0 lg:w-[38%]"
+            style={d(1300)}
+          >
+            <p className="kicker lg:before:hidden">The beginning</p>
+            <p lang="sa" className="deva mt-4 text-[2.25rem] leading-[1.3] text-fg md:mt-3 md:text-[1.75rem] lg:mt-2 lg:text-[1.375rem] xl:text-[1.75rem]">
+              {line.devanagari}
+            </p>
+            <p className="mt-1 font-display text-[1.125rem] italic text-fg-2 lg:text-[0.875rem] xl:text-[1.0625rem]">
+              {line.roman}
+            </p>
+            <p className="t-small mt-1 max-w-[30ch] text-fg-3 lg:text-[0.75rem] xl:text-[0.8125rem]">{line.gloss}</p>
+          </div>
+        </div>
       </div>
     </section>
   )

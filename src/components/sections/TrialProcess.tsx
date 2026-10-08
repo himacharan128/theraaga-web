@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { Section } from '@/components/layout/Section'
 
 /**
@@ -32,28 +33,27 @@ export function TrialProcess() {
   return (
     <Section
       id="trial"
+      layout="rail"
       eyebrow="Prārambham · How to begin"
       title="What actually happens next."
-      tone="surface"
     >
-      {/* The thread: one gold line drawn across the three steps as they come
-          into view, then a numeral over a hairline for each. */}
-      <div aria-hidden="true" className="rv-draw mb-8 h-px w-full origin-left bg-gold-hairline" />
-      <ol className="rv-stagger grid gap-10 md:grid-cols-3 md:gap-10">
-        {STEPS.map((s) => (
-          <li key={s.n}>
-            <span
-              aria-hidden="true"
-              className="u-numeral block font-[300] text-[length:var(--text-step-4)] text-accent"
-            >
-              0{s.n}
+      {/* A sequence, so a numbered list: each step a ruled row with its
+          numeral in the margin, the rule above the first drawn as it arrives. */}
+      <div aria-hidden="true" className="reveal reveal-draw draw-x h-px bg-line-strong/60" />
+      <ol>
+        {STEPS.map((s, i) => (
+          <li
+            key={s.n}
+            className="reveal grid grid-cols-[2.5rem_1fr] gap-x-3 border-b border-line py-8 md:grid-cols-[6rem_1fr] md:gap-x-4 md:py-10"
+            style={{ '--i': i + 1 } as CSSProperties}
+          >
+            <span aria-hidden="true" className="t-numeral text-[2.75rem] text-kicker md:text-[4rem]">
+              {s.n}
             </span>
-            <h3 className="mt-4 text-[length:var(--text-step-1)] font-[400]">
-              {s.title}
-            </h3>
-            <p className="u-measure mt-3 text-[length:var(--text-step--1)] leading-[var(--lh-body)] text-text-secondary">
-              {s.body}
-            </p>
+            <div className="md:pt-2">
+              <h3 className="t-subhead text-fg">{s.title}</h3>
+              <p className="t-body mt-3 max-w-[52ch] text-fg-2">{s.body}</p>
+            </div>
           </li>
         ))}
       </ol>

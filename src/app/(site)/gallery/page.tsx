@@ -46,13 +46,13 @@ export default async function GalleryPage() {
         }
       />
 
-      {/* No dummy photography and no placeholder cards — but a nav item that
+      {/* No dummy photography and no placeholder cards, but a nav item that
           leads to a hero and nothing else reads as broken rather than as
-          restraint. One honest line, the same treatment /journal uses, says
-          where the page is without substituting for the work. */}
+          restraint. One honest line, set as a programme note, says where the
+          page is without substituting for the work. */}
       {!hasMedia && (
-        <Section id="gathering" eyebrow="Anubhava">
-          <p className="u-measure border-l-2 border-gold-hairline/50 pl-5 font-[var(--font-display)] text-[length:var(--text-step-1)] font-[300] italic leading-[var(--lh-snug)] text-text-secondary">
+        <Section id="gathering" eyebrow="Anubhava" compact>
+          <p className="reveal t-statement max-w-[34ch] border-l border-mark pl-6 italic text-fg-2 md:pl-8">
             Our photographs are being gathered and cleared with the families in
             them, which takes as long as it takes. We would rather show you
             nothing than show you someone else’s stock photograph of a music
@@ -68,7 +68,7 @@ export default async function GalleryPage() {
             id={g.category}
             eyebrow={i === 0 ? 'The gallery' : undefined}
             title={g.label}
-            tone={i % 2 === 1 ? 'surface' : 'default'}
+            tone={i % 2 === 1 ? 'paper' : 'default'}
           >
             <GalleryGrid items={g.items} />
           </Section>

@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import type { CSSProperties } from 'react'
 import { notFound } from 'next/navigation'
 import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
+import { LinkRows } from '@/components/layout/Editorial'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { ButtonLink } from '@/components/ui/Button'
 import { FinalCta } from '@/components/sections/FinalCta'
@@ -109,60 +110,53 @@ export default async function CarnaticIntentPage({ params }: { params: Params })
         id="at-a-glance"
         eyebrow="At a glance"
         title="A clear way to begin."
+        layout="split"
       >
         <ul
-          className={`grid gap-x-10 gap-y-8 ${
+          className={`grid gap-x-10 gap-y-12 ${
             page.highlights.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3'
           }`}
         >
-          {page.highlights.map((highlight) => (
+          {page.highlights.map((highlight, i) => (
             <li
               key={highlight.title}
-              className="border-t border-border pt-6"
+              className="reveal border-t border-mark pt-6"
+              style={{ '--i': i } as CSSProperties}
             >
-              <h3 className="text-[length:var(--text-step-1)] font-[400] text-accent">
-                {highlight.title}
-              </h3>
-              <p className="mt-3 text-text-secondary">{highlight.body}</p>
+              <h3 className="t-subhead text-balance text-accent">{highlight.title}</h3>
+              <p className="t-body mt-4 max-w-[42ch] text-fg-2">{highlight.body}</p>
             </li>
           ))}
         </ul>
       </Section>
 
-      {page.sections.map((section, index) => (
-        <Section
-          key={section.title}
-          id={`detail-${index + 1}`}
-          eyebrow={index === 0 ? 'The learning journey' : undefined}
-          title={section.title}
-          tone={index % 2 === 0 ? 'surface' : 'default'}
-        >
-          <p className="u-measure text-[length:var(--text-step-0)] text-text-secondary">
-            {section.body}
-          </p>
-        </Section>
-      ))}
+      {/* The questions a learner actually has, read as one chapter on sand:
+          each its own section and heading, the question held on the left and
+          the answer in a reading column beside it. */}
+      <div className="tone-sand pad-section">
+        <div className="u-shell">
+          <p className="kicker reveal mb-10 md:mb-14">The learning journey</p>
+          {page.sections.map((section, index) => (
+            <section
+              key={section.title}
+              id={`detail-${index + 1}`}
+              data-section={`detail-${index + 1}`}
+              className="reveal grid scroll-mt-[calc(var(--header-h)+1.5rem)] gap-y-4 border-t border-line py-10 last:border-b md:py-14 lg:grid-cols-12 lg:gap-x-10"
+            >
+              <h2 className="t-subhead text-balance text-fg lg:col-span-5">{section.title}</h2>
+              <p className="t-prose max-w-[60ch] text-fg-2 lg:col-span-7">{section.body}</p>
+            </section>
+          ))}
+        </div>
+      </div>
 
       <Section
         id="next-steps"
         eyebrow="Continue exploring"
         title="Take the next useful step."
+        layout="split"
       >
-        <ul className="grid gap-3 sm:grid-cols-2">
-          {page.related.map((item) => (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className="group flex min-h-16 items-center justify-between gap-4 rounded-[var(--radius-lg)] border border-border bg-surface px-5 py-4 font-[var(--font-ui)] text-text-primary no-underline transition-[border-color,transform] duration-[var(--dur)] ease-[var(--ease-raaga)] hover:border-accent motion-safe:hover:-translate-y-0.5"
-              >
-                <span>{item.label}</span>
-                <svg className="raga-link-arrow shrink-0 text-accent" width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true">
-                  <path d="M10 1l5 5-5 5M15 6H0" stroke="currentColor" strokeWidth="1.2" />
-                </svg>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <LinkRows links={page.related} />
       </Section>
 
       <FinalCta />

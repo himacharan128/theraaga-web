@@ -45,7 +45,7 @@ export const site: SiteSettings = {
   stats: [
     { label: 'Teaching in Hyderabad', value: 'A decade' },
     { label: 'Centres, plus online and community classes', value: 'Two' },
-    { label: 'Rooted in the Guru–Shishya', value: 'Parampara' },
+    { label: 'Rooted in the Guru-Shishya', value: 'Parampara' },
     { label: 'Open to children and adults', value: 'All ages' },
   ],
 }

@@ -114,6 +114,84 @@ const stages = await p.locator('#sangeetha-margam details').count()
 check('all 10 curriculum stages render', stages === 10, `${stages}`)
 
 /**
+ * Header legibility across client-side navigation.
+ *
+ * Next keeps up to three pages the visitor has left in the document, hidden.
+ * A rule that looked at the whole document once found a hidden dark hero and
+ * left the header cream on the cream Contact page after a visit to the Gurus.
+ * A full page load never shows that, so this moves between dark and light
+ * heroes by clicking, as a visitor does, and measures the header's ink against
+ * whatever is actually under it.
+ */
+const headerContrast = (page) =>
+  page.evaluate(() => {
+    const rgba = (s) => {
+      const n = (s.match(/[\d.]+/g) ?? []).map(Number)
+      const k = s.startsWith('color(') ? 255 : 1
+      return [n[0] * k, n[1] * k, n[2] * k, n.length > 3 ? n[3] : 1]
+    }
+    const lum = (c) =>
+      c.slice(0, 3).reduce((sum, v, i) => {
+        v /= 255
+        return sum + [0.2126, 0.7152, 0.0722][i] * (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)
+      }, 0)
+    const header = document.querySelector('header.site-header')
+    const own = rgba(getComputedStyle(header).backgroundColor)
+    let worst = Infinity
+    for (const el of header.querySelectorAll('nav[aria-label="Main"] a, button[aria-controls="mobile-nav"]')) {
+      if (!el.checkVisibility()) continue
+      const r = el.getBoundingClientRect()
+      let bg = own
+      if (own[3] === 0) {
+        const under = document
+          .elementsFromPoint(r.x + r.width / 2, r.y + r.height / 2)
+          .find((n) => !header.contains(n) && rgba(getComputedStyle(n).backgroundColor)[3] > 0)
+        bg = rgba(getComputedStyle(under ?? document.body).backgroundColor)
+      }
+      const [hi, lo] = [lum(rgba(getComputedStyle(el).color)), lum(bg)].sort((a, b) => b - a)
+      worst = Math.min(worst, (hi + 0.05) / (lo + 0.05))
+    }
+    return worst
+  })
+// Long enough for the header's observer to report and its 320ms ink transition.
+const settle = (page) => page.waitForTimeout(700)
+const legible = async (page, label) => {
+  await settle(page)
+  const c = await headerContrast(page)
+  check(`header legible: ${label}`, c >= 4.5, `${c.toFixed(2)}:1`)
+}
+
+const wide = await b.newPage({ viewport: { width: 1440, height: 900 } })
+await wide.goto(`${BASE}/gurus`, { waitUntil: 'networkidle' })
+await legible(wide, '/gurus')
+for (const href of ['/contact', '/events', '/about', '/gurus', '/learning']) {
+  const from = new URL(wide.url()).pathname
+  await wide.locator(`header nav[aria-label="Main"] a[href="${href}"]`).click()
+  await wide.waitForURL(`${BASE}${href}`)
+  await legible(wide, `${from} → ${href}`)
+}
+await wide.evaluate(() => window.scrollTo({ top: 1400, behavior: 'instant' }))
+await legible(wide, '/learning scrolled')
+await wide.goBack()
+await wide.waitForURL(`${BASE}/gurus`)
+await legible(wide, 'back to /gurus')
+await wide.goto(`${BASE}/thank-you`, { waitUntil: 'networkidle' })
+await wide.locator('main a[href="/"]').first().click()
+await wide.waitForURL(`${BASE}/`)
+await legible(wide, '/thank-you → /')
+await wide.close()
+
+await p.goto(`${BASE}/online-classes`, { waitUntil: 'networkidle' })
+await legible(p, '/online-classes at 360px')
+for (const href of ['/contact', '/gurus', '/']) {
+  const from = new URL(p.url()).pathname
+  await p.locator('button[aria-controls="mobile-nav"]').click()
+  await p.locator(`#mobile-nav a[href="${href}"]`).click()
+  await p.waitForURL(`${BASE}${href}`)
+  await legible(p, `${from} → ${href} at 360px`)
+}
+
+/**
  * Dead contact links.
  *
  * `site.email` is null while the school has no mailbox, and TypeScript cannot
@@ -261,9 +339,8 @@ const metrics = await p.evaluate(() => {
     cssBytes: css.reduce((s, r) => s + (r.transferSize || r.encodedBodySize || 0), 0),
     fontBytes: fonts.reduce((s, r) => s + (r.transferSize || r.encodedBodySize || 0), 0),
     totalBytes: res.reduce((s, r) => s + (r.transferSize || r.encodedBodySize || 0), 0),
-    // An inline `data:` URI (the zari border tile in globals.css) shows up in
-    // resource timing with no host. It is not a request, so it is not a
-    // third party.
+    // An inline `data:` URI shows up in resource timing with no host. It is
+    // not a request, so it is not a third party.
     thirdParty: res
       .filter(r => !r.name.includes('localhost') && !r.name.startsWith('data:'))
       .map(r => new URL(r.name).host),

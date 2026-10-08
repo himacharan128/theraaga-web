@@ -1,0 +1,124 @@
+/* ============================================================================
+   RAAGA design system, second generation (October 2026).
+
+   The idea is a concert programme rather than a website template: parchment
+   pages ruled with hairlines, light literary display type, a quiet sans for
+   anything you operate, and colour used as architecture. Whole chapters change
+   ground (parchment, paper, sand, the dark stage, the maroon close) instead of
+   boxes being coloured in.
+
+   Every text/ground pair is computed, not estimated, and asserted by
+   scripts/check-contrast.ts. Change a colour, re-run it.
+
+   HARD RULE: brass (--color-gold-hairline) never carries text or meaning on a
+   light ground. It is for 1px rules and small marks only, and the contrast
+   test asserts that it keeps failing as text. Brass-feeling text on light
+   grounds uses --color-accent-muted.
+   ============================================================================ */
+
+@theme {
+  /* ---- Grounds ---- */
+  --color-bg: #f5f0e6; /* parchment: the page */
+  --color-surface: #fffdf8; /* paper: forms and plates */
+  --color-elevated: #ffffff;
+  --color-sand: #ece4d5; /* the tonal chapter */
+  --color-night: #1d1714; /* espresso: the stage */
+
+  /* ---- Ink ---- */
+  --color-ink: #1f1a17;
+  --color-text-primary: #1f1a17; /* 15.18:1 on bg */
+  --color-text-secondary: #463d36; /*  9.33:1 */
+  --color-text-muted: #5f554b; /*  6.40:1 */
+  --color-on-night: #f3ebdf; /* 14.99:1 on night */
+  --color-on-night-secondary: #cfc2b1; /* 10.1:1 */
+  --color-on-night-muted: #a99b8c; /*  6.55:1 */
+
+  /* ---- Maroon: the logo's own ink, and darker steps of it ---- */
+  --color-accent: #834848; /*  6.19:1 on bg */
+  --color-accent-hover: #6e3a3a;
+  --color-accent-deep: #612a2c; /* the closing chapter */
+  --color-on-accent: #fbf7ef; /* 10.5:1 on accent-deep */
+  --color-on-accent-secondary: #e8d5cc; /*  7.9:1 on accent-deep */
+
+  /* ---- Brass: rare ---- */
+  --color-accent-muted: #7d5f0f; /* the only brass allowed as text on light */
+  --color-gold-hairline: #b39258; /* decorative only; fails as text by design */
+  --color-brass-night: #cfae72; /* labels on the dark stage, 8.4:1 */
+  --color-brass-maroon: #e2c48e; /* labels on the maroon close, 6.7:1 */
+
+  /* ---- Structure ---- */
+  --color-border: #ddd2c0; /* decorative rules */
+  --color-border-strong: #86786a; /* anything that bounds a control, >= 3:1 */
+
+  /* ---- Families ---- */
+  --font-display: var(--font-newsreader), Georgia, 'Times New Roman', serif;
+  --font-ui: var(--font-inter), system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-deva: var(--font-tiro-deva), 'Noto Serif Devanagari', serif;
+
+  /* ---- Radii: small and few. Images take none. ---- */
+  --radius-sm: 0.1875rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.375rem;
+
+  --breakpoint-xs: 30rem;
+
+  --ease-raaga: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Tone-aware ink. Each chapter declares its tone once (`.tone-*`) and every
+   component inside reads these, so the same markup sits correctly on
+   parchment, on the dark stage or on the maroon close. `inline` makes the
+   utility read the variable where it is used, not where it was declared. */
+@theme inline {
+  --color-fg: var(--fg);
+  --color-fg-2: var(--fg-2);
+  --color-fg-3: var(--fg-3);
+  --color-kicker: var(--kicker);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-mark: var(--mark);
+  --color-tone: var(--tone-bg);
+}
+
+:root {
+  color-scheme: light;
+
+  /* ---- Layout ---- */
+  --header-h: 4rem;
+  --shell: 80rem;
+  --gutter: clamp(1.25rem, 0.75rem + 2.5vw, 3rem);
+  --measure: 64ch;
+  --space-section: clamp(3.5rem, 1.75rem + 6.5vw, 7.5rem);
+  --space-section-sm: clamp(2.75rem, 1.5rem + 4vw, 5rem);
+
+  /* ---- Type scale. One role per size; the roles live in .t-* below. ---- */
+  --fs-hero: clamp(2.375rem, 1rem + 3.9vw, 4.5rem);
+  --fs-display: clamp(2.25rem, 1.5rem + 3.2vw, 4.5rem);
+  --fs-headline: clamp(1.875rem, 1.35rem + 2.1vw, 3.25rem);
+  --fs-statement: clamp(1.625rem, 1.15rem + 2.1vw, 3rem);
+  --fs-subhead: clamp(1.5rem, 1.2rem + 1.1vw, 2.125rem);
+  --fs-title: clamp(1.25rem, 1.12rem + 0.45vw, 1.5rem);
+  --fs-standfirst: clamp(1.1875rem, 1.06rem + 0.5vw, 1.4375rem);
+  --fs-prose: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --fs-body: clamp(1rem, 0.96rem + 0.15vw, 1.0625rem);
+  --fs-small: 0.875rem;
+  --fs-meta: 0.8125rem;
+  --fs-label: 0.75rem;
+
+  /* ---- Depth: one shadow, for things that are physically mounted. ---- */
+  --shadow-plate: 0 1px 2px rgb(40 24 16 / 0.06), 0 18px 36px -24px rgb(40 24 16 / 0.4);
+
+  /* ---- Motion: fast where you act, slow where atmosphere matters. ---- */
+  --dur-1: 160ms;
+  --dur-2: 320ms;
+  --dur-3: 800ms;
+  --dur-4: 1400ms;
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --header-h: 5rem;
+  }
+}

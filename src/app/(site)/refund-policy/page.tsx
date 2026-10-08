@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import { PageHero, Prose } from '@/components/layout/PageHero'
+import { PageHero } from '@/components/layout/PageHero'
+import { Prose } from '@/components/layout/Prose'
 import { LegalDraftNotice } from '@/components/layout/LegalDraftNotice'
 import { site } from '@/content/seed/site'
 import { whatsappHref, telHref } from '@/lib/whatsapp'
