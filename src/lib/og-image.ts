@@ -16,5 +16,6 @@ import { alt, size, contentType } from '@/app/opengraph-image'
  * `metadataBase`.
  */
 export const defaultOgImages = [
-  { url: '/opengraph-image', width: size.width, height: size.height, type: contentType, alt },
+  // Bump `v` whenever the card changes: WhatsApp and Facebook cache images per URL.
+  { url: '/opengraph-image?v=2', width: size.width, height: size.height, type: contentType, alt },
 ]
