@@ -15,6 +15,31 @@ Newest entry first.
 
 ---
 
+## 2026-10-11 — Homepage hero: the Saraswati carving
+
+- **Requested:** Replace the hero photograph with the wooden Saraswati carving,
+  keeping the same design, aesthetics and text. Bhasuri asked for it to be
+  verified and deployed when done.
+- **Decision / scope:**
+  - Another session's attempt moved the inscription, changed the frame ratio and
+    dropped UI props. Bhasuri rejected it, and its worktree and branch were
+    removed.
+  - Here `Hero.tsx` keeps its markup, classes, frame ratio (736:1150), motion
+    props and the in-print inscription position. Only the import, the phone
+    `object-position` and the comments changed.
+  - The carving filled its frame, leaving no empty area for the inscription, so
+    the print was composed with `sharp`: the carving (scaled 0.61, no upscaling)
+    sits bottom-aligned on a backdrop continued from the photo's own edge
+    texture, with a clean upper area for the inscription. No generative fill.
+  - All metadata is stripped. `tambura.jpg` is deleted.
+- **Verification:** `npm run verify`, `lint` and `build` pass.
+  `check-a11y-perf.mjs` gives 93 passed, 0 failed, with 338 KB total. Screenshots
+  were checked at 1440, 1280, 1024, 768, 640 and 375 px.
+- **Deployment / production status:** Merged and verified on production.
+- **Credential or access impact:** none.
+
+---
+
 ## 2026-10-11 — WhatsApp preview card and the "Why RAAGA" photograph
 
 - **Requested:** A share card reading just "Carnatic music classes" (no

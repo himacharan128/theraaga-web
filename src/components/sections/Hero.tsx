@@ -3,7 +3,7 @@ import type { CSSProperties } from 'react'
 import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
 import { whatsappHref } from '@/lib/whatsapp'
 import { getSite } from '@/data/content'
-import tambura from '@/assets/home/tambura.jpg'
+import saraswati from '@/assets/home/saraswati-carving.jpg'
 
 /**
  * Headline, subtitle and the primary button label are the CLIENT'S OWN COPY
@@ -16,17 +16,17 @@ import tambura from '@/assets/home/tambura.jpg'
  * COMPOSITION, art-directed separately for each size:
  *
  * - From lg, the words stand on parchment at the left and the photograph hangs
- *   at the right as a tall print, never cropped, pegs to bowl. The school's
- *   line in Sanskrit is set straight into the print's empty dawn sky, like an
- *   inscription, where it covers neither the singer nor the instrument.
+ *   at the right as a tall print, never cropped. The school's line in Sanskrit
+ *   is set straight into the print's empty upper backdrop, like an inscription,
+ *   where it covers none of the carving.
  * - On a tablet the print is narrower and the inscription sits beneath it.
  * - On a phone the photograph opens the hero, cropped to a wide frame of the
- *   hand on the tanpura's neck and the singer's face (the old tall crop showed
- *   mostly sky). The Sanskrit line closes the hero as an epigraph.
+ *   goddess's face and the hands on the veena (the tall print's top is empty
+ *   backdrop). The Sanskrit line closes the hero as an epigraph.
  *
- * THE PHOTOGRAPH IS ONLY 736px WIDE, so it is never shown much larger than it
- * is: about 470px at most on a desktop, the phone's width on a phone. Do not
- * add a zoom or parallax to it; any scale above 1 shows the softness.
+ * THE PRINT IS 1188px WIDE, so it is never shown much larger than it is: about
+ * 480px at most on a desktop, the phone's width on a phone. Do not add a zoom
+ * or parallax to it; any scale above 1 shows the softness.
  *
  * LCP. In this layout the photograph is the largest element in the first
  * screen at every size, so it loads first (`preload`). The headline's words
@@ -37,9 +37,13 @@ import tambura from '@/assets/home/tambura.jpg'
  * lines and the label arrive. Nothing loops; all of it stops under reduced
  * motion.
  *
- * The photograph is decorative (`alt=""`): it is a stock-style image of someone
- * with a tanpura, NOT a RAAGA teacher or student, so nothing may caption it as
- * one. The Sanskrit label is the school's line, deliberately not a figcaption.
+ * The photograph is decorative (`alt=""`): an antique wooden relief carving of
+ * Saraswati playing the veena, NOT a RAAGA teacher or student, so nothing may
+ * caption it as one. The print is the carving composed onto its own backdrop
+ * (extended with sampled colour and the backdrop's own woven texture, no
+ * generative fill) at the old print's 736:1150 ratio, so the inscription keeps
+ * its place in the empty upper area. The Sanskrit label is the school's line,
+ * deliberately not a figcaption.
  */
 
 type Word = { text: string; italic?: boolean; br?: boolean }
@@ -123,22 +127,23 @@ export async function Hero() {
             style={d(0)}
           >
             <Image
-              src={tambura}
+              src={saraswati}
               alt=""
               fill
               preload
               sizes="(min-width: 1280px) 480px, (min-width: 768px) 40vw, 100vw"
               placeholder="blur"
-              className="on-load-settle object-cover object-[50%_48%] md:object-center"
+              className="on-load-settle object-cover object-[50%_64%] md:object-center"
               style={d(0)}
             />
           </div>
 
           {/* The school's line. An epigraph after the buttons on a phone, a
               caption line under the print on a tablet, and from lg an
-              inscription set in the print's empty sky. Every lg position is a
-              percentage of the uncropped print, so the type keeps clear of the
-              tanpura's pegs (which begin 44.8% across) at any width. */}
+              inscription set in the print's empty backdrop. Every lg position
+              is a percentage of the uncropped print, so the type keeps clear of
+              the carving (its top flourishes begin below 31% of the height) at
+              any width. */}
           <div
             className="on-load order-last mt-12 md:mt-6 lg:absolute lg:top-[6.5%] lg:left-[5%] lg:mt-0 lg:w-[38%]"
             style={d(1300)}
