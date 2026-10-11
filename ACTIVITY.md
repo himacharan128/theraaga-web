@@ -15,6 +15,34 @@ Newest entry first.
 
 ---
 
+## 2026-10-11 — WhatsApp preview card and the "Why RAAGA" photograph
+
+- **Requested:** A share card reading just "Carnatic music classes" (no
+  Hyderabad) with the brand logo; and the amphitheatre concert photograph in the
+  homepage's "Why RAAGA" section.
+- **Decision / scope:**
+  - The card uses the site's own vector emblem and wordmark, recoloured
+    #834848, so the "g" counters are true holes. The earlier draft's raster PNG
+    wordmark (white-filled counters) was not used.
+  - The card copy is "Carnatic music classes" / "For children and adults · In
+    person and online".
+  - Root `og:title` is now "RAAGA: Carnatic Music Classes". The Google `<title>`
+    keeps "Hyderabad" for local search.
+  - `src/lib/og-image.ts` is bumped to `/opengraph-image?v=2` so the 16
+    shared-image pages refresh.
+  - The "Why RAAGA" photograph is `event-img-0861` (guardian consent confirmed
+    2026-10-03), shown at its own 3:2 shape.
+- **Verification:** `npm run verify`, `lint` and `build` pass.
+  `check-a11y-perf.mjs` gives 93 passed, 0 failed (og:image served 200 PNG on
+  every route). The card was checked at 1200px and at a 300px phone size.
+- **Deployment / production status:** Merged and verified on production.
+- **Follow-up / owner action:** Forward `https://theraaga.in/?v=2` for a fresh
+  WhatsApp card; the bare URL's old card stays cached for a while. `test:intro`
+  needs Playwright's WebKit, which is not installed on this laptop.
+- **Credential or access impact:** none.
+
+---
+
 ## 2026-10-09: Site redesign, header fix and homepage intro
 
 - **Requested:** On 2026-10-08 Bhasuri asked for a full revamp of the public

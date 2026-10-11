@@ -21,8 +21,9 @@ export const metadata: Metadata = {
     siteName: site.legalName,
     locale: 'en_IN',
     url: 'https://theraaga.in',
-    // Front-load the locality — WhatsApp truncates at roughly two lines on mobile.
-    title: 'RAAGA: Carnatic Music Classes in Hyderabad',
+    // The share card names the school and the offer, not a locality (owner's
+    // call); the search <title>/description above keep Hyderabad for local search.
+    title: 'RAAGA: Carnatic Music Classes',
     description:
       'Carnatic vocal classes for children and adults. Jubilee Hills, Phoenix Arena in Hitech City, or live online.',
   },

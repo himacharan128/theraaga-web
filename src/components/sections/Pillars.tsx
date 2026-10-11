@@ -17,18 +17,20 @@ import { monthYear } from '@/lib/dates'
  * These lead with the two claims no national player can make: delivery into
  * how it teaches, how closely, in what order, and where that order leads.
  *
- * The chapter closes on one of the school's own photographs, a kutcheri at the
- * Aani Thirumanjanam festival, captioned with its real occasion and month. It
- * is fetched through `getEventPhotos`, so the consent gate decides whether it
- * appears at all; it shows adults only, and if it is ever withdrawn the
- * chapter simply ends at the list.
+ * The chapter closes on one of the school's own photographs, chosen by the
+ * owner: an evening concert in the open-air amphitheatre, students on the
+ * stage and families on the steps. It is captioned with its real occasion and
+ * fetched through `getEventPhotos`, so the consent gate decides whether it
+ * appears at all (guardian consent confirmed 2026-10-03); if it is ever
+ * withdrawn, the chapter simply ends at the list. It is shown at its own 3:2
+ * shape — the wide band used before would crop the singers off the stage.
  */
-const KUTCHERI = 'event-img-8744'
+const FEATURE = 'event-img-0861'
 
 export async function Pillars() {
   const [pillars, occasions] = await Promise.all([getPillars(), getEventPhotos()])
-  const occasion = occasions.find((o) => o.photos.some((p) => p.id === KUTCHERI))
-  const photo = occasion?.photos.find((p) => p.id === KUTCHERI)
+  const occasion = occasions.find((o) => o.photos.some((p) => p.id === FEATURE))
+  const photo = occasion?.photos.find((p) => p.id === FEATURE)
 
   return (
     <Section
@@ -58,7 +60,7 @@ export async function Pillars() {
 
       {photo && occasion && (
         <figure className="mt-[clamp(2rem,5vw,4rem)] grid gap-x-10 gap-y-5 lg:grid-cols-12 lg:items-end">
-          <div className="media reveal reveal-unveil -mx-[var(--gutter)] aspect-[49/20] sm:mx-0 lg:col-span-9 lg:col-start-4 lg:row-start-1">
+          <div className="media reveal reveal-unveil -mx-[var(--gutter)] aspect-[3/2] sm:mx-0 lg:col-span-9 lg:col-start-4 lg:row-start-1">
             <Image
               src={photo.media.src}
               alt={photo.media.alt}
