@@ -226,7 +226,7 @@ for (const route of ['/', '/contact', '/privacy', '/terms', '/refund-policy', '/
 const TARGET_ROUTES = [
   '/', '/about', '/contact', '/learning', '/gurus', '/events', '/gallery',
   '/journal', '/getting-started', '/online-classes',
-  '/music-classes/jubilee-hills', '/music-classes/hitech-city',
+  '/music-classes', '/music-classes/jubilee-hills', '/music-classes/hitech-city',
   '/carnatic-music-classes/beginners', '/thank-you',
   '/privacy', '/terms', '/refund-policy', '/child-safeguarding',
 ]

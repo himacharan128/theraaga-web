@@ -21,9 +21,9 @@ import { defaultOgImages } from '@/lib/og-image'
  * what is needed, a quiet interlude on sand and a rail of places to begin.
  */
 export const metadata: Metadata = {
-  title: 'Online Carnatic Music & Vocal Classes',
+  title: 'Online Carnatic Music Classes for Kids and Adults',
   description:
-    'Live online Carnatic singing classes from RAAGA, Hyderabad, for children and adults. Explore the vocal syllabus, lesson setup and trial enquiry.',
+    'Live online Carnatic vocal classes from RAAGA, Hyderabad, for children and adults in India, the Gulf, the UK, the US, Singapore and Australia.',
   alternates: { canonical: '/online-classes' },
   openGraph: {
     title: 'Online Carnatic music classes at RAAGA, Hyderabad',
@@ -84,6 +84,11 @@ export default function OnlineClassesPage() {
         <p className="reveal t-caption mt-12 max-w-[52ch] border-l border-mark pl-5 text-fg-2 md:text-[1.0625rem]">
           Exact slots vary by term and by teacher availability. Tell us your city
           and we’ll send you what is open now.
+        </p>
+        <p className="reveal t-caption mt-6 max-w-[52ch] border-l border-mark pl-5 text-fg-2 md:text-[1.0625rem]">
+          India does not change its clocks. When the UK, Europe, the US or
+          Australia move to or from summer time, your class moves by an hour on
+          your clock, so check the time with us at each change.
         </p>
       </Section>
 

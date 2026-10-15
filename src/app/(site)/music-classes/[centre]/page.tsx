@@ -69,6 +69,7 @@ export default async function CentrePage({
   const { centre: slug } = await params
   const centre = await getCentreBySlug(slug)
   if (!centre) notFound()
+  const where = centre.locality?.replace(', Hyderabad', '') ?? centre.name
   const otherCentre = slug === 'jubilee-hills'
     ? { label: 'Phoenix Arena, Hitech City', href: '/music-classes/hitech-city' }
     : { label: 'Jubilee Hills', href: '/music-classes/jubilee-hills' }
@@ -83,7 +84,7 @@ export default async function CentrePage({
       '@type': 'Place', '@id': `https://theraaga.in/#centre-${centre.key}`,
       name: `RAAGA: ${centre.name}`, url: `https://theraaga.in${centre.href}`,
       ...(centre.streetAddress ? { address: {
-        '@type': 'PostalAddress', streetAddress: centre.streetAddress,
+        '@type': 'PostalAddress', streetAddress: `${centre.streetAddress}, ${where}`,
         addressLocality: 'Hyderabad', addressRegion: 'Telangana',
         postalCode: centre.postalCode, addressCountry: 'IN',
       } } : {}),
@@ -98,7 +99,8 @@ export default async function CentrePage({
       <BreadcrumbSchema
         items={[
           { name: 'Home', href: '/' },
-          { name: `Classes in ${centre.name}`, href: `/music-classes/${slug}` },
+          { name: 'Classes across Hyderabad', href: '/music-classes' },
+          { name: `Classes in ${where}`, href: `/music-classes/${slug}` },
         ]}
       />
       <PageHero
@@ -238,6 +240,10 @@ export default async function CentrePage({
             , and we have a second centre at{' '}
             <Link href={otherCentre.href} className="link">
               {otherCentre.label}
+            </Link>
+            . See{' '}
+            <Link href="/music-classes" className="link">
+              every way to learn across Hyderabad
             </Link>
             .
           </p>

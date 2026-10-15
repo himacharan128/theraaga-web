@@ -6,7 +6,7 @@ import { Pillars } from '@/components/sections/Pillars'
 import { ListenWatch } from '@/components/sections/ListenWatch'
 import { TrialProcess } from '@/components/sections/TrialProcess'
 import { FinalCta } from '@/components/sections/FinalCta'
-import { OrganizationSchema } from '@/components/seo/Schema'
+import { HomePageSchema } from '@/components/seo/Schema'
 
 export const metadata: Metadata = {
   title: 'Carnatic Music & Vocal Classes in Hyderabad',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
-      <OrganizationSchema />
+      <HomePageSchema />
       <Hero />
       <TrustStrip />
       <Centres />

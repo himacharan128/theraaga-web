@@ -5,6 +5,8 @@ import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { LinkRows } from '@/components/layout/Editorial'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
+import { BASE_URL, JsonLd, courseNode } from '@/components/seo/Schema'
+import type { SeoLandingPage } from '@/content/types'
 import { ButtonLink } from '@/components/ui/Button'
 import { FinalCta } from '@/components/sections/FinalCta'
 import {
@@ -13,7 +15,6 @@ import {
 } from '@/data/content'
 import { defaultOgImages } from '@/lib/og-image'
 
-const BASE_URL = 'https://theraaga.in'
 
 type Params = Promise<{ intent: string }>
 
@@ -49,33 +50,22 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   }
 }
 
-function IntentPageSchema({
-  title,
-  description,
-  href,
-}: {
-  title: string
-  description: string
-  href: string
-}) {
+function IntentPageSchema({ page, href }: { page: SeoLandingPage; href: string }) {
   const url = `${BASE_URL}${href}`
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    '@id': `${url}#webpage`,
-    url,
-    name: `${title} | RAAGA`,
-    description,
-    inLanguage: 'en-IN',
-    isPartOf: { '@id': `${BASE_URL}/#website` },
-    about: { '@id': `${BASE_URL}/#institute` },
-    mainEntity: { '@id': `${BASE_URL}/#institute` },
-  }
-
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        '@id': `${url}#webpage`,
+        url,
+        name: `${page.title} | RAAGA`,
+        description: page.description,
+        inLanguage: 'en-IN',
+        isPartOf: { '@id': `${BASE_URL}/#website` },
+        about: { '@id': `${BASE_URL}/#institute` },
+        mainEntity: courseNode(page),
+      }}
     />
   )
 }
@@ -96,7 +86,7 @@ export default async function CarnaticIntentPage({ params }: { params: Params })
           { name: page.h1.replace(/\.$/, ''), href },
         ]}
       />
-      <IntentPageSchema title={page.title} description={page.description} href={href} />
+      <IntentPageSchema page={page} href={href} />
 
       <PageHero
         eyebrow={page.eyebrow}

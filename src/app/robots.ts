@@ -12,6 +12,5 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
     sitemap: 'https://theraaga.in/sitemap.xml',
-    host: 'https://theraaga.in',
   }
 }

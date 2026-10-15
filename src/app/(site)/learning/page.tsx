@@ -8,6 +8,7 @@ import { ExploreLearningGoals } from '@/components/sections/ExploreLearningGoals
 import { FinalCta } from '@/components/sections/FinalCta'
 import { ButtonLink } from '@/components/ui/Button'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
+import { CourseListSchema } from '@/components/seo/Schema'
 import {
   getAcademicPathways,
   getCurriculum,
@@ -67,6 +68,7 @@ export default async function CoursesPage() {
           { name: 'Carnatic Music Courses', href: '/learning' },
         ]}
       />
+      <CourseListSchema pages={goals} />
       <PageHero
         variant="archive"
         eyebrow="Sādhana · साधना · Journey of learning"

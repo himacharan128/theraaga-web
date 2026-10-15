@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { defaultOgImages } from '@/lib/og-image'
 import { PageHero } from '@/components/layout/PageHero'
 import { Prose } from '@/components/layout/Prose'
 import { LegalDraftNotice } from '@/components/layout/LegalDraftNotice'
@@ -15,7 +16,10 @@ import { whatsappHref, telHref } from '@/lib/whatsapp'
  */
 export const metadata: Metadata = {
   title: 'Refund and cancellation policy',
+  description:
+    'How trial classes, cancellations and refunds work at RAAGA, the timelines that apply and how to raise a request with the school.',
   alternates: { canonical: '/refund-policy' },
+  openGraph: { title: 'Refund and cancellation policy | RAAGA', url: 'https://theraaga.in/refund-policy', images: defaultOgImages },
 }
 
 export default function RefundPolicyPage() {

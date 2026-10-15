@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { defaultOgImages } from '@/lib/og-image'
 import { PageHero } from '@/components/layout/PageHero'
 import { Prose } from '@/components/layout/Prose'
 import { LegalDraftNotice } from '@/components/layout/LegalDraftNotice'
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
   description:
     'How RAAGA, Jubilee Hills, Hyderabad collects and uses personal data, under the Digital Personal Data Protection Act 2023.',
   alternates: { canonical: '/privacy' },
+  openGraph: { title: 'Privacy notice | RAAGA', url: 'https://theraaga.in/privacy', images: defaultOgImages },
 }
 
 export default function PrivacyPage() {

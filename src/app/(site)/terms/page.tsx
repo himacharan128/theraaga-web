@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { defaultOgImages } from '@/lib/og-image'
 import { PageHero } from '@/components/layout/PageHero'
 import { Prose } from '@/components/layout/Prose'
 import { LegalDraftNotice } from '@/components/layout/LegalDraftNotice'
@@ -7,7 +8,10 @@ import { telHref } from '@/lib/whatsapp'
 
 export const metadata: Metadata = {
   title: 'Terms of use',
+  description:
+    'Terms for using the RAAGA website: what an enquiry means, class conduct, classes at our centres, site content and how to contact the school.',
   alternates: { canonical: '/terms' },
+  openGraph: { title: 'Terms of use | RAAGA', url: 'https://theraaga.in/terms', images: defaultOgImages },
 }
 
 export default function TermsPage() {

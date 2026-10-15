@@ -3,6 +3,13 @@ export interface LearningGuide {
   title: string
   description: string
   intro: string
+  /**
+   * ISO dates. `published` is when the guide went live; move `updated` only
+   * when the guidance itself changes, not for a typo. Both feed the Article
+   * schema and the sitemap, so search engines see the same date the page does.
+   */
+  published: string
+  updated: string
   sections: {
     id: string
     title: string
@@ -16,6 +23,8 @@ export interface LearningGuide {
 export const learningGuides: LearningGuide[] = [
   {
     slug: 'choosing-singing-classes-hyderabad',
+    published: '2026-10-06',
+    updated: '2026-10-06',
     title: 'How to choose singing classes in Hyderabad',
     description:
       'Compare music classes by what is taught, teacher feedback, travel and practice expectations. A practical checklist for Hyderabad adults and parents.',
@@ -74,6 +83,8 @@ export const learningGuides: LearningGuide[] = [
   },
   {
     slug: 'online-or-in-person-carnatic-classes',
+    published: '2026-10-06',
+    updated: '2026-10-06',
     title: 'Online or in-person Carnatic classes: which suits you?',
     description:
       'Compare live online and in-person Carnatic lessons by travel, sound, teacher feedback and home setup before choosing a class format.',
@@ -132,6 +143,8 @@ export const learningGuides: LearningGuide[] = [
   },
   {
     slug: 'practising-carnatic-music-at-home',
+    published: '2026-10-06',
+    updated: '2026-10-06',
     title: 'How to practise Carnatic music between lessons',
     description:
       'Plan Carnatic practice around your teacher\'s exercises, pitch and feedback. A simple home-practice checklist for beginners, adults and parents.',
