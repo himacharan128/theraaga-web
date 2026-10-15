@@ -47,6 +47,10 @@ Newest entry first.
     still shows the top 25.
   - IndexNow key in `public/` and `npm run seo:indexnow`, to run after each
     production deploy.
+  - Jubilee Hills pin corrected to 17.43594, 78.4085 (beside the Office of
+    Ashok Ram Kumar, Road Number 24), as the owner confirmed on site. The old
+    point was about 55 m off, and Google's profile pin about 90 m off the
+    other way.
 - **Off-site:** Bing Webmaster Tools set up by importing from Search Console
   (himacharan128@gmail.com) and the sitemap submitted. Google Business Profile
   service areas partly added; hours and the name wait for the school.
