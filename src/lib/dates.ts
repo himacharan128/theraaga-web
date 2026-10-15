@@ -11,3 +11,13 @@ export function monthYear(iso: string): string {
     timeZone: 'UTC',
   })
 }
+
+/** "2026-10-06" → "6 October 2026", formatted in UTC for the same reason. */
+export function dayMonthYear(iso: string): string {
+  return new Date(iso).toLocaleDateString('en-IN', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  })
+}

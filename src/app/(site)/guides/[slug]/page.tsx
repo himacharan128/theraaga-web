@@ -7,6 +7,7 @@ import { FinalCta } from '@/components/sections/FinalCta'
 import { LinkRows } from '@/components/layout/Editorial'
 import { getLearningGuideBySlug, getLearningGuides } from '@/data/content'
 import { guideMeta } from '@/lib/reading'
+import { dayMonthYear } from '@/lib/dates'
 import { defaultOgImages } from '@/lib/og-image'
 
 type Props = { params: Promise<{ slug: string }> }
@@ -42,12 +43,17 @@ export default async function GuidePage({ params }: Props) {
   if (!guide) notFound()
   const href = `/guides/${guide.slug}`
   const schema = {
-    '@context': 'https://schema.org', '@type': 'WebPage',
-    '@id': `${BASE}${href}#webpage`, url: `${BASE}${href}`,
-    name: guide.title, description: guide.description, inLanguage: 'en-IN',
-    isPartOf: { '@id': `${BASE}/#website` },
+    '@context': 'https://schema.org', '@type': 'Article',
+    '@id': `${BASE}${href}#article`, url: `${BASE}${href}`,
+    mainEntityOfPage: `${BASE}${href}`,
+    headline: guide.title, description: guide.description, inLanguage: 'en-IN',
+    datePublished: guide.published, dateModified: guide.updated,
+    image: `${BASE}/brand/raaga-logo.png`,
+    author: { '@id': `${BASE}/#org` },
     publisher: { '@id': `${BASE}/#org` },
+    isPartOf: { '@id': `${BASE}/#website` },
     relatedLink: guide.related.map((link) => `${BASE}${link.href}`),
+    citation: guide.sources.map((source) => source.href),
   }
 
   return (
@@ -55,7 +61,7 @@ export default async function GuidePage({ params }: Props) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\\u003c') }} />
       <BreadcrumbSchema items={[{ name: 'Home', href: '/' }, { name: 'Learning guides', href: '/guides' }, { name: guide.title, href }]} />
       <PageHero
-        eyebrow={`RAAGA learning guide · ${guideMeta(guide)}`}
+        eyebrow={`RAAGA learning guide · ${guideMeta(guide)} · Updated ${dayMonthYear(guide.updated)}`}
         title={guide.title}
         lede={<p>{guide.intro}</p>}
       />

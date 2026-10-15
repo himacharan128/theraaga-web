@@ -5,6 +5,7 @@ import { SectionViewTracker } from '@/components/ui/SectionViewTracker'
 import { AnalyticsTracker } from '@/components/analytics/AnalyticsTracker'
 import { Reveal } from '@/components/ui/Reveal'
 import { Intro } from '@/components/intro/Intro'
+import { SiteSchema } from '@/components/seo/Schema'
 import { telHref, whatsappHref } from '@/lib/whatsapp'
 import { getGalleryByCategory, getSite } from '@/data/content'
 
@@ -27,6 +28,7 @@ export default async function SiteLayout({
       {/* First in the body, so its script decides before anything below it
           is parsed. It only ever plays on the homepage; see Intro. */}
       <Intro line={site.sanskritLine} />
+      <SiteSchema />
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-3 focus:z-[100] focus:rounded-md focus:bg-accent focus:px-4 focus:py-2.5 focus:font-ui focus:text-[0.875rem] focus:text-on-accent"

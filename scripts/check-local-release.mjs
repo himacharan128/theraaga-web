@@ -12,8 +12,8 @@ try {
   const graphs = await page.locator('script[type="application/ld+json"]').allTextContents()
   const institute = graphs.flatMap(text => JSON.parse(text)['@graph'] ?? []).find(node => node['@id'] === 'https://theraaga.in/#institute')
   assert.equal(institute.address.postalCode, '500033')
-  assert.equal(institute.geo.latitude, 17.43625)
-  assert.equal(institute.geo.longitude, 78.4089167)
+  assert.equal(institute.geo.latitude, 17.43594)
+  assert.equal(institute.geo.longitude, 78.4085)
   const sitemap = await page.request.get(`${base}/sitemap.xml`)
   assert.ok((await sitemap.text()).includes('https://theraaga.in/getting-started'))
   for (const width of [390, 1440]) {

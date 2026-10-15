@@ -188,8 +188,8 @@ async function SearchConsoleContent({ searchParams }: { searchParams: Promise<{ 
               {report.previousTotals && <p className="mt-4 text-sm text-stone-600">Compared with the previous 28 days: clicks {changeLabel(report.totals.clicks, report.previousTotals.clicks)}; impressions {changeLabel(report.totals.impressions, report.previousTotals.impressions)}.</p>}
               <p className="mt-3 break-all text-xs text-stone-500">Reporting property: {report.siteUrl}. Google may omit anonymised queries; table totals may differ from headline totals.</p>
               <div className="mt-5 grid gap-5 lg:grid-cols-2">
-                <ReportTable title="Top search queries" rows={report.queries} />
-                <ReportTable title="Top pages in Search" rows={report.pages} pageLabels />
+                <ReportTable title="Top search queries" rows={report.queries.slice(0, 25)} />
+                <ReportTable title="Top pages in Search" rows={report.pages.slice(0, 25)} pageLabels />
                 <ReportTable title="Countries" rows={report.countries} />
                 <ReportTable title="Devices" rows={report.devices} />
               </div>

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { defaultOgImages } from '@/lib/og-image'
 import { PageHero } from '@/components/layout/PageHero'
 import { Prose } from '@/components/layout/Prose'
 import { LegalDraftNotice } from '@/components/layout/LegalDraftNotice'
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
   description:
     'How RAAGA keeps children safe in class at our Hyderabad centres and online, and how we handle photographs and recordings of students.',
   alternates: { canonical: '/child-safeguarding' },
+  openGraph: { title: 'Child safeguarding | RAAGA', url: 'https://theraaga.in/child-safeguarding', images: defaultOgImages },
 }
 
 export default function ChildSafeguardingPage() {

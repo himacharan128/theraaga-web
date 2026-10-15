@@ -217,8 +217,10 @@ export async function fetchSearchConsoleReport(refreshToken: string, siteUrl: st
   const [totalRows, dailyRows, queryRows, pageRows, countryRows, deviceRows, previousRows] = await Promise.all([
     analyticsRows(token, siteUrl, periodStart, periodEnd, [], 1),
     analyticsRows(token, siteUrl, periodStart, periodEnd, ['date'], 31),
-    analyticsRows(token, siteUrl, periodStart, periodEnd, ['query']),
-    analyticsRows(token, siteUrl, periodStart, periodEnd, ['page']),
+    // The long tail is the point: locality and diaspora searches arrive a
+    // few impressions at a time, and a top-25 cut hid all of them.
+    analyticsRows(token, siteUrl, periodStart, periodEnd, ['query'], 1000),
+    analyticsRows(token, siteUrl, periodStart, periodEnd, ['page'], 1000),
     analyticsRows(token, siteUrl, periodStart, periodEnd, ['country']),
     analyticsRows(token, siteUrl, periodStart, periodEnd, ['device']),
     analyticsRows(token, siteUrl, indiaDate(58), indiaDate(31), [], 1),
