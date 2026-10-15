@@ -25,11 +25,13 @@ export const site: SiteSettings = {
   city: 'Hyderabad',
   region: 'Telangana',
   country: 'India',
-  // Address and pin supplied by the owner on 2026-09-15.
+  // Address supplied by the owner on 2026-09-15. Pin corrected on 2026-10-15:
+  // the building is beside the Office of Ashok Ram Kumar (Google: 17.43594,
+  // 78.40842) on Road Number 24, confirmed by the owner driving past it.
   streetAddress: 'Road Number 24, Jawahar Colony, Venkatagiri',
   postalCode: '500033',
-  geo: { latitude: 17.43625, longitude: 78.4089167 },
-  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=17.43625%2C78.4089167',
+  geo: { latitude: 17.43594, longitude: 78.4085 },
+  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=17.43594%2C78.4085',
   whatsapp: '918247558515',
   phoneDisplay: '+91 82475 58515',
   // NULL BY DECISION, not by oversight. theraaga.in has no MX, SPF or DKIM, and
@@ -72,8 +74,8 @@ export const centres: Centre[] = [
     href: '/music-classes/jubilee-hills',
     streetAddress: 'Road Number 24, Jawahar Colony, Venkatagiri',
     postalCode: '500033',
-    geo: { latitude: 17.43625, longitude: 78.4089167 },
-    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=17.43625%2C78.4089167',
+    geo: { latitude: 17.43594, longitude: 78.4085 },
+    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=17.43594%2C78.4085',
     formLabel: 'Jubilee Hills',
     nearby: [
       'Banjara Hills',
