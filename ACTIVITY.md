@@ -58,7 +58,15 @@ Newest entry first.
   on 26 pages. `check-a11y-perf.mjs` 95 passed (hub added to its targets),
   338 KB total. `test:intro` 93 passed. JSON-LD parsed on all 26 pages: no
   dangling references, no price keys.
-- **Deployment / production status:** see below once merged.
+- **Deployment / production status:** PR #16 merged and verified on
+  theraaga.in: `test:seo-crawl` passes against production (26 pages), the hub
+  serves, the schema carries the corrected pin and all 26 sitemap URLs have
+  `lastmod`. IndexNow accepted the 26 URLs (HTTP 202).
+- **Google Business Profile:** the owner moved the pin. 20 service areas saved
+  (Google's cap): Hyderabad, Secunderabad and 16 Hyderabad areas, plus Nalgonda
+  and Mahabubnagar. Cities further away (Kurnool, Kadapa, Vizag,
+  Vizianagaram) are not added, because Google limits service areas to about two
+  hours' drive; the website's online pages reach them instead.
 - **Credential or access impact:** Bing was granted read-only Search Console
   access for the import.
 
