@@ -15,6 +15,51 @@ Newest entry first.
 
 ---
 
+## 2026-10-15: Search coverage across Hyderabad, India and abroad
+
+- **Requested:** Rank for Carnatic and music class searches in every Hyderabad
+  area, Telangana, Andhra Pradesh, India and abroad (USA, UK and so on), and be
+  recommended by ChatGPT, Gemini and the other assistants.
+- **Research:** six agents covered the code, the live site and its rankings,
+  Google's policies, AI assistants, Indian search phrases and competitors, and
+  searchers abroad. Search Console (3 months): 706 impressions, 25 clicks, 24
+  pages indexed; online class searches sit around position 45 to 55.
+- **Decisions (owner chose the recommendations):**
+  - One Hyderabad hub page now. Six area pages (Kondapur, Manikonda,
+    Gachibowli, Madhapur, Kukatpally/KPHB, Nallagandla) only once the school
+    supplies true facts for each. A page per locality is a doorway page under
+    Google's spam policy.
+  - Online hub now; USA, UK, Gulf and Telugu-medium pages once real class hours
+    and a Telugu-speaking teacher are confirmed.
+  - Stay on theraaga.in, no Telugu translation yet, keep allowing AI crawlers.
+- **Built:**
+  - `/music-classes` hub: both centres, community classes, a plain answer for
+    each further area, Telangana/AP and abroad pointing to online.
+  - School, centres and website schema on every page (inner pages referenced
+    `#org` and `#institute` that only the homepage defined). Course nodes on
+    the intent pages and a Course list on `/learning`, no offers. Guides are
+    dated Articles and show "Updated" on the page.
+  - Online page title and description name the markets; a summer-time note.
+  - Sitemap `lastmod` dates and the hub; footer links to the hub and guides;
+    legal pages get descriptions and their own og:url; `host` dropped from
+    robots.txt.
+  - Search Console sync keeps 1000 queries and pages (was 25); the admin table
+    still shows the top 25.
+  - IndexNow key in `public/` and `npm run seo:indexnow`, to run after each
+    production deploy.
+- **Off-site:** Bing Webmaster Tools set up by importing from Search Console
+  (himacharan128@gmail.com) and the sitemap submitted. Google Business Profile
+  service areas partly added; hours and the name wait for the school.
+- **Verification:** `verify`, `lint` and `build` pass. `test:seo-crawl` passes
+  on 26 pages. `check-a11y-perf.mjs` 95 passed (hub added to its targets),
+  338 KB total. `test:intro` 93 passed. JSON-LD parsed on all 26 pages: no
+  dangling references, no price keys.
+- **Deployment / production status:** see below once merged.
+- **Credential or access impact:** Bing was granted read-only Search Console
+  access for the import.
+
+---
+
 ## 2026-10-11 — Homepage hero: the Saraswati carving
 
 - **Requested:** Replace the hero photograph with the wooden Saraswati carving,
