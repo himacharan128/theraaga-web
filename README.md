@@ -294,3 +294,81 @@ create duplicate promotional blogs or pretend that RAAGA controls AI rankings.
 Run `npm run test:reporting` for source classification, admin routing, reporting
 period and rendered report checks. Production data rendering still requires an
 authenticated check after deployment.
+
+### Student attendance and eight-class packages
+
+`admin.theraaga.in/admin/attendance` is the phone screen for marking a class;
+`/admin/students` holds the student list, packages, corrections and WhatsApp
+delivery history. The rules live in `src/lib/attendance-rules.ts`, storage and
+indexes in `src/data/attendance-db.ts`.
+
+**What counts.** Only an attended record counts toward a package, never a
+scheduled class. A student has at most one active package; the eighth attended
+class completes it, freezes its dates, and queues one WhatsApp message to the
+student's adult contact and one to the school. Renewal starts package N+1 and
+leaves every earlier package and its attendance untouched.
+
+**Why it cannot double count.** Unique indexes allow one active package per
+student, one attended record per student per day and one message per
+completion and recipient. The eighth class is written in a transaction whose
+package update only succeeds if the count has not moved underneath it, so two
+admins tapping at once, a double tap or a retried request all end at exactly
+eight and exactly one completion.
+
+**Children.** This is the enrolment record the privacy policy refers to. It
+holds the name the school uses for the student, never a date of birth. For a
+student under 18, the contact and WhatsApp number are the parent's or
+guardian's: RAAGA never messages a child directly. A student-side message is
+only sent when the adult's WhatsApp consent is recorded. "Erase student" deletes
+the student, packages, attendance and messages permanently, for erasure requests.
+
+**Corrections.** On an active package a class can be removed or its date changed,
+with a reason; both are kept in the record's history. On a completed package a
+date can be changed (the count stays eight, the package shows as amended, and
+"Send corrected calendar" is a deliberate manual step). Removing a class from a
+completed package means "Reopen" first: the original completion is kept in
+history, and the next completion is held for a manual send so a family is never
+messaged twice by surprise.
+
+**WhatsApp delivery.** Completion messages are an approved UTILITY template with
+the calendar PNG as the image header, sent through the Cloud API from the
+server (`src/lib/whatsapp-cloud.ts`, `src/data/notifications.ts`). Sending starts
+straight after the completing request; a daily cron (`/api/cron/notifications`,
+03:30 UTC) and the Retry button pick up anything left. A request that timed out
+may still have been delivered and the Cloud API has no idempotency key, so such
+a message is marked "Check WhatsApp" and is never re-sent automatically; the row
+id travels as `biz_opaque_callback_data` so a later webhook can confirm it.
+Delivery receipts arrive at `https://theraaga.in/api/whatsapp/webhook`, verified
+against `WHATSAPP_APP_SECRET`. With WhatsApp unset, completions are recorded as
+"Held" and nothing is sent; set the variables in `.env.example` (Production
+scope only) to switch it on.
+
+**Setting up WhatsApp (once, outside the code).**
+
+1. In Meta Business Suite, create or reuse the business portfolio and add a
+   WhatsApp Business Account. Register a sending number that is not active in
+   the ordinary WhatsApp app (or connect the existing WhatsApp Business app
+   number through a Meta partner's coexistence onboarding).
+2. Create a Meta app with the WhatsApp product, add a system user with
+   `whatsapp_business_messaging` and `whatsapp_business_management`, and
+   generate its token: `WHATSAPP_ACCESS_TOKEN`. Copy the Phone number ID.
+3. Submit the template `raaga_package_complete`, category Utility, language
+   English, header Image (upload any calendar PNG from the dashboard as the
+   sample), body for example: "Hello, {{1}} has completed all classes in the
+   current package at RAAGA, from {{2}} to {{3}}. The attendance calendar is
+   attached." No offers or renewal prompts, or Meta reclassifies it as
+   marketing.
+4. Webhook: callback `https://theraaga.in/api/whatsapp/webhook`, verify token
+   `WHATSAPP_WEBHOOK_VERIFY_TOKEN`, subscribe to `messages`. Put the app secret
+   in `WHATSAPP_APP_SECRET`.
+5. Set the variables in Vercel (Production only), redeploy, then send yourself
+   a held message from `/admin/students` and confirm it arrives and turns
+   "Delivered".
+
+New portfolios can message 250 people a day without business verification,
+which is far above a school's completions. Meta charges per delivered utility
+template; check the India rate in the Business Manager rate card.
+
+Run `npm run test:attendance`, `npm run test:notifications`,
+`npm run test:calendar` and `npm run test:attendance-ui`. The first two start a
+throwaway in-memory MongoDB replica set; nothing touches Atlas or Meta.
