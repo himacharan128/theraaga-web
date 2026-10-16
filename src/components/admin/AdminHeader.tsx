@@ -2,10 +2,12 @@ import Link from 'next/link'
 import { logoutAdmin } from '@/app/admin/actions'
 import { Wordmark } from '@/components/ui/Wordmark'
 
-type AdminSection = 'overview' | 'enquiries' | 'search-console' | 'growth'
+type AdminSection = 'overview' | 'attendance' | 'students' | 'enquiries' | 'search-console' | 'growth'
 
 const tabs: { id: AdminSection; href: string; label: string }[] = [
   { id: 'overview', href: '/admin', label: 'Overview' },
+  { id: 'attendance', href: '/admin/attendance', label: 'Attendance' },
+  { id: 'students', href: '/admin/students', label: 'Students' },
   { id: 'enquiries', href: '/admin/enquiries', label: 'Enquiries' },
   { id: 'search-console', href: '/admin/search-console', label: 'Search Console' },
   { id: 'growth', href: '/admin/growth', label: 'Growth plan' },

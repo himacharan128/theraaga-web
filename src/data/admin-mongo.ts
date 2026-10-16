@@ -59,3 +59,8 @@ export async function getAdminDb(): Promise<Db> {
   const client = await getClientPromise()
   return client.db(dbName)
 }
+
+/** The client itself, for sessions and transactions (attendance-db.ts). */
+export function getAdminClient(): Promise<MongoClient> {
+  return getClientPromise()
+}
