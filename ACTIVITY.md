@@ -15,6 +15,62 @@ Newest entry first.
 
 ---
 
+## 2026-10-16: Student attendance and eight-class packages
+
+- **Requested:** A private dashboard to mark attendance, track packages of
+  eight classes, and on the eighth class send a calendar image of the attended
+  dates on WhatsApp to the student and to the school, with renewal keeping
+  the history.
+- **Decisions:**
+  - Built inside the existing admin (`admin.theraaga.in`), same login, same
+    Atlas database through `MONGODB_ADMIN_URI`. No new service.
+  - Only attended records count. One active package per student, one attended
+    class per student per day, one message per completion and recipient, all
+    enforced by unique indexes; the eighth class is a guarded transaction.
+  - Children: this is the enrolment record the privacy policy already
+    describes. The name the school uses, never a date of birth; for a student
+    under 18 the contact and number are the parent's, matching the
+    safeguarding page. The student message needs recorded WhatsApp consent,
+    re-checked at send time.
+  - WhatsApp Business Platform Cloud API with an approved utility template and
+    the calendar PNG as image header. A send that may already have reached
+    WhatsApp is marked "Check WhatsApp" and never resent automatically.
+    Until the `WHATSAPP_*` variables are set, completions are held.
+  - Corrections: remove or re-date on an active package; re-date only on a
+    completed one (marked amended, corrected calendar sent by hand); removing
+    from a completed package needs a reopen, which keeps the original
+    completion in history and holds the next message for a manual send.
+  - Vercel Hobby allows one cron a day, so sending starts straight after the
+    completing tap, admin actions flush a little of the queue, and the
+    03:30 UTC cron is the safety net.
+- **Built:** `/admin/attendance` (phone screen), `/admin/students` (summary,
+  needs attention, completions, search, add/edit/deactivate/erase),
+  student pages with packages, history, corrections, renewal, calendar
+  preview and message retry; `src/lib/calendar-image.tsx` (next/og);
+  `src/lib/whatsapp-cloud.ts`; `src/data/notifications.ts`; signed webhook
+  `/api/whatsapp/webhook`; cron `/api/cron/notifications`. Setup steps for
+  Meta are in the README.
+- **Verified:** `verify`, `lint`, `build`, and new `test:attendance`,
+  `test:notifications`, `test:calendar`, `test:attendance-ui` against an
+  in-memory replica set with mocked WhatsApp (races at 7/8, five taps at 6/8,
+  duplicate dates, retries, timeouts, out-of-order receipts, signatures).
+  Independent review found a batch-start lease, consent not re-checked at
+  send, and a 5xx resend path; all fixed with regression tests. Full flow
+  driven at 375px on localhost against a throwaway database. Production
+  (PR #18): routes deployed, admin pages redirect to sign-in with no data,
+  calendar image 401 without a session, webhook 403/503 until configured,
+  cron 401 without its secret.
+- **Not yet verified:** a signed-in production load of `/admin/students`
+  (first load creates the new collections and indexes), and any live WhatsApp
+  delivery, which waits on the Meta account, template approval and variables.
+- **Mistake:** while starting the localhost review, a preview tool ran the
+  workspace's default dev server for 9 seconds, which uses the main checkout
+  and its production `.env.local`. Its homepage beacons added about two
+  anonymous page views to the live daily totals. No personal data. Lesson
+  recorded: check which server a preview tool actually started.
+
+---
+
 ## 2026-10-15: Search coverage across Hyderabad, India and abroad
 
 - **Requested:** Rank for Carnatic and music class searches in every Hyderabad
