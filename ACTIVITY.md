@@ -15,6 +15,42 @@ Newest entry first.
 
 ---
 
+## 2026-10-25: Google profile pin, Dr. Polaki profile, foundation guides
+
+- **Requested:** Use the Google Business Profile location instead of a manual
+  map pin; cover Dr. Suryanarayana Polaki and his books (search Google for
+  facts); widen search reach so RAAGA shows for music school searches.
+- **Decisions:**
+  - Map links open the profile itself (CID URL), the pin uses the profile's
+    coordinates (17.4359741, 78.4084949), and the institute JSON-LD node
+    declares the profile with `sameAs`.
+  - Dr. Polaki's lineage, awards, institutions and years come from the
+    Swararaga Kadambam author note, The Hans India of 4 Aug 2015 and Best Book
+    Centre, all cited on the page. The repo rule says such facts come from the
+    client; the owner reviewed them on localhost and said yes, and also
+    approved the "Dr." form (the 2015 sources print "Sri").
+  - No pages for instruments or music styles RAAGA does not teach: those would
+    be doorway pages under Google's spam policy. Reach comes from intent pages
+    for what is taught, plus off-site signals (reviews, categories).
+  - CSS budget: main was already at 16,502 bytes gzipped against 16,384 before
+    this work (which adds about 10). Owner chose to ship and trim the CSS as
+    separate work. Budget not raised.
+- **Built:** `/gurus/suryanarayana-polaki` (ProfilePage, Person, Book JSON-LD,
+  no offers) from `src/content/seed/gurus.ts`; "Who teaches here" row on
+  `/gurus`; three guides in `learning-guides-foundations.ts` (Carnatic music
+  for beginners, what is a raga, Carnatic vs Hindustani); `/music-classes`
+  title and H1 for "music classes Hyderabad" (OG title unchanged);
+  `public/llms.txt`; sitemap dates.
+- **Verified:** `verify`, `lint`, `test:seo-crawl` (30 pages),
+  `check-local-release` pass; `test:a11y` 98 of 99, the CSS budget being the
+  one pre-existing failure. Production (PR #20): all new URLs return 200, the
+  Jubilee Hills page links the CID URL, the homepage JSON-LD carries the new
+  coordinates, the sitemap lists the profile. IndexNow accepted 30 URLs.
+- **Not yet done:** trimming the CSS back under budget; Google reviews (the
+  owner is asking families); a portrait of Dr. Polaki (none yet).
+
+---
+
 ## 2026-10-16: Student attendance and eight-class packages
 
 - **Requested:** A private dashboard to mark attendance, track packages of
