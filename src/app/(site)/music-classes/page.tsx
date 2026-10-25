@@ -25,9 +25,9 @@ import { defaultOgImages } from '@/lib/og-image'
  * online or a community class is the realistic option.
  */
 export const metadata: Metadata = {
-  title: 'Carnatic Music Classes Across Hyderabad',
+  title: 'Music Classes in Hyderabad: Carnatic Vocal and Singing',
   description:
-    'Where RAAGA teaches Carnatic vocal in Hyderabad: Jubilee Hills, Phoenix Arena in Hitech City, residential communities, and live online for every other area.',
+    'RAAGA is a music school in Hyderabad for Carnatic vocal and classical singing, for children and adults: Jubilee Hills, Phoenix Arena in Hitech City, communities and live online.',
   alternates: { canonical: '/music-classes' },
   openGraph: {
     title: 'Carnatic music classes across Hyderabad at RAAGA',
@@ -78,7 +78,7 @@ export default async function MusicClassesHubPage() {
           '@type': 'CollectionPage',
           '@id': `${BASE_URL}/music-classes#webpage`,
           url: `${BASE_URL}/music-classes`,
-          name: 'Carnatic Music Classes Across Hyderabad | RAAGA',
+          name: 'Music Classes in Hyderabad: Carnatic Vocal and Singing | RAAGA',
           inLanguage: 'en-IN',
           isPartOf: { '@id': `${BASE_URL}/#website` },
           about: { '@id': `${BASE_URL}/#institute` },
@@ -93,17 +93,19 @@ export default async function MusicClassesHubPage() {
       />
       <PageHero
         variant="statement"
-        eyebrow="Hyderabad · Telangana"
+        eyebrow="Carnatic vocal · Hyderabad · Telangana"
         title={
           <>
-            Carnatic music classes <em>across Hyderabad.</em>
+            Music classes <em>across Hyderabad.</em>
           </>
         }
         lede={
           <p>
-            Two centres, classes hosted in residential communities, and live
-            online lessons for the rest of the city. Find the option that fits
-            where you live, then confirm timings with the team.
+            RAAGA is a school of Indian classical music, teaching Carnatic
+            vocal to children and adults since 2016. Two centres, classes
+            hosted in residential communities, and live online lessons for the
+            rest of the city. Find the option that fits where you live, then
+            confirm timings with the team.
           </p>
         }
       >

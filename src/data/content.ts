@@ -79,6 +79,14 @@ export async function getScholarlyWorks() {
   return [...seed.scholarlyWorks].sort((a, b) => a.order - b.order)
 }
 
+export async function getGuruProfiles() {
+  return seed.guruProfiles
+}
+
+export async function getGuruProfileBySlug(slug: string) {
+  return seed.guruProfiles.find((guru) => guru.slug === slug)
+}
+
 export async function getTeachingPrinciples() {
   return [...seed.teachingPrinciples].sort((a, b) => a.order - b.order)
 }

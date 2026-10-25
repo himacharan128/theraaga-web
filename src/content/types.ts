@@ -45,6 +45,8 @@ export interface SiteSettings {
   postalCode?: string
   geo?: { latitude: number; longitude: number }
   mapsUrl?: string
+  /** The school's Google Business Profile. Joins the institute's sameAs. */
+  googleProfileUrl?: string
   whatsapp: string
   phoneDisplay: string
   /**

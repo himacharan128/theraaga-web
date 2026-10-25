@@ -73,13 +73,13 @@ export const scholarlyWorks: ScholarlyWork[] = [
   {
     order: 1,
     title: 'Swararaga Kadambam',
-    note: 'Authored by our Gurus.',
+    note: 'By Dr. Suryanarayana Polaki. In Telugu.',
     cover: swararagaCover,
   },
   {
     order: 2,
     title: 'Bhasuri',
-    note: 'Authored by our Gurus.',
+    note: 'By Dr. Suryanarayana Polaki. A beginner’s guide in English, 2015.',
     cover: bhasuriCover,
   },
 ]

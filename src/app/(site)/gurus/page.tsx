@@ -6,7 +6,9 @@ import { FinalCta } from '@/components/sections/FinalCta'
 import { LineageCards } from '@/components/sections/LineageCards'
 import { ScholarlyWorks } from '@/components/sections/ScholarlyWorks'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
+import { LinkRows } from '@/components/layout/Editorial'
 import {
+  getGuruProfiles,
   getGurusIntro,
   getLineageReferences,
   getScholarlyWorks,
@@ -16,7 +18,7 @@ import { defaultOgImages } from '@/lib/og-image'
 export const metadata: Metadata = {
   title: 'The Gurus: Our Musical Lineage',
   description:
-    'The Gurus at RAAGA are accomplished musicians, scholars, performers and authors trained under eminent maestros, with over two decades of experience teaching Carnatic Sangeetham in Hyderabad.',
+    'Meet the Gurus at RAAGA, including Dr. Suryanarayana Polaki, author of Bhasuri and Swararaga Kadambam. Musicians, scholars and authors teaching Carnatic Sangeetham in Hyderabad.',
   alternates: { canonical: '/gurus' },
   openGraph: {
     title: 'Guru Parampara: the Gurus at RAAGA',
@@ -39,20 +41,21 @@ export const metadata: Metadata = {
  * naming an award or an institution the client did not name, or putting a
  * number on "renowned cultural institutions".
  *
- * There are no individual Guru profiles yet, and no portrait frames waiting for
- * one. With no client photography, a person-shaped hole is what makes a school
- * site look abandoned, so this page is complete as an account of the TEACHING,
- * and profiles are added later as data.
+ * Guru profiles are data (`content/seed/gurus.ts`), each a page of its own and
+ * listed here by name only. There are no portrait frames waiting for one: with
+ * no client photography, a person-shaped hole is what makes a school site look
+ * abandoned, so this page stays complete as an account of the TEACHING.
  *
  * Composed as an archive: the dark stage for the opening, the claim the page
  * rests on as a statement, the maestro as a mounted portrait with a museum
  * label, and the books as a small exhibition on sand.
  */
 export default async function GurusPage() {
-  const [intro, lineage, works] = await Promise.all([
+  const [intro, lineage, works, profiles] = await Promise.all([
     getGurusIntro(),
     getLineageReferences(),
     getScholarlyWorks(),
+    getGuruProfiles(),
   ])
 
   return (
@@ -106,6 +109,21 @@ export default async function GurusPage() {
           )}
         </div>
       </section>
+
+      <Section
+        id="profiles"
+        layout="split"
+        eyebrow="Meet the Gurus"
+        title="Who teaches here."
+        renderIf={profiles.length > 0}
+      >
+        <LinkRows
+          links={profiles.map((g) => ({
+            href: `/gurus/${g.slug}`,
+            label: `${g.honorific} ${g.name}`,
+          }))}
+        />
+      </Section>
 
       <Section
         id="lineage"

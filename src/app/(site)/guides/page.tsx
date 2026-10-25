@@ -9,7 +9,7 @@ import { guideMeta } from '@/lib/reading'
 import { defaultOgImages } from '@/lib/og-image'
 
 const title = 'Carnatic Music Learning Guides'
-const description = 'Practical guides to choosing singing classes in Hyderabad, comparing online and in-person Carnatic lessons, and building a home practice routine.'
+const description = 'Guides to Carnatic music for beginners, ragas, Carnatic and Hindustani music, choosing singing classes in Hyderabad, online lessons and home practice.'
 
 export const metadata: Metadata = {
   title,
@@ -31,7 +31,7 @@ export default async function GuidesPage() {
         variant="statement"
         eyebrow="Before and between lessons"
         title="Make room for music."
-        lede={<p>Questions to ask before choosing a class, ways to compare learning formats, and a place to start with practice at home.</p>}
+        lede={<p>Where Carnatic music starts, what a raga is, how it differs from Hindustani music, and the practical questions: choosing a class, comparing formats and practising at home.</p>}
       />
       <Section id="guides" title="Find the answer you need." renderIf={guides.length > 0}>
         <IndexList
