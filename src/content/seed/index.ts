@@ -21,6 +21,8 @@ export {
   scholarlyWorks,
   teachingPrinciples,
 } from './teaching'
+export { guruProfiles } from './gurus'
+export type { GuruProfile, GuruBook } from './gurus'
 export { story, vision, mission } from './about'
 export { eventKinds, journalTopics } from './sabha'
 export type {

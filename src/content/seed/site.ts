@@ -1,5 +1,8 @@
 import type { SiteSettings, Centre } from '../types'
 
+/** The Google Business Profile, by its customer ID: opens the listing itself. */
+const GOOGLE_PROFILE_URL = 'https://maps.google.com/?cid=17903228144857285350'
+
 /**
  * TIER 0 BLANKS are marked `null` or left out entirely rather than filled with
  * plausible-looking fiction. Every section that consumes them degrades by
@@ -25,13 +28,16 @@ export const site: SiteSettings = {
   city: 'Hyderabad',
   region: 'Telangana',
   country: 'India',
-  // Address supplied by the owner on 2026-09-15. Pin corrected on 2026-10-15:
-  // the building is beside the Office of Ashok Ram Kumar (Google: 17.43594,
-  // 78.40842) on Road Number 24, confirmed by the owner driving past it.
+  // Address supplied by the owner on 2026-09-15. Since 2026-10-25 the pin and
+  // the directions link are the school's own Google Business Profile ("The
+  // Raaga", place 0xf8750b2472fe82e6), so the website and Google Maps can never
+  // disagree, and a parent who taps Directions lands on the listing with its
+  // photos and reviews rather than a bare dropped pin.
   streetAddress: 'Road Number 24, Jawahar Colony, Venkatagiri',
   postalCode: '500033',
-  geo: { latitude: 17.43594, longitude: 78.4085 },
-  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=17.43594%2C78.4085',
+  geo: { latitude: 17.4359741, longitude: 78.4084949 },
+  mapsUrl: GOOGLE_PROFILE_URL,
+  googleProfileUrl: GOOGLE_PROFILE_URL,
   whatsapp: '918247558515',
   phoneDisplay: '+91 82475 58515',
   // NULL BY DECISION, not by oversight. theraaga.in has no MX, SPF or DKIM, and
@@ -74,8 +80,8 @@ export const centres: Centre[] = [
     href: '/music-classes/jubilee-hills',
     streetAddress: 'Road Number 24, Jawahar Colony, Venkatagiri',
     postalCode: '500033',
-    geo: { latitude: 17.43594, longitude: 78.4085 },
-    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=17.43594%2C78.4085',
+    geo: { latitude: 17.4359741, longitude: 78.4084949 },
+    mapsUrl: GOOGLE_PROFILE_URL,
     formLabel: 'Jubilee Hills',
     nearby: [
       'Banjara Hills',

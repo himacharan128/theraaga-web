@@ -1,3 +1,5 @@
+import { foundationGuides } from './learning-guides-foundations'
+
 export interface LearningGuide {
   slug: string
   title: string
@@ -20,7 +22,7 @@ export interface LearningGuide {
   sources: { label: string; href: string }[]
 }
 
-export const learningGuides: LearningGuide[] = [
+const practicalGuides: LearningGuide[] = [
   {
     slug: 'choosing-singing-classes-hyderabad',
     published: '2026-10-06',
@@ -202,3 +204,6 @@ export const learningGuides: LearningGuide[] = [
     ],
   },
 ]
+
+/** Choosing and practising first, then the music itself. */
+export const learningGuides: LearningGuide[] = [...practicalGuides, ...foundationGuides]

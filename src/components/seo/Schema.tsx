@@ -110,6 +110,10 @@ function institutionNodes() {
     parentOrganization: { '@id': `${BASE_URL}/#org` },
     telephone: `+${site.whatsapp}`,
     ...(site.mapsUrl ? { hasMap: site.mapsUrl } : {}),
+    // The Google Business Profile is the same school, and saying so is what
+    // lets Google and the AI assistants join the listing's reviews and photos
+    // to this website instead of treating them as two businesses.
+    ...(site.googleProfileUrl ? { sameAs: [site.googleProfileUrl] } : {}),
     ...(site.geo ? { geo: { '@type': 'GeoCoordinates', ...site.geo } } : {}),
     ...(site.email ? { email: site.email } : {}),
     address: address(site.streetAddress, site.locality, site.postalCode),
