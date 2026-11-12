@@ -5,12 +5,6 @@ import { Section } from '@/components/layout/Section'
 import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
 import { getSite } from '@/data/content'
 
-const HOURS = [
-  { when: 'Weekday evenings', where: 'Institute & online' },
-  { when: 'Weekend mornings', where: 'Jubilee Hills & Hitech City' },
-  { when: 'Early mornings IST', where: 'Online, for the US and UK' },
-]
-
 /**
  * Every institution studied puts full postal address and phone here. It is both
  * the trust anchor and the primary local-SEO NAP signal.
@@ -78,12 +72,10 @@ export async function ContactBlock() {
         <div className="reveal lg:col-span-5 lg:col-start-8" style={{ '--i': 1 } as CSSProperties}>
           <h3 className="kicker">When we teach</h3>
           <dl className="mt-6 border-t border-line-strong/50">
-            {HOURS.map((h) => (
-              <div key={h.when} className="grid gap-1 border-b border-line py-5 sm:grid-cols-[1fr_auto] sm:gap-6">
-                <dt className="t-title text-fg">{h.when}</dt>
-                <dd className="t-small text-fg-2 sm:text-right">{h.where}</dd>
-              </div>
-            ))}
+            <div className="grid gap-1 border-b border-line py-5 sm:grid-cols-[1fr_auto] sm:gap-6">
+              <dt className="t-title text-fg">Open {site.hours.label}</dt>
+              <dd className="t-small text-fg-2 sm:text-right">Jubilee Hills and Hitech City</dd>
+            </div>
           </dl>
           <p className="t-small mt-6 max-w-[40ch] text-fg-3">
             Exact batch timings vary by term. Message us and we’ll tell you what

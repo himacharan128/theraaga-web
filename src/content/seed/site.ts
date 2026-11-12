@@ -40,6 +40,8 @@ export const site: SiteSettings = {
   googleProfileUrl: GOOGLE_PROFILE_URL,
   whatsapp: '918247558515',
   phoneDisplay: '+91 82475 58515',
+  // Both centres, every day. Supplied by the owner on 2026-11-12.
+  hours: { label: '9 am to 5 pm, every day', schema: 'Mo-Su 09:00-17:00' },
   // NULL BY DECISION, not by oversight. theraaga.in has no MX, SPF or DKIM, and
   // email is deliberately out of scope for now — so no address is published
   // anywhere. WhatsApp and the phone number are the contact routes, including

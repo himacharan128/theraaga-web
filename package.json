@@ -26,7 +26,8 @@
     "test:reporting": "tsx scripts/test-reporting.ts && tsx scripts/test-ai-referrals.ts && tsx scripts/test-admin-discovery.tsx",
     "verify": "npm run typecheck && npm run test:contrast && npm run test:no-prices && npm run test:no-long-dashes && npm run test:enquiry && npm run test:seo-intents",
     "build:fonts": "node scripts/build-fonts.mjs",
-    "test:a11y": "node scripts/check-a11y-perf.mjs",
+    "test:a11y": "node scripts/check-a11y-perf.mjs && npm run test:intro",
+    "test:intro": "tsx scripts/check-intro.mjs",
     "admin:password-hash": "node scripts/create-admin-password-hash.mjs",
     "vercel": "bash scripts/vercel.sh",
     "seo:indexnow": "node scripts/indexnow.mjs"

@@ -10,7 +10,7 @@ import { CurrentBatches } from '@/components/sections/CurrentBatches'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
-import { getCentreBySlug, getCentres } from '@/data/content'
+import { getCentreBySlug, getCentres, getSite } from '@/data/content'
 import { defaultOgImages } from '@/lib/og-image'
 
 /**
@@ -68,6 +68,7 @@ export default async function CentrePage({
 }) {
   const { centre: slug } = await params
   const centre = await getCentreBySlug(slug)
+  const site = await getSite()
   if (!centre) notFound()
   const where = centre.locality?.replace(', Hyderabad', '') ?? centre.name
   const otherCentre = slug === 'jubilee-hills'
@@ -150,6 +151,7 @@ export default async function CentrePage({
                     {centre.locality}, Telangana {centre.postalCode}
                   </span>
                 </address>
+                <p className="t-small mt-4 text-fg-2">Open {site.hours.label}.</p>
                 {centre.mapsUrl && (
                   <a
                     className="btn btn-secondary mt-10"

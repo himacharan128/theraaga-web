@@ -65,8 +65,13 @@ export default function RootLayout({
   // tells Next to jump, not glide, to the top of a newly opened page: Next 16
   // no longer does that by itself, and a glide drags the new page up past the
   // header from wherever the last one was left.
+  //
+  // suppressHydrationWarning: on a first visit the homepage intro's inline
+  // script marks <html> (data-intro, and the hero's held timing as inline
+  // custom properties) while the document is parsed, before React hydrates.
+  // It covers this element's own attributes only, not anything inside it.
   return (
-    <html lang="en-IN" className={fontVariables} data-scroll-behavior="smooth">
+    <html lang="en-IN" className={fontVariables} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body>{children}</body>
     </html>
   )

@@ -49,6 +49,8 @@ export interface SiteSettings {
   googleProfileUrl?: string
   whatsapp: string
   phoneDisplay: string
+  /** When the centres are open, as people say it and as schema.org wants it. */
+  hours: { label: string; schema: string }
   /**
    * null until a mailbox actually exists. A published address that bounces is
    * worse than none: it is a channel a visitor will use and never hear back on.

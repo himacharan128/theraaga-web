@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { EnquirySection } from '@/components/sections/EnquirySection'
+import { PageHero } from '@/components/layout/PageHero'
 import { ContactBlock } from '@/components/sections/ContactBlock'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { Faq } from '@/components/sections/Faq'
@@ -32,6 +33,12 @@ export default function ContactPage() {
           { name: 'Home', href: '/' },
           { name: 'Contact', href: '/contact' },
         ]}
+      />
+      <PageHero
+        variant="statement"
+        eyebrow="Prārambham · Begin the journey"
+        title="Book a trial class."
+        lede={<p>Tell us who is learning and where suits you. We will call to arrange a time.</p>}
       />
       <EnquirySection />
       <ContactBlock />
