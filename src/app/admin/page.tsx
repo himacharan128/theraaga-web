@@ -176,6 +176,11 @@ async function AdminDashboardContent({ searchParams }: { searchParams: Promise<{
           <MetricList title="Reported traffic sources" rows={dashboard.sources} empty="No traffic sources yet." />
           <MetricList title="Approximate locations" rows={dashboard.locations} empty="Location aggregates are available on Vercel-hosted traffic." />
           <MetricList title="Devices" rows={dashboard.devices} empty="No device aggregates yet." />
+          <MetricList
+            title="WhatsApp clicks by button"
+            rows={dashboard.whatsappByButton.map((row) => ({ ...row, label: row.label.replace(/_/g, ' ') }))}
+            empty="Each WhatsApp button is counted here once visitors tap one."
+          />
         </section>
 
         <AiReferralReport report={dashboard.aiReferrals} />

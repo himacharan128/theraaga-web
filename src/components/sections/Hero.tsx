@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import type { CSSProperties } from 'react'
 import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
-import { whatsappHref } from '@/lib/whatsapp'
+import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
 import { getSite } from '@/data/content'
 import saraswati from '@/assets/home/saraswati-carving.jpg'
 
@@ -111,10 +111,10 @@ export async function Hero() {
             <ButtonLink href="/contact" arrow>
               Begin Your Musical Journey
             </ButtonLink>
-            <ButtonLink variant="secondary" href={whatsappHref('HERO')}>
+            <WhatsAppLink location="hero" className="btn btn-secondary">
               <WhatsAppIcon />
               Ask on WhatsApp
-            </ButtonLink>
+            </WhatsAppLink>
           </div>
         </div>
 

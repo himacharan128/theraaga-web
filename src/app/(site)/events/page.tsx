@@ -6,7 +6,7 @@ import { PressMentions } from '@/components/sections/PressMentions'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { LedgerIndex } from '@/components/layout/Editorial'
-import { whatsappHref } from '@/lib/whatsapp'
+import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
 import {
   getEventKinds,
   getEventPhotos,
@@ -161,17 +161,13 @@ export default async function EventsPage() {
         {upcoming.length === 0 && (
           <p className="reveal t-caption mt-10 max-w-[52ch] border-l border-mark pl-5 text-fg-2 md:text-[1.0625rem]">
             Dates for the coming term are confirmed with students first.{' '}
-            <a
-              href={whatsappHref(
-                'EVENTS',
-                'Hello RAAGA, please let me know when the next kutcheri or workshop is announced.',
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
+            <WhatsAppLink
+              location="events"
+              message="Hello RAAGA, please let me know when the next kutcheri or workshop is announced."
               className="link"
             >
               Message us
-            </a>{' '}
+            </WhatsAppLink>{' '}
             if you would like to be told when the next kutcheri or workshop is
             announced.
           </p>

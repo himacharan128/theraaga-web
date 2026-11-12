@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react'
 import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
-import { whatsappHref } from '@/lib/whatsapp'
+import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
 
 /**
  * The closing ask, and the maroon close of every page except /contact.
@@ -33,10 +33,10 @@ export function FinalCta() {
               <ButtonLink href="/contact" arrow>
                 Book a trial
               </ButtonLink>
-              <ButtonLink variant="secondary" href={whatsappHref('FINAL_CTA')}>
+              <WhatsAppLink location="final_cta" className="btn btn-secondary">
                 <WhatsAppIcon />
                 Ask on WhatsApp
-              </ButtonLink>
+              </WhatsAppLink>
             </div>
           </div>
         </div>

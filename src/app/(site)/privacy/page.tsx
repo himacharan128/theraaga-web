@@ -4,7 +4,8 @@ import { PageHero } from '@/components/layout/PageHero'
 import { Prose } from '@/components/layout/Prose'
 import { LegalDraftNotice } from '@/components/layout/LegalDraftNotice'
 import { site } from '@/content/seed/site'
-import { whatsappHref, telHref } from '@/lib/whatsapp'
+import { telHref } from '@/lib/whatsapp'
+import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
 
 export const metadata: Metadata = {
   title: 'Privacy notice',
@@ -92,7 +93,7 @@ export default function PrivacyPage() {
         <p>
           You may ask us what we hold about you, ask us to correct it, ask us to
           delete it, or withdraw your consent. The easiest way is to{' '}
-          <a href={whatsappHref('PRIVACY')}>message us on WhatsApp</a> or call{' '}
+          <WhatsAppLink location="privacy">message us on WhatsApp</WhatsAppLink> or call{' '}
           <a href={telHref()}>{site.phoneDisplay}</a>. We will act within thirty
           days.
         </p>

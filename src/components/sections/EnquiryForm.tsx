@@ -4,6 +4,7 @@ import { useActionState, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { submitEnquiry, type EnquiryState } from '@/app/actions/enquiry'
 import { Button, WhatsAppIcon } from '@/components/ui/Button'
+import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
 import { readAttribution, track } from '@/lib/analytics'
 import { CHIPS, ChipGroup } from '@/components/sections/ChipGroup'
 
@@ -35,7 +36,7 @@ import { CHIPS, ChipGroup } from '@/components/sections/ChipGroup'
 
 const initialState: EnquiryState = { ok: false }
 
-export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
+export function EnquiryForm() {
   const router = useRouter()
   const [state, action, pending] = useActionState(submitEnquiry, initialState)
 
@@ -407,16 +408,10 @@ export function EnquiryForm({ whatsappHref }: { whatsappHref: string }) {
           <Button type="submit" disabled={pending} className="sm:min-w-[15rem]">
             {pending ? 'Sending…' : 'Book a trial class'}
           </Button>
-          <a
-            href={whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => track('whatsapp_click', { cta_location: 'form' })}
-            className="link-arrow self-start sm:self-center"
-          >
+          <WhatsAppLink location="form" className="link-arrow self-start sm:self-center">
             <WhatsAppIcon />
             Or just ask on WhatsApp
-          </a>
+          </WhatsAppLink>
         </div>
 
         <p className="t-small text-fg-3">

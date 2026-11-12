@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import type { CSSProperties } from 'react'
 import { ProgrammeHeader } from '@/components/layout/PageHero'
 import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
-import { whatsappHref } from '@/lib/whatsapp'
+import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
 
 /**
  * A real 200-status route, not an inline success swap.
@@ -63,15 +63,14 @@ export default function ThankYouPage() {
             </p>
 
             <div className="mt-8 flex flex-col gap-3 xs:flex-row xs:flex-wrap">
-              <ButtonLink
-                href={whatsappHref(
-                  'THANKYOU',
-                  'Hello RAAGA, I have just submitted the trial class form.',
-                )}
+              <WhatsAppLink
+                location="thank_you"
+                message="Hello RAAGA, I have just submitted the trial class form."
+                className="btn btn-primary"
               >
                 <WhatsAppIcon />
                 Confirm on WhatsApp
-              </ButtonLink>
+              </WhatsAppLink>
               <ButtonLink variant="secondary" href="/">
                 Back to the school
               </ButtonLink>

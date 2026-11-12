@@ -7,7 +7,7 @@ import { LinkRows, ProgrammeList } from '@/components/layout/Editorial'
 import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
-import { whatsappHref } from '@/lib/whatsapp'
+import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
 import { defaultOgImages } from '@/lib/og-image'
 
 /**
@@ -64,10 +64,10 @@ export default function OnlineClassesPage() {
         }
       >
         <ButtonLink href="/contact">Book a trial</ButtonLink>
-        <ButtonLink variant="secondary" href={whatsappHref('ONLINE-PAGE')}>
+        <WhatsAppLink location="online_page" className="btn btn-secondary">
           <WhatsAppIcon />
           Ask about your time zone
-        </ButtonLink>
+        </WhatsAppLink>
       </PageHero>
 
       {/* Set as a timetable board: each region under a brass rule, its hours

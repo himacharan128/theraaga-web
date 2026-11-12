@@ -6,7 +6,7 @@ import { AnalyticsTracker } from '@/components/analytics/AnalyticsTracker'
 import { Reveal } from '@/components/ui/Reveal'
 import { Intro } from '@/components/intro/Intro'
 import { SiteSchema } from '@/components/seo/Schema'
-import { telHref, whatsappHref } from '@/lib/whatsapp'
+import { telHref } from '@/lib/whatsapp'
 import { getGalleryByCategory, getSite } from '@/data/content'
 
 /**
@@ -36,7 +36,6 @@ export default async function SiteLayout({
         Skip to content
       </a>
       <Header
-        whatsappHref={whatsappHref('HEADER')}
         telHref={telHref()}
         phoneDisplay={site.phoneDisplay}
         hasGallery={hasGallery}
