@@ -6,64 +6,50 @@ import { getCentres, getSite } from '@/data/content'
 import type { Centre } from '@/content/types'
 
 /**
- * The router: the most important section on the homepage, because the first
- * question a parent scrolling a WhatsApp forward answers is "is this near me,
- * or can we do it from home?"
+ * The router. 14 of 19 music schools studied put one immediately below the
+ * hero, and RAAGA's router is not instrument, it is WHERE: a parent scrolling
+ * a WhatsApp forward answers exactly one question first, "is this near me, or
+ * can we do it from home?"
  *
- * A RULED GRID, NOT CARDS. Four routes in a 2 + 2 grid drawn with hairlines,
- * like the panels of a printed programme: the two Hyderabad centres, then "Or
- * learn from where you are", online and community. Symmetric at every
- * breakpoint, and no fourth option orphaned beside empty page.
- *
- * ALL FOUR ARE EQUAL. Online and community were briefly set apart on the
- * reasoning that they are not places. The owner reversed that on 2026-10-03:
- * set apart, online and community read as footnotes, and for a parent in a
- * gated community that is the option most likely to be the answer. All four
- * share one `Route`; community keeps its own label.
+ * The two centres are mounted on paper inside a double brass frame with
+ * corner brackets, like plates in a programme; no photographs, by the owner's
+ * decision on 2026-11-12. Online and community classes follow as a quieter
+ * ruled pair.
  *
  * TITLES. The two centres read "RAAGA, Jubilee Hills" and "RAAGA, Phoenix
- * Arena". That prefix is display only: `centre.name` stays bare in the seed
- * because breadcrumbs, schema and the centre pages reuse it and would double up.
+ * Arena", so the school's name is on each card a parent might screenshot.
  */
-function Route({
-  centre: c,
-  title,
-  index,
-  label,
-}: {
-  centre: Centre
-  title: string
-  index: number
-  label?: string
-}) {
+function Plate({ centre: c, title, index }: { centre: Centre; title: string; index: number }) {
   return (
-    <li className="reveal border-b border-line md:odd:border-r" style={{ '--i': index % 2 } as CSSProperties}>
+    <li className="reveal" style={{ '--i': index } as CSSProperties}>
       <Link
         href={c.href}
-        className={`group relative flex h-full flex-col py-8 no-underline md:py-10 ${index % 2 ? 'md:pr-10' : 'md:pl-10'}`}
+        className="group frame-brass bracket tone-paper flex h-full flex-col p-7 no-underline md:p-9"
       >
-        {/* On a phone a route without a label sets its numeral beside the
-            title rather than on a row of its own; side by side from md, every
-            route keeps the row so the four titles share one line. */}
-        <div
-          className={`flex items-baseline justify-between gap-4 ${label ? '' : 'max-md:absolute max-md:top-[1.85rem] max-md:right-0'}`}
-        >
-          {label ? <p className="t-label text-kicker">{label}</p> : <span />}
-          <span
-            aria-hidden="true"
-            className="t-numeral text-[1.75rem] text-fg-3 transition-colors duration-[var(--dur-2)] group-hover:text-kicker"
-          >
-            {String(index).padStart(2, '0')}
-          </span>
-        </div>
-        <h3
-          className={`t-subhead pr-12 text-fg transition-colors duration-[var(--dur-2)] group-hover:text-kicker md:mt-5 md:pr-0 ${label ? 'mt-5' : ''}`}
-        >
+        <p className="t-label text-accent-muted">{c.locality}</p>
+        <h3 className="t-subhead mt-3 text-fg transition-colors duration-[var(--dur-2)] group-hover:text-kicker">
           {title}
         </h3>
-        {c.locality && <p className="t-meta mt-2 text-fg-3">{c.locality}</p>}
         <p className="t-body mt-4 max-w-[44ch] flex-1 text-fg-2">{c.body}</p>
-        <span className="link-arrow mt-7 self-start">
+        <span className="link-arrow mt-6 self-start">
+          {c.cta}
+          <Arrow />
+        </span>
+      </Link>
+    </li>
+  )
+}
+
+function Route({ centre: c, index }: { centre: Centre; index: number }) {
+  return (
+    <li className="reveal border-t border-mark pt-5" style={{ '--i': index } as CSSProperties}>
+      <Link href={c.href} className="group flex h-full flex-col no-underline">
+        <p className="t-label text-accent-muted">{c.eyebrow}</p>
+        <h3 className="t-title mt-2 text-fg transition-colors duration-[var(--dur-2)] group-hover:text-kicker">
+          {c.name}
+        </h3>
+        <p className="t-body mt-3 max-w-[44ch] flex-1 text-fg-2">{c.body}</p>
+        <span className="link-arrow mt-5 self-start">
           {c.cta}
           <Arrow />
         </span>
@@ -80,7 +66,6 @@ export async function Centres() {
   return (
     <Section
       id="centres"
-      tone="paper"
       layout="split"
       eyebrow="Sādhana · Where you learn"
       title="Two centres in Hyderabad."
@@ -91,25 +76,19 @@ export async function Centres() {
         </p>
       }
     >
-      <ul className="grid border-t border-line md:grid-cols-2">
+      <ul className="grid gap-6 md:grid-cols-2 md:gap-8">
         {physical.map((c, i) => (
-          <Route key={c.key} centre={c} index={i + 1} title={`${site.shortName}, ${c.name}`} />
+          <Plate key={c.key} centre={c} index={i} title={`${site.shortName}, ${c.name}`} />
         ))}
       </ul>
 
-      <p className="reveal t-label runhead flex items-center gap-4 pt-12 pb-5 text-kicker md:pt-14">
+      <p className="reveal t-label runhead mt-12 mb-5 flex items-center gap-4 text-kicker md:mt-14">
         Or learn from where you are
       </p>
 
-      <ul className="grid border-t border-line md:grid-cols-2">
+      <ul className="grid gap-8 md:grid-cols-2 md:gap-x-10">
         {remote.map((c, i) => (
-          <Route
-            key={c.key}
-            centre={c}
-            index={physical.length + i + 1}
-            title={c.name}
-            label={c.key === 'community' ? c.eyebrow : undefined}
-          />
+          <Route key={c.key} centre={c} index={i} />
         ))}
       </ul>
     </Section>

@@ -1,88 +1,49 @@
-import Image from 'next/image'
-import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { Section } from '@/components/layout/Section'
-import { Arrow } from '@/components/ui/Button'
-import { getEventPhotos, getPillars } from '@/data/content'
-import { monthYear } from '@/lib/dates'
+import { getPillars } from '@/data/content'
+
+/** The first four swaras, set faint behind the pillars like a watermark. */
+const WATERMARK = ['स', 'रि', 'ग', 'म']
 
 /**
- * All six of the client's draft pillars were replaced.
- *
- * Five of them appeared near-verbatim on Shankar Mahadevan Academy's homepage:
- * "Performance Opportunities" was word-for-word identical, and "All Age Groups
- * Welcome" mirrored their "for all age groups". A differentiator that your
- * largest competitor already prints is not a differentiator.
- *
- * These lead with the two claims no national player can make: delivery into
- * how it teaches, how closely, in what order, and where that order leads.
- *
- * The chapter closes on one of the school's own photographs, chosen by the
- * owner: an evening concert in the open-air amphitheatre, students on the
- * stage and families on the steps. It is captioned with its real occasion and
- * fetched through `getEventPhotos`, so the consent gate decides whether it
- * appears at all (guardian consent confirmed 2026-10-03); if it is ever
- * withdrawn, the chapter simply ends at the list. It is shown at its own 3:2
- * shape — the wide band used before would crop the singers off the stage.
+ * Why RAAGA: four things the school can stand behind on day one, inside a
+ * double brass frame, each led by a brass numeral. The numbering is a true
+ * order (how it teaches, how closely, in what order, where that leads).
  */
-const FEATURE = 'event-img-0861'
-
 export async function Pillars() {
-  const [pillars, occasions] = await Promise.all([getPillars(), getEventPhotos()])
-  const occasion = occasions.find((o) => o.photos.some((p) => p.id === FEATURE))
-  const photo = occasion?.photos.find((p) => p.id === FEATURE)
+  const pillars = await getPillars()
 
   return (
     <Section
       id="why-raaga"
-      tone="sand"
       eyebrow="Why RAAGA"
       title="What you get here that you won’t get elsewhere."
       renderIf={pillars.length > 0}
     >
-      <ol className="grid gap-x-10 md:grid-cols-2 xl:grid-cols-4">
-        {pillars.map((p, i) => (
-          <li
-            key={p.order}
-            className="reveal grid grid-cols-[3.25rem_1fr] border-t border-line-strong/40 py-7 md:block md:pt-6 md:pb-12"
-            style={{ '--i': i } as CSSProperties}
-          >
-            <span aria-hidden="true" className="t-numeral text-[2rem] text-kicker md:text-[3.25rem]">
-              {String(p.order).padStart(2, '0')}
-            </span>
-            <div>
-              <h3 className="t-title text-fg md:mt-8">{p.title}</h3>
-              <p className="t-body mt-3 max-w-[40ch] text-fg-2">{p.body}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
-
-      {photo && occasion && (
-        <figure className="mt-[clamp(2rem,5vw,4rem)] grid gap-x-10 gap-y-5 lg:grid-cols-12 lg:items-end">
-          <div className="media reveal reveal-unveil -mx-[var(--gutter)] aspect-[3/2] sm:mx-0 lg:col-span-9 lg:col-start-4 lg:row-start-1">
-            <Image
-              src={photo.media.src}
-              alt={photo.media.alt}
-              fill
-              sizes="(min-width: 1024px) 70vw, 100vw"
-              className="object-cover"
-            />
-          </div>
-          <figcaption className="reveal lg:col-span-3 lg:row-start-1 lg:pb-1">
-            <p className="t-caption max-w-[30ch] text-fg-2">{occasion.occasion}</p>
-            {occasion.date && (
-              <p className="t-meta mt-2 text-fg-3">
-                <time dateTime={occasion.date}>{monthYear(occasion.date)}</time>
-              </p>
-            )}
-            <Link href="/events#moments" className="link-arrow mt-5">
-              From our gatherings
-              <Arrow />
-            </Link>
-          </figcaption>
-        </figure>
-      )}
+      <div className="frame-brass relative overflow-hidden p-5 md:p-10">
+        <div aria-hidden="true" className="watermark">
+          {WATERMARK.map((s) => (
+            <span key={s}>{s}</span>
+          ))}
+        </div>
+        <ol className="relative grid gap-6 md:grid-cols-2 md:gap-x-12 md:gap-y-9">
+          {pillars.map((p, i) => (
+            <li
+              key={p.order}
+              className="reveal grid grid-cols-[2.75rem_1fr] border-t border-line pt-4 md:block md:pt-5"
+              style={{ '--i': i } as CSSProperties}
+            >
+              <span aria-hidden="true" className="t-numeral text-[2rem] leading-none text-accent-muted md:text-[2.5rem]">
+                {p.order}
+              </span>
+              <div>
+                <h3 className="t-title text-fg md:mt-3">{p.title}</h3>
+                <p className="t-body mt-2 max-w-[40ch] text-fg-2">{p.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
     </Section>
   )
 }

@@ -17,8 +17,10 @@ const nextConfig: NextConfig = {
   // Link sharing is this site's entire go-to-market. Leave it alone.
 
   images: {
-    // Required config in Next 16 (default is [75]).
-    qualities: [75, 90],
+    // Required config in Next 16 (default is [75]). 50 and 65 are for the
+    // homepage's mounted prints (newspaper clippings, the portrait), which are
+    // thumbnails that open the full scan; they keep the first view under budget.
+    qualities: [50, 65, 75, 90],
     formats: ['image/avif', 'image/webp'],
     // Populate when a real image host is wired. `domains` is deprecated — use remotePatterns.
     remotePatterns: [],

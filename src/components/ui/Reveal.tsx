@@ -16,7 +16,10 @@ import { useEffect } from 'react'
  *
  * Fails open. Without this script, under reduced motion, or in a browser
  * without the APIs, every element is simply visible. Content above the fold is
- * never touched, so nothing the visitor can already see disappears.
+ * never touched, so nothing the visitor can already see disappears. Nothing
+ * below it is ever fully hidden either: a held element waits at a third of its
+ * ink, a short way down, so a fast scroll, a slow phone or a full-page capture
+ * still shows the page complete.
  *
  * Variants: `.reveal` rises and fades in, `.reveal-unveil` is uncovered upward
  * (photographs), `.reveal-draw` draws a rule from the left (pair it with
@@ -26,9 +29,9 @@ const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)'
 
 const VARIANTS = {
   rise: {
-    duration: 1000,
+    duration: 700,
     frames: [
-      { opacity: 0, transform: 'translateY(1.5rem)' },
+      { opacity: 0.35, transform: 'translateY(1rem)' },
       { opacity: 1, transform: 'none' },
     ],
   },
@@ -65,7 +68,7 @@ export function Reveal() {
           held.delete(entry.target)
         }
       },
-      { rootMargin: '0px 0px -8% 0px' },
+      { rootMargin: '0px 0px 0px 0px' },
     )
 
     // Read every position first, then start animations, so the page is laid

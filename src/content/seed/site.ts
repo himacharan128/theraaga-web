@@ -101,8 +101,13 @@ export const centres: Centre[] = [
     body: 'Our Hitech City centre, convenient for families in Madhapur, Gachibowli and Kondapur. The same syllabus, the same teaching.',
     cta: 'Classes at Hitech City',
     href: '/music-classes/hitech-city',
-    // TIER 0: pending client confirmation. Never fabricated.
-    streetAddress: null,
+    // The venue the owner pinned on 2026-11-12 (maps.app.goo.gl/kf4J4z5bdqnUqDAB9):
+    // Phoenix Arena, TSIIC Park, Phase 2 of HITEC City. The room inside the
+    // venue and the class hours are still hers to confirm.
+    streetAddress: 'Phoenix Arena, TSIIC Park, Phase 2, HITEC City, Madhapur',
+    postalCode: '500081',
+    geo: { latitude: 17.4453131, longitude: 78.3748011 },
+    mapsUrl: 'https://maps.app.goo.gl/kf4J4z5bdqnUqDAB9',
     formLabel: 'Phoenix Arena, Hitech City',
     nearby: [
       'Madhapur',

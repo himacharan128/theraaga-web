@@ -4,7 +4,6 @@ import { StickyMobileBar } from '@/components/layout/StickyMobileBar'
 import { SectionViewTracker } from '@/components/ui/SectionViewTracker'
 import { AnalyticsTracker } from '@/components/analytics/AnalyticsTracker'
 import { Reveal } from '@/components/ui/Reveal'
-import { Intro } from '@/components/intro/Intro'
 import { SiteSchema } from '@/components/seo/Schema'
 import { telHref } from '@/lib/whatsapp'
 import { getGalleryByCategory, getSite } from '@/data/content'
@@ -25,9 +24,6 @@ export default async function SiteLayout({
 
   return (
     <>
-      {/* First in the body, so its script decides before anything below it
-          is parsed. It only ever plays on the homepage; see Intro. */}
-      <Intro line={site.sanskritLine} />
       <SiteSchema />
       <a
         href="#main"

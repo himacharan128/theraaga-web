@@ -17,19 +17,34 @@ import { getFaqs } from '@/data/content'
  * content still earns its keep for conversion and for AI answer surfaces,
  * which need no special markup at all.
  */
-export async function Faq() {
+export async function Faq({
+  limit,
+  eyebrow = 'Before you ask',
+  title = 'Questions parents actually ask.',
+  layout = 'rail',
+  tone = 'default',
+}: {
+  /** The homepage shows only the first few decision-blocking questions. */
+  limit?: number
+  eyebrow?: string
+  title?: string
+  layout?: 'rail' | 'stack'
+  tone?: 'default' | 'paper'
+} = {}) {
   const faqs = await getFaqs()
-  const ordered = [...faqs].sort(
-    (a, b) => Number(b.blocking) - Number(a.blocking) || a.order - b.order,
-  )
+  const ordered = [...faqs]
+    .sort((a, b) => Number(b.blocking) - Number(a.blocking) || a.order - b.order)
+    .slice(0, limit ?? faqs.length)
 
   return (
     <Section
       id="faq"
-      layout="rail"
-      eyebrow="Before you ask"
-      title="Questions parents actually ask."
+      layout={layout}
+      tone={tone}
+      eyebrow={eyebrow}
+      title={title}
       renderIf={ordered.length > 0}
+      className={tone === 'paper' ? 'border-t border-line' : ''}
     >
       <Accordion
         items={ordered.map((f) => ({

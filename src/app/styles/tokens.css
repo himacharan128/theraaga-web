@@ -90,8 +90,8 @@
   --shell: 80rem;
   --gutter: clamp(1.25rem, 0.75rem + 2.5vw, 3rem);
   --measure: 64ch;
-  --space-section: clamp(3.5rem, 1.75rem + 6.5vw, 7.5rem);
-  --space-section-sm: clamp(2.75rem, 1.5rem + 4vw, 5rem);
+  --space-section: clamp(2.5rem, 1.25rem + 5vw, 6rem);
+  --space-section-sm: clamp(2.25rem, 1.25rem + 3vw, 4rem);
 
   /* ---- Type scale. One role per size; the roles live in .t-* below. ---- */
   --fs-hero: clamp(2.375rem, 1rem + 3.9vw, 4.5rem);

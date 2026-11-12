@@ -10,7 +10,7 @@
 @import './styles/components.css';
 @import './styles/motion.css';
 @import './styles/chrome.css';
-@import './styles/intro.css';
+@import './styles/ornament.css';
 
 /* Static assets hold no classes, but the emblem's SVG path data reads to the
    scanner like margin utilities ("m-147"), which shipped as dead CSS. */

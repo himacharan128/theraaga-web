@@ -12,13 +12,13 @@ import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
  *
  * Composed as a closing statement rather than a centred banner: the heading
  * at display scale on the left, the terms and the two actions on the right,
- * on the same baseline. The only ornament is the brass rule it opens on.
+ * on the same baseline. A zari border closes the chapter above and below.
  */
 export function FinalCta() {
   return (
     <section id="begin" data-section="begin" data-has-content="true" data-tone="dark" className="tone-maroon">
+      <div aria-hidden="true" className="zari" />
       <div className="u-shell pad-section">
-        <div aria-hidden="true" className="reveal reveal-draw draw-x mb-[clamp(2.5rem,6vw,4.5rem)] h-px bg-mark" />
         <div className="grid gap-x-10 gap-y-8 lg:grid-cols-12 lg:items-end">
           <div className="reveal lg:col-span-7">
             <p className="kicker mb-6">Prārambham · Begin</p>
@@ -41,6 +41,7 @@ export function FinalCta() {
           </div>
         </div>
       </div>
+      <div aria-hidden="true" className="zari" />
     </section>
   )
 }
