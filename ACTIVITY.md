@@ -15,6 +15,62 @@ Newest entry first.
 
 ---
 
+## 2026-11-12: Neighbourhood pages for eight Hyderabad localities
+
+- **Requested:** "SEO is just too bad": the site should show for Hyderabad and
+  its affluent localities (Banjara Hills, Jubilee Hills and so on).
+- **Measured first (12 Nov, Hyderabad IP):** Google's AI Overview for
+  "carnatic music classes hyderabad" now lists RAAGA, without a rating, while
+  every competitor shows 28 to 273 reviews; the site is still not on organic
+  page 1. Bing: #4 for that query, #1 for "carnatic music classes jubilee
+  hills", absent for "music classes banjara hills" and "music classes jubilee
+  hills"; Bing's local pack has no RAAGA (no Bing Places). The Google Business
+  Profile still shows "Add hours" and no reviews. Google CAPTCHA-blocked the
+  automated tab, so the per-locality Google ranks were not re-measured.
+- **Decisions:**
+  - Build the area pages the owner chose on 2026-10-15, gated on map facts
+    rather than the school facts that never arrived: each page says there is
+    no branch there, names the nearest centre, gives the road distance
+    (OpenStreetMap routing, 2026-11-12, rounded) and a journey time range, and
+    offers online or a hosted community class. No student claims, batch times,
+    community venues or fees. Phoenix Arena's address is still unconfirmed, so
+    Hitech City distances are to the Hitech City area.
+  - Eight localities only, each within a realistic weekly journey of a centre:
+    Banjara Hills, Film Nagar, Madhapur, Gachibowli, Kondapur, Manikonda,
+    Kokapet, Financial District (with Nanakramguda). Kukatpally and the rest
+    stay as lines on the hub.
+  - CSS budget: the branch measured 16,569 bytes gzipped against 16,546 live
+    and the 16,384 limit, the same pre-existing failure as 2026-10-25. Budget
+    not raised; the trim remains separate work.
+- **Built:** `src/content/seed/areas.ts` (`Area` type, eight entries) rendered
+  by the existing `/music-classes/[centre]` route through `AreaPage.tsx`;
+  "By neighbourhood" section on `/music-classes`; "Within reach of ..." link
+  sentence under the two centres on the homepage (text nodes beside each link,
+  so the target-size check treats them as sentence links); catchment names on
+  the centre pages now link to the area pages; sitemap, `areaServed` in the
+  site schema and `llms.txt` extended; `check-seo-intents` validates the area
+  pages (unique titles and descriptions, length budgets, distinct copy, valid
+  neighbours, no centre slug collision).
+- **Verification:** `npm run verify`, `npm run lint`, `npm run build` green.
+  `check-a11y-perf` against the production build: 106 passed, 1 failed (the
+  CSS budget above). Pages smoke-tested on localhost (titles, canonicals, H1s,
+  JSON-LD, 404 for an unknown slug) and reviewed in Safari.
+- **Deployment / production status:** PR #23 merged 2026-11-12 17:15 UTC by
+  himacharan128 (auto mode refused to run the merge itself); live on
+  theraaga.in within a minute. Verified on production: all eight pages serve
+  200 with the right titles and H1s, the sitemap lists them, the homepage and
+  hub link to them, `llms.txt` names them. `npm run seo:indexnow` accepted 38
+  URLs (HTTP 200).
+- **Follow-up / owner action:** unchanged and still the bottleneck: add hours
+  and gather reviews on the Google Business Profile, import the profile into
+  Bing Places, list the school on Justdial, UrbanPro and Sulekha (OTP to the
+  school phone). Re-measure Google ranks for the locality terms once the
+  CAPTCHA clears. Note the brand collision "Raaga Hindustani Music, Jubilee
+  Hills" on Justdial.
+- **Credential or access impact:** none.
+
+---
+
 ## 2026-10-25: Google profile pin, Dr. Polaki profile, foundation guides
 
 - **Requested:** Use the Google Business Profile location instead of a manual
