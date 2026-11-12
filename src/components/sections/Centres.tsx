@@ -1,8 +1,8 @@
 import Link from 'next/link'
-import type { CSSProperties } from 'react'
+import { Fragment, type CSSProperties } from 'react'
 import { Section } from '@/components/layout/Section'
 import { Arrow } from '@/components/ui/Button'
-import { getCentres, getSite } from '@/data/content'
+import { getAreas, getCentres, getSite } from '@/data/content'
 import type { Centre } from '@/content/types'
 
 /**
@@ -73,7 +73,7 @@ function Route({
 }
 
 export async function Centres() {
-  const [site, centres] = await Promise.all([getSite(), getCentres()])
+  const [site, centres, areas] = await Promise.all([getSite(), getCentres(), getAreas()])
   const physical = centres.filter((c) => c.slug)
   const remote = centres.filter((c) => !c.slug)
 
@@ -96,6 +96,24 @@ export async function Centres() {
           <Route key={c.key} centre={c} index={i + 1} title={`${site.shortName}, ${c.name}`} />
         ))}
       </ul>
+
+      {/* The neighbourhoods a parent is actually searching from. A sentence,
+          not a grid: each name links to the page that gives that place its
+          real journey to a centre, and the sentence reads as a fact. */}
+      <p className="reveal t-body mt-8 max-w-[64ch] text-fg-2" style={{ '--i': 2 } as CSSProperties}>
+        Within reach of{' '}
+        {areas.map((a, i) => (
+          // Text nodes beside each link, not wrapper spans: that is what makes
+          // the link part of the sentence for the target-size check.
+          <Fragment key={a.slug}>
+            {i > 0 && (i === areas.length - 1 ? ' and ' : ', ')}
+            <Link href={`/music-classes/${a.slug}`} className="link">
+              {a.prose ?? a.name}
+            </Link>
+          </Fragment>
+        ))}
+        . Each page gives the journey from that neighbourhood to the nearest centre.
+      </p>
 
       <p className="reveal t-label runhead flex items-center gap-4 pt-12 pb-5 text-kicker md:pt-14">
         Or learn from where you are

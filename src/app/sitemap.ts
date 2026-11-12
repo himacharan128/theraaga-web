@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { getLearningGuides, getSeoLandingPages } from '@/data/content'
+import { getAreas, getLearningGuides, getSeoLandingPages } from '@/data/content'
 
 const BASE = 'https://theraaga.in'
 
@@ -12,14 +12,14 @@ const BASE = 'https://theraaga.in'
 type Route = [path: string, lastModified: string, priority: number, changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency']]
 
 const ROUTES: Route[] = [
-  ['', '2026-10-15', 1, 'weekly'],
+  ['', '2026-11-12', 1, 'weekly'],
   ['/learning', '2026-10-09', 0.9, 'monthly'],
   ['/getting-started', '2026-10-09', 0.8, 'monthly'],
   ['/guides', '2026-10-25', 0.7, 'monthly'],
   ['/online-classes', '2026-10-15', 0.8, 'weekly'],
-  ['/music-classes', '2026-10-25', 0.8, 'monthly'],
-  ['/music-classes/jubilee-hills', '2026-10-15', 0.8, 'monthly'],
-  ['/music-classes/hitech-city', '2026-10-15', 0.8, 'monthly'],
+  ['/music-classes', '2026-11-12', 0.8, 'monthly'],
+  ['/music-classes/jubilee-hills', '2026-11-12', 0.8, 'monthly'],
+  ['/music-classes/hitech-city', '2026-11-12', 0.8, 'monthly'],
   ['/gurus', '2026-10-25', 0.7, 'monthly'],
   ['/gurus/suryanarayana-polaki', '2026-10-25', 0.7, 'monthly'],
   ['/about', '2026-10-09', 0.6, 'monthly'],
@@ -36,9 +36,11 @@ const ROUTES: Route[] = [
 /** The intent pages share one seed file, so they share its date. */
 const INTENT_PAGES_UPDATED = '2026-10-09'
 
+/** The neighbourhood pages likewise share `content/seed/areas.ts`. */
+const AREA_PAGES_UPDATED = '2026-11-12'
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const seoPages = await getSeoLandingPages()
-  const guides = await getLearningGuides()
+  const [seoPages, guides, areas] = await Promise.all([getSeoLandingPages(), getLearningGuides(), getAreas()])
 
   const core = ROUTES.map(([path, lastModified, priority, changeFrequency]) => ({
     url: `${BASE}${path}`,
@@ -54,7 +56,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.75,
   }))
 
-  return [...core, ...intents, ...guides.map((guide) => ({
+  const neighbourhoods = areas.map((area) => ({
+    url: `${BASE}/music-classes/${area.slug}`,
+    lastModified: AREA_PAGES_UPDATED,
+    changeFrequency: 'monthly' as const,
+    priority: 0.75,
+  }))
+
+  return [...core, ...neighbourhoods, ...intents, ...guides.map((guide) => ({
     url: `${BASE}/guides/${guide.slug}`,
     lastModified: guide.updated,
     changeFrequency: 'monthly' as const,
