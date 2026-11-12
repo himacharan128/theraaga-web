@@ -15,6 +15,86 @@ Newest entry first.
 
 ---
 
+## 2026-11-12: Homepage as a sabha programme, WhatsApp clicks per button, Phoenix Arena
+
+- **Requested:** The site was getting "very bad feedback"; analyse what went
+  wrong and show three or four designs to pick from, for an overall
+  improvement and a "very beautiful website". Also: store which button a
+  WhatsApp chat came from without the `[ref:…]` code showing in the chat; add
+  the Phoenix Arena branch on Google Maps and on the site; after review, keep
+  the opening logo veil, make colours uniform across every page, and set the
+  hours to 9 am to 5 pm every day at both centres.
+- **Diagnosis (live page at 390px and 1440px):** one carving and one photo on
+  the whole page; display type at weight 300 reading faint on cream; every
+  section below the fold held at opacity 0 until scrolled, so a fast scroll,
+  a slow phone or a capture saw an empty page; nine phone screens for 600
+  words; no proof (press clippings, lineage) on the homepage; Phoenix Arena
+  with no address; small buttons under three paragraphs.
+- **Decisions:**
+  - Four complete mockups were built from the real copy and photographs
+    (A photo-led, B heritage and ornament, C bold modern, D clean school) and
+    reviewed in a local picker file. The owner chose B ("Mandapam"), with the
+    centre cards kept to text. No palette or typeface change.
+  - WhatsApp attribution moves out of the message: one `WhatsAppLink` client
+    component records a `whatsapp_click` event labelled with the button
+    (`hero`, `final_cta`, `centre_hitech_city`, `area_banjara_hills`, and so
+    on) through the existing aggregate telemetry, and the message a parent
+    sends carries no code. Previously 4 of 16 buttons were counted.
+  - Phoenix Arena's address and pin come from the venue the owner pinned
+    (Phoenix Arena, TSIIC Park, Phase 2, HITEC City, Madhapur 500081). The
+    room inside the venue is still hers to confirm.
+  - Image qualities 50 and 65 are allowed in `next.config.ts` for the
+    homepage's mounted prints (thumbnails that open the full scan), which
+    keeps the first view under the 400 KB budget. The CSS budget, failing
+    since 25 Oct, passes again: the dead word-rise rules went, a few one-off
+    utilities were replaced, and the intro veil's styles are inlined in its
+    component (it must be styled before the stylesheet arrives).
+  - The header's ground fades in on scroll and drops away at once at the top,
+    so a back-navigation never shows a half-transparent ground.
+- **Built:**
+  - Homepage (`src/app/(site)/page.tsx`): deep maroon opening chapter with the
+    carving in a brass temple niche and the Sanskrit line inscribed above it;
+    zari borders on the maroon chapters; the two centres on framed paper
+    plates (no photographs); a kolam divider; the pillars in a double brass
+    frame over faint swara letters; `GurusHome` (lineage reference, the
+    client's paragraph verbatim, the two books); `PressHome` (three
+    clippings); the listening chapter; the three steps; the four blocking
+    FAQ questions (`Faq` gained `limit`, `layout`, `tone`); the closing ask.
+  - Site-wide: `PageHero` renders every page (About, The Gurus, Learning,
+    Events with its photograph in a niche, intent and guide pages, centre and
+    area pages, Contact, thank-you, legal pages, 404) on the same maroon
+    chapter between zari borders; the night and image heroes are gone.
+    Display weights 400 to 500 instead of 300; tighter chapter spacing;
+    scroll reveals start from a third of their ink instead of invisible;
+    `ornament.css` (zari, frame, bracket, niche, oval, kolam, watermark,
+    clip row).
+  - `src/components/ui/WhatsAppLink.tsx` at all 17 call sites; admin
+    dashboard shows WhatsApp clicks by button.
+  - `site.hours` ("9 am to 5 pm, every day", `Mo-Su 09:00-17:00`) in the
+    seed, read by the structured data (institute and both centres), the
+    contact block and the centre pages.
+- **Verified:** `verify` 14/14, `lint`, `build`, `test:a11y` 107/107 and
+  `test:intro` 93/93 against the production build (JS 170 KB, CSS 16,122 B
+  gzipped of 16,384, fonts 112 KB, total 357 KB of 400, zero third-party
+  requests); rendered at 390px and 1280px with no horizontal overflow.
+  Production (PR #25 merged 19:26 UTC, PR #26 merged 19:30 UTC, live about
+  70 s later): homepage and inner pages carry the zari chapters, the intro
+  veil is present, every `wa.me` link is the clean message, the Hitech City
+  page shows the venue address and the hours, and the JSON-LD carries
+  `openingHours`.
+- **Google Business Profile:** a second "The Raaga" location was created in
+  the himacharan128 Business Profile Manager at the Phoenix Arena address
+  (category Music school, phone, website `/music-classes/hitech-city`,
+  description). It is not publicly visible until the owner verifies it by
+  video; a step-by-step guide for her is on Hima's Desktop. Opening hours
+  still have to be set on both listings (the session was asked to sign in
+  to Google again).
+- **Not yet done:** the room inside Phoenix Arena; the Google listing
+  verification and hours; a portrait of Dr. Polaki; the Journal and Gallery
+  content.
+
+---
+
 ## 2026-11-12: Neighbourhood pages for eight Hyderabad localities
 
 - **Requested:** "SEO is just too bad": the site should show for Hyderabad and
