@@ -7,7 +7,7 @@ import { ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { BASE_URL, JsonLd } from '@/components/seo/Schema'
-import { getCentres } from '@/data/content'
+import { getAreas, getCentres } from '@/data/content'
 import { whatsappHref } from '@/lib/whatsapp'
 import { defaultOgImages } from '@/lib/og-image'
 
@@ -20,9 +20,11 @@ import { defaultOgImages } from '@/lib/og-image'
  * say something true and specific about it (a community batch, a teacher,
  * a real journey), and until then it is a line here.
  *
- * Everything below comes from the centres data or from what the school
- * already publishes. Areas without a centre nearby are told plainly that
- * online or a community class is the realistic option.
+ * Everything below comes from the centres and areas data or from what the
+ * school already publishes. The neighbourhoods with a realistic journey to a
+ * centre each have a page of their own (see `content/seed/areas.ts`), listed
+ * here with the one fact that page is built on. Areas without a centre nearby
+ * are told plainly that online or a community class is the realistic option.
  */
 export const metadata: Metadata = {
   title: 'Music Classes in Hyderabad: Carnatic Vocal and Singing',
@@ -66,8 +68,12 @@ const FURTHER_AREAS = [
 ]
 
 export default async function MusicClassesHubPage() {
-  const centres = await getCentres()
+  const [centres, areas] = await Promise.all([getCentres(), getAreas()])
   const physical = centres.filter((c) => c.slug)
+  const centreName = (key: string) => {
+    const c = centres.find((x) => x.key === key)
+    return c?.locality?.replace(', Hyderabad', '') ?? c?.name ?? ''
+  }
   const community = centres.find((c) => c.key === 'community')
 
   return (
@@ -82,7 +88,10 @@ export default async function MusicClassesHubPage() {
           inLanguage: 'en-IN',
           isPartOf: { '@id': `${BASE_URL}/#website` },
           about: { '@id': `${BASE_URL}/#institute` },
-          hasPart: physical.map((c) => ({ '@id': `${BASE_URL}/#centre-${c.key}` })),
+          hasPart: [
+            ...physical.map((c) => ({ '@id': `${BASE_URL}/#centre-${c.key}` })),
+            ...areas.map((a) => ({ '@id': `${BASE_URL}/music-classes/${a.slug}#webpage` })),
+          ],
         }}
       />
       <BreadcrumbSchema
@@ -126,6 +135,28 @@ export default async function MusicClassesHubPage() {
               body: `${c.body} Within reach of ${c.nearby.join(', ')}.`,
             }
           })}
+        />
+      </Section>
+
+      <Section
+        id="neighbourhoods"
+        eyebrow="By neighbourhood"
+        title="Coming from Banjara Hills, Gachibowli or Kondapur?"
+        layout="split"
+        lede={
+          <p>
+            RAAGA has no branch in these neighbourhoods. Each page says which
+            centre is nearest, how far it is by road and what to do when the
+            journey does not fit the week.
+          </p>
+        }
+      >
+        <IndexList
+          items={areas.map((a) => ({
+            href: `/music-classes/${a.slug}`,
+            title: `Near ${a.prose ?? a.name}`,
+            body: `${centreName(a.nearest)} is the nearest centre, ${a.distance} by road${a.alsoNear ? `, with ${centreName(a.alsoNear)} a comparable journey` : ''}.`,
+          }))}
         />
       </Section>
 
