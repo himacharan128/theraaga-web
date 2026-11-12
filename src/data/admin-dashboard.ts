@@ -77,6 +77,7 @@ export type AdminDashboard = {
   locations: CountRow[]
   devices: CountRow[]
   events: CountRow[]
+  whatsappByButton: CountRow[]
   leadCounts: CountRow[]
   recentLeads: DashboardLead[]
 }
@@ -129,6 +130,7 @@ export async function getAdminDashboard(days: 7 | 30 | 90 = 30): Promise<AdminDa
     locations,
     devices,
     events,
+    whatsappByButton,
     leadCounts,
     recentLeads,
   ] = await Promise.all([
@@ -209,6 +211,14 @@ export async function getAdminDashboard(days: 7 | 30 | 90 = 30): Promise<AdminDa
         { $sort: { count: -1, label: 1 } },
       ])
       .toArray(),
+    analytics
+      .aggregate<CountRow>([
+        { $match: { ...metrics, event: 'whatsapp_click' } },
+        { $group: { _id: '$label', count: { $sum: '$count' } } },
+        { $project: { _id: 0, label: '$_id', count: 1 } },
+        { $sort: { count: -1, label: 1 } },
+      ])
+      .toArray(),
     leads
       .aggregate<CountRow>([
         { $group: { _id: '$status', count: { $sum: 1 } } },
@@ -270,6 +280,7 @@ export async function getAdminDashboard(days: 7 | 30 | 90 = 30): Promise<AdminDa
     locations: locations.map((row) => ({ ...row, label: label(row.label, 'Unknown') })),
     devices: devices.map((row) => ({ ...row, label: label(row.label, 'Unknown') })),
     events: events.map((row) => ({ ...row, label: label(row.label, 'Unknown') })),
+    whatsappByButton: whatsappByButton.map((row) => ({ ...row, label: label(row.label, 'unlabelled') })),
     leadCounts: leadCounts.map((row) => ({ ...row, label: label(row.label, 'new') })),
     recentLeads,
   }

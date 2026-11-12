@@ -7,7 +7,7 @@ import { Arrow, ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { BASE_URL, JsonLd } from '@/components/seo/Schema'
-import { whatsappHref } from '@/lib/whatsapp'
+import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
 import { getAreas, getCentre, getCentres } from '@/data/content'
 import { defaultOgImages } from '@/lib/og-image'
 import type { Area } from '@/content/seed/areas'
@@ -97,10 +97,10 @@ export async function AreaPage({ area }: { area: Area }) {
         lede={<p>{area.intro}</p>}
       >
         <ButtonLink href="/contact">Book a trial</ButtonLink>
-        <ButtonLink variant="secondary" href={whatsappHref(`AREA-${area.slug.toUpperCase()}`)}>
+        <WhatsAppLink location={`area_${area.slug.replace(/-/g, '_')}`} className="btn btn-secondary">
           <WhatsAppIcon />
           Ask on WhatsApp
-        </ButtonLink>
+        </WhatsAppLink>
       </PageHero>
 
       {/* The journey, on the dark stage: the nearest centre set large, the

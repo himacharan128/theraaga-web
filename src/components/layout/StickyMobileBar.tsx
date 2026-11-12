@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { WhatsAppIcon } from '@/components/ui/Button'
 import { track } from '@/lib/analytics'
-import { whatsappHref } from '@/lib/whatsapp'
+import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
 
 /**
  * The phone dock: Book a trial and WhatsApp, docked to the bottom edge.
@@ -85,19 +85,13 @@ export function StickyMobileBar() {
         {/* This once linked to /contact#prarambha rather than to WhatsApp, so
             the one control on the page labelled "Ask on WhatsApp" did not open
             WhatsApp. */}
-        <a
-          href={whatsappHref('STICKY_BAR')}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => track('whatsapp_click', { cta_location: 'sticky_bar' })}
-          className="btn btn-secondary min-h-12 gap-2 px-4"
-        >
+        <WhatsAppLink location="sticky_bar" className="btn btn-secondary min-h-12 gap-2 px-4">
           <WhatsAppIcon />
           <span className="sr-only xs:not-sr-only">Ask on WhatsApp</span>
           <span className="xs:hidden" aria-hidden="true">
             WhatsApp
           </span>
-        </a>
+        </WhatsAppLink>
       </div>
     </div>
   )

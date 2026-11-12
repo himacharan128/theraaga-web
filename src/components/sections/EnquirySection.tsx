@@ -3,7 +3,8 @@ import type { CSSProperties } from 'react'
 import { EnquiryForm } from './EnquiryForm'
 import { ProgrammeHeader } from '@/components/layout/PageHero'
 import { WhatsAppIcon } from '@/components/ui/Button'
-import { whatsappHref, telHref } from '@/lib/whatsapp'
+import { telHref } from '@/lib/whatsapp'
+import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
 import { getSite } from '@/data/content'
 
 /**
@@ -69,15 +70,10 @@ export async function EnquirySection() {
 
           <div className="order-3 border-t border-line pt-8 lg:order-none lg:mt-14">
             <p className="t-small text-fg-3">Would rather not fill a form?</p>
-            <a
-              href={whatsappHref('FORM_ASIDE')}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-arrow mt-3"
-            >
+            <WhatsAppLink location="form_aside" className="link-arrow mt-3">
               <WhatsAppIcon />
               Message us on WhatsApp
-            </a>
+            </WhatsAppLink>
             <p className="t-small mt-4 text-fg-3">
               or call{' '}
               <a href={telHref()} className="link">
@@ -90,7 +86,7 @@ export async function EnquirySection() {
         {/* The form on a sheet of paper: the one grouped object on the page. */}
         <div className="order-2 lg:order-none lg:col-span-7 xl:col-span-7 xl:col-start-6">
           <div className="tone-paper on-load -mx-[var(--gutter)] border-y border-line px-[var(--gutter)] py-8 sm:mx-0 sm:border sm:p-8 md:p-10 xl:p-12" style={{ '--d': '160ms' } as CSSProperties}>
-            <EnquiryForm whatsappHref={whatsappHref('FORM')} />
+            <EnquiryForm />
           </div>
         </div>
       </div>

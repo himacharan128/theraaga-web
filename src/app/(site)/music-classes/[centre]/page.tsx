@@ -9,7 +9,7 @@ import { AddressLine } from '@/components/ui/AddressLine'
 import { CurrentBatches } from '@/components/sections/CurrentBatches'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
-import { whatsappHref } from '@/lib/whatsapp'
+import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
 import { getAreaBySlug, getAreas, getCentreBySlug, getCentres } from '@/data/content'
 import { defaultOgImages } from '@/lib/og-image'
 import { AreaPage, areaMetadata } from './AreaPage'
@@ -138,10 +138,10 @@ export default async function CentrePage({
         }
       >
         <ButtonLink href="/contact">Book a trial</ButtonLink>
-        <ButtonLink variant="secondary" href={whatsappHref(slug.toUpperCase())}>
+        <WhatsAppLink location={`centre_${slug.replace(/-/g, '_')}`} className="btn btn-secondary">
           <WhatsAppIcon />
           Ask on WhatsApp
-        </ButtonLink>
+        </WhatsAppLink>
       </PageHero>
 
       <CurrentBatches />

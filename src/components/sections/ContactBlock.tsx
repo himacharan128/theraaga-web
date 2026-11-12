@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react'
 import { AddressLine } from '@/components/ui/AddressLine'
 import { Arrow, ButtonLink, WhatsAppIcon } from '@/components/ui/Button'
 import { Section } from '@/components/layout/Section'
-import { whatsappHref } from '@/lib/whatsapp'
+import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
 import { getSite } from '@/data/content'
 
 const HOURS = [
@@ -66,10 +66,10 @@ export async function ContactBlock() {
             <ButtonLink href="/contact#prarambha" arrow>
               Book a trial
             </ButtonLink>
-            <ButtonLink variant="secondary" href={whatsappHref('CONTACT')}>
+            <WhatsAppLink location="contact" className="btn btn-secondary">
               <WhatsAppIcon />
               Ask on WhatsApp
-            </ButtonLink>
+            </WhatsAppLink>
           </div>
         </div>
 

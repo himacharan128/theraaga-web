@@ -4,7 +4,8 @@ import { PageHero } from '@/components/layout/PageHero'
 import { Prose } from '@/components/layout/Prose'
 import { LegalDraftNotice } from '@/components/layout/LegalDraftNotice'
 import { site } from '@/content/seed/site'
-import { whatsappHref, telHref } from '@/lib/whatsapp'
+import { telHref } from '@/lib/whatsapp'
+import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
 
 /**
  * Most music-school sites do not have one of these. It is both the right thing
@@ -81,7 +82,7 @@ export default function ChildSafeguardingPage() {
         <p>
           If anything concerns you, however small, and whether or not it
           involves your own child, please tell us.{' '}
-          <a href={whatsappHref('SAFEGUARDING')}>Message us on WhatsApp</a> or
+          <WhatsAppLink location="safeguarding">Message us on WhatsApp</WhatsAppLink> or
           call <a href={telHref()}>{site.phoneDisplay}</a>. We will respond
           within two working days and we will not treat it as a complaint about
           you.

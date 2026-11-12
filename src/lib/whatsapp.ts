@@ -10,11 +10,15 @@ import { site } from '@/content/seed/site'
  * self-verifies the phone number, and opens Meta's free 24-hour service window
  * at zero API cost.
  *
- * Every link carries a `[ref:…]` code so inbound messages self-identify which
- * section of which page produced them — free attribution with no API.
+ * The message is exactly what the parent sends, with no code in it. Links
+ * used to append a `[ref:…]` marker for attribution, but it showed up in
+ * every WhatsApp chat. Attribution now lives on our side: every WhatsApp
+ * control renders through `components/ui/WhatsAppLink`, which records a
+ * `whatsapp_click` event labelled with the button tapped (`cta_location`)
+ * before WhatsApp opens, and the admin dashboard counts them per button.
  */
-export function whatsappHref(ref: string, message?: string): string {
-  const text = `${message ?? 'Hello RAAGA, I would like to book a trial class.'} [ref:${ref}]`
+export function whatsappHref(message?: string): string {
+  const text = message ?? 'Hello RAAGA, I would like to book a trial class.'
   return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(text)}`
 }
 

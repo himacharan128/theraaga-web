@@ -4,7 +4,7 @@ import { fontVariables } from './fonts'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { NotFoundContent } from '@/components/layout/NotFoundContent'
-import { telHref, whatsappHref } from '@/lib/whatsapp'
+import { telHref } from '@/lib/whatsapp'
 import { getGalleryByCategory, getSite } from '@/data/content'
 
 export const metadata: Metadata = {
@@ -34,7 +34,6 @@ export default async function GlobalNotFound() {
     <html lang="en-IN" className={fontVariables}>
       <body>
         <Header
-          whatsappHref={whatsappHref('HEADER')}
           telHref={telHref()}
           phoneDisplay={site.phoneDisplay}
           hasGallery={hasGallery}

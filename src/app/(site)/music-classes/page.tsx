@@ -8,7 +8,7 @@ import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { BASE_URL, JsonLd } from '@/components/seo/Schema'
 import { getAreas, getCentres } from '@/data/content'
-import { whatsappHref } from '@/lib/whatsapp'
+import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
 import { defaultOgImages } from '@/lib/og-image'
 
 /**
@@ -119,10 +119,10 @@ export default async function MusicClassesHubPage() {
         }
       >
         <ButtonLink href="/contact">Book a trial</ButtonLink>
-        <ButtonLink variant="secondary" href={whatsappHref('HUB-PAGE')}>
+        <WhatsAppLink location="hub_page" className="btn btn-secondary">
           <WhatsAppIcon />
           Ask which option suits you
-        </ButtonLink>
+        </WhatsAppLink>
       </PageHero>
 
       <Section id="centres" eyebrow="In person" title="Our two centres." layout="split">

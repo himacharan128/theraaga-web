@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react'
 import { WhatsAppIcon } from '@/components/ui/Button'
+import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
 import { Wordmark } from '@/components/ui/Wordmark'
 import { track } from '@/lib/analytics'
 
@@ -38,13 +39,11 @@ type Menu = 'closed' | 'open' | 'closing'
 const CLOSE_MS = 300
 
 export function Header({
-  whatsappHref,
   telHref,
   phoneDisplay,
   hasGallery,
   hasJournal,
 }: {
-  whatsappHref: string
   telHref: string
   phoneDisplay: string
   hasGallery: boolean
@@ -249,16 +248,13 @@ export function Header({
         </nav>
 
         <div className="flex items-center gap-1.5 sm:gap-3">
-          <a
-            href={whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
+          <WhatsAppLink
+            location="header"
             aria-label="Ask on WhatsApp"
-            onClick={() => track('whatsapp_click', { cta_location: 'header' })}
             className="flex size-11 items-center justify-center rounded-md text-[var(--btn-ink)] transition-colors duration-[var(--dur-1)] hover:bg-[var(--btn-wash)]"
           >
             <WhatsAppIcon />
-          </a>
+          </WhatsAppLink>
           {/* Visibility lives on a wrapper, not on the link: `hidden` and the
               button's own display are both set in CSS, and putting them on one
               element is a coin-flip that the wrong one wins. That happened once:
@@ -343,16 +339,10 @@ export function Header({
                 >
                   Book a trial
                 </Link>
-                <a
-                  href={whatsappHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => track('whatsapp_click', { cta_location: 'header' })}
-                  className="btn btn-secondary"
-                >
+                <WhatsAppLink location="header_menu" className="btn btn-secondary">
                   <WhatsAppIcon />
                   Ask on WhatsApp
-                </a>
+                </WhatsAppLink>
               </div>
               <a
                 href={telHref}
