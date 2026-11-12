@@ -1,5 +1,7 @@
 import { seoLandingPages } from '../src/content/seed/seo-pages'
 import { learningGuides } from '../src/content/seed/learning-guides'
+import { areas } from '../src/content/seed/areas'
+import { centres } from '../src/content/seed/site'
 
 const issues: string[] = []
 const seenSlugs = new Set<string>()
@@ -73,7 +75,38 @@ for (const guide of learningGuides) {
   if (/[\u2013\u2014]/.test(JSON.stringify(guide))) issues.push(`${label}: use plain punctuation`)
 }
 
-console.log(`\n  SEO content: ${seoLandingPages.length} intent pages, ${learningGuides.length} guides\n`)
+// The neighbourhood pages share the centre route, so a slug may not collide
+// with a centre, and each must carry its own journey rather than a renamed copy.
+const centreSlugs = new Set(centres.map((c) => c.slug).filter(Boolean))
+const centreKeys = new Set(centres.map((c) => c.key))
+const seenAreaCopy = new Set<string>()
+for (const area of areas) {
+  const label = `/music-classes/${area.slug}`
+  if (!/^[a-z0-9-]+$/.test(area.slug) || seenSlugs.has(area.slug) || centreSlugs.has(area.slug)) issues.push(`${label}: invalid, duplicate or centre-colliding slug`)
+  seenSlugs.add(area.slug)
+  if (area.title.length > 52) issues.push(`${label}: title is too long before the RAAGA suffix (${area.title.length})`)
+  if (seenTitles.has(area.title)) issues.push(`${label}: duplicate title`)
+  seenTitles.add(area.title)
+  if (area.description.length < 120 || area.description.length > 160) issues.push(`${label}: description must be 120-160 characters (${area.description.length})`)
+  if (seenDescriptions.has(area.description)) issues.push(`${label}: duplicate description`)
+  seenDescriptions.add(area.description)
+  if (!centreKeys.has(area.nearest) || (area.alsoNear && !centreKeys.has(area.alsoNear))) issues.push(`${label}: nearest centre is not a known centre`)
+  for (const field of ['intro', 'travel', 'alternative'] as const) {
+    const text = area[field]
+    if (text.split(' ').length < 30) issues.push(`${label}: ${field} is too short to be specific`)
+    if (seenAreaCopy.has(text)) issues.push(`${label}: ${field} repeats another area's copy`)
+    seenAreaCopy.add(text)
+    if (!text.includes(area.name) && field !== 'alternative') issues.push(`${label}: ${field} never names ${area.name}`)
+  }
+  if (!area.intro.includes(area.distance)) issues.push(`${label}: intro must state the distance to the nearest centre`)
+  if (area.neighbours.length < 2) issues.push(`${label}: needs at least two neighbouring places to link`)
+  for (const n of area.neighbours) {
+    if (n === area.slug || !(centreSlugs.has(n) || areas.some((a) => a.slug === n))) issues.push(`${label}: neighbour ${n} has no page`)
+  }
+  if (/[\u2013\u2014]/.test(JSON.stringify(area))) issues.push(`${label}: use plain punctuation`)
+}
+
+console.log(`\n  SEO content: ${seoLandingPages.length} intent pages, ${learningGuides.length} guides, ${areas.length} neighbourhood pages\n`)
 if (issues.length) {
   for (const issue of issues) console.error(`  ✗ ${issue}`)
   process.exit(1)

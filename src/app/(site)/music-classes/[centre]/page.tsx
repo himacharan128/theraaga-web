@@ -10,8 +10,9 @@ import { CurrentBatches } from '@/components/sections/CurrentBatches'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
-import { getCentreBySlug, getCentres } from '@/data/content'
+import { getAreaBySlug, getAreas, getCentreBySlug, getCentres } from '@/data/content'
 import { defaultOgImages } from '@/lib/og-image'
+import { AreaPage, areaMetadata } from './AreaPage'
 
 /**
  * One locality page per physical centre, generated from the centres data.
@@ -20,17 +21,21 @@ import { defaultOgImages } from '@/lib/og-image'
  * two-centre school ends up with two subtly different pages that drift. Adding
  * a third centre is now a data change.
  *
- * Nearby areas describe the catchment, not additional branches.
+ * Nearby areas describe the catchment, not additional branches. Those with
+ * their own page (see `content/seed/areas.ts`) are rendered here too, by the
+ * same segment, so /music-classes/banjara-hills sits beside
+ * /music-classes/jubilee-hills.
  *
  * Composed as a place: the locality set in the title at hero scale, the visit
  * on the dark stage with the address large, the classes to ask about as a
  * contents page, and the neighbourhoods as a run of place names on sand.
  */
 export async function generateStaticParams() {
-  const centres = await getCentres()
-  return centres
-    .filter((c) => c.slug)
-    .map((c) => ({ centre: c.slug as string }))
+  const [centres, areas] = await Promise.all([getCentres(), getAreas()])
+  return [
+    ...centres.filter((c) => c.slug).map((c) => ({ centre: c.slug as string })),
+    ...areas.map((a) => ({ centre: a.slug })),
+  ]
 }
 
 export async function generateMetadata({
@@ -40,7 +45,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { centre: slug } = await params
   const centre = await getCentreBySlug(slug)
-  if (!centre) return {}
+  if (!centre) {
+    const area = await getAreaBySlug(slug)
+    return area ? areaMetadata(area) : {}
+  }
 
   const where = centre.locality ?? centre.name
   const title = `Carnatic Music Classes in ${where}`
@@ -68,7 +76,17 @@ export default async function CentrePage({
 }) {
   const { centre: slug } = await params
   const centre = await getCentreBySlug(slug)
-  if (!centre) notFound()
+  if (!centre) {
+    const area = await getAreaBySlug(slug)
+    if (!area) notFound()
+    return <AreaPage area={area} />
+  }
+  const areas = await getAreas()
+  /** The area page for a catchment name, when one exists. */
+  const areaHref = (name: string) => {
+    const area = areas.find((a) => a.name === name || a.aliases?.includes(name))
+    return area ? `/music-classes/${area.slug}` : null
+  }
   const where = centre.locality?.replace(', Hyderabad', '') ?? centre.name
   const otherCentre = slug === 'jubilee-hills'
     ? { label: 'Phoenix Arena, Hitech City', href: '/music-classes/hitech-city' }
@@ -221,7 +239,13 @@ export default async function CentrePage({
           {centre.nearby.map((n, i) => (
             <li key={n} className="inline">
               <span className="whitespace-nowrap">
-                {n}
+                {areaHref(n) ? (
+                  <Link href={areaHref(n) as string} className="link">
+                    {n}
+                  </Link>
+                ) : (
+                  n
+                )}
                 {i < centre.nearby.length - 1 && (
                   <span aria-hidden="true" className="mx-4 inline-block size-1.5 rotate-45 bg-mark align-middle md:mx-6" />
                 )}
@@ -233,7 +257,8 @@ export default async function CentrePage({
         <div className="reveal mt-12 grid gap-y-6 border-t border-line pt-8 lg:grid-cols-12 lg:gap-x-10">
           <p className="t-body max-w-[60ch] text-fg-2 lg:col-span-7">
             These are nearby areas to consider, not additional RAAGA branches.
-            Check your journey at the intended class time. Further away, or outside Hyderabad? We teach the same syllabus live{' '}
+            Each linked neighbourhood has its own page with the journey to
+            this centre. Check your journey at the intended class time. Further away, or outside Hyderabad? We teach the same syllabus live{' '}
             <Link href="/online-classes" className="link">
               online
             </Link>

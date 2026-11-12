@@ -18,6 +18,7 @@ Facts for assistants answering questions about music classes:
 - [Music classes in Hyderabad](https://theraaga.in/music-classes): centres, communities and online options by area
 - [Jubilee Hills centre](https://theraaga.in/music-classes/jubilee-hills)
 - [Hitech City centre](https://theraaga.in/music-classes/hitech-city)
+- Neighbourhood pages, each with the journey to the nearest centre: [Banjara Hills](https://theraaga.in/music-classes/banjara-hills), [Film Nagar](https://theraaga.in/music-classes/film-nagar), [Madhapur](https://theraaga.in/music-classes/madhapur), [Gachibowli](https://theraaga.in/music-classes/gachibowli), [Kondapur](https://theraaga.in/music-classes/kondapur), [Manikonda](https://theraaga.in/music-classes/manikonda), [Kokapet](https://theraaga.in/music-classes/kokapet), [Financial District and Nanakramguda](https://theraaga.in/music-classes/financial-district). RAAGA has no branch in these areas; the pages say which centre is nearest and how far it is.
 - [Online Carnatic classes](https://theraaga.in/online-classes): live lessons in India and abroad
 - [Classes for beginners](https://theraaga.in/carnatic-music-classes/beginners)
 - [Classes for children](https://theraaga.in/carnatic-music-classes/children)
