@@ -1,4 +1,5 @@
 import { site, centres } from '@/content/seed/site'
+import { areas } from '@/content/seed/areas'
 import type { SeoLandingPage } from '@/content/types'
 
 export const BASE_URL = 'https://theraaga.in'
@@ -28,8 +29,11 @@ const LOGO_URL = `${BASE_URL}/brand/raaga-logo.png`
  * centre has a real one.
  */
 
-/** Every Hyderabad area a centre page names as its catchment, in one list. */
-const catchment = [...new Set(centres.flatMap((c) => c.nearby))]
+/**
+ * Every Hyderabad area a centre page names as its catchment, plus every
+ * neighbourhood with its own page, in one list.
+ */
+const catchment = [...new Set([...centres.flatMap((c) => c.nearby), ...areas.flatMap((a) => [a.name, ...(a.aliases ?? [])])])]
 
 /**
  * Where online students learn from. The same regions the online page lists

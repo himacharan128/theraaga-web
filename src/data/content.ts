@@ -2,6 +2,7 @@ import 'server-only'
 
 import * as seed from '@/content/seed'
 import type { LearningGuide } from '@/content/seed/learning-guides'
+import type { Area } from '@/content/seed/areas'
 import type {
   AcademicPathway,
   Batch,
@@ -15,6 +16,7 @@ import type {
   GalleryCategory,
   GalleryItem,
   JournalTopic,
+  Mode,
   PerformanceStrand,
   Pillar,
   PressMention,
@@ -57,6 +59,20 @@ export async function getCentre(key: string): Promise<Centre | undefined> {
 /** Look a centre up by its URL segment, for /music-classes/[centre]. */
 export async function getCentreBySlug(slug: string): Promise<Centre | undefined> {
   return seed.centres.find((c) => c.slug === slug)
+}
+
+/** Neighbourhoods served from a centre, each with its own /music-classes page. */
+export async function getAreas(): Promise<Area[]> {
+  return seed.areas
+}
+
+export async function getAreaBySlug(slug: string): Promise<Area | undefined> {
+  return seed.areas.find((a) => a.slug === slug)
+}
+
+/** The areas whose nearest (or comparable) centre is the given one. */
+export async function getAreasNearCentre(key: Mode): Promise<Area[]> {
+  return seed.areas.filter((a) => a.nearest === key || a.alsoNear === key)
 }
 
 export async function getCurriculum(): Promise<CurriculumStage[]> {
