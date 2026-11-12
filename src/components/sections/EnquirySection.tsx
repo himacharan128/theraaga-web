@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { EnquiryForm } from './EnquiryForm'
-import { ProgrammeHeader } from '@/components/layout/PageHero'
 import { WhatsAppIcon } from '@/components/ui/Button'
 import { telHref } from '@/lib/whatsapp'
 import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
@@ -46,18 +45,9 @@ export async function EnquirySection() {
             the form is filled. */}
         <div className="contents lg:sticky lg:top-[calc(var(--header-h)+2rem)] lg:col-span-5 lg:block xl:col-span-4">
           <div className="order-1 lg:order-none">
-            <ProgrammeHeader text="Prārambham · Begin the journey" />
-            <h1 className="t-display on-load mt-6 text-fg md:mt-8" style={{ '--d': '60ms' } as CSSProperties}>
-              Book a trial class.
-            </h1>
-            <p className="t-standfirst on-load mt-6 max-w-[34ch] text-fg-2" style={{ '--d': '200ms' } as CSSProperties}>
-              Tell us who is learning and where suits you. We will call to arrange
-              a time.
-            </p>
-
             {/* The one thing a parent most wants to know before typing a phone
                 number into a form belonging to a school they have not met. */}
-            <p className="t-small on-load mt-8 max-w-[44ch] border-l border-mark pl-5 text-fg-3" style={{ '--d': '320ms' } as CSSProperties}>
+            <p className="t-small on-load max-w-[44ch] border-l border-mark pl-5 text-fg-3" style={{ '--d': '320ms' } as CSSProperties}>
               We ask for your name and number, never your child’s. Nothing is
               shared with anyone, and you can ask us to delete your enquiry at any
               time. See our{' '}

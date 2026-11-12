@@ -68,7 +68,6 @@ export default async function GurusPage() {
       />
       <PageHero
         variant="night"
-        thread
         eyebrow="Guru Parampara · गुरुपरम्परा · The musical lineage"
         title={
           <>

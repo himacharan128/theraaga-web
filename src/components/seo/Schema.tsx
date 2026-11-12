@@ -98,6 +98,7 @@ function institutionNodes() {
       ...(c.mapsUrl ? { hasMap: c.mapsUrl } : {}),
       ...(c.geo ? { geo: { '@type': 'GeoCoordinates', ...c.geo } } : {}),
       address: address(c.streetAddress, c.locality?.replace(`, ${site.city}`, ''), c.postalCode),
+      openingHours: site.hours.schema,
     }))
 
   const institute: Record<string, unknown> = {
@@ -113,6 +114,7 @@ function institutionNodes() {
     foundingDate: String(site.foundedYear),
     parentOrganization: { '@id': `${BASE_URL}/#org` },
     telephone: `+${site.whatsapp}`,
+    openingHours: site.hours.schema,
     ...(site.mapsUrl ? { hasMap: site.mapsUrl } : {}),
     // The Google Business Profile is the same school, and saying so is what
     // lets Google and the AI assistants join the listing's reviews and photos

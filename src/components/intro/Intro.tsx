@@ -28,11 +28,25 @@ import { runIntro } from './runtime'
  * site from the admin portal, a dev refresh) inserts it inert, so it can never
  * play twice in one document.
  */
+/**
+ * The veil's geometry and colour, inlined: it must be styled before the
+ * site's stylesheet arrives, since its script holds the document from the
+ * first frame, and a render-blocking round trip is exactly what it hides.
+ * Its timing lives in score.ts. --e, the emblem's height, is the unit of the
+ * whole composition; the lockup is drawn from it at the master proportions
+ * (--wm), and the axis and rings stand on the emblem's centre line, 0.1243
+ * --e from the lockup's left edge. On a phone the width governs it, on a
+ * desktop the height. The `intro-gone` animation is a backstop: whatever
+ * becomes of the script, the veil cannot outlive 3.2s.
+ */
+const STYLE = `.intro{--e:clamp(7.5rem,min(34vw,25vh),13.5rem);--wm:calc(var(--e)/1.35);z-index:60;contain:strict;background:var(--color-bg)}html[data-intro] .intro{display:block!important;animation:intro-gone 1ms 3.2s forwards}html[data-intro=out] .intro{pointer-events:none}.intro-glow{background:radial-gradient(55% 50% at 50% 46%,var(--color-surface),transparent 72%)}.intro-axis,.intro-ring{left:calc(var(--e)*.1243)}.intro-axis{height:var(--e);margin-left:-.5px}.intro-ring{width:calc(var(--r)*var(--e));aspect-ratio:1;border-color:color-mix(in srgb,var(--color-accent) 42%,transparent)}@keyframes intro-gone{to{visibility:hidden}}`
+
 export function Intro({ line }: { line: { devanagari: string; roman: string } }) {
   const script = `(${runIntro.toString()})(${JSON.stringify(INTRO).replace(/</g, '\\u003c')})`
 
   return (
     <div id={INTRO.id} aria-hidden="true" className="intro fixed inset-0" style={{ display: 'none' }}>
+      <style>{STYLE}</style>
       <span data-part="glow" className="intro-glow absolute inset-0 opacity-0" />
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         {/* The lockup's box. The axis and the rings stand on the emblem's

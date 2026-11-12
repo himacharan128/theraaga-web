@@ -10,7 +10,7 @@ import { CurrentBatches } from '@/components/sections/CurrentBatches'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
 import { WhatsAppLink } from '@/components/ui/WhatsAppLink'
-import { getAreaBySlug, getAreas, getCentreBySlug, getCentres } from '@/data/content'
+import { getAreaBySlug, getAreas, getCentreBySlug, getCentres, getSite } from '@/data/content'
 import { defaultOgImages } from '@/lib/og-image'
 import { AreaPage, areaMetadata } from './AreaPage'
 
@@ -81,7 +81,7 @@ export default async function CentrePage({
     if (!area) notFound()
     return <AreaPage area={area} />
   }
-  const areas = await getAreas()
+  const [site, areas] = await Promise.all([getSite(), getAreas()])
   /** The area page for a catchment name, when one exists. */
   const areaHref = (name: string) => {
     const area = areas.find((a) => a.name === name || a.aliases?.includes(name))
@@ -168,6 +168,7 @@ export default async function CentrePage({
                     {centre.locality}, Telangana {centre.postalCode}
                   </span>
                 </address>
+                <p className="t-small mt-4 text-fg-2">Open {site.hours.label}.</p>
                 {centre.mapsUrl && (
                   <a
                     className="btn btn-secondary mt-10"

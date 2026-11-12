@@ -120,7 +120,6 @@ export default async function GuruPage({ params }: Props) {
       />
       <PageHero
         variant="night"
-        thread
         eyebrow={`The Gurus · ${guru.role}`}
         title={
           <>

@@ -40,6 +40,8 @@ export const site: SiteSettings = {
   googleProfileUrl: GOOGLE_PROFILE_URL,
   whatsapp: '918247558515',
   phoneDisplay: '+91 82475 58515',
+  // Both centres, every day. Supplied by the owner on 2026-11-12.
+  hours: { label: '9 am to 5 pm, every day', schema: 'Mo-Su 09:00-17:00' },
   // NULL BY DECISION, not by oversight. theraaga.in has no MX, SPF or DKIM, and
   // email is deliberately out of scope for now — so no address is published
   // anywhere. WhatsApp and the phone number are the contact routes, including
@@ -101,8 +103,13 @@ export const centres: Centre[] = [
     body: 'Our Hitech City centre, convenient for families in Madhapur, Gachibowli and Kondapur. The same syllabus, the same teaching.',
     cta: 'Classes at Hitech City',
     href: '/music-classes/hitech-city',
-    // TIER 0: pending client confirmation. Never fabricated.
-    streetAddress: null,
+    // The venue the owner pinned on 2026-11-12 (maps.app.goo.gl/kf4J4z5bdqnUqDAB9):
+    // Phoenix Arena, TSIIC Park, Phase 2 of HITEC City. The room inside the
+    // venue and the class hours are still hers to confirm.
+    streetAddress: 'Phoenix Arena, TSIIC Park, Phase 2, HITEC City, Madhapur',
+    postalCode: '500081',
+    geo: { latitude: 17.4453131, longitude: 78.3748011 },
+    mapsUrl: 'https://maps.app.goo.gl/kf4J4z5bdqnUqDAB9',
     formLabel: 'Phoenix Arena, Hitech City',
     nearby: [
       'Madhapur',

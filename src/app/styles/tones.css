@@ -33,14 +33,7 @@
   }
 
   .tone-night,
-  .site-header[data-ink='night'],
-  /* A page that opens on a dark hero says so with data-hero-tone, so the
-     header at rest takes the night ink on the very first paint of a full page
-     load, before the header's observer has run. From its first report on, the
-     observer alone decides (data-ink): Next keeps the pages a visitor has left
-     in the document, hidden, and this selector would still find their heroes.
-     It once left the header cream on the cream Contact page after the Gurus. */
-  html:has([data-hero-tone='dark']) .site-header:not([data-ink]):not([data-scrolled='true']) {
+  .site-header[data-ink='night'] {
     --fg: var(--color-on-night);
     --fg-2: var(--color-on-night-secondary);
     --fg-3: var(--color-on-night-muted);
@@ -59,9 +52,7 @@
   }
 
   .tone-maroon,
-  .site-header[data-ink='maroon'],
-  /* The same first-paint promise for the one page that opens on maroon. */
-  html:has([data-hero-tone='maroon']) .site-header:not([data-ink]):not([data-scrolled='true']) {
+  .site-header[data-ink='maroon'] {
     --fg: var(--color-on-accent);
     --fg-2: var(--color-on-accent-secondary);
     --fg-3: var(--color-on-accent-secondary);

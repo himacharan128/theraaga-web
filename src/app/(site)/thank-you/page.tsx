@@ -29,12 +29,9 @@ const d = (ms: number) => ({ '--d': `${ms}ms` }) as CSSProperties
 
 export default function ThankYouPage() {
   return (
-    <section
-      data-hero-tone="maroon"
-      data-tone="dark"
-      className="tone-maroon relative -mt-[var(--header-h)] pt-[calc(var(--header-h)+clamp(3rem,8vw,7rem))] pb-[clamp(3.5rem,8vw,7rem)]"
-    >
-      <div className="u-shell">
+    <section data-tone="dark" className="tone-maroon relative">
+      <div aria-hidden="true" className="zari" />
+      <div className="u-shell py-[clamp(2.5rem,6vw,5rem)]">
         <ProgrammeHeader text="Prārambham · The beginning" />
 
         <div className="mt-6 grid gap-x-10 gap-y-10 md:mt-8 lg:grid-cols-12">
@@ -88,6 +85,7 @@ export default function ThankYouPage() {
           : sound is the divine.
         </p>
       </div>
+    <div aria-hidden="true" className="zari" />
     </section>
   )
 }

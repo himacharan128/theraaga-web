@@ -2,31 +2,28 @@ import Image, { type StaticImageData } from 'next/image'
 import type { CSSProperties, ReactNode } from 'react'
 
 /**
- * The inner-page hero: one family, five compositions, chosen per page so no
- * two neighbouring pages open the same way. All share the programme header.
+ * The inner-page hero: every page opens the way the homepage does, on the
+ * deep maroon chapter between two zari borders, so the site reads as one
+ * programme from cover to cover (the owner asked for uniform colour across
+ * the site on 2026-11-12). Within that, four compositions, chosen per page so
+ * no two neighbouring pages open the same way:
  *
  *   editorial  the title large on the left; the lede and actions held in an
  *              offset column beneath it, so the page opens asymmetrically.
  *   statement  the title at hero scale with almost nothing beside it, for a
  *              page whose heading is its argument (About, 404).
- *   night      the dark stage. On the Gurus page it carries one fine
- *              ornament (`thread`): a brass thread with three nodes down the
- *              right margin, the lineage drawn rather than described. Wide
- *              screens only.
- *   image      immersive: an authentic photograph fills the right of a dark
- *              stage and fades into it, the title set on the dark beside it.
- *              On a phone the photograph comes first, full bleed, and the
- *              title rises over its faded foot.
+ *   image      an authentic photograph stands in a brass niche at the right,
+ *              as the carving does on the homepage; on a phone it follows
+ *              the lede. Without a photograph it is `editorial`.
  *   archive    a publication masthead: the title and its context on the left,
  *              a ruled index of what the page holds on the right.
  *
- * The dark compositions slide up under the transparent header and say so with
- * data-hero-tone, so the header takes the night ink from the first paint (see
- * app/styles/tones.css).
+ * `night` is accepted for older call sites and reads as `editorial`.
  *
- * The eyebrow keeps its words exactly. Where it is a run of parts separated by
- * " · " it is set as a programme header, one cell per part, with any
- * Devanagari in Tiro rather than in a system fallback.
+ * The header sits on the parchment above the chapter, so no hero tone is
+ * declared. The eyebrow keeps its words exactly. Where it is a run of parts
+ * separated by " · " it is set as a programme header, one cell per part, with
+ * any Devanagari in Tiro rather than in a system fallback.
  */
 type Variant = 'editorial' | 'statement' | 'night' | 'image' | 'archive'
 
@@ -35,7 +32,7 @@ export type HeroMedia = {
   alt: string
   /** CSS object-position, for a subject that sits off-centre. */
   focus?: string
-  /** What and when, set beneath the title as the photograph's credit line. */
+  /** What and when, set beneath the photograph as its credit line. */
   caption?: ReactNode
 }
 
@@ -52,7 +49,6 @@ export function PageHero({
   variant = 'editorial',
   media,
   index,
-  thread = false,
 }: {
   eyebrow: string
   title: ReactNode
@@ -60,31 +56,23 @@ export function PageHero({
   children?: ReactNode
   aside?: ReactNode
   variant?: Variant
-  /** The photograph for the `image` composition. Without one it falls back to `night`. */
+  /** The photograph for the `image` composition. Without one it falls back to `editorial`. */
   media?: HeroMedia
   /** The ruled index for the `archive` composition: in-page links to its chapters. */
   index?: HeroIndexEntry[]
-  /** The lineage thread down the night hero's margin. For the page about the lineage. */
-  thread?: boolean
 }) {
-  if (variant === 'image' && media) {
-    return <ImageHero eyebrow={eyebrow} title={title} lede={lede} media={media} actions={children} />
-  }
-  const kind: Variant = variant === 'image' ? 'night' : variant
-  const night = kind === 'night'
+  const kind: Variant =
+    variant === 'night' || (variant === 'image' && !media) ? 'editorial' : variant
+  const withNiche = kind === 'image' && media
+  const twoColumn = kind === 'archive' || withNiche
 
   return (
-    <section
-      data-hero-tone={night ? 'dark' : undefined}
-      data-tone={night ? 'dark' : undefined}
-      className={
-        night
-          ? 'tone-night relative -mt-[var(--header-h)] pt-[calc(var(--header-h)+clamp(3rem,8vw,7rem))] pb-[clamp(3.5rem,8vw,7rem)]'
-          : 'relative pt-[clamp(2.5rem,6vw,5.5rem)]'
-      }
-    >
-      <div className={`u-shell relative ${kind === 'archive' ? 'lg:grid lg:grid-cols-12 lg:gap-x-10' : ''}`}>
-        <div className={kind === 'archive' ? 'lg:col-span-8' : night && thread ? 'lg:pr-28' : ''}>
+    <section data-tone="dark" className="tone-maroon relative">
+      <div aria-hidden="true" className="zari" />
+      <div
+        className={`u-shell relative py-[clamp(2.5rem,6vw,5rem)] ${twoColumn ? 'lg:grid lg:grid-cols-12 lg:gap-x-10' : ''}`}
+      >
+        <div className={twoColumn ? 'lg:col-span-8' : ''}>
           <ProgrammeHeader text={eyebrow} />
 
           <h1
@@ -96,12 +84,12 @@ export function PageHero({
             {title}
           </h1>
 
-          {kind === 'archive' && lede && (
+          {twoColumn && lede && (
             <div className="on-load t-standfirst mt-8 max-w-[46ch] text-fg-2 md:mt-10" style={d(240)}>
               {lede}
             </div>
           )}
-          {kind === 'archive' && children && (
+          {twoColumn && children && (
             <div className="on-load mt-8 flex flex-wrap gap-3 md:mt-10" style={d(320)}>
               {children}
             </div>
@@ -136,7 +124,34 @@ export function PageHero({
           </nav>
         )}
 
-        {kind !== 'archive' && (lede || children || aside) && (
+        {withNiche && (
+          <figure
+            className="on-load mt-12 w-full max-w-60 justify-self-center text-center lg:col-span-4 lg:col-start-9 lg:mt-0 lg:max-w-[300px] lg:justify-self-end lg:self-center"
+            style={d(200)}
+          >
+            <div className="niche">
+              <div className="media relative h-[320px] lg:h-[420px]">
+                <Image
+                  src={media.src}
+                  alt={media.alt}
+                  fill
+                  preload
+                  sizes="(min-width: 1024px) 300px, 240px"
+                  className="object-cover"
+                  style={media.focus ? { objectPosition: media.focus } : undefined}
+                />
+              </div>
+            </div>
+            {media.caption && (
+              <figcaption className="t-meta mt-5 flex items-center justify-center gap-3 text-fg-3">
+                <span aria-hidden="true" className="size-1.5 shrink-0 rotate-45 bg-mark" />
+                <span>{media.caption}</span>
+              </figcaption>
+            )}
+          </figure>
+        )}
+
+        {!twoColumn && (lede || children || aside) && (
           <div className="mt-8 grid gap-x-10 gap-y-8 md:mt-12 lg:grid-cols-12">
             {(lede || children) && (
               <div
@@ -154,111 +169,8 @@ export function PageHero({
             )}
           </div>
         )}
-
-        {night && thread && <LineageThread />}
       </div>
-      {!night && (
-        <div className="u-shell mt-[clamp(3rem,6vw,5.5rem)]" aria-hidden="true">
-          <div className="on-load-draw draw-x h-px bg-line" />
-        </div>
-      )}
-    </section>
-  )
-}
-
-/**
- * The night hero's one ornament: a brass hairline down the right margin with
- * three nodes on it, a lineage drawn as a line of succession. Decorative, so
- * hidden from assistive technology; wide screens only, where the margin is
- * empty anyway.
- */
-function LineageThread() {
-  return (
-    <div
-      aria-hidden="true"
-      className="on-load pointer-events-none absolute inset-y-0 right-[var(--gutter)] hidden w-3 lg:block"
-      style={d(700)}
-    >
-      <span className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-[linear-gradient(to_bottom,transparent,var(--mark)_18%,var(--mark)_82%,transparent)]" />
-      {['22%', '50%', '78%'].map((top) => (
-        <span
-          key={top}
-          className="absolute left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rotate-45 border border-[var(--mark)] bg-[var(--tone-bg)]"
-          style={{ top }}
-        />
-      ))}
-    </div>
-  )
-}
-
-/** The immersive composition. See PageHero. */
-function ImageHero({
-  eyebrow,
-  title,
-  lede,
-  media,
-  actions,
-}: {
-  eyebrow: string
-  title: ReactNode
-  lede?: ReactNode
-  media: HeroMedia
-  actions?: ReactNode
-}) {
-  return (
-    <section
-      data-hero-tone="dark"
-      data-tone="dark"
-      className="tone-night relative -mt-[var(--header-h)] overflow-hidden lg:flex lg:min-h-[min(100svh,54rem)] lg:items-end"
-    >
-      {/* The photograph: full bleed on a phone, the right of the stage on a
-          wide screen. Two scrims fade it into the dark, so the type never sits
-          on the busy part of the picture: on a phone or tablet the foot of the
-          photograph is solid night for the height the title overlaps it. */}
-      <div className="media on-load-unveil relative aspect-[4/5] sm:aspect-[3/2] lg:absolute lg:inset-y-0 lg:right-0 lg:aspect-auto lg:w-[58%]">
-        <Image
-          src={media.src}
-          alt={media.alt}
-          fill
-          preload
-          sizes="(min-width: 1024px) 58vw, 100vw"
-          className="on-load-settle object-cover"
-          style={media.focus ? { objectPosition: media.focus } : undefined}
-        />
-        <span
-          aria-hidden="true"
-          className="absolute inset-x-0 bottom-0 h-1/2 bg-[linear-gradient(to_top,var(--color-night)_40%,transparent)] lg:inset-y-0 lg:left-0 lg:h-auto lg:w-1/2 lg:bg-[linear-gradient(to_right,var(--color-night),transparent)]"
-        />
-        <span
-          aria-hidden="true"
-          className="absolute inset-x-0 top-0 h-28 bg-[linear-gradient(to_bottom,rgb(29_23_20/0.7),transparent)]"
-        />
-      </div>
-
-      <div className="u-shell relative -mt-20 pb-[clamp(3rem,7vw,6rem)] sm:-mt-24 lg:mt-0 lg:w-full lg:pt-[calc(var(--header-h)+4rem)]">
-        <div className="lg:max-w-[46%]">
-          <ProgrammeHeader text={eyebrow} />
-          <h1 className="t-display on-load mt-6 max-w-[14ch] text-fg md:mt-8" style={d(60)}>
-            {title}
-          </h1>
-          {lede && (
-            <div className="on-load t-standfirst mt-8 max-w-[40ch] text-fg-2" style={d(240)}>
-              {lede}
-            </div>
-          )}
-          {actions && (
-            <div className="on-load mt-8 flex flex-wrap gap-3" style={d(320)}>
-              {actions}
-            </div>
-          )}
-          {media.caption && (
-            <p className="on-load t-meta mt-10 flex items-center gap-3 text-fg-3 md:mt-14" style={d(420)}>
-              <span aria-hidden="true" className="size-1.5 shrink-0 rotate-45 bg-mark" />
-              <span>{media.caption}</span>
-            </p>
-          )}
-        </div>
-      </div>
+      <div aria-hidden="true" className="zari" />
     </section>
   )
 }

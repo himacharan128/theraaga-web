@@ -3,19 +3,22 @@
    ============================================================================ */
 
 /* The header is transparent at rest and turns solid once the page moves. Over
-   a dark chapter it takes that chapter's ink (data-ink, from its observer). A
-   page whose hero is dark says so with data-hero-tone, so the very first paint
-   is right before script runs. */
+   a dark chapter it takes that chapter's ink (data-ink, from its observer).
+   Every page opens on the parchment, so the first paint needs no hint. */
 .site-header {
+  transition: color var(--dur-2) var(--ease-raaga);
+}
+
+/* The ground fades in as the page starts to move and drops away at once when
+   it is back at the top, so the header never shows a half-transparent ground
+   over the page's first chapter. */
+.site-header[data-scrolled='true'] {
+  background-color: var(--color-bg);
+  border-color: var(--color-border);
   transition:
     background-color var(--dur-2) var(--ease-raaga),
     border-color var(--dur-2) var(--ease-raaga),
     color var(--dur-2) var(--ease-raaga);
-}
-
-.site-header[data-scrolled='true'] {
-  background-color: var(--color-bg);
-  border-color: var(--color-border);
 }
 
 .site-header[data-scrolled='true'][data-ink='night'] {
