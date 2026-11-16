@@ -5,19 +5,33 @@ import swararagaCover from '@/assets/books/swararaga-kadambam.jpg'
 /**
  * Guru profiles, one page each at /gurus/<slug>.
  *
- * PROVENANCE. On 2026-10-25 the owner named Dr. Suryanarayana Polaki as the
- * author of both books on the Gurus page and asked for his public record to be
- * used. Every fact below comes from one of the sources listed on the profile:
- * the author's note printed with Swararaga Kadambam (as reproduced by the
- * bookseller), The Hans India's report of the Bhasuri release, and the
- * bookseller's catalogue entry for Bhasuri. Nothing is added beyond them. The
- * general rule against naming a Guru's teacher, award or institution still
- * holds for anyone the owner has not named in the same way.
+ * PROVENANCE. Two kinds of profile live here and each says where its facts
+ * come from (`provenance`, printed on the page).
  *
- * "Dr." is the owner's form of his name; the 2015 sources print "Sri" and
- * "Guru". The spelling variants are listed so search engines and assistants
- * can tell this Polaki Suryanarayana from the several unrelated people who
- * share the name.
+ * Dr. Suryanarayana Polaki: on 2026-10-25 the owner named him as the author
+ * of both books on the Gurus page and asked for his public record to be used.
+ * Every fact comes from one of the `sources` listed on his profile: the
+ * author's note printed with Swararaga Kadambam (as reproduced by the
+ * bookseller), The Hans India's report of the Bhasuri release, and the
+ * bookseller's catalogue entry for Bhasuri. Nothing is added beyond them.
+ *
+ * Bharathi Polaki and Bhasuri Polaki: on 2026-11-16 the owner supplied each
+ * teacher's own profile (qualification, Guru, years of experience, levels,
+ * languages, performances, biography and teaching philosophy). The copy below
+ * is that profile, split into sections for the web and nothing more. Fields
+ * the form left as a placeholder (Bhasuri's teaching languages, AIR
+ * accreditation) are left out rather than guessed. No honorific is added
+ * that the teacher did not use. Photographs are to follow: a profile without
+ * one renders complete as text, and adding `photo` later costs one import.
+ *
+ * The general rule still holds for anyone the owner has not named in the
+ * same way: no teacher, award or institution attached to a Guru unless the
+ * owner or the teacher supplied it.
+ *
+ * "Dr." is the owner's form of Suryanarayana Polaki's name; the 2015 sources
+ * print "Sri" and "Guru". The spelling variants are listed so search engines
+ * and assistants can tell this Polaki Suryanarayana from the several
+ * unrelated people who share the name.
  */
 
 export interface GuruBook {
@@ -38,20 +52,37 @@ export interface GuruBook {
 
 export interface GuruProfile {
   slug: string
-  honorific: string
+  /** Only when the teacher uses one; never added. */
+  honorific?: string
   name: string
-  alternateNames: string[]
+  /** Other spellings of the name in print, for search engines. */
+  alternateNames?: string[]
+  /** The teacher's own professional title. */
   role: string
-  /** The one-paragraph answer to "who is he", for the page lede and the schema. */
+  /** The one-paragraph answer to "who is this", for the page lede and the schema. */
   summary: string
-  birthPlace: string
-  sections: { id: string; title: string; paragraphs: string[]; bullets?: string[] }[]
-  /** Teachers exactly as the author's note names them, in its order. */
+  /** One sentence printed on the page saying where these facts come from. */
+  provenance: string
+  birthPlace?: string
+  /** The qualification as the teacher states it, for example "M.A. in Music, Andhra University". */
+  qualification?: string
+  /** Teachers exactly as the teacher or the author's note names them, in that order. */
   teachers: string[]
-  education: { name: string; place: string; kind: 'university' | 'college' }[]
-  awards: { title: string; year: string }[]
-  books: GuruBook[]
-  sources: { label: string; href: string }[]
+  /** Years stated by the teacher. Strings, never counters: "40 years". */
+  experience?: { music: string; teaching: string }
+  levels?: string[]
+  /** Languages the teacher teaches in. Display names: "Telugu", "English". */
+  languages?: string[]
+  /** The teacher's own statement of how they teach. */
+  philosophy?: string
+  sections: { id: string; title: string; paragraphs: string[] }[]
+  education?: { name: string; place?: string; kind: 'university' | 'college' }[]
+  awards?: { title: string; year: string }[]
+  books?: GuruBook[]
+  /** Published sources, when the profile is built from a public record. */
+  sources?: { label: string; href: string }[]
+  /** A portrait, when the teacher has supplied one. Nothing is rendered in its place until then. */
+  photo?: StaticImageData
 }
 
 export const guruProfiles: GuruProfile[] = [
@@ -68,7 +99,10 @@ export const guruProfiles: GuruProfile[] = [
     role: 'Carnatic vocalist, Guru and author',
     summary:
       'Dr. Suryanarayana Polaki is a Carnatic vocalist and one of the Gurus at RAAGA. He is the author of two books on Carnatic music: Bhasuri, a beginner’s guide in English, and Swararaga Kadambam in Telugu.',
+    provenance:
+      'From the author’s note printed with Swararaga Kadambam, The Hans India’s report of the Bhasuri release and the bookseller’s catalogue entry for Bhasuri, listed below.',
     birthPlace: 'Vizianagaram, Andhra Pradesh',
+    qualification: 'Sangeetha Praveena, Sri Venkateswara University, Tirupati',
     teachers: [
       'Mahamahopadhyaya Padma Bhushan Dr. Nookala Chinna Satyanarayana',
       'Sri Dwaram Durga Prasad',
@@ -153,6 +187,91 @@ export const guruProfiles: GuruProfile[] = [
       {
         label: 'Bhasuri: A Beginner’s Guide to Carnatic Music (Best Book Centre)',
         href: 'https://www.bestbookcentre.com/books/music-and-dance/bhasuri-a-beginners-guide-to-carnatic-music',
+      },
+    ],
+  },
+  {
+    slug: 'bharathi-polaki',
+    name: 'Bharathi Polaki',
+    role: 'Senior Carnatic Classical Vocalist and Guru',
+    summary:
+      'Bharathi Polaki is a Carnatic classical vocalist and music educator at RAAGA, with over 40 years of musical experience and 20 years of teaching. She holds a Master’s degree in Music from Andhra University and trained under Padma Bhushan Dr. Nookala Chinna Satyanarayana.',
+    provenance: 'From the profile Bharathi Polaki supplied to RAAGA in November 2026.',
+    qualification: 'M.A. in Music, Andhra University',
+    teachers: ['Padma Bhushan Dr. Nookala Chinna Satyanarayana'],
+    experience: { music: '40 years', teaching: '20 years' },
+    levels: ['Beginner', 'Intermediate', 'Advanced'],
+    languages: ['Telugu', 'English'],
+    education: [{ name: 'Andhra University', kind: 'university' }],
+    philosophy:
+      'She believes in upholding the traditional values of Carnatic music through systematic learning, disciplined practice and dedicated guidance, and focuses on developing musical excellence, a deep understanding of the art form and the confidence to express oneself through music.',
+    sections: [
+      {
+        id: 'training',
+        title: 'Training',
+        paragraphs: [
+          'Bharathi Polaki holds a Master’s degree in Music from Andhra University and received her musical training under the guidance of the distinguished Padma Bhushan awardee Dr. Nookala Chinna Satyanarayana. She has over 40 years of musical experience.',
+        ],
+      },
+      {
+        id: 'honours',
+        title: 'Honours',
+        paragraphs: [
+          'She has received several awards, honours and recognitions for her contributions to Carnatic classical music.',
+        ],
+      },
+      {
+        id: 'performances',
+        title: 'Performances',
+        paragraphs: [
+          'She has rendered numerous Carnatic vocal performances at cultural platforms, music festivals and sabhas, and has performed for All India Radio.',
+        ],
+      },
+      {
+        id: 'teaching',
+        title: 'Teaching',
+        paragraphs: [
+          'With 20 years of teaching experience across beginner, intermediate and advanced levels, in Telugu and English, she is dedicated to nurturing musical talent and imparting the richness of Carnatic classical music.',
+          'Her approach combines traditional musical values with a structured learning experience.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'bhasuri-polaki',
+    name: 'Bhasuri Polaki',
+    role: 'Carnatic Classical Vocal Instructor',
+    summary:
+      'Bhasuri Polaki is a Carnatic classical vocal instructor at RAAGA, with 20 years of musical experience and five years of teaching. She holds a Diploma in Carnatic Classical Music and trained under Dwaram Sathyanarayana.',
+    provenance: 'From the profile Bhasuri Polaki supplied to RAAGA in November 2026.',
+    qualification: 'Diploma in Carnatic Classical Music',
+    teachers: ['Dwaram Sathyanarayana'],
+    experience: { music: '20 years', teaching: '5 years' },
+    levels: ['Beginner', 'Intermediate'],
+    philosophy:
+      'She believes in building a strong musical foundation through systematic learning, consistent practice and individual guidance, and focuses on nurturing each student’s musical abilities while developing an appreciation for the depth and tradition of Carnatic music.',
+    sections: [
+      {
+        id: 'training',
+        title: 'Training',
+        paragraphs: [
+          'Bhasuri Polaki holds a Diploma in Carnatic Classical Music and received her musical training under the guidance of Dwaram Sathyanarayana. With 20 years of musical experience, she has developed a strong foundation in traditional Carnatic music.',
+        ],
+      },
+      {
+        id: 'performances',
+        title: 'Performances',
+        paragraphs: [
+          'She is actively involved in Carnatic classical music, with participation in musical performances and cultural events, and has given several vocal performances at cultural programmes, music gatherings and other musical occasions.',
+        ],
+      },
+      {
+        id: 'teaching',
+        title: 'Teaching',
+        paragraphs: [
+          'With five years of teaching experience, she has worked with students at beginner and intermediate levels, guiding them in developing their vocal skills and their understanding of the art form.',
+          'Her musical journey encompasses both learning and teaching, with an emphasis on musical discipline, practice and appreciation of classical traditions. She is passionate about nurturing students and helping them build a strong foundation in Carnatic vocal music.',
+        ],
       },
     ],
   },

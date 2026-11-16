@@ -96,9 +96,12 @@ asset is missing, the design is text-led instead.
 
 **Lineage claims come from the client, verbatim.** Their content master states
 the Gurus were "trained under eminent maestros including…", so that claim is
-theirs and is reproduced as written. What remains forbidden: attaching a
-specific maestro to a specific Guru, naming an award, institution or year the
-client did not name, or putting a number on "renowned cultural institutions".
+theirs and is reproduced as written. Each Guru's own page names their teacher,
+qualification and years only as that teacher's supplied profile states them
+(`src/content/seed/gurus.ts` records the provenance of each). What remains
+forbidden: naming an award, institution, maestro or year that neither the
+client nor the teacher supplied, or putting a number on "renowned cultural
+institutions".
 
 **No fabricated content.** No placeholder testimonials, faculty or student
 photos. A fabricated testimonial is a misleading advertisement under the CCPA
