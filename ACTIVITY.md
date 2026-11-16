@@ -66,6 +66,13 @@ Newest entry first.
   the names at display size and "Suryanarayana" ran into the next column;
   fixed to the subhead size before the PR. Production: PR #28 merged
   07:23 UTC, the three pages live about 45 s later, sitemap lists them.
+- **Follow-up (PR #30, merged 08:21 UTC):** Hima's iPhone full-page
+  capture of the homepage showed the two book covers at different, too-small
+  widths. They were flex items beside their captions with no `shrink-0`, so
+  WebKit shrank them to 52 px and 35 px instead of 56 px; one class added and
+  both measure 56 px in headless WebKit at phone size. The covers themselves
+  load on production (AVIF, WebP and JPEG all 200); the blurred placeholders
+  in the capture are how iOS renders off-screen lazy images in full-page mode.
 - **Not yet done:** photographs of all three Gurus; Bhasuri's teaching
   languages; the owner's one-line note for Dwaram Sathyanarayana so he can
   join the lineage list; a portrait of Dr. Polaki remains open from 12 Nov.
