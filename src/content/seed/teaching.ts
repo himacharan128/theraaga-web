@@ -10,9 +10,13 @@
  * including…" — so it is theirs to make and it is reproduced as written.
  *
  * Everything below is the client's copy. Do not soften it and do not embellish
- * it. In particular: do not attach a specific maestro to a specific Guru, do
- * not name an award, an institution or a year, and do not put a number on
- * "renowned cultural institutions". The client wrote what they could support.
+ * it. In particular: do not name an award, an institution or a year, and do
+ * not put a number on "renowned cultural institutions". The client wrote what
+ * they could support. Which maestro taught which Guru is stated only on the
+ * profile pages (`gurus.ts`), from each teacher's own supplied profile. A
+ * maestro named there (Dwaram Sathyanarayana, Bhasuri Polaki's Guru, on
+ * 2026-11-16) joins this list only once the owner writes the one-line note
+ * that every entry here carries.
  */
 
 import type { StaticImageData } from 'next/image'

@@ -3,10 +3,10 @@ import type { CSSProperties } from 'react'
 import { PageHero } from '@/components/layout/PageHero'
 import { Section } from '@/components/layout/Section'
 import { FinalCta } from '@/components/sections/FinalCta'
+import { GuruCards } from '@/components/sections/GuruCards'
 import { LineageCards } from '@/components/sections/LineageCards'
 import { ScholarlyWorks } from '@/components/sections/ScholarlyWorks'
 import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema'
-import { LinkRows } from '@/components/layout/Editorial'
 import {
   getGuruProfiles,
   getGurusIntro,
@@ -18,7 +18,7 @@ import { defaultOgImages } from '@/lib/og-image'
 export const metadata: Metadata = {
   title: 'The Gurus: Our Musical Lineage',
   description:
-    'Meet the Gurus at RAAGA, including Dr. Suryanarayana Polaki, author of Bhasuri and Swararaga Kadambam. Musicians, scholars and authors teaching Carnatic Sangeetham in Hyderabad.',
+    'Meet the Gurus at RAAGA: Dr. Suryanarayana Polaki, author of Bhasuri and Swararaga Kadambam, Bharathi Polaki and Bhasuri Polaki. Their training, lineage and teaching of Carnatic vocal in Hyderabad and online.',
   alternates: { canonical: '/gurus' },
   openGraph: {
     title: 'Guru Parampara: the Gurus at RAAGA',
@@ -37,14 +37,15 @@ export const metadata: Metadata = {
  * under those maestros. The client's content master makes that claim directly,
  * in their own words, so it is theirs to make and it is reproduced as written.
  *
- * What is still forbidden: attaching a specific maestro to a specific Guru,
- * naming an award or an institution the client did not name, or putting a
- * number on "renowned cultural institutions".
+ * What is still forbidden: naming an award or an institution the client did
+ * not name, putting a number on "renowned cultural institutions", or attaching
+ * a maestro to a Guru beyond what that teacher's own profile states.
  *
  * Guru profiles are data (`content/seed/gurus.ts`), each a page of its own and
- * listed here by name only. There are no portrait frames waiting for one: with
- * no client photography, a person-shaped hole is what makes a school site look
- * abandoned, so this page stays complete as an account of the TEACHING.
+ * listed here as text entries. There are no portrait frames waiting for one:
+ * with no client photography, a person-shaped hole is what makes a school site
+ * look abandoned, so each entry is complete as the teacher's stated facts and
+ * a portrait is added only when one arrives.
  *
  * Composed as an archive: the dark stage for the opening, the claim the page
  * rests on as a statement, the maestro as a mounted portrait with a museum
@@ -111,17 +112,17 @@ export default async function GurusPage() {
 
       <Section
         id="profiles"
-        layout="split"
         eyebrow="Meet the Gurus"
         title="Who teaches here."
+        lede={
+          <p>
+            Each Guru’s training, lineage and years of teaching, in their own
+            words. Students are guided to the Guru best suited to their level.
+          </p>
+        }
         renderIf={profiles.length > 0}
       >
-        <LinkRows
-          links={profiles.map((g) => ({
-            href: `/gurus/${g.slug}`,
-            label: `${g.honorific} ${g.name}`,
-          }))}
-        />
+        <GuruCards profiles={profiles} />
       </Section>
 
       <Section

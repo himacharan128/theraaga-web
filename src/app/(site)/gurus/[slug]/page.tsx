@@ -15,20 +15,27 @@ import { defaultOgImages } from '@/lib/og-image'
 type Props = { params: Promise<{ slug: string }> }
 
 const LANGUAGE: Record<'en' | 'te', string> = { en: 'English', te: 'Telugu' }
+const LANGUAGE_CODE: Record<string, string> = { English: 'en', Telugu: 'te' }
 
 export async function generateStaticParams() {
   return (await getGuruProfiles()).map(({ slug }) => ({ slug }))
 }
 
 function fullName(g: GuruProfile) {
-  return `${g.honorific} ${g.name}`
+  return g.honorific ? `${g.honorific} ${g.name}` : g.name
+}
+
+/** "Telugu and English", "Beginner, Intermediate and Advanced". */
+function joinNatural(items: string[]) {
+  if (items.length < 2) return items.join('')
+  return `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const guru = await getGuruProfileBySlug((await params).slug)
   if (!guru) return {}
-  const title = `${fullName(guru)}: Carnatic Vocal Guru and Author`
-  const description = `${guru.summary} Training, honours, books and teaching in Hyderabad.`
+  const title = `${fullName(guru)}: ${guru.role}`
+  const description = `${guru.summary} Training, performances and teaching at RAAGA, Hyderabad.`
   const canonical = `/gurus/${guru.slug}`
   return {
     title,
@@ -41,13 +48,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 /**
  * The profile as structured data: a ProfilePage whose main entity is the
  * Person, and each book a Book whose author is that Person. This is what lets
- * Google and the AI assistants answer "who wrote Bhasuri" or "who is Polaki
- * Suryanarayana" with this page, and keep him apart from unrelated people of
- * the same name. No `offers` on the books: no prices, by rule.
+ * Google and the AI assistants answer "who teaches at RAAGA" or "who wrote
+ * Bhasuri" with this page, and keep a teacher apart from unrelated people of
+ * the same name. Every property is emitted only when the profile states it.
+ * No `offers` on the books: no prices, by rule.
  */
 function profileSchema(g: GuruProfile) {
   const url = `${BASE_URL}/gurus/${g.slug}`
   const person = `${url}#person`
+  const languages = g.languages
+    ? g.languages.map((l) => LANGUAGE_CODE[l] ?? l)
+    : [...new Set((g.books ?? []).map((b) => b.language))]
   return {
     '@context': 'https://schema.org',
     '@graph': [
@@ -64,24 +75,35 @@ function profileSchema(g: GuruProfile) {
         '@type': 'Person',
         '@id': person,
         name: g.name,
-        honorificPrefix: g.honorific,
-        alternateName: g.alternateNames,
+        ...(g.honorific ? { honorificPrefix: g.honorific } : {}),
+        ...(g.alternateNames ? { alternateName: g.alternateNames } : {}),
         description: g.summary,
         jobTitle: g.role,
         url,
         worksFor: { '@id': `${BASE_URL}/#institute` },
-        birthPlace: { '@type': 'Place', name: g.birthPlace },
-        alumniOf: g.education.map((e) => ({
-          '@type': e.kind === 'university' ? 'CollegeOrUniversity' : 'EducationalOrganization',
-          name: e.name,
-          address: { '@type': 'PostalAddress', addressLocality: e.place, addressCountry: 'IN' },
-        })),
-        award: g.awards.map((a) => `${a.title} (${a.year})`),
+        ...(g.birthPlace ? { birthPlace: { '@type': 'Place', name: g.birthPlace } } : {}),
+        ...(g.qualification
+          ? { hasCredential: { '@type': 'EducationalOccupationalCredential', name: g.qualification } }
+          : {}),
+        ...(g.education
+          ? {
+              alumniOf: g.education.map((e) => ({
+                '@type': e.kind === 'university' ? 'CollegeOrUniversity' : 'EducationalOrganization',
+                name: e.name,
+                ...(e.place
+                  ? { address: { '@type': 'PostalAddress', addressLocality: e.place, addressCountry: 'IN' } }
+                  : {}),
+              })),
+            }
+          : {}),
+        ...(g.awards ? { award: g.awards.map((a) => `${a.title} (${a.year})`) } : {}),
         knowsAbout: ['Carnatic music', 'Carnatic vocal', 'Carnatic Sangeetham', 'Indian classical music'],
-        knowsLanguage: ['te', 'en'],
-        subjectOf: g.sources.map((s) => ({ '@type': 'CreativeWork', name: s.label, url: s.href })),
+        ...(languages.length ? { knowsLanguage: languages } : {}),
+        ...(g.sources
+          ? { subjectOf: g.sources.map((s) => ({ '@type': 'CreativeWork', name: s.label, url: s.href })) }
+          : {}),
       },
-      ...g.books.map((b, i) => ({
+      ...(g.books ?? []).map((b, i) => ({
         '@type': 'Book',
         '@id': `${url}#book-${i + 1}`,
         name: b.subtitle ? `${b.title}: ${b.subtitle}` : b.title,
@@ -103,10 +125,31 @@ function profileSchema(g: GuruProfile) {
   }
 }
 
+/**
+ * The facts a parent scans before reading: qualification, Guru, years, levels,
+ * languages. Only the rows the profile states; no row is ever shown empty.
+ */
+function factRows(g: GuruProfile): { label: string; value: string }[] {
+  const rows: { label: string; value: string }[] = []
+  if (g.qualification) rows.push({ label: 'Qualification', value: g.qualification })
+  if (g.teachers.length === 1) rows.push({ label: 'Trained under', value: g.teachers[0] })
+  if (g.experience) {
+    rows.push({ label: 'In music', value: g.experience.music })
+    rows.push({ label: 'Teaching', value: g.experience.teaching })
+  }
+  if (g.levels?.length) rows.push({ label: 'Levels taught', value: joinNatural(g.levels) })
+  if (g.languages?.length) rows.push({ label: 'Teaches in', value: joinNatural(g.languages) })
+  if (g.birthPlace) rows.push({ label: 'Born', value: g.birthPlace })
+  return rows
+}
+
 export default async function GuruPage({ params }: Props) {
   const guru = await getGuruProfileBySlug((await params).slug)
   if (!guru) notFound()
   const href = `/gurus/${guru.slug}`
+  const facts = factRows(guru)
+  const books = guru.books ?? []
+  const sources = guru.sources ?? []
 
   return (
     <>
@@ -122,9 +165,13 @@ export default async function GuruPage({ params }: Props) {
         variant="night"
         eyebrow={`The Gurus · ${guru.role}`}
         title={
-          <>
-            {guru.honorific} <em>{guru.name}</em>
-          </>
+          guru.honorific ? (
+            <>
+              {guru.honorific} <em>{guru.name}</em>
+            </>
+          ) : (
+            <em>{guru.name}</em>
+          )
         }
         lede={<p>{guru.summary}</p>}
       />
@@ -133,16 +180,39 @@ export default async function GuruPage({ params }: Props) {
         <div className="lg:grid lg:grid-cols-12 lg:gap-x-10">
           <aside className="mb-14 lg:col-span-3 lg:mb-0">
             <div className="lg:sticky lg:top-[calc(var(--header-h)+2rem)]">
-              <p className="t-label text-fg-3">Also written</p>
-              <ul className="mt-4 border-t border-line">
-                {guru.alternateNames.map((n) => (
-                  <li key={n} className="t-small border-b border-line py-3 text-fg-2">
-                    {n}
-                  </li>
-                ))}
-              </ul>
-              <p className="t-label mt-10 text-fg-3">Born</p>
-              <p className="t-small mt-3 text-fg-2">{guru.birthPlace}</p>
+              {guru.photo && (
+                <div className="plate mb-10 max-w-[18rem]">
+                  <Image
+                    src={guru.photo}
+                    alt={`Portrait of ${fullName(guru)}`}
+                    sizes="(min-width: 1024px) 18rem, calc(100vw - 3.5rem)"
+                    placeholder="blur"
+                    className="h-auto w-full"
+                  />
+                </div>
+              )}
+              {facts.length > 0 && (
+                <dl className="border-t border-line">
+                  {facts.map((row) => (
+                    <div key={row.label} className="border-b border-line py-3">
+                      <dt className="t-label text-fg-3">{row.label}</dt>
+                      <dd className="t-small mt-1 text-fg-2">{row.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
+              {guru.alternateNames && guru.alternateNames.length > 0 && (
+                <>
+                  <p className="t-label mt-10 text-fg-3">Also written</p>
+                  <ul className="mt-4 border-t border-line">
+                    {guru.alternateNames.map((n) => (
+                      <li key={n} className="t-small border-b border-line py-3 text-fg-2">
+                        {n}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
             </div>
           </aside>
 
@@ -161,7 +231,7 @@ export default async function GuruPage({ params }: Props) {
                     </p>
                   ))}
                 </div>
-                {section.id === 'training' && (
+                {section.id === 'training' && guru.teachers.length > 1 && (
                   <ul className="u-measure mt-8 border-t border-line">
                     {guru.teachers.map((t) => (
                       <li
@@ -180,9 +250,26 @@ export default async function GuruPage({ params }: Props) {
         </div>
       </div>
 
-      <Section id="books" tone="sand" eyebrow="Books" title="Written for students of Carnatic music.">
+      <Section
+        id="philosophy"
+        tone="paper"
+        layout="split"
+        eyebrow="Teaching philosophy"
+        title="How the lessons are taught."
+        renderIf={Boolean(guru.philosophy)}
+      >
+        <p className="t-standfirst max-w-[48ch] text-fg-2">{guru.philosophy}</p>
+      </Section>
+
+      <Section
+        id="books"
+        tone="sand"
+        eyebrow="Books"
+        title="Written for students of Carnatic music."
+        renderIf={books.length > 0}
+      >
         <ul className="grid gap-x-10 gap-y-16 md:grid-cols-2">
-          {guru.books.map((b, i) => (
+          {books.map((b, i) => (
             <li key={b.title} className="reveal flex flex-col items-start gap-x-6 gap-y-6 sm:flex-row" style={{ '--i': i } as CSSProperties}>
               {b.cover ? (
                 <div className="plate inline-block shrink-0 p-1.5">
@@ -216,15 +303,18 @@ export default async function GuruPage({ params }: Props) {
       </Section>
 
       <Section id="sources" title="Where these facts come from." tone="paper" layout="split">
-        <ul className="space-y-3">
-          {guru.sources.map((s) => (
-            <li key={s.href} className="t-body text-fg-2">
-              <a href={s.href} className="link">
-                {s.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <p className="t-body text-fg-2">{guru.provenance}</p>
+        {sources.length > 0 && (
+          <ul className="mt-6 space-y-3">
+            {sources.map((s) => (
+              <li key={s.href} className="t-body text-fg-2">
+                <a href={s.href} className="link">
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
         <div className="mt-14">
           <LinkRows
             links={[

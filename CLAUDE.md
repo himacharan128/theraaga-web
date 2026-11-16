@@ -40,9 +40,10 @@ missing, the site renders a *designed* empty state via `<Section renderIf
 fallback>` — that is the architecture, not a gap. Never render a zero, an empty
 carousel, a silhouette, or a placeholder frame. Stats are strings, never integers.
 
-**Lineage claims come from the client, verbatim.** Never attach a specific
-maestro to a specific Guru, name an award, institution or year the client did
-not name, or put a number on "renowned cultural institutions".
+**Lineage claims come from the client, verbatim.** Never attach a maestro,
+award, institution or year to a Guru beyond what the client or that teacher's
+own supplied profile states (`src/content/seed/gurus.ts` records which), and
+never put a number on "renowned cultural institutions".
 
 ---
 
