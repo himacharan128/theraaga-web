@@ -15,6 +15,63 @@ Newest entry first.
 
 ---
 
+## 2026-11-16: Profile pages for Bharathi Polaki and Bhasuri Polaki
+
+- **Requested:** "We keep getting questions from new people" about who the
+  teachers are; add portfolios for them, photographs later. Hima pasted the
+  two profiles the owner had filled in: full name, professional title,
+  qualification, Guru, years of musical and teaching experience, levels,
+  teaching languages, honours, performances, biography and teaching
+  philosophy.
+- **Analysed first:** the site already had one profile page, Dr.
+  Suryanarayana Polaki's, built from his public record (alternate spellings,
+  birthplace, dated awards, books, external sources), and a template that
+  assumed every one of those blocks existed. The Gurus page listed profiles
+  as name-only rows, and the `Faculty` type in `types.ts` was empty with no
+  consumer. The supplied profiles follow the client brief's faculty template,
+  a different shape.
+- **Decisions (Hima, 16 Nov):**
+  - One `GuruProfile` type, extended, rather than populating the unused
+    `Faculty` type (two profile systems for one page) or replacing the
+    sourced-record shape (which would have lost the Book schema and sources
+    built for "who wrote Bhasuri"). Public-record fields became optional;
+    qualification, years, levels, languages, philosophy and a provenance line
+    were added. Every page prints where its facts come from.
+  - Reachable from `/gurus` only; the homepage that shipped on 13 Nov is
+    untouched.
+  - Nothing beyond the supplied profiles: the placeholders the form left
+    unfilled (Bhasuri's teaching languages, AIR accreditation) are omitted,
+    no honorific is added, "several awards" is reproduced as written with
+    none named. Dwaram Sathyanarayana is on Bhasuri's page as her Guru but
+    not in the "Trained under" list, because every entry there carries an
+    owner-written note and there is none for him yet. A text-only entry was
+    tried beside the Nookala portrait and rolled back: it left a hole.
+  - The lineage rule in `CLAUDE.md` and `README.md` now reads: a maestro,
+    award, institution or year is attached to a Guru only as the client or
+    that teacher's own supplied profile states.
+- **Built:** `/gurus/bharathi-polaki` and `/gurus/bhasuri-polaki`; the
+  profile page renders a facts column (qualification, trained under, years
+  in music, years teaching, levels, languages, born), the sections, a
+  teaching-philosophy chapter, books and sources only when the profile has
+  them; `GuruCards` lists the three Gurus on `/gurus` as text entries (title,
+  name, one credential line); JSON-LD Person with `hasCredential`,
+  `alumniOf` and `knowsLanguage` only when stated; sitemap rows. A portrait
+  slot exists on card and page and renders nothing until a photograph is
+  added (one import in `content/seed/gurus.ts`). Dr. Polaki's page gained a
+  qualification row and is otherwise unchanged.
+- **Verified:** `verify` 14/14, `lint`, `build`, `test:seo-crawl` 40 pages,
+  `check-a11y-perf` 109/109 against the production build (JS 170 KB, CSS
+  16 KB, fonts 112 KB, total 343 KB of 400, zero third-party requests);
+  rendered at 390px and 1280px with no overflow. The first card version set
+  the names at display size and "Suryanarayana" ran into the next column;
+  fixed to the subhead size before the PR. Production: PR #28 merged
+  07:23 UTC, the three pages live about 45 s later, sitemap lists them.
+- **Not yet done:** photographs of all three Gurus; Bhasuri's teaching
+  languages; the owner's one-line note for Dwaram Sathyanarayana so he can
+  join the lineage list; a portrait of Dr. Polaki remains open from 12 Nov.
+
+---
+
 ## 2026-11-12: Homepage as a sabha programme, WhatsApp clicks per button, Phoenix Arena
 
 - **Requested:** The site was getting "very bad feedback"; analyse what went
