@@ -76,7 +76,7 @@ export async function GurusHome() {
                       sizes="56px"
                       placeholder="blur"
                       loading="lazy"
-                      className="h-auto w-14 border border-line"
+                      className="h-auto w-14 shrink-0 border border-line"
                     />
                   )}
                   <span className="block">
